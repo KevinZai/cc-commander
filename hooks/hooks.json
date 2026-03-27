@@ -278,6 +278,18 @@
           }
         ],
         "description": "Track token and cost metrics per session"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/status-checkin.js\"",
+            "async": true,
+            "timeout": 5
+          }
+        ],
+        "description": "KZ Kit branded status footer and periodic task check-in (every 10 responses)"
       }
     ],
     "SessionEnd": [

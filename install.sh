@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-VERSION="1.0.0"
+VERSION="1.1.0"
 CLAUDE_DIR="$HOME/.claude"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 INSTALL_MODE="staff"
@@ -24,14 +24,8 @@ VERIFY_ONLY=false
 FORCE=false
 BACKUP_DIR=""
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-NC='\033[0m'
+# Source the terminal art library
+source "${SCRIPT_DIR}/lib/terminal-art.sh"
 
 # ── Parse flags ──────────────────────────────────────────────────────────────
 
@@ -41,70 +35,69 @@ while [[ $# -gt 0 ]]; do
     --verify)   VERIFY_ONLY=true; shift ;;
     --force)    FORCE=true; shift ;;
     --help|-h)
-      echo "Kevin Z's Claude Code Kit v$VERSION — Installer"
-      echo ""
+      kz_mini_banner
       echo "Usage: ./install.sh [flags]"
+      echo ""
       echo "  --dry-run    Preview what would be installed"
       echo "  --verify     Validate an existing installation"
       echo "  --force      Skip confirmation prompts"
       echo "  --help       Show this help"
       exit 0
       ;;
-    *) echo "Unknown flag: $1"; exit 1 ;;
+    *) echo -e "${M_RED}Unknown flag: $1${NC}"; exit 1 ;;
   esac
 done
 
-# ── Header ───────────────────────────────────────────────────────────────────
+# ── Matrix Rain Intro ──────────────────────────────────────────────────────
 
-echo ""
-echo -e "${BOLD}╔══════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}║   Kevin Z's Claude Code Kit v${VERSION}           ║${NC}"
-echo -e "${BOLD}║   The Ultimate Claude Code Setup             ║${NC}"
-echo -e "${BOLD}╚══════════════════════════════════════════════╝${NC}"
+kz_matrix_rain 2
+clear 2>/dev/null || true
+kz_banner
+kz_typewriter "  Initializing the ultimate Claude Code setup..." 0.02 "$M_DIM"
 echo ""
 
 # ── Verify mode ──────────────────────────────────────────────────────────────
 
 if $VERIFY_ONLY; then
-  echo -e "${CYAN}Verifying installation...${NC}"
+  kz_section_header "VERIFICATION"
   errors=0
 
   # Check claude binary
   if command -v claude &>/dev/null; then
-    echo -e "  ${GREEN}✓${NC} Claude Code CLI installed"
+    kz_status_line "✓" "Claude Code CLI installed"
   else
-    echo -e "  ${RED}✗${NC} Claude Code CLI not found"
+    kz_status_line "✗" "Claude Code CLI not found"
     ((errors++))
   fi
 
   # Check CLAUDE.md
   if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
-    echo -e "  ${GREEN}✓${NC} CLAUDE.md exists"
+    kz_status_line "✓" "CLAUDE.md exists"
   else
-    echo -e "  ${RED}✗${NC} CLAUDE.md missing"
+    kz_status_line "✗" "CLAUDE.md missing"
     ((errors++))
   fi
 
   # Check settings.json
   if [ -f "$CLAUDE_DIR/settings.json" ]; then
     if python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null; then
-      echo -e "  ${GREEN}✓${NC} settings.json valid JSON"
+      kz_status_line "✓" "settings.json valid JSON"
     else
-      echo -e "  ${RED}✗${NC} settings.json invalid JSON"
+      kz_status_line "✗" "settings.json invalid JSON"
       ((errors++))
     fi
   else
-    echo -e "  ${RED}✗${NC} settings.json missing"
+    kz_status_line "✗" "settings.json missing"
     ((errors++))
   fi
 
   # Check skills
   if [ -d "$CLAUDE_DIR/skills" ]; then
     skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
-    skill_count=$((skill_count - 1))  # subtract the skills/ dir itself
-    echo -e "  ${GREEN}✓${NC} Skills directory ($skill_count skills)"
+    skill_count=$((skill_count - 1))
+    kz_status_line "✓" "Skills directory ($skill_count skills)"
   else
-    echo -e "  ${RED}✗${NC} Skills directory missing"
+    kz_status_line "✗" "Skills directory missing"
     ((errors++))
   fi
 
@@ -113,103 +106,122 @@ if $VERIFY_ONLY; then
     if [ -d "$CLAUDE_DIR/skills/$mega" ]; then
       sub_count=$(find "$CLAUDE_DIR/skills/$mega" -maxdepth 1 -type d | wc -l | tr -d ' ')
       sub_count=$((sub_count - 1))
-      echo -e "  ${GREEN}✓${NC} KZ $mega ($sub_count sub-skills)"
+      kz_status_line "✓" "KZ $mega ($sub_count sub-skills)" "$M_CYAN"
     else
-      echo -e "  ${YELLOW}!${NC} KZ $mega not found"
+      kz_status_line "!" "KZ $mega not found"
     fi
   done
 
   # Check commands
   if [ -d "$CLAUDE_DIR/commands" ]; then
     cmd_count=$(find "$CLAUDE_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
-    echo -e "  ${GREEN}✓${NC} Commands directory ($cmd_count commands)"
+    kz_status_line "✓" "Commands directory ($cmd_count commands)"
   else
-    echo -e "  ${RED}✗${NC} Commands directory missing"
+    kz_status_line "✗" "Commands directory missing"
     ((errors++))
   fi
 
   # Check hooks
   if [ -f "$CLAUDE_DIR/hooks/hooks.json" ]; then
-    echo -e "  ${GREEN}✓${NC} hooks.json exists"
+    kz_status_line "✓" "hooks.json exists"
   else
-    echo -e "  ${YELLOW}!${NC} hooks.json not found"
+    kz_status_line "!" "hooks.json not found"
+  fi
+
+  # Check lib
+  if [ -f "$CLAUDE_DIR/lib/terminal-art.sh" ]; then
+    kz_status_line "✓" "Terminal art library installed"
+  else
+    kz_status_line "!" "Terminal art library not found"
   fi
 
   # Check reference docs
   for doc in BIBLE.md CHEATSHEET.md SKILLS-INDEX.md; do
     if [ -f "$CLAUDE_DIR/$doc" ]; then
-      echo -e "  ${GREEN}✓${NC} $doc exists"
+      kz_status_line "✓" "$doc exists"
     else
-      echo -e "  ${YELLOW}!${NC} $doc not found"
+      kz_status_line "!" "$doc not found"
     fi
   done
 
   # Check for placeholder tokens
   if grep -rq '\[Your Name\]' "$CLAUDE_DIR/CLAUDE.md" 2>/dev/null; then
-    echo -e "  ${YELLOW}!${NC} CLAUDE.md still has [Your Name] placeholder"
+    kz_status_line "!" "CLAUDE.md still has [Your Name] placeholder"
   fi
 
   echo ""
   if [ $errors -eq 0 ]; then
-    echo -e "${GREEN}Installation is healthy.${NC}"
+    kz_status_line "✓" "Installation is healthy" "$M_BRIGHT"
   else
-    echo -e "${RED}Found $errors issue(s).${NC}"
+    kz_status_line "✗" "Found $errors issue(s)" "$M_RED"
   fi
+  echo ""
   exit $errors
 fi
 
 # ── Identity ─────────────────────────────────────────────────────────────────
 
-echo -e "${BOLD}Who is this?${NC}"
-read -p "Enter your name: " USER_NAME
+kz_section_header "IDENTITY"
+echo -e "  ${M_WHITE}Who is this?${NC}"
+echo ""
+read -p "  Enter your name: " USER_NAME
 
 if [ -z "$USER_NAME" ]; then
-  echo -e "${RED}Name required.${NC}"
+  kz_status_line "✗" "Name required."
   exit 1
 fi
 
+echo ""
+
 if [[ "${USER_NAME,,}" == "kevin" ]]; then
-  read -sp "Password: " PASS
+  read -sp "  Password: " PASS
+  echo ""
   echo ""
   if [[ "$PASS" == "kz123" ]]; then
     INSTALL_MODE="kevin"
-    echo -e "${GREEN}Welcome back, Kevin.${NC}"
+    kz_status_line "✓" "Welcome back, Kevin." "$M_BRIGHT"
   else
-    echo -e "${YELLOW}Wrong password. Installing staff config for Kevin.${NC}"
+    kz_status_line "!" "Wrong password. Installing staff config for Kevin."
     INSTALL_MODE="staff"
   fi
 else
-  echo -e "${BLUE}Setting up staff config for ${USER_NAME}.${NC}"
+  kz_status_line "►" "Setting up config for ${USER_NAME}" "$M_CYAN"
 fi
 
 echo ""
-echo -e "Install mode: ${BOLD}${INSTALL_MODE}${NC}"
-echo -e "Target: ${BOLD}${CLAUDE_DIR}/${NC}"
+echo -e "  ${M_DIM}Install mode:${NC} ${M_WHITE}${INSTALL_MODE}${NC}"
+echo -e "  ${M_DIM}Target:${NC}       ${M_WHITE}${CLAUDE_DIR}/${NC}"
 
 # ── Dry run ──────────────────────────────────────────────────────────────────
 
 if $DRY_RUN; then
-  echo ""
-  echo -e "${CYAN}DRY RUN — nothing will be changed${NC}"
-  echo ""
-  echo "Would install:"
-  echo "  CLAUDE.md        ← CLAUDE.md.${INSTALL_MODE}${INSTALL_MODE:+"-template"}"
-  echo "  settings.json    ← settings.json.${INSTALL_MODE}${INSTALL_MODE:+"-template"}"
-  echo "  skills/          ← $(find "$SCRIPT_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ') skill directories"
-  echo "  commands/        ← $(find "$SCRIPT_DIR/commands" -name '*.md' | wc -l | tr -d ' ') commands"
-  echo "  hooks/           ← hooks.json + example scripts"
-  echo "  templates/       ← starter templates"
-  echo "  BIBLE.md         ← Kevin Z's Claude Code Bible"
-  echo "  CHEATSHEET.md    ← Quick reference"
-  echo "  SKILLS-INDEX.md  ← Skill discovery"
+  kz_section_header "DRY RUN"
+  echo -e "  ${M_AMBER}Nothing will be changed — preview only${NC}"
   echo ""
 
+  local_skills=$(find "$SCRIPT_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
+  local_skills=$((local_skills - 1))
+  local_cmds=$(find "$SCRIPT_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
+
+  kz_status_line "·" "CLAUDE.md        ← CLAUDE.md.${INSTALL_MODE}$([ "$INSTALL_MODE" != "kevin" ] && echo '-template')"
+  kz_status_line "·" "settings.json    ← settings.json.${INSTALL_MODE}$([ "$INSTALL_MODE" != "kevin" ] && echo '-template')"
+  kz_status_line "·" "skills/          ← $local_skills skill directories"
+  kz_status_line "·" "commands/        ← $local_cmds commands"
+  kz_status_line "·" "hooks/           ← hooks.json + scripts"
+  kz_status_line "·" "lib/             ← terminal art libraries"
+  kz_status_line "·" "templates/       ← starter templates"
+  kz_status_line "·" "BIBLE.md         ← Kevin Z's Claude Code Bible"
+  kz_status_line "·" "CHEATSHEET.md    ← Quick reference"
+  kz_status_line "·" "SKILLS-INDEX.md  ← Skill discovery"
+
   if [ -d "$CLAUDE_DIR" ]; then
-    echo "Would backup existing ~/.claude/ first."
+    echo ""
+    kz_status_line "!" "Would backup existing ~/.claude/ first"
   fi
 
   echo ""
-  echo -e "${YELLOW}Run without --dry-run to install.${NC}"
+  echo -e "  ${M_AMBER}Run without --dry-run to install.${NC}"
+  echo ""
   exit 0
 fi
 
@@ -218,13 +230,17 @@ fi
 if ! $FORCE; then
   echo ""
   if [ -d "$CLAUDE_DIR" ]; then
-    echo -e "${YELLOW}This will backup and replace your existing ~/.claude/ setup.${NC}"
+    echo -e "  ${M_AMBER}This will archive your existing ~/.claude/ setup and replace it.${NC}"
+    echo -e "  ${M_DIM}Your old config will be safely backed up with a restore command.${NC}"
   else
-    echo "This will create a new ~/.claude/ setup."
+    echo -e "  ${M_DIM}This will create a new ~/.claude/ setup.${NC}"
   fi
-  read -p "Continue? (y/N) " confirm
+  echo ""
+  read -p "  Continue? (y/N) " confirm
   if [[ "${confirm,,}" != "y" ]]; then
-    echo "Aborted."
+    echo ""
+    kz_status_line "·" "Aborted. No changes made."
+    echo ""
     exit 0
   fi
 fi
@@ -232,107 +248,127 @@ fi
 # ── Backup ───────────────────────────────────────────────────────────────────
 
 if [ -d "$CLAUDE_DIR" ]; then
+  kz_section_header "ARCHIVING OLD SETUP"
+
   BACKUP_DIR="$CLAUDE_DIR.backup.$(date +%Y%m%d%H%M%S)"
+
+  # Inventory of existing setup
+  old_skills=0; old_cmds=0; old_hooks=0
+  [ -d "$CLAUDE_DIR/skills" ] && old_skills=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ') && old_skills=$((old_skills - 1))
+  [ -d "$CLAUDE_DIR/commands" ] && old_cmds=$(find "$CLAUDE_DIR/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+  [ -f "$CLAUDE_DIR/hooks/hooks.json" ] && old_hooks=1
+
+  echo -e "  ${M_DIM}Current setup contains:${NC}"
+  [ -f "$CLAUDE_DIR/CLAUDE.md" ] && kz_status_line "·" "CLAUDE.md"
+  [ -f "$CLAUDE_DIR/settings.json" ] && kz_status_line "·" "settings.json"
+  [ "$old_skills" -gt 0 ] && kz_status_line "·" "$old_skills skills"
+  [ "$old_cmds" -gt 0 ] && kz_status_line "·" "$old_cmds commands"
+  [ "$old_hooks" -eq 1 ] && kz_status_line "·" "hooks.json"
   echo ""
-  echo -e "${CYAN}Backing up existing ~/.claude/ → ${BACKUP_DIR}${NC}"
+
   cp -r "$CLAUDE_DIR" "$BACKUP_DIR"
-  echo -e "  ${GREEN}✓${NC} Backup complete"
-  echo -e "  Restore: ${BOLD}rm -rf ~/.claude && mv $BACKUP_DIR ~/.claude${NC}"
+
+  kz_status_line "✓" "Archived to: ${M_WHITE}${BACKUP_DIR}${NC}"
+  echo ""
+  echo -e "  ${M_DIM}Restore command:${NC}"
+  echo -e "  ${M_CYAN}rm -rf ~/.claude && mv ${BACKUP_DIR} ~/.claude${NC}"
 fi
 
-# ── Install Claude Code CLI ─────────────────────────────────────────────────
+# ── Install Claude Code CLI ──────────────────────────────────────────────────
 
 if ! command -v claude &>/dev/null; then
-  echo ""
-  echo -e "${CYAN}Installing Claude Code CLI...${NC}"
+  kz_section_header "CLAUDE CODE CLI"
+  echo -e "  ${M_DIM}Claude Code CLI not found. Installing...${NC}"
   npm install -g @anthropic-ai/claude-code
-  echo -e "  ${GREEN}✓${NC} Claude Code CLI installed"
+  kz_status_line "✓" "Claude Code CLI installed"
 fi
 
-# ── Create directory structure ───────────────────────────────────────────────
+# ── Install Components ───────────────────────────────────────────────────────
 
-echo ""
-echo -e "${CYAN}Installing Kevin Z's Claude Code Kit v${VERSION}...${NC}"
+kz_section_header "INSTALLING"
+
+install_step=0
+install_total=8
 
 mkdir -p "$CLAUDE_DIR"
 
-# ── Skills ───────────────────────────────────────────────────────────────────
-
-echo -e "  Installing skills..."
+# 1. Skills
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Skills"
 rm -rf "$CLAUDE_DIR/skills"
 cp -r "$SCRIPT_DIR/skills/" "$CLAUDE_DIR/skills/"
 skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
 skill_count=$((skill_count - 1))
-echo -e "  ${GREEN}✓${NC} $skill_count skills installed"
+kz_status_line "✓" "$skill_count skills installed"
 
-# ── Commands ─────────────────────────────────────────────────────────────────
-
-echo -e "  Installing commands..."
+# 2. Commands
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Commands"
 rm -rf "$CLAUDE_DIR/commands"
 cp -r "$SCRIPT_DIR/commands/" "$CLAUDE_DIR/commands/"
 cmd_count=$(find "$CLAUDE_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
-echo -e "  ${GREEN}✓${NC} $cmd_count commands installed"
+kz_status_line "✓" "$cmd_count commands installed"
 
-# ── Hooks ────────────────────────────────────────────────────────────────────
-
-echo -e "  Installing hooks..."
+# 3. Hooks
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Hooks"
 mkdir -p "$CLAUDE_DIR/hooks"
 cp -r "$SCRIPT_DIR/hooks/"* "$CLAUDE_DIR/hooks/" 2>/dev/null || true
-echo -e "  ${GREEN}✓${NC} Hooks installed"
+kz_status_line "✓" "Hooks installed"
 
-# ── Templates ────────────────────────────────────────────────────────────────
+# 4. Lib (terminal art)
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Libraries"
+mkdir -p "$CLAUDE_DIR/lib"
+cp -r "$SCRIPT_DIR/lib/"* "$CLAUDE_DIR/lib/" 2>/dev/null || true
+kz_status_line "✓" "Terminal art library installed"
 
-echo -e "  Installing templates..."
+# 5. Templates
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Templates"
 mkdir -p "$CLAUDE_DIR/templates"
 cp -r "$SCRIPT_DIR/templates/"* "$CLAUDE_DIR/templates/" 2>/dev/null || true
-echo -e "  ${GREEN}✓${NC} Templates installed"
+kz_status_line "✓" "Starter templates installed"
 
-# ── Reference docs ───────────────────────────────────────────────────────────
-
-echo -e "  Installing reference docs..."
+# 6. Reference docs
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Reference docs"
 for doc in BIBLE.md CHEATSHEET.md SKILLS-INDEX.md; do
   if [ -f "$SCRIPT_DIR/$doc" ]; then
     cp "$SCRIPT_DIR/$doc" "$CLAUDE_DIR/$doc"
-    echo -e "  ${GREEN}✓${NC} $doc"
   fi
 done
+kz_status_line "✓" "BIBLE.md + CHEATSHEET.md + SKILLS-INDEX.md"
 
-# ── Config files ─────────────────────────────────────────────────────────────
-
-echo -e "  Applying ${INSTALL_MODE} configuration..."
+# 7. Config files
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Configuration"
 
 if [[ "$INSTALL_MODE" == "kevin" ]]; then
-  # Kevin's config
-  if [ -f "$SCRIPT_DIR/CLAUDE.md.kevin" ]; then
-    cp "$SCRIPT_DIR/CLAUDE.md.kevin" "$CLAUDE_DIR/CLAUDE.md"
-  fi
-  if [ -f "$SCRIPT_DIR/settings.json.kevin" ]; then
-    cp "$SCRIPT_DIR/settings.json.kevin" "$CLAUDE_DIR/settings.json"
-  fi
-  echo -e "  ${GREEN}✓${NC} Kevin's config applied (full MCP servers, custom paths)"
+  [ -f "$SCRIPT_DIR/CLAUDE.md.kevin" ] && cp "$SCRIPT_DIR/CLAUDE.md.kevin" "$CLAUDE_DIR/CLAUDE.md"
+  [ -f "$SCRIPT_DIR/settings.json.kevin" ] && cp "$SCRIPT_DIR/settings.json.kevin" "$CLAUDE_DIR/settings.json"
+  kz_status_line "✓" "Kevin's config applied (full MCP servers, custom paths)"
 else
-  # Staff config — personalize with user's name
   if [ -f "$SCRIPT_DIR/CLAUDE.md.staff-template" ]; then
     sed "s/\[Your Name\]/$USER_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
   fi
-  if [ -f "$SCRIPT_DIR/settings.json.staff-template" ]; then
-    cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
-  fi
-  echo -e "  ${GREEN}✓${NC} Staff config applied for $USER_NAME"
+  [ -f "$SCRIPT_DIR/settings.json.staff-template" ] && cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
+  kz_status_line "✓" "Staff config applied for $USER_NAME"
 fi
 
 # Validate JSON
 if [ -f "$CLAUDE_DIR/settings.json" ]; then
   if python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null; then
-    echo -e "  ${GREEN}✓${NC} settings.json valid"
+    kz_status_line "✓" "settings.json validated"
   else
-    echo -e "  ${RED}✗${NC} settings.json has syntax errors — check manually"
+    kz_status_line "✗" "settings.json has syntax errors — check manually"
   fi
 fi
 
-# ── Create symlinks for backward compatibility ───────────────────────────────
+# 8. Symlinks
+((install_step++))
+kz_progress_bar "$install_step" "$install_total" "Symlinks"
 
-echo -e "  Creating backward-compatibility symlinks..."
 symlink_count=0
 
 create_symlink() {
@@ -369,44 +405,39 @@ for skill in docker-development senior-devops github-actions-security github-act
   create_symlink "$CLAUDE_DIR/skills/mega-devops/$skill" "$CLAUDE_DIR/skills/$skill"
 done
 
-if [ $symlink_count -gt 0 ]; then
-  echo -e "  ${GREEN}✓${NC} $symlink_count symlinks created"
-fi
+kz_status_line "✓" "$symlink_count backward-compatibility symlinks"
+echo ""
 
-# ── Summary ──────────────────────────────────────────────────────────────────
+# ── Bible Summary ────────────────────────────────────────────────────────────
 
+kz_section_header "THE KEVIN Z METHOD"
+kz_bible_summary
+
+# ── Mega-Skills Overview ─────────────────────────────────────────────────────
+
+kz_mega_skills_display
 echo ""
-echo -e "${BOLD}╔══════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}║           Installation Complete              ║${NC}"
-echo -e "${BOLD}╚══════════════════════════════════════════════╝${NC}"
-echo ""
-echo -e "  User:       ${BOLD}$USER_NAME${NC} ($INSTALL_MODE)"
-echo -e "  Skills:     ${BOLD}$skill_count${NC} (including 6 KZ Mega-Skills)"
-echo -e "  Commands:   ${BOLD}$cmd_count${NC}"
-echo -e "  Symlinks:   ${BOLD}$symlink_count${NC}"
-echo ""
-echo -e "  ${BOLD}KZ Mega-Skills:${NC}"
-echo -e "    ${CYAN}mega-seo${NC}       — 19 SEO skills in one"
-echo -e "    ${CYAN}mega-design${NC}    — 35+ design/animation skills in one"
-echo -e "    ${CYAN}mega-testing${NC}   — 15 testing skills in one"
-echo -e "    ${CYAN}mega-marketing${NC} — 46 marketing skills in one"
-echo -e "    ${CYAN}mega-saas${NC}      — 20 SaaS building skills in one"
-echo -e "    ${CYAN}mega-devops${NC}    — 20 DevOps skills in one"
+
+# ── Installation Summary ─────────────────────────────────────────────────────
+
+kz_section_header "INSTALLATION COMPLETE"
+
+echo -e "  ${M_WHITE}User:${NC}       ${M_BRIGHT}$USER_NAME${NC} ${M_DIM}($INSTALL_MODE)${NC}"
+echo -e "  ${M_WHITE}Skills:${NC}     ${M_BRIGHT}$skill_count${NC} ${M_DIM}(including 6 KZ Mega-Skills)${NC}"
+echo -e "  ${M_WHITE}Commands:${NC}   ${M_BRIGHT}$cmd_count${NC}"
+echo -e "  ${M_WHITE}Symlinks:${NC}   ${M_BRIGHT}$symlink_count${NC}"
 echo ""
 
 if [ -n "$BACKUP_DIR" ]; then
-  echo -e "  ${YELLOW}Backup:${NC} $BACKUP_DIR"
-  echo -e "  Restore: rm -rf ~/.claude && mv $BACKUP_DIR ~/.claude"
+  echo -e "  ${M_AMBER}Old setup archived:${NC} ${M_DIM}${BACKUP_DIR}${NC}"
+  echo -e "  ${M_DIM}Restore: rm -rf ~/.claude && mv ${BACKUP_DIR} ~/.claude${NC}"
   echo ""
 fi
 
-echo -e "${BOLD}NEXT STEPS:${NC}"
-echo -e "  1. ${BOLD}export ANTHROPIC_API_KEY='your-key'${NC} (if not already set)"
-echo -e "  2. ${BOLD}claude${NC} — start Claude Code"
-echo -e "  3. ${BOLD}/init${NC} — run the interactive project setup wizard"
-echo ""
-echo -e "${BOLD}REFERENCE DOCS:${NC}"
-echo -e "  Bible:      ${CYAN}~/.claude/BIBLE.md${NC}"
-echo -e "  Cheatsheet: ${CYAN}~/.claude/CHEATSHEET.md${NC}"
-echo -e "  Skills:     ${CYAN}~/.claude/SKILLS-INDEX.md${NC}"
-echo ""
+# ── Next Steps ───────────────────────────────────────────────────────────────
+
+kz_next_steps "$INSTALL_MODE"
+
+# ── Farewell ─────────────────────────────────────────────────────────────────
+
+kz_farewell

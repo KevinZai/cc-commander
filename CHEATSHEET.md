@@ -1,6 +1,6 @@
 # Claude Code Cheatsheet
-> Kevin Z's Claude Code Kit v1.0 — commands, workflows, and power user tips
-> v1.0 — 2026-03-27
+> Kevin Z's Claude Code Kit v1.1 — commands, workflows, and power user tips
+> v1.1 — 2026-03-27
 
 > **Which document?** BIBLE.md = learning guide (read once). **CHEATSHEET.md = daily reference (you are here).** SKILLS-INDEX.md = skill discovery (search by keyword/category).
 

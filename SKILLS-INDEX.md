@@ -1,5 +1,5 @@
 # Skills Index — Quick Reference
-> Kevin Z's Claude Code Kit v1.0
+> Kevin Z's Claude Code Kit v1.1
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
 > Last verified: 2026-03-27 | 220+ skill directories | 6 KZ Mega-Skills | 3 starter templates
 > Audit: `./generate-index.sh --check` to find missing or broken skills

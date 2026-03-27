@@ -23,6 +23,56 @@ You are a project initialization specialist. When invoked, you run an interactiv
 
 ---
 
+## Pre-Questionnaire: Matrix Intro
+
+Before asking any questions, display this formatted intro block to set the tone:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  KZ INIT  //  CHOOSE YOUR ADVENTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│  Welcome to the KZ Project Initializer.          │
+│                                                  │
+│  I'll ask you a series of questions to configure │
+│  your perfect development environment. Every     │
+│  answer shapes your CLAUDE.md, skills, workflow. │
+│                                                  │
+│  ► Phase 1: Project Identity      (3 questions)  │
+│  ► Phase 2: Build Type            (THE question) │
+│  ► Phase 3: Domain Deep-Dive      (2-5 questions)│
+│  ► Phase 4: Output Generation     (automatic)    │
+│                                                  │
+│  Estimated time: ~3 minutes                      │
+│                                                  │
+└──────────────────────────────────────────────────┘
+```
+
+Then proceed to Phase 1.
+
+---
+
+### Phase Transition Display
+
+Between each phase, display a visual progress indicator:
+
+```
+━━━ PHASE {N} of 4: {PHASE NAME} ━━━━━━━━━━━━━━━━━━━
+● IDENTITY → ◉ BUILD TYPE → ○ DEEP-DIVE → ○ GENERATE
+[████████░░░░░░░░]  50%
+```
+
+Use ● for completed phases, ◉ for current phase, ○ for upcoming. Adjust the progress bar and markers to reflect the current phase:
+
+- Phase 1: `◉ IDENTITY → ○ BUILD TYPE → ○ DEEP-DIVE → ○ GENERATE` — 25%
+- Phase 2: `● IDENTITY → ◉ BUILD TYPE → ○ DEEP-DIVE → ○ GENERATE` — 50%
+- Phase 3: `● IDENTITY → ● BUILD TYPE → ◉ DEEP-DIVE → ○ GENERATE` — 75%
+- Phase 4: `● IDENTITY → ● BUILD TYPE → ● DEEP-DIVE → ◉ GENERATE` — 100%
+
+---
+
 ## Phase 1: Project Identity
 
 Ask these questions using AskUserQuestion. Adapt based on what you can auto-detect.
@@ -113,6 +163,21 @@ What's the main task?
   f) DevOps / deploy / CI → loads KZ Mega-DevOps
   g) API endpoint or integration → loads api-design + backend-patterns
   h) Other — describe it
+
+Q: What's the primary goal?
+  a) Ship to production — needs to be solid
+  b) Prototype / proof of concept — speed over polish
+  c) Explore / learn — experimenting with something new
+  d) Fix something broken — bug fix sprint
+
+Q: Any existing code, or greenfield?
+  a) Adding to existing project
+  b) Starting from scratch
+  c) Forking/adapting something existing
+
+Q: Solo or collaborative?
+  a) Just me
+  b) Working with a team
 ```
 
 ### For DEEP BUILD:
@@ -136,6 +201,27 @@ Q7: Verification approach?
   b) Vitest unit tests → configures tdd-workflow
   c) Manual QA + screenshots → configures verification-loop
   d) All of the above (recommended for deep builds)
+
+Q8: Who else is working on this?
+  a) Solo — I'm the only developer
+  b) Pair — working with one other person
+  c) Team — 3+ people involved
+
+Q9: What does "done" look like? Describe your success criteria.
+  (Free text — use this to generate evals in tasks/todo.md)
+
+Q10: Any hard deadlines or blockers?
+  a) No deadline pressure
+  b) Soft deadline: [when?]
+  c) Hard deadline: [when?]
+  d) Blocked on something: [what?]
+
+Q11: How should I verify my work?
+  a) Unit + integration tests (Vitest)
+  b) E2E tests (Playwright)
+  c) Manual testing with screenshots
+  d) All of the above
+  e) You decide based on the task
 ```
 
 ### For SAAS BUILD:
@@ -156,6 +242,36 @@ Q7: Payment model?
   b) One-time payments → stripe-subscriptions (subset)
   c) Freemium with upgrade → paywall-upgrade-cro + feature-flags
   d) No payments yet → skip billing skills
+
+Q8: What's the revenue model?
+  a) Subscription (monthly/annual tiers)
+  b) Usage-based (pay per use)
+  c) Freemium (free tier + paid upgrade)
+  d) Marketplace / transaction fees
+  e) Not decided yet
+
+Q9: MVP or production quality?
+  a) MVP — ship fast, iterate later
+  b) Production — needs to be solid from day one
+  c) Internal tool — good enough for the team
+
+Q10: Key integrations needed?
+  a) Stripe (payments)
+  b) Better Auth / Auth.js (authentication)
+  c) Email (Resend / SendGrid)
+  d) Analytics (PostHog / Plausible)
+  e) Multiple — list them
+  f) None yet
+
+Q11: Who are the users?
+  a) Developers / technical users
+  b) Business / non-technical users
+  c) Both (needs to be simple but powerful)
+
+Q12: Do you have a design reference or inspiration?
+  a) Yes — [describe or share link]
+  b) No — use standard SaaS patterns (shadcn/ui)
+  c) I have a Figma/design file
 ```
 
 ### For OVERNIGHT BUILD:
@@ -175,6 +291,26 @@ Q7: Error handling strategy?
   a) Stop on first error (conservative)
   b) Log and continue (aggressive)
   c) Stop on critical, continue on warnings (balanced — recommended)
+
+Q8: What should I do if I get stuck?
+  a) Stop and wait for me
+  b) Try 2-3 alternatives, then stop
+  c) Skip the stuck item and continue with other tasks
+  d) Log the issue and keep going
+
+Q9: Where should I save progress checkpoints?
+  a) Git commits (default)
+  b) tasks/todo.md updates
+  c) Both git + todo updates
+  d) Custom location: [specify]
+
+Q10: What time zone are you in? (for checkpoint timing)
+  (Free text)
+
+Q11: Should I send notifications on completion?
+  a) No, I'll check in the morning
+  b) Yes, via git commit messages
+  c) Yes, leave a tasks/HANDOFF.md summary
 ```
 
 ---
@@ -378,6 +514,93 @@ NEXT STEP: {first action based on build type}
   Deep   → Run /plan to create a spec.
   SaaS   → Scaffold from starter template.
   Overnight → Configure overnight-runner, then launch.
+```
+
+### Completion Summary Display
+
+After generating all files, display this formatted summary:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  KZ INIT  //  SETUP COMPLETE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌──────────────────────────────────────────────────┐
+│  Project: {name}                                 │
+│  Stack:   {stack}                                │
+│  Build:   {build_type}                           │
+│  Deploy:  {deployment}                           │
+│                                                  │
+│  Generated:                                      │
+│    ✓ CLAUDE.md — project instructions            │
+│    ✓ tasks/todo.md — first steps                 │
+│    ✓ tasks/lessons.md — correction log           │
+│    ✓ .claude/settings.json — permissions         │
+│                                                  │
+│  Skills loaded: {count}                          │
+│    {list of loaded skills}                       │
+│                                                  │
+│  Recommended first action:                       │
+│    {action based on build type}                  │
+└──────────────────────────────────────────────────┘
+```
+
+Replace `{name}`, `{stack}`, `{build_type}`, `{deployment}`, `{count}`, and the skill list with actual values from the questionnaire. The recommended first action should match the build type:
+- **QUICK:** "Start building. Run /verify when done."
+- **DEEP:** "Run /plan to create a spec."
+- **SAAS:** "Scaffold from starter template."
+- **OVERNIGHT:** "Configure overnight-runner, then launch."
+
+---
+
+## Decision Flow Reference
+
+This diagram shows the complete questionnaire flow:
+
+```
+                    ┌──────────────┐
+                    │   /init      │
+                    └──────┬───────┘
+                           │
+              ┌────────────▼────────────┐
+              │  PHASE 1: IDENTITY      │
+              │  Name · Stack · Deploy  │
+              └────────────┬────────────┘
+                           │
+              ┌────────────▼────────────┐
+              │  PHASE 2: BUILD TYPE    │
+              └──┬────┬────┬────┬───────┘
+                 │    │    │    │
+          ┌──────┘    │    │    └──────┐
+          ▼           ▼    ▼          ▼
+     ┌─────────┐ ┌──────┐ ┌──────┐ ┌───────────┐
+     │  QUICK  │ │ DEEP │ │ SAAS │ │ OVERNIGHT │
+     │  <4h    │ │ 1-5d │ │ 1-4w │ │  6-12h    │
+     └────┬────┘ └──┬───┘ └──┬───┘ └─────┬─────┘
+          │         │        │            │
+          ▼         ▼        ▼            ▼
+     ┌─────────────────────────────────────────┐
+     │  PHASE 3: DOMAIN DRILL-DOWN             │
+     │                                         │
+     │  QUICK:     task type (8 options)        │
+     │             + goal + existing code + solo│
+     │  DEEP:      domain + spec + verify (5Q)  │
+     │             + team + criteria + deadline │
+     │  SAAS:      phase + stack + billing (5Q) │
+     │             + revenue + users + design   │
+     │  OVERNIGHT: batch + hours + errors (4Q)  │
+     │             + stuck + checkpoints + tz   │
+     └────────────────┬────────────────────────┘
+                      │
+              ┌───────▼───────┐
+              │  PHASE 4:     │
+              │  GENERATE     │
+              │  ─────────    │
+              │  CLAUDE.md    │
+              │  tasks/       │
+              │  settings.json│
+              │  Summary      │
+              └───────────────┘
 ```
 
 ---

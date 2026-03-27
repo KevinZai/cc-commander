@@ -1,0 +1,14 @@
+This is Kevin Z's Claude Code Kit — a comprehensive skill/command/hook system for Claude Code (Anthropic's CLI).
+
+Structure:
+- skills/<name>/SKILL.md — On-demand skill definitions (140+)
+- commands/<name>.md — Slash command definitions (55+)
+- hooks/ — Lifecycle hooks (Node.js, registered in hooks.json)
+- templates/ — Project starter templates
+- lib/ — Shared libraries (terminal-art.sh, terminal-art.js)
+- BIBLE.md, CHEATSHEET.md, SKILLS-INDEX.md — Reference documentation
+
+Key mega-skills: mega-seo, mega-design, mega-testing, mega-marketing, mega-saas, mega-devops
+Each mega-skill is a directory containing absorbed sub-skills with a router SKILL.md.
+
+Do not modify install.sh, setup.sh, or setup-overwrite.sh without understanding the full installation flow.
