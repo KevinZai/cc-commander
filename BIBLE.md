@@ -6,27 +6,27 @@
 
 ## Table of Contents
 
-1. [Quick Reference Card](#1-quick-reference-card)
-2. [Stage 1: Starting a New Project](#2-stage-1-starting-a-new-project)
-3. [Stage 2: Daily Development Loop](#3-stage-2-daily-development-loop)
-4. [Stage 3: Building Features](#4-stage-3-building-features)
-5. [Stage 4: Debugging & Fixing](#5-stage-4-debugging--fixing)
-6. [Stage 5: Shipping & Production](#6-stage-5-shipping--production)
-7. [Stage 6: Long-Running & Autonomous Work](#7-stage-6-long-running--autonomous-work)
-8. [CLAUDE.md Templates](#8-claudemd-templates)
-9. [Skills Catalog](#9-skills-catalog)
-10. [Commands Reference](#10-commands-reference)
-11. [Tools Reference](#11-tools-reference)
-12. [Prompt Templates](#12-prompt-templates)
-13. [Troubleshooting](#13-troubleshooting)
-14. [The 45 Tips — Quick Reference](#14-the-45-tips--quick-reference)
-15. [Power Combos](#15-power-combos)
-16. [Settings Reference](#16-settings-reference)
-17. [Claude Certified Architect — Domain Summary](#17-claude-certified-architect--domain-summary)
+- [Quick Reference Card](#quick-reference-card)
+- [Stage 1: Starting a New Project](#stage-1-starting-a-new-project)
+- [Stage 2: Daily Development Loop](#stage-2-daily-development-loop)
+- [Stage 3: Building Features](#stage-3-building-features)
+- [Stage 4: Debugging & Fixing](#stage-4-debugging--fixing)
+- [Stage 5: Shipping & Production](#stage-5-shipping--production)
+- [Stage 6: Long-Running & Autonomous Work](#stage-6-long-running--autonomous-work)
+- [CLAUDE.md Templates](#claudemd-templates)
+- [Skills Catalog](#skills-catalog)
+- [Commands Reference](#commands-reference)
+- [Tools Reference](#tools-reference)
+- [Prompt Templates](#prompt-templates)
+- [Troubleshooting](#troubleshooting)
+- [The 45 Tips — Quick Reference](#the-45-tips--quick-reference)
+- [Power Combos](#power-combos)
+- [Settings Reference](#settings-reference)
+- [Claude Certified Architect — Domain Summary](#claude-certified-architect--domain-summary)
 
 ---
 
-## 1. Quick Reference Card
+## Quick Reference Card
 
 > Print this. Keep it open. 5-minute orientation for every session.
 
@@ -76,7 +76,7 @@ claude --resume abc123              # Resume by ID
 
 ---
 
-## 2. Stage 1: Starting a New Project
+## Stage 1: Starting a New Project
 
 ### Mindset
 You're briefing a brilliant contractor who knows nothing about your project yet. The more complete your brief, the less time you waste in corrections. Invest 20 minutes upfront to save 10 hours later.
@@ -163,7 +163,7 @@ This loads **only** when editing matching files. Saves tokens. Works across the 
 
 ---
 
-## 3. Stage 2: Daily Development Loop
+## Stage 2: Daily Development Loop
 
 ### Mindset
 Structure your day. AI works best in short focused sessions with clear handoffs. Don't let context bloat. Write HANDOFF.md before stopping. Start each session by reading it.
@@ -251,7 +251,7 @@ Daily 12pm: Check Gmail for urgent messages, draft responses, save as text file.
 
 ---
 
-## 4. Stage 3: Building Features
+## Stage 3: Building Features
 
 ### Mindset
 Never start coding without a spec. Claude's first attempt is usually directionally right but has rough edges. Plan, implement in small steps, verify each step, then move forward. For client deliverables, vibe coding is acceptable — but add tests for anything going to production.
@@ -367,7 +367,7 @@ Each subagent gets a fresh full context window — perfect for parallel work.
 
 ---
 
-## 5. Stage 4: Debugging & Fixing
+## Stage 4: Debugging & Fixing
 
 ### Mindset
 Never fix a bug without finding the root cause first. The investigate-first rule prevents you from solving symptoms while the real problem festers. Every bug is a learning opportunity — operationalize the fix.
@@ -420,8 +420,8 @@ This ensures Claude doesn't just patch the symptom and tell you it's fixed.
 [paste error]
 
 Steps to reproduce:
-1. [step]
-2. [step]
+- [step]
+- [step]
 Expected: [behavior]
 Actual: [behavior]"
 ```
@@ -441,7 +441,7 @@ Use gh CLI:
 
 ---
 
-## 6. Stage 5: Shipping & Production
+## Stage 5: Shipping & Production
 
 ### Mindset
 Shipping is a systems problem, not a code problem. Every deploy should be repeatable, verifiable, and reversible. Use draft PRs, tests, and staged deploys. Never merge without a review pass.
@@ -553,7 +553,7 @@ What would you remove?"
 
 ---
 
-## 7. Stage 6: Long-Running & Autonomous Work
+## Stage 6: Long-Running & Autonomous Work
 
 ### Mindset
 Autonomous agents need structure, checkpoints, and security boundaries. Never give an agent more access than it needs for the specific task. Plan for failure — every long-running job should be resumable.
@@ -718,7 +718,7 @@ On resume:
 
 ---
 
-## 8. CLAUDE.md Templates
+## CLAUDE.md Templates
 
 ### Global CLAUDE.md (~/.claude/CLAUDE.md)
 
@@ -837,7 +837,7 @@ See `tasks/todo.md`
 
 ---
 
-## 9. Skills Catalog
+## Skills Catalog
 
 ### How Skills Work
 
@@ -1019,7 +1019,7 @@ My tools: [list tools/APIs]."
 
 ---
 
-## 10. Commands Reference
+## Commands Reference
 
 ### 🔥 Daily Slash Commands
 
@@ -1126,7 +1126,7 @@ claude() {
 
 ---
 
-## 11. Tools Reference
+## Tools Reference
 
 ### Cloudflare Dynamic Workers (NEW — 2026)
 
@@ -1250,7 +1250,7 @@ All at: [anthropic.skilljar.com](https://anthropic.skilljar.com)
 
 ---
 
-## 12. Prompt Templates
+## Prompt Templates
 
 ### Handoff Prompt (Between Sessions)
 
@@ -1274,8 +1274,8 @@ Be comprehensive. The next agent gets ONLY this file.
 There's a bug: [DESCRIBE THE BUG]
 
 Steps to reproduce:
-1. [step 1]
-2. [step 2]
+- [step 1]
+- [step 2]
 Expected: [what should happen]
 Actual: [what happens instead]
 
@@ -1330,9 +1330,9 @@ Output: verdict (keep/change/rebuild), specific recommendations, priority order.
 Research: [TOPIC]
 
 I need to know:
-1. [specific question 1]
-2. [specific question 2]
-3. [specific question 3]
+- [specific question 1]
+- [specific question 2]
+- [specific question 3]
 
 Sources to check: [GitHub repo / Reddit / URLs]
 
@@ -1415,7 +1415,7 @@ Then we'll write the spec.
 
 ---
 
-## 13. Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -1462,7 +1462,7 @@ Then we'll write the spec.
 
 ---
 
-## 14. The 45 Tips — Quick Reference (ykdojo)
+## The 45 Tips — Quick Reference (ykdojo)
 
 | # | Tip | Key Action |
 |---|-----|-----------|
@@ -1515,7 +1515,7 @@ Then we'll write the spec.
 
 ---
 
-## 15. Power Combos
+## Power Combos
 
 | Goal | Workflow |
 |------|---------|
@@ -1539,7 +1539,7 @@ Then we'll write the spec.
 
 ---
 
-## 16. Settings Reference
+## Settings Reference
 
 ### `.claude/settings.json`
 
@@ -1605,7 +1605,7 @@ Claude's default system prompt + tool definitions = ~19k tokens. Patch saves ~10
 
 ---
 
-## 17. Claude Certified Architect — Domain Summary
+## Claude Certified Architect — Domain Summary
 
 > From @hooeem's teardown of the Anthropic partner exam. Learn these patterns = production-grade Claude applications.
 
