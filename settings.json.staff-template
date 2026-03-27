@@ -8,7 +8,9 @@
       "Glob",
       "Grep",
       "WebSearch",
-      "WebFetch(domain:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:npmjs.com)",
+      "WebFetch(domain:docs.anthropic.com)",
       "Skill(*)",
       "Bash(npm install:*)",
       "Bash(npm run:*)",
@@ -40,7 +42,12 @@
       "Bash(tail:*)",
       "Bash(curl:*)"
     ],
-    "deny": [],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
   "hooks": {

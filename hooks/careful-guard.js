@@ -6,14 +6,16 @@
 // { "matcher": "Bash", "hooks": [{ "type": "command", "command": "node ~/.claude/hooks/careful-guard.js" }] }
 
 const dangerousPatterns = [
-  /rm\s+-rf?\s+[\/~]/,
+  /rm\s+(-[a-zA-Z]*r[a-zA-Z]*f|(-[a-zA-Z]*f[a-zA-Z]*\s+)?-[a-zA-Z]*r)[a-zA-Z]*\s+[\/~]/,  // rm -rf, rm -fr, rm -f -r, etc.
+  /rm\s+--no-preserve-root/,
   /DROP\s+(TABLE|DATABASE)/i,
   /git\s+push\s+--force/,
+  /git\s+push\s+-f\b/,
   /kubectl\s+delete/,
   /docker\s+system\s+prune/,
   /pm2\s+delete\s+all/,
   /truncate\s+table/i,
-  /DELETE\s+FROM\s+\w+\s*;/i,
+  /DELETE\s+FROM\s+\w+/i,  // No trailing semicolon requirement
 ];
 
 let data = '';

@@ -173,15 +173,18 @@ fi
 
 echo ""
 
-if [[ "${USER_NAME,,}" == "kevin" ]]; then
-  read -sp "  Password: " PASS
+if [[ "${USER_NAME,,}" == "kevin" ]] && [ -f "$SCRIPT_DIR/CLAUDE.md.kevin" ]; then
+  read -sp "  Passphrase: " PASS
   echo ""
   echo ""
-  if [[ "$PASS" == "kz123" ]]; then
+  # Hash comparison — never store plaintext passwords
+  PASS_HASH=$(printf '%s' "$PASS" | shasum -a 256 | cut -d' ' -f1)
+  EXPECTED="83afc3fe3d62d629079a87a70afe9b32642162775f3929e9209741c052e99e11"
+  if [[ "$PASS_HASH" == "$EXPECTED" ]]; then
     INSTALL_MODE="kevin"
     kz_status_line "✓" "Welcome back, Kevin." "$M_BRIGHT"
   else
-    kz_status_line "!" "Wrong password. Installing staff config for Kevin."
+    kz_status_line "!" "Wrong passphrase. Installing staff config."
     INSTALL_MODE="staff"
   fi
 else
@@ -350,7 +353,9 @@ if [[ "$INSTALL_MODE" == "kevin" ]]; then
   kz_status_line "✓" "Kevin's config applied (full MCP servers, custom paths)"
 else
   if [ -f "$SCRIPT_DIR/CLAUDE.md.staff-template" ]; then
-    sed "s/\[Your Name\]/$USER_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
+    # Sanitize user name for sed (escape sed special chars)
+    SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
+    sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
   fi
   [ -f "$SCRIPT_DIR/settings.json.staff-template" ] && cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
   kz_status_line "✓" "Staff config applied for $USER_NAME"
