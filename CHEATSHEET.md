@@ -1,8 +1,23 @@
 # Claude Code Cheatsheet
-> The complete reference for Claude Code CLI — commands, workflows, and power user tips
-> v0.5 — 2026-03-27
+> Kevin Z's Claude Code Kit v1.0 — commands, workflows, and power user tips
+> v1.0 — 2026-03-27
 
 > **Which document?** BIBLE.md = learning guide (read once). **CHEATSHEET.md = daily reference (you are here).** SKILLS-INDEX.md = skill discovery (search by keyword/category).
+
+---
+
+## KZ Mega-Skills (Quick Reference)
+
+Load ONE mega-skill to get an entire domain. Each has a router that dispatches to the right specialist.
+
+| Domain | Load This | Skills Inside |
+|--------|-----------|---------------|
+| SEO & Content | `mega-seo` | 19 skills — technical SEO, AI search, analytics, programmatic SEO |
+| Design & Animation | `mega-design` | 35+ skills — animations, effects, design systems, Impeccable suite |
+| Testing & QA | `mega-testing` | 15 skills — TDD, E2E, verification, visual, load testing |
+| Marketing | `mega-marketing` | 46 skills — content, CRO, channels, growth, sales |
+| SaaS Building | `mega-saas` | 20 skills — auth, billing, DB, API, frontend, metrics |
+| DevOps & Cloud | `mega-devops` | 20 skills — CI/CD, Docker, AWS, monitoring, Terraform |
 
 ---
 

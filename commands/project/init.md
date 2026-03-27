@@ -1,70 +1,30 @@
 ---
-description: Initialize a new project with standard CLAUDE.md, tasks/, and lessons tracking
-argument-hint: [project-name] [description]
-allowed-tools: Read, Write, Bash, Glob, LS
+description: "Interactive project setup — questionnaire, skill selection, CLAUDE.md generation"
+argument-hint: "[project-name]"
+allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ---
 
-Initialize this project with the standard development setup.
+Load and execute the `init-decision-tree` skill.
 
-## Steps:
+This is the KZ Init Decision Tree — an interactive questionnaire that configures your entire project setup based on your answers.
 
-1. **Create `CLAUDE.md`** in the project root with:
-   - Project name and description (from argument or ask)
-   - Tech stack (auto-detect from package.json, go.mod, etc.)
-   - Directory structure overview
-   - Key commands (dev, build, test, lint)
-   - Database/ORM info if applicable
-   - API patterns used
-   - Environment variables needed
-   - Deployment info
-   - Reference: `~/clawd/shared/refs/shadcn-ecosystem.md` for UI projects
+## What It Does
 
-2. **Create `tasks/` directory** with:
-   - `tasks/todo.md` — current task tracking (empty template)
-   - `tasks/lessons.md` — correction log (empty template with format)
-   - `tasks/backlog.md` — future work items
+1. **Asks project identity** — name, stack (auto-detects from files), deployment target
+2. **Asks build type** — QUICK (<4h), DEEP (1-5 days), SAAS (1-4 weeks), or OVERNIGHT (autonomous)
+3. **Drills down by domain** — loads the right KZ Mega-Skills based on your answers
+4. **Generates project setup:**
+   - `CLAUDE.md` — tailored project instructions with recommended skills and build-type workflow
+   - `tasks/todo.md` — pre-populated with first steps
+   - `tasks/lessons.md` — correction log template
+   - `.claude/settings.json` — stack-specific permissions
+5. **Reports** what was configured and recommends the first action
 
-3. **Create `.claude/` directory** if not exists with:
-   - `.claude/settings.json` — project-specific settings (inherits global)
+If a project name is provided as argument, use it. Otherwise ask.
 
-4. **Scan the codebase** and populate CLAUDE.md with:
-   - Actual file structure (key directories only)
-   - Package dependencies summary
-   - Available scripts from package.json
-   - Any existing README content to absorb
+## Important
 
-5. **Report** what was created and any recommendations.
-
-## Templates:
-
-### tasks/todo.md
-```markdown
-# Current Tasks
-
-## In Progress
-- [ ] 
-
-## Done
-- [x] 
-```
-
-### tasks/lessons.md
-```markdown
-# Lessons Learned
-
-> Updated after every correction. Review at session start.
-
-## Format
-- **Date**: What went wrong → What to do instead
-```
-
-### tasks/backlog.md
-```markdown
-# Backlog
-
-## Priority
-- 
-
-## Ideas
-- 
-```
+- **Always run the questionnaire.** Don't skip questions — the configuration depends on answers.
+- **Auto-detect first, then confirm.** Check package.json, README, git remote before asking.
+- **Don't overwrite existing CLAUDE.md** without asking.
+- **Use AskUserQuestion** for each phase of the questionnaire.

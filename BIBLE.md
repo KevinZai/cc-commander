@@ -1,6 +1,6 @@
-# Claude Code Best Practices Bible v2
-> Version 2.0 | Updated: 2026-03-27 | Non-coder friendly. Practical examples throughout.
-> Sources: ykdojo 45 tips · claude-code-kit v0.5 · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · chddaniel Mobile Dev · Cloudflare Dynamic Workers · GitHub gitagent · LLM Routing Guide
+# Kevin Z's Claude Code Bible v2
+> Version 2.0 | Updated: 2026-03-27 | Kevin Z's Claude Code Kit v1.0 | Non-coder friendly. Practical examples throughout.
+> Sources: 100+ best practices distilled from: ykdojo 45 tips · claude-code-kit v0.5 · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · chddaniel Mobile Dev · Cloudflare Dynamic Workers · GitHub gitagent · LLM Routing Guide
 
 > **Which document?** **BIBLE.md = learning guide (you are here).** CHEATSHEET.md = daily reference (quick lookup). SKILLS-INDEX.md = skill discovery (search by keyword/category).
 
@@ -9,6 +9,7 @@
 ## Table of Contents
 
 - [Golden Rules](#golden-rules)
+- [The Kevin Z Method](#the-kevin-z-method)
 - [Stage 1: Starting a New Project](#stage-1-starting-a-new-project)
 - [Stage 2: Daily Development Loop](#stage-2-daily-development-loop)
 - [Stage 3: Building Features](#stage-3-building-features)
@@ -38,6 +39,72 @@
 5. **CLAUDE.md = investment** — your rules compound over time
 6. **Boring solutions win** — AI has a bias for complexity; push back
 7. **Operationalize fixes** — every bug → test → rule update
+
+---
+
+## The Kevin Z Method
+
+> Run `/init` to get this automatically configured. The decision tree asks these questions and sets up your project.
+
+### Build Type Selection
+
+Before touching ANY code, answer one question: **What kind of build is this?**
+
+| Build Type | Time | Approach | Model | KZ Mega-Skills |
+|------------|------|----------|-------|----------------|
+| **QUICK** | <4 hours | Direct execute, ship fast | Sonnet | Stack-specific only |
+| **DEEP** | 1-5 days | Spec-first, TDD, subagents | Opus | mega-{domain} + mega-testing |
+| **SAAS** | 1-4 weeks | Full lifecycle: scaffold→auth→billing→ship | Opus | mega-saas + mega-seo + mega-testing + mega-devops |
+| **OVERNIGHT** | 6-12h autonomous | Checkpoints, error recovery | Opus | overnight-runner + domain skills |
+
+### KZ Mega-Skills (Load ONE, Get Everything)
+
+| Mega-Skill | Skills Inside | What It Covers |
+|------------|--------------|----------------|
+| `mega-seo` | 19 | Technical SEO, AI search, content strategy, analytics, programmatic SEO |
+| `mega-design` | 35+ | Animations, visual effects, design systems, landing pages, Impeccable polish suite |
+| `mega-testing` | 15 | TDD, E2E, verification, QA, regression, visual testing, load testing |
+| `mega-marketing` | 46 | Content, CRO, channels, growth, intelligence, sales |
+| `mega-saas` | 20 | Auth, billing, database, API, frontend stack, metrics, CRO |
+| `mega-devops` | 20 | CI/CD, containers, AWS, monitoring, zero-downtime deploy, Terraform |
+
+### Automatic Checklists
+
+#### Quick Build
+- [ ] Build the thing
+- [ ] `/verify` — works end-to-end
+- [ ] `git commit` — conventional commit
+- [ ] Ship
+
+#### Deep Build
+- [ ] `/init` — deep build, skills loaded
+- [ ] `/plan` — spec interview complete
+- [ ] New session with spec
+- [ ] TDD: write failing tests first
+- [ ] Implement until tests pass
+- [ ] `/code-review`
+- [ ] `/verify` — full verification
+- [ ] `operationalize-fixes` if bugs found
+- [ ] `/pr` — create draft PR
+
+#### SaaS Build
+- [ ] `/init` — SaaS build, template selected
+- [ ] Scaffold from starter template
+- [ ] Auth (better-auth)
+- [ ] Database schema (drizzle-neon)
+- [ ] Core features via spec-driven sessions
+- [ ] Billing (stripe-subscriptions)
+- [ ] Dashboard + analytics
+- [ ] SEO (mega-seo)
+- [ ] E2E tests (mega-testing)
+- [ ] Deploy (mega-devops)
+
+#### Overnight Build
+- [ ] `/init` — overnight build configured
+- [ ] Define batch tasks + error strategy
+- [ ] Set checkpoint frequency
+- [ ] Launch with `overnight-runner`
+- [ ] Review checkpoints in morning
 
 ---
 
@@ -803,6 +870,21 @@ See `tasks/todo.md`
 ---
 
 ## Skills Catalog
+
+### KZ Mega-Skills
+
+Instead of loading 5-15 individual skills per session, load ONE mega-skill to get the entire domain:
+
+```
+"Use the mega-seo skill"       → All 19 SEO skills loaded via router
+"Use the mega-design skill"    → All 35+ design/animation skills loaded
+"Use the mega-testing skill"   → All 15 testing skills loaded
+"Use the mega-marketing skill" → All 46 marketing skills loaded
+"Use the mega-saas skill"      → All 20 SaaS building skills loaded
+"Use the mega-devops skill"    → All 20 DevOps skills loaded
+```
+
+Each mega-skill has a **router** that matches your intent to the right specialist sub-skill. See the Absorbed Skills Manifest in each mega-skill's SKILL.md for exactly which skills it contains.
 
 ### How Skills Work
 

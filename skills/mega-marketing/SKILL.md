@@ -1,8 +1,9 @@
 ---
-name: marketing-skills
-description: "42-skill marketing division for AI coding agents. 7 specialist pods covering content, SEO, CRO, channels, growth, intelligence, and sales. Foundation context system + orchestration router. 27 Python tools (all stdlib-only). Works with Claude Code, Codex CLI, and OpenClaw."
-version: 2.0.0
-author: Alireza Rezvani
+name: KZ Mega-Marketing
+brand: Kevin Z's Claude Code Kit
+description: "46-skill marketing division for AI coding agents. 7 specialist pods covering content, SEO, CRO, channels, growth, intelligence, and sales — plus influencer outreach, Product Hunt launch, and SEO content production. Foundation context system + orchestration router. 27 Python tools (all stdlib-only). Works with Claude Code, Codex CLI, and OpenClaw."
+version: 3.0.0
+author: Kevin Z
 license: MIT
 tags:
   - marketing
@@ -12,15 +13,20 @@ tags:
   - cro
   - analytics
   - ai-seo
+  - influencer
+  - product-hunt
+  - content-production
 agents:
   - claude-code
   - codex-cli
   - openclaw
 ---
 
-# Marketing Skills Division
+# KZ Mega-Marketing
 
-42 production-ready marketing skills organized into 7 specialist pods with a context foundation and orchestration layer.
+> Load ONE skill. Get the entire marketing domain. 46 skills in one.
+
+46 production-ready marketing skills organized into 7 specialist pods with a context foundation and orchestration layer.
 
 ## Quick Start
 
@@ -71,6 +77,7 @@ Run `marketing-context` to create your `marketing-context.md` file. Every other 
 | **Intelligence** | 4 | 4 | Competitor analysis, marketing psychology, analytics, campaigns |
 | **Sales & GTM** | 2 | 1 | Pricing strategy, launch planning |
 | **Standalone** | 4 | 9 | ASO, brand guidelines, PMM strategy, prompt engineering |
+| **New in v3** | 3 | 0 | Influencer outreach, Product Hunt launch, SEO content production |
 
 ## Python Tools (27 scripts)
 

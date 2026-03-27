@@ -1,9 +1,25 @@
 # Skills Index — Quick Reference
+> Kevin Z's Claude Code Kit v1.0
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
-> Last verified: 2026-03-27 (220 skill directories, 213 with SKILL.md, 3 starter templates)
+> Last verified: 2026-03-27 | 220+ skill directories | 6 KZ Mega-Skills | 3 starter templates
 > Audit: `./generate-index.sh --check` to find missing or broken skills
 
 > **Which document?** BIBLE.md = learning guide (read once). CHEATSHEET.md = daily reference (quick lookup). **SKILLS-INDEX.md = skill discovery (you are here).**
+
+---
+
+## KZ Mega-Skills (Load ONE, Get Everything)
+
+| Mega-Skill | Skills | What It Covers |
+|------------|--------|----------------|
+| `mega-seo` | 19 | Technical SEO, AI search optimization, content strategy, analytics, programmatic SEO |
+| `mega-design` | 35+ | Animations, SVG, motion, visual effects, design systems, landing pages, Impeccable polish suite |
+| `mega-testing` | 15 | TDD, E2E (Playwright), verification, QA, regression, visual testing, load testing |
+| `mega-marketing` | 46 | Content, CRO, channels, growth, intelligence, sales (renamed from marketing-pack) |
+| `mega-saas` | 20 | Auth, billing, database, API, frontend stack (Next.js+shadcn+Tailwind), metrics |
+| `mega-devops` | 20 | CI/CD, Docker, AWS, monitoring, zero-downtime deploy, Terraform |
+
+Each mega-skill has a router that dispatches to the right specialist. Individual skills inside mega-skills are still accessible by their original names via symlinks.
 
 ---
 
