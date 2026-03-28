@@ -1,15 +1,16 @@
+#!/usr/bin/env node
 // ============================================================================
 // Kevin Z's Claude Code Kit — OpenClaw Adapter (PostToolUse)
 // ============================================================================
-// Bridges Bible hook events to OpenClaw webhook format. Fires on PostToolUse
-// events, transforms the payload, and POSTs to OpenClaw gateway at
-// localhost:18789. Gracefully falls back if OpenClaw is not running.
+// Translates Bible hook events to OpenClaw webhook format and sends to the
+// OpenClaw gateway at localhost:18789. Designed to never block Claude Code —
+// all network failures are silently swallowed, always exits 0.
 //
-// Enable:  export KZ_OPENCLAW_ENABLED=1
-// Disable: unset KZ_OPENCLAW_ENABLED (or set to 0/false)
-//
-// Gateway URL override: KZ_OPENCLAW_URL (default: http://localhost:18789)
-// Timeout: KZ_OPENCLAW_TIMEOUT (default: 3000ms)
+// Env vars:
+//   KZ_OPENCLAW_ENABLED  — set to "1" to activate (default: disabled)
+//   KZ_OPENCLAW_DEBUG    — set to "1" to log to stderr
+//   KZ_OPENCLAW_URL      — gateway URL (default: http://localhost:18789)
+//   KZ_OPENCLAW_TIMEOUT  — request timeout in ms (default: 2000)
 // ============================================================================
 
 'use strict';
@@ -17,63 +18,58 @@
 const http = require('http');
 const url = require('url');
 
-const ENABLED_VALUES = new Set(['1', 'true', 'yes']);
+const ENABLED = process.env.KZ_OPENCLAW_ENABLED === '1';
+const DEBUG = process.env.KZ_OPENCLAW_DEBUG === '1';
+const GATEWAY_URL = process.env.KZ_OPENCLAW_URL || 'http://localhost:18789';
+const TIMEOUT_MS = parseInt(process.env.KZ_OPENCLAW_TIMEOUT, 10) || 2000;
+const WEBHOOK_PATH = '/api/webhooks/bible';
+const SOURCE = 'claude-code-bible';
+const VERSION = '1.2';
+const MAX_OUTPUT_BYTES = 10240; // 10KB truncation limit for tool output
 
-function isEnabled() {
-  const val = (process.env.KZ_OPENCLAW_ENABLED || '').toLowerCase().trim();
-  return ENABLED_VALUES.has(val);
+function debug(msg) {
+  if (DEBUG) {
+    process.stderr.write(`[openclaw-adapter] ${msg}\n`);
+  }
 }
 
-function getGatewayUrl() {
-  return process.env.KZ_OPENCLAW_URL || 'http://localhost:18789';
+function truncate(value, maxBytes) {
+  if (value === undefined || value === null) return null;
+  const str = typeof value === 'string' ? value : JSON.stringify(value);
+  if (Buffer.byteLength(str, 'utf8') <= maxBytes) return str;
+  const truncated = Buffer.from(str, 'utf8').subarray(0, maxBytes).toString('utf8');
+  return truncated + '\n...[truncated]';
 }
 
-function getTimeout() {
-  const val = parseInt(process.env.KZ_OPENCLAW_TIMEOUT, 10);
-  return Number.isFinite(val) && val > 0 ? val : 3000;
-}
-
-function buildWebhookPayload(input) {
-  const toolName = input.tool_name || 'unknown';
-  const toolInput = input.tool_input || {};
-  const toolOutput = input.tool_output || {};
-  const sessionId = process.env.CLAUDE_SESSION_ID || process.env.SESSION_ID || 'unknown';
+function buildPayload(input) {
+  const sessionId = process.env.CLAUDE_SESSION_ID
+    || process.env.SESSION_ID
+    || 'unknown';
 
   return {
-    source: 'claude-code-bible',
-    event: 'post-tool-use',
+    event: 'bible_hook',
+    hookType: 'PostToolUse',
+    hookName: 'openclaw-adapter',
+    source: SOURCE,
+    version: VERSION,
     timestamp: new Date().toISOString(),
-    sessionId,
     tool: {
-      name: toolName,
-      input: summarizePayload(toolInput),
-      output: summarizePayload(toolOutput),
+      name: input.tool_name || null,
+      input: input.tool_input || null,
+      output: truncate(input.tool_output, MAX_OUTPUT_BYTES),
     },
-    metadata: {
-      hookVersion: '1.0.0',
+    session: {
+      id: sessionId,
       cwd: process.cwd(),
     },
+    metadata: {},
   };
 }
 
-function summarizePayload(obj) {
-  if (obj === null || obj === undefined) return null;
-  const str = typeof obj === 'string' ? obj : JSON.stringify(obj);
-  if (str.length <= 500) return obj;
-  return {
-    _truncated: true,
-    _length: str.length,
-    _preview: str.slice(0, 200),
-  };
-}
-
-function postToGateway(payload) {
+function sendToGateway(payload) {
   return new Promise((resolve) => {
-    const gatewayUrl = getGatewayUrl();
-    const endpoint = `${gatewayUrl}/api/webhooks/bible`;
-    const parsed = url.parse(endpoint);
+    const parsed = url.parse(GATEWAY_URL + WEBHOOK_PATH);
     const body = JSON.stringify(payload);
-    const timeout = getTimeout();
 
     const options = {
       hostname: parsed.hostname,
@@ -83,31 +79,32 @@ function postToGateway(payload) {
       headers: {
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(body),
-        'X-Bible-Source': 'claude-code-kit',
-        'X-Bible-Hook': 'openclaw-adapter',
+        'X-Bible-Source': SOURCE,
+        'X-Bible-Version': VERSION,
       },
-      timeout,
+      timeout: TIMEOUT_MS,
     };
 
+    debug(`POST ${GATEWAY_URL}${WEBHOOK_PATH} (${Buffer.byteLength(body)} bytes)`);
+
     const req = http.request(options, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
+      let responseData = '';
+      res.on('data', (chunk) => { responseData += chunk; });
       res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve({ sent: true, status: res.statusCode });
-        } else {
-          resolve({ sent: false, status: res.statusCode, body: data });
-        }
+        debug(`Response: ${res.statusCode} ${responseData.slice(0, 200)}`);
+        resolve();
       });
     });
 
-    req.on('error', () => {
-      resolve({ sent: false, error: 'connection-failed' });
+    req.on('timeout', () => {
+      debug(`Timeout after ${TIMEOUT_MS}ms — aborting`);
+      req.destroy();
+      resolve();
     });
 
-    req.on('timeout', () => {
-      req.destroy();
-      resolve({ sent: false, error: 'timeout' });
+    req.on('error', (err) => {
+      debug(`Request error: ${err.message}`);
+      resolve();
     });
 
     req.write(body);
@@ -116,28 +113,32 @@ function postToGateway(payload) {
 }
 
 let data = '';
-process.stdin.on('data', chunk => data += chunk);
+process.stdin.on('data', (chunk) => { data += chunk; });
 process.stdin.on('end', async () => {
   try {
     const input = JSON.parse(data);
 
-    if (!isEnabled()) {
-      console.log(data);
+    // Always pass through — never block Claude
+    console.log(data);
+
+    // Skip if not enabled
+    if (!ENABLED) {
+      debug('Disabled (KZ_OPENCLAW_ENABLED != 1) — skipping');
       return;
     }
 
-    const payload = buildWebhookPayload(input);
+    // Build and send payload
+    const payload = buildPayload(input);
+    debug(`Sending event for tool: ${input.tool_name || 'unknown'}`);
 
-    postToGateway(payload).then((result) => {
-      if (!result.sent && result.error !== 'connection-failed') {
-        process.stderr.write(
-          `[openclaw-adapter] webhook failed: ${result.error || `status ${result.status}`}\n`
-        );
-      }
-    });
-
-    console.log(data);
+    await sendToGateway(payload);
+    debug('Event sent successfully');
   } catch (e) {
-    console.log(data);
+    // Silent fail — never block Claude Code
+    debug(`Error: ${e.message}`);
+    // Ensure passthrough even on parse errors
+    if (data) {
+      try { console.log(data); } catch { /* already written */ }
+    }
   }
 });
