@@ -1,428 +1,595 @@
 # Quickstart Guide: Full-Stack Developer
 
-> Build complete applications from database to deployment. Combines backend + frontend workflows with the Bible's SaaS mode.
+> Build complete applications with the Bible. Mode switching, combined mega-skills, database patterns, auth flows, billing, testing, and deployment.
 
 ---
 
-## The Full-Stack Bible Workflow
+## Recommended Mode: SaaS
 
-Full-stack development touches every layer. The Bible's SaaS mode is designed specifically for this — it combines API design, database patterns, frontend architecture, auth, and deployment into a single coherent workflow.
+Full-stack development lives in SaaS mode. Switch immediately:
 
 ```
 /cc mode saas
 ```
 
-SaaS mode gives you:
-- **Full lifecycle** — schema to UI to deployment
-- **Auth-first** — authentication and authorization considered at every layer
-- **Type-safe** — shared types between frontend and backend
-- **Production-grade** — error handling, logging, monitoring, and testing included by default
+SaaS mode changes Claude's behavior:
+- **Architecture-first** — plans before coding, considers scalability from the start
+- **TDD by default** — writes tests alongside implementation, not as an afterthought
+- **Security-conscious** — checks for injection, auth bypasses, rate limiting gaps
+- **Production-ready** — error handling, logging, monitoring built in from line one
+
+### Mode Switching for Full-Stack
+
+Full-stack projects touch every layer. Switch modes as you move through the stack:
+
+| Working on... | Use mode | Why |
+|---------------|----------|-----|
+| Landing page, UI components, animations | `design` | Visual quality, critique loop, accessibility checks |
+| API routes, database, auth, billing | `saas` | Architecture rigor, TDD, security posture |
+| Configuration, scripts, tooling, CI/CD | `normal` | Balanced approach, plan-first |
+| Quick spike or proof of concept | `yolo` | Speed over quality, skip confirmations |
+| Long-running migration or overnight build | `night` | Autonomous with checkpoints, cost-aware |
+
+Switching is instant and free. There is no cost or penalty. Switch 3-5 times per feature.
 
 ---
 
-## Recommended Stack
+## Combined Mega-Skills
 
-The Bible has deep skill support for these stacks. You can use any stack, but these have the most specialized skills:
+Full-stack projects benefit from loading multiple mega-skills in the same session. The routers inside each mega-skill share context, so they work better loaded together.
 
-### Primary Stack (Most Bible Skills)
+### The Full SaaS Stack
 
-| Layer | Technology | Bible Skill |
-|-------|-----------|-------------|
-| Frontend | Next.js 15 (App Router) | `nextjs-app-router` |
-| UI Components | shadcn/ui v4 | `shadcn-ui` |
-| Styling | Tailwind CSS v4 | `tailwind-v4` |
-| ORM | Drizzle | `drizzle-neon` |
-| Database | PostgreSQL (Neon) | `postgres-patterns` |
-| Auth | better-auth | `better-auth` |
-| Billing | Stripe | `stripe-subscriptions` |
-| Caching | Redis | `redis-patterns` |
-| Testing | Vitest + Playwright | `tdd-workflow`, `e2e-testing` |
-| Deploy | Docker + AWS | `docker-development`, `aws-solution-architect` |
-
-### Alternative Stacks
-
-| Stack | Bible Skills |
-|-------|-------------|
-| Vue/Nuxt + Fastify | `vue-nuxt`, `fastify-api` |
-| Laravel (PHP monolith) | `laravel-patterns`, `laravel-tdd`, `laravel-verification` |
-| SvelteKit + Prisma | `frontend-design`, `database-designer` |
-| Python FastAPI + React | `python-patterns`, `frontend-patterns` |
-
----
-
-## Project Setup: From Zero to Running App
-
-### Step 1: Initialize
-
-```bash
-mkdir my-saas && cd my-saas
-npx create-next-app@latest . --typescript --tailwind --app --src-dir
-claude
+```
+use mega-saas skill      # Auth, billing, DB, API, frontend (20 skills)
+use mega-design skill    # Landing page, animations, polish (35+ skills)
+use mega-testing skill   # TDD, E2E, verification (testing domain)
 ```
 
-### Step 2: Configure with the Bible
+This gives you **70+ specialist skills** covering the complete SaaS lifecycle.
+
+### The Marketing Stack
+
+```
+use mega-saas skill       # Product backend
+use mega-design skill     # Frontend polish
+use mega-seo skill        # Search optimization, structured data
+use mega-marketing skill  # Content strategy, CRO, email sequences
+```
+
+### The Infrastructure Stack
+
+```
+use mega-saas skill       # Application code
+use mega-devops skill     # CI/CD, Docker, monitoring, Terraform
+use mega-security skill   # Security hardening, OWASP, dependency audit
+use mega-testing skill    # All testing types
+```
+
+**Tip:** Load mega-skills at the start of your session. You do not need to reload them for each request.
+
+---
+
+## Full Workflow: /init to Deploy
+
+### Step 1: Initialize the Project
 
 ```
 /init
 ```
 
-Select "SaaS" when the decision tree asks about your build type. The wizard configures:
-- Project `CLAUDE.md` with full-stack conventions
-- TypeScript strict mode
-- Testing setup (Vitest + Playwright)
-- Linting and formatting rules
+The decision tree walks you through project type selection. For full-stack, select "SaaS" or "Full-Stack". The Bible configures your project's `CLAUDE.md` with stack-specific rules, file structure conventions, and recommended skills.
 
-### Step 3: Load the Mega-Skills
+### Step 2: Choose a Starter Template
 
 ```
-use mega-saas skill
+/cc templates
 ```
 
-This loads 20 SaaS-specific skills. For the frontend layer, you can also load:
+Three starter templates ship with the Bible:
 
-```
-use mega-design skill
-```
+| Template | Stack | What You Get |
+|----------|-------|-------------|
+| `nextjs` | Next.js 15 + Tailwind v4 + shadcn/ui | App Router, route groups, dark mode, TypeScript strict |
+| `api` | Fastify + Drizzle + Postgres | Service layer, repository pattern, Zod validation, error handling |
+| `cli` | Node.js + Commander + Ink | CLI scaffolding with argument parsing, interactive prompts |
 
-Both routers coexist in the same session.
-
-### Step 4: Plan the Architecture
+Or skip templates and describe your stack:
 
 ```
 /plan
-Build a SaaS project management app with:
-
-Backend:
-- PostgreSQL with Drizzle ORM
-- User auth (email + Google OAuth) via better-auth
-- REST API: projects, tasks, team members
-- Role-based access: owner, admin, member, viewer
-- Stripe billing: free, pro ($19/mo), team ($49/mo)
-
-Frontend:
-- Next.js 15 App Router
-- shadcn/ui components with dark mode
-- Dashboard layout with sidebar navigation
-- Project board (Kanban-style)
-- Settings page for billing and team management
-
-Requirements:
-- Type-safe API layer (shared Zod schemas)
-- Cursor-based pagination
-- Optimistic updates on the frontend
-- Full test coverage (unit + integration + E2E)
+Build a full-stack SaaS with Next.js 15, Drizzle ORM, Neon Postgres,
+Better Auth, Stripe billing, and shadcn/ui v4.
 ```
 
-### Step 5: Build Layer by Layer
-
-The Bible recommends building in this order:
+### Step 3: Switch to SaaS Mode
 
 ```
-1. Database schema + migrations       (foundation)
-2. Auth setup (registration, login)   (security first)
-3. API endpoints + validation         (data layer)
-4. Frontend layout + routing          (structure)
-5. UI components + data fetching      (features)
-6. Billing integration                (monetization)
-7. E2E tests                          (verification)
-8. Deploy pipeline                    (ship it)
+/cc mode saas
+use mega-saas skill
 ```
 
-Execute each phase:
+### Step 4: Build the Backend
+
+Start with the data model. The schema is the source of truth:
 
 ```
-Execute phase 1 of the plan: database schema and migrations.
+use database-designer skill
+Design a schema for [your domain]: [describe entities and relationships]
+```
+
+Then build the API layer:
+
+```
+use api-design skill
+Build REST endpoints for [resource]: CRUD + [custom operations]
+```
+
+Write tests alongside:
+
+```
+/tdd
+Write integration tests for the [resource] API endpoints
+```
+
+### Step 5: Build the Frontend
+
+Switch to design mode for UI work:
+
+```
+/cc mode design
+use mega-design skill
+Build the [feature] page with [components]
+```
+
+Then wire frontend to backend:
+
+```
+/cc mode normal
+Connect the [feature] page to the API. Handle loading, error, and empty states.
+```
+
+### Step 6: Add Auth, Billing, Infra
+
+```
+/cc mode saas
+use better-auth skill — set up email/password + OAuth + RBAC
+use stripe-subscriptions skill — add billing with webhooks
+use mega-devops skill — Docker, CI/CD, monitoring
+```
+
+### Step 7: Test Everything
+
+```
+/tdd            # Unit + integration tests
+/e2e            # End-to-end user flows
+/verify         # Full verification loop
+```
+
+### Step 8: Ship
+
+```
+/checkpoint     # Git commit
+/deploy         # Build, test, push, deploy
 ```
 
 ---
 
-## Key Workflows
+## Database Patterns
 
-### Schema-First Development
+### Supabase (Managed Postgres + Auth + Storage)
 
-Always start with the database schema. The Bible's `database-designer` skill catches issues that are expensive to fix later.
+```
+use mega-saas skill
+
+Set up Supabase with:
+- Postgres database with Row Level Security (RLS)
+- Supabase Auth (email/password + OAuth providers)
+- Supabase Storage for file uploads
+- Real-time subscriptions for live data
+- Edge Functions for server-side logic
+- Drizzle ORM as the query layer (not the Supabase JS client for complex queries)
+```
+
+Supabase tips:
+- Use RLS policies for authorization — they run at the database level, not the application level
+- Drizzle ORM gives you type-safe queries with better control than the Supabase JS client
+- Edge Functions handle server-side logic without a separate API server
+- Use database webhooks to trigger external services on data changes
+
+### PostgreSQL with Drizzle ORM (Self-Managed or Neon)
+
+```
+use drizzle-neon skill
+
+Set up Drizzle ORM with Neon Postgres:
+- Schema definition with TypeScript (drizzle-orm/pg-core)
+- Push-based migrations (drizzle-kit push)
+- Relational query builder for complex joins
+- Connection pooling via Neon's built-in pooler
+- Type-safe queries — schema changes break compilation, not runtime
+```
+
+Drizzle patterns:
+- Define schemas in `src/db/schema/` with one file per entity
+- Use `drizzle-kit push` for development, `drizzle-kit generate` + `drizzle-kit migrate` for production
+- Relational queries (`db.query.users.findMany({ with: { posts: true } })`) replace raw JOINs
+- Index frequently queried columns — Drizzle schema supports inline index definitions
+
+### Database Design Workflow
 
 ```
 use database-designer skill
 
-Design the schema for phase 1. Include:
-- All entities with their relationships
-- Proper indexes for common queries
-- Soft delete on all tables
-- Created/updated timestamps
-- Cascade rules for deletions
-- Enum types for status fields
+1. Describe your domain entities and relationships
+2. The skill generates a normalized schema with:
+   - Primary keys (UUID or serial)
+   - Foreign keys with cascade rules
+   - Indexes on frequently queried columns
+   - Timestamps (created_at, updated_at)
+   - Soft delete (deleted_at) if appropriate
+3. Review the schema diagram
+4. Generate Drizzle schema files
+5. Generate seed data for development
 ```
 
-Review the schema before generating migrations. Check for:
-- Missing indexes on foreign keys
-- N+1 query risks
-- Proper cascade behavior (what happens when a user is deleted?)
-- Enum values covering all states
+---
 
-### Shared Type Safety
+## API + Frontend Integration
 
-The biggest full-stack productivity gain: share types between frontend and backend.
+### tRPC (Type-Safe API Layer)
+
+For Next.js projects, tRPC eliminates the API boundary:
 
 ```
-Set up shared Zod schemas for the API layer:
-- Define schemas in a shared /lib/schemas/ directory
-- Backend uses them for request validation
-- Frontend uses them for form validation and type inference
-- API response types are inferred from the schemas
+use mega-saas skill
 
-This eliminates type drift between frontend and backend.
+Set up tRPC v11 with:
+- Router definitions in src/server/routers/
+- Input validation with Zod schemas
+- React Query integration on the client
+- Server-side caller for Server Components
+- Middleware for auth, logging, rate limiting
 ```
 
-### Auth Integration
+tRPC patterns:
+- Procedures map to your service layer — keep business logic out of procedure handlers
+- Use Zod `.transform()` for input normalization (trim strings, lowercase emails)
+- Server-side callers let Server Components call tRPC procedures directly (no HTTP overhead)
+- Subscriptions via WebSocket for real-time features
 
-Auth touches both frontend and backend. The Bible's `better-auth` skill handles both sides:
+### REST API (Express or Fastify)
+
+```
+use api-design skill
+use backend-patterns skill
+
+Build a REST API with:
+- Fastify (preferred) or Express
+- Route -> Controller -> Service -> Repository layer pattern
+- Zod validation on all request bodies
+- Consistent error response format: { success, data, error, meta }
+- Pagination: cursor-based for feeds, offset-based for tables
+- Rate limiting per endpoint
+- OpenAPI spec generation from route definitions
+```
+
+### Frontend Data Fetching
+
+```
+use nextjs-app-router skill
+
+Data fetching strategy:
+- Server Components: fetch data directly (no client-side fetching)
+- Client Components: TanStack Query for server state (not useState + useEffect)
+- Server Actions: form submissions and mutations
+- Optimistic updates: useMutation with onMutate for instant UI feedback
+- Error boundaries: catch and display errors gracefully per component
+```
+
+Key rule: Never put API data in React state. Use TanStack Query (or SWR) for server state. Use React state only for UI state (modals, form inputs, toggles).
+
+---
+
+## Auth Flows
+
+### Better Auth (Recommended)
 
 ```
 use better-auth skill
 
-Set up authentication across the full stack:
-- Backend: session management, OAuth callbacks, RBAC middleware
-- Frontend: login/register pages, protected routes, role-based UI
-- Shared: user type definitions, permission checks
-
-Include:
-- Email/password registration with email verification
-- Google OAuth
-- Session persistence (HTTP-only cookies)
-- Protected API routes (middleware)
-- Protected pages (Next.js middleware)
-- Role-based UI (show/hide based on permissions)
+Set up Better Auth with:
+- Email/password authentication
+- OAuth providers (Google, GitHub, Discord)
+- Magic link (passwordless)
+- Two-factor authentication (TOTP)
+- Organizations with role-based access (owner, admin, member)
+- Session management with secure cookies
+- Rate limiting on auth endpoints
 ```
 
-### Frontend + API Integration
+Better Auth advantages:
+- Framework-agnostic — works with Next.js, Remix, SvelteKit, plain Express
+- Built-in organization/team support with RBAC
+- Session-based (not JWT) — revocable, server-validated
+- Handles edge cases: account linking, email verification, password reset
+
+### Auth Patterns
+
+Regardless of auth library, follow these patterns:
+
+1. **Protect API routes** — middleware that validates the session before handlers run
+2. **Protect pages** — Server Component checks session; redirect to `/login` if absent
+3. **Role-based access** — check user role before rendering admin UI or executing admin actions
+4. **Session refresh** — extend session on activity, expire on inactivity
+5. **CSRF protection** — enabled by default in most frameworks; verify it is not disabled
+6. **Rate limiting** — 5 login attempts per minute per IP, increasing lockout on failure
+
+---
+
+## Billing with Stripe
 
 ```
-Build the dashboard page that:
-1. Fetches projects from GET /api/v1/projects (Server Component)
-2. Shows a grid of ProjectCards (Client Component for interactions)
-3. Has a "New Project" button that opens a modal form
-4. Form validates with the shared Zod schema
-5. Submits via POST /api/v1/projects (Server Action)
-6. Optimistically adds the project to the grid
-7. Shows a toast notification on success/error
+use stripe-subscriptions skill
+use billing-automation skill
+
+Set up Stripe billing:
+- Products and prices in Stripe Dashboard (or via API)
+- Checkout Session for new subscriptions
+- Customer Portal for self-service management
+- Webhook handler for subscription lifecycle events:
+  - checkout.session.completed -> provision access
+  - customer.subscription.updated -> update plan
+  - customer.subscription.deleted -> revoke access
+  - invoice.payment_failed -> dunning flow (warn user, retry, grace period)
+- Usage-based billing (if applicable): meter events, usage records
+- Entitlement checks: gate features based on subscription tier
+```
+
+Billing patterns:
+- **Never trust the client** — always verify subscription status server-side via Stripe API
+- **Webhook idempotency** — store the Stripe event ID and skip duplicates
+- **Grace period** — do not revoke access immediately on payment failure; send warnings first
+- **Free tier** — always have one; it reduces friction and lets users try before buying
+- **Pricing page** — use `paywall-upgrade-cro` skill for conversion-optimized pricing UI
+
+---
+
+## Webhooks
+
+```
+use mega-saas skill
+
+Webhook handler patterns:
+- Verify signatures (Stripe, GitHub, etc.) before processing
+- Respond with 200 immediately, then process asynchronously
+- Idempotency: store event IDs to prevent double-processing
+- Retry handling: webhooks will retry on failure — make handlers idempotent
+- Dead letter queue: log failed events for manual inspection
+- Timeout: webhook handlers must respond within 30 seconds
 ```
 
 ---
 
-## Testing Full-Stack Applications
+## Testing Strategy
 
-### Three Layers of Tests
-
-```
-Unit (70%) — individual functions, utilities, validators, components
-  - Vitest for logic
-  - React Testing Library for components
-  - Mock API calls and database
-
-Integration (20%) — API endpoints with real database
-  - Vitest + supertest
-  - Test containers or in-memory database
-  - Seed data with factories
-
-E2E (10%) — critical user flows in the browser
-  - Playwright
-  - Full stack running
-  - Test: registration -> login -> create project -> invite member -> complete task
-```
-
-### TDD for Full-Stack Features
+### Unit Tests (Vitest)
 
 ```
 /tdd
-
-Build the "invite team member" feature:
-
-Backend:
-- POST /api/v1/projects/:id/invites — send invitation email
-- POST /api/v1/invites/:token/accept — accept invitation
-- Only project owners and admins can invite
-- Invitations expire after 7 days
-
-Frontend:
-- "Invite" button on project settings page
-- Email input with validation
-- Role selector (admin, member, viewer)
-- Pending invitations list with resend/revoke
-
-Write tests for both backend and frontend first.
+Write unit tests for:
+- Service layer functions (business logic)
+- Utility functions (formatters, validators, parsers)
+- React components (render, interaction, edge cases)
 ```
 
-### E2E Testing with Playwright
+Vitest configuration:
+- `vitest.config.ts` with path aliases matching `tsconfig.json`
+- Mock external dependencies (database, APIs, third-party services)
+- Coverage threshold: 80% lines, 80% branches
+
+### Integration Tests (Vitest + Supertest)
 
 ```
-use e2e-testing skill
-
-Write E2E tests for the critical user flows:
-1. New user: register -> verify email -> first project -> add task
-2. Team collaboration: invite member -> member joins -> assigns task
-3. Billing: upgrade to pro -> verify features unlocked -> downgrade
-4. Settings: change password -> logout -> login with new password
-
-Each test should be independent and use factory functions for setup.
+/tdd
+Write integration tests for:
+- API endpoints (request -> response -> database state)
+- Auth flows (register -> login -> access protected route -> logout)
+- Webhook handlers (simulate Stripe events -> verify side effects)
 ```
+
+Integration test patterns:
+- Use a test database (separate from development)
+- Seed data before each test, clean up after
+- Test the full request/response cycle including middleware
+
+### E2E Tests (Playwright)
+
+```
+/e2e
+Write E2E tests for critical user flows:
+- Sign up -> verify email -> complete onboarding -> see dashboard
+- Create resource -> edit -> delete -> verify gone
+- Upgrade plan -> see new features -> downgrade -> features gated
+```
+
+Playwright configuration:
+- `playwright.config.ts` with multiple browsers (Chromium, Firefox, WebKit)
+- Base URL pointing to test server
+- Screenshot on failure for debugging
+- Parallel execution across test files
 
 ---
 
-## Deployment Patterns
+## Stack-Specific Tips
 
-### Development Environment
+### Next.js + T3 Stack
 
-```
-use docker-development skill
-
-Create a Docker Compose setup for local development:
-- Next.js app with hot reload
-- PostgreSQL 16
-- Redis 7
-- Mailpit (email testing)
-- Health checks on all services
-- Volume mounts for persistent data
-- Environment variable management (.env.example)
+```bash
+npx create-t3-app@latest my-app
+cd my-app
+claude
+/init   # Select SaaS build type
 ```
 
-### Production Pipeline
+```
+/cc mode saas
+use mega-saas skill
+
+Set up the T3 stack with:
+- App Router with route groups: (marketing), (auth), (dashboard)
+- tRPC v11 with Zod input validation
+- Drizzle ORM with Neon Postgres
+- Better Auth for authentication
+- Stripe for billing
+- shadcn/ui v4 with dark mode
+```
+
+T3 patterns:
+- Server Components for data display, Client Components only for interactivity
+- tRPC procedures call service functions — never put business logic in procedures
+- Drizzle relational queries for complex joins
+- Server Actions for form submissions (simpler than tRPC for mutations)
+
+### Remix / React Router v7
+
+```bash
+npx create-remix@latest my-app
+cd my-app
+claude
+/init
+```
 
 ```
-use setup-deploy skill
-
-Set up the production deployment:
-1. GitHub Actions CI: lint -> typecheck -> test -> build -> push Docker image
-2. Staging: auto-deploy on merge to main
-3. Production: deploy on tag (v1.0.0) or manual approval
-4. Database migrations run automatically before deploy
-5. Rollback strategy: revert to previous Docker image
-6. Health check endpoint: GET /api/health
+Build a Remix application with:
+- Nested routes with loaders and actions
+- Server-side form handling (no client-side state for forms)
+- Optimistic UI with useFetcher
+- Drizzle ORM for database
+- Cookie-based sessions
+- Progressive enhancement (works without JavaScript)
 ```
 
-### Monitoring
+Remix patterns:
+- Loaders and actions handle data on the server — use them instead of client-side fetch
+- Forms work without JavaScript by default — this is the Remix way
+- `useFetcher` for non-navigation mutations (likes, toggles, inline edits)
+
+### MERN Stack
 
 ```
-use mega-devops skill
+/plan
+Build a MERN stack application with:
 
-Set up production monitoring:
-- Application: Sentry for error tracking (frontend + backend)
-- Infrastructure: Prometheus + Grafana (request rate, latency, error rate)
-- Uptime: health check endpoint polled every 30 seconds
-- Alerts: PagerDuty for critical issues, Slack for warnings
-- Logging: structured JSON logs with request correlation IDs
+Backend (Express):
+- TypeScript strict mode
+- Mongoose ODM with typed schemas
+- JWT auth with refresh token rotation
+- Express middleware: cors, helmet, rate-limit, auth
+- Zod validation on all endpoints
+
+Frontend (React + Vite):
+- React 19 with TypeScript
+- TanStack Query for server state
+- TanStack Router for type-safe routing
+- Tailwind v4
+- React Hook Form + Zod for forms
 ```
+
+MERN-specific tips:
+- Use `backend-patterns` skill for Express middleware architecture
+- Use `api-design` skill for consistent REST conventions
+- Mongoose schemas should validate, but also validate with Zod at the API boundary
+- Use TanStack Query for server state — do not put API data in React state
 
 ---
 
-## Full-Stack Patterns
+## Full-Stack Workflow: Phase by Phase
 
-### API Route Organization (Next.js)
-
-```
-src/
-  app/
-    api/
-      v1/
-        auth/
-          register/route.ts
-          login/route.ts
-          logout/route.ts
-        projects/
-          route.ts                # GET (list), POST (create)
-          [id]/
-            route.ts              # GET, PATCH, DELETE
-            tasks/
-              route.ts            # GET (list), POST (create)
-              [taskId]/
-                route.ts          # GET, PATCH, DELETE
-    (marketing)/                  # Public pages (landing, pricing)
-      page.tsx
-      pricing/page.tsx
-    (dashboard)/                  # Authenticated pages
-      layout.tsx                  # Sidebar, auth check
-      projects/page.tsx
-      projects/[id]/page.tsx
-      settings/page.tsx
-```
-
-### Environment Variables
+### Phase 1: Plan (15 minutes)
 
 ```
-# .env.example — commit this (no secrets)
-DATABASE_URL=postgresql://user:pass@localhost:5432/myapp
-REDIS_URL=redis://localhost:6379
-BETTER_AUTH_SECRET=your-secret-here
-GOOGLE_CLIENT_ID=your-client-id
-GOOGLE_CLIENT_SECRET=your-client-secret
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-
-# .env.local — do NOT commit (actual secrets)
+/plan
+Describe the complete feature: what it does, who uses it,
+what data it needs, what UI it requires.
 ```
 
-### Error Handling Pattern
+Review the plan. Verify it covers: database, API, auth/authorization, frontend, tests, and deployment.
+
+### Phase 2: Database and API (1-2 hours)
 
 ```
-Centralized error types (shared between frontend and backend):
-- Backend: throw AppError -> middleware catches -> formatted response
-- Frontend: API client catches -> displays toast or inline error
+/cc mode saas
+use mega-saas skill
 
-The Bible's api-design skill generates this pattern automatically.
+Start with the database schema and API endpoints.
+```
+
+Write tests alongside implementation:
+
+```
+/tdd
+Write integration tests for the [feature] API endpoints.
+```
+
+### Phase 3: Frontend (1-2 hours)
+
+```
+/cc mode design
+use mega-design skill
+
+Build the UI for [feature].
+```
+
+Run the critique loop:
+
+```
+use critique skill on the [feature] page
+```
+
+### Phase 4: Integration (30 minutes)
+
+```
+/cc mode normal
+
+Wire the frontend to the API. Handle loading states, error states,
+and empty states. Test the full flow end-to-end in the browser.
+```
+
+### Phase 5: Testing (30 minutes)
+
+```
+/tdd
+Write E2E tests for the complete [feature] user flow.
+```
+
+### Phase 6: Verify and Ship
+
+```
+/verify         # Full verification loop
+/checkpoint     # Git commit with conventional message
 ```
 
 ---
 
 ## Power Tips
 
-1. **Schema first, always** — the database schema determines your API shape, which determines your frontend types. Getting the schema right saves hours of refactoring.
+1. **Mode switching is your superpower** — full-stack devs should switch modes 3-5 times per feature. Design mode for UI, saas mode for backend, normal for integration.
 
-2. **Share Zod schemas** — define once in `/lib/schemas/`, import everywhere. Frontend forms and backend validation use the same source of truth.
+2. **Use Task Commander for features > 4 hours** — it prevents scope creep and ensures nothing gets forgotten. The work breakdown alone is worth it even if you execute manually.
 
-3. **Use Server Components for data fetching** — keep `"use client"` to interactive components only. Server Components fetch data without client-side waterfalls.
+3. **Frontend and backend in parallel** — use `/spawn team 2 frontend backend` to dispatch two peers working simultaneously when the frontend and backend can be built independently against an API contract.
 
-4. **Build auth early** — auth touches every layer. Building it last means retrofitting protected routes, which is error-prone.
+4. **Test at every boundary** — unit tests for business logic, integration tests for API endpoints, E2E tests for user flows. The Bible's `/tdd` and `/e2e` commands make this painless.
 
-5. **Test the seams** — the highest-value tests are at the boundary between layers: API endpoints (integration) and user flows (E2E).
+5. **Database first, always** — the schema is the source of truth. Get the data model right before writing API or UI code. Use `database-designer` skill for the initial schema.
 
-6. **Use `/cc mode saas` for the full lifecycle** — it provides coherent guidance across all layers. Switching modes mid-feature is fine when you need focused design work.
+6. **Do not skip the plan** — full-stack features have the most moving parts. A 15-minute `/plan` saves hours of rework.
 
-7. **Checkpoint after each phase** — `/checkpoint` after completing each phase of the plan. You can always roll back to a known-good state.
+7. **Use `/compact` between phases** — full-stack work generates long contexts. Compact between database/API and frontend phases to keep output quality high.
 
-8. **Deploy early, deploy often** — set up CI/CD in phase 1, not phase 8. Deploying early catches environment-specific issues when they are cheap to fix.
+8. **Infrastructure is not an afterthought** — set up Docker, CI/CD, and monitoring as part of the feature, not after it. Use `mega-devops` alongside `mega-saas`.
 
----
+9. **Auth before UI** — implement authentication and authorization before building protected pages. It is much harder to retrofit auth than to build on it from the start.
 
-## Recommended First Full-Stack Project
-
-New to the Bible's full-stack workflow? Build this:
-
-```
-/cc mode saas
-/init       # Select SaaS template
-
-/plan
-Build a URL shortener SaaS:
-
-Database:
-- Users (email, password_hash, plan)
-- Links (short_code, original_url, user_id, click_count, created_at)
-- Clicks (link_id, timestamp, referrer, country, device)
-
-API:
-- POST /api/v1/links — create short link (auth required)
-- GET /api/v1/links — list user's links with click stats
-- GET /:code — redirect to original URL (public, tracks click)
-- GET /api/v1/links/:id/analytics — click analytics (auth required)
-
-Frontend:
-- Landing page with "try it" form (no auth needed for 1 link)
-- Dashboard: list links, click chart, create new link
-- Analytics page: clicks over time, top referrers, device breakdown
-
-Auth: email/password, free tier (50 links), pro tier (unlimited + analytics)
-Stack: Next.js 15, Drizzle, PostgreSQL, shadcn/ui, Tailwind v4
-```
-
-This covers: auth, CRUD, analytics, public routes, protected routes, billing tiers, and responsive UI — the core full-stack patterns you will use in every project.
+10. **Billing from day one** — if your app will have paid tiers, integrate Stripe during initial setup. Retrofitting billing into an existing app requires touching every feature for entitlement checks.
