@@ -1,147 +1,123 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 /**
- * Poll a local file or API endpoint at a configurable interval.
- * Returns parsed JSON data, loading state, and error.
- * No database — reads live from filesystem via fetch or injected data.
+ * Custom hook for polling local data sources.
+ *
+ * @param {Function} fetchFn - Async function that returns data.
+ * @param {Object} options
+ * @param {number} options.interval - Polling interval in milliseconds (default: 5000).
+ * @param {boolean} options.enabled - Whether polling is active (default: true).
+ * @param {*} options.initialData - Initial data value before first fetch.
+ * @returns {{ data: *, error: Error|null, loading: boolean, lastUpdated: Date|null, refresh: Function }}
  */
-export function usePolling(fetchFn, intervalMs = 5000) {
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const timerRef = useRef(null)
+export function usePolling(fetchFn, options = {}) {
+  const {
+    interval = 5000,
+    enabled = true,
+    initialData = null,
+  } = options;
 
-  const poll = useCallback(async () => {
-    try {
-      const result = await fetchFn()
-      setData(result)
-      setError(null)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }, [fetchFn])
+  const [data, setData] = useState(initialData);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState(null);
+
+  const fetchFnRef = useRef(fetchFn);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    poll()
-    timerRef.current = setInterval(poll, intervalMs)
-    return () => clearInterval(timerRef.current)
-  }, [poll, intervalMs])
+    fetchFnRef.current = fetchFn;
+  }, [fetchFn]);
 
-  return { data, error, loading }
+  const refresh = useCallback(async () => {
+    try {
+      const result = await fetchFnRef.current();
+      setData(result);
+      setError(null);
+      setLastUpdated(new Date());
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
+    }
+
+    refresh();
+
+    intervalRef.current = setInterval(refresh, interval);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [enabled, interval, refresh]);
+
+  return { data, error, loading, lastUpdated, refresh };
 }
 
 /**
- * Read Claude Code peers via the claude-peers MCP protocol.
- * Falls back to mock data if MCP not available.
+ * Fetches and parses a local JSON file.
+ * Falls back to null on any error (file not found, parse failure, etc.).
+ *
+ * @param {string} url - URL or path to fetch.
+ * @returns {Promise<*>}
  */
-export function usePeers(intervalMs = 3000) {
-  const fetchPeers = useCallback(async () => {
-    // In production, this reads from claude-peers MCP or a local socket
-    // For the dashboard, we read from a known log file
-    try {
-      const res = await fetch('/api/peers')
-      if (res.ok) return await res.json()
-    } catch {
-      // Fallback: read from localStorage or return demo data
-    }
-
-    // Demo data for when no live source is available
-    return {
-      peers: [
-        {
-          id: 'main-coordinator',
-          summary: 'Coordinator: managing 5 peers for v1.2 build',
-          cwd: '~/clawd/shared/refs/claude-code-kit',
-          status: 'working',
-          isMain: true,
-          spawnedBy: null,
-          children: ['peer-frontend', 'peer-backend', 'peer-testing', 'peer-docs', 'peer-research']
-        },
-        {
-          id: 'peer-frontend',
-          summary: 'Building dashboard React app with Matrix theme',
-          cwd: '~/clawd/shared/refs/claude-code-kit/dashboard',
-          status: 'working',
-          isMain: false,
-          spawnedBy: 'main-coordinator',
-          children: []
-        },
-        {
-          id: 'peer-backend',
-          summary: 'Creating integration skills (OpenClaw, Paperclip bridges)',
-          cwd: '~/clawd/shared/refs/claude-code-kit/skills',
-          status: 'working',
-          isMain: false,
-          spawnedBy: 'main-coordinator',
-          children: []
-        },
-        {
-          id: 'peer-testing',
-          summary: 'Running verification suite on all new hooks',
-          cwd: '~/clawd/shared/refs/claude-code-kit/tests',
-          status: 'complete',
-          isMain: false,
-          spawnedBy: 'main-coordinator',
-          children: []
-        },
-        {
-          id: 'peer-docs',
-          summary: 'Updating SKILLS-INDEX, CHEATSHEET, CHANGELOG',
-          cwd: '~/clawd/shared/refs/claude-code-kit',
-          status: 'working',
-          isMain: false,
-          spawnedBy: 'main-coordinator',
-          children: []
-        },
-        {
-          id: 'peer-research',
-          summary: 'Scanning GitHub for Claude Code tools to integrate',
-          cwd: '~/clawd/shared/refs/claude-code-kit',
-          status: 'idle',
-          isMain: false,
-          spawnedBy: 'main-coordinator',
-          children: []
-        }
-      ],
-      totalCost: 2.47,
-      sessionDuration: '1h 23m',
-      lastUpdate: new Date().toISOString()
-    }
-  }, [])
-
-  return usePolling(fetchPeers, intervalMs)
+export async function fetchLocalJSON(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
 }
 
 /**
- * Read live log entries from agent output files.
+ * Format a duration in seconds to a human-readable string.
+ * @param {number} seconds
+ * @returns {string}
  */
-export function useLogs(intervalMs = 2000) {
-  const fetchLogs = useCallback(async () => {
-    try {
-      const res = await fetch('/api/logs')
-      if (res.ok) return await res.json()
-    } catch {
-      // Fallback demo logs
-    }
+export function formatDuration(seconds) {
+  if (seconds < 60) return `${seconds}s`;
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return `${h}h ${m}m`;
+}
 
-    const now = Date.now()
-    return {
-      entries: [
-        { ts: now - 120000, agent: 'coordinator', message: 'Spawned 5 peers for v1.2 mega build', type: 'spawn' },
-        { ts: now - 110000, agent: 'peer-frontend', message: 'Created dashboard/package.json, vite.config.js', type: 'success' },
-        { ts: now - 95000, agent: 'peer-backend', message: 'Writing skills/cowork-bible/SKILL.md (395 lines)', type: 'info' },
-        { ts: now - 80000, agent: 'peer-backend', message: 'Writing skills/dispatch-bible/SKILL.md', type: 'info' },
-        { ts: now - 65000, agent: 'peer-testing', message: 'All 61 hook tests passing', type: 'success' },
-        { ts: now - 50000, agent: 'peer-docs', message: 'Updating SKILLS-INDEX.md with 14 new skills', type: 'info' },
-        { ts: now - 35000, agent: 'peer-research', message: 'Found smtg-ai/claude-squad (4.2K stars) — multi-session manager', type: 'info' },
-        { ts: now - 20000, agent: 'coordinator', message: 'peer-testing complete — collecting results', type: 'success' },
-        { ts: now - 10000, agent: 'peer-frontend', message: 'Dashboard components: AgentCard, CostTracker, ContextGauge done', type: 'success' },
-        { ts: now - 5000, agent: 'coordinator', message: 'Cost: $2.47 / $10.00 ceiling — 75% budget remaining', type: 'info' },
-      ]
-    }
-  }, [])
+/**
+ * Format a cost value to a dollar string.
+ * @param {number} cost
+ * @returns {string}
+ */
+export function formatCost(cost) {
+  if (cost < 0.01) return `$${cost.toFixed(4)}`;
+  if (cost < 1) return `$${cost.toFixed(3)}`;
+  return `$${cost.toFixed(2)}`;
+}
 
-  return usePolling(fetchLogs, intervalMs)
+/**
+ * Get a relative time string (e.g., "2m ago", "1h ago").
+ * @param {Date|string|number} date
+ * @returns {string}
+ */
+export function timeAgo(date) {
+  const now = Date.now();
+  const then = new Date(date).getTime();
+  const diff = Math.floor((now - then) / 1000);
+
+  if (diff < 5) return 'just now';
+  if (diff < 60) return `${diff}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
 }
