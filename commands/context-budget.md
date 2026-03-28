@@ -1,19 +1,17 @@
 ---
-description: Analyze context window usage across agents, skills, MCP servers, and rules to find optimization opportunities. Helps reduce token overhead and avoid performance warnings.
+description: Visual context window budget analyzer — shows usage gauge, identifies bloat sources, recommends when to save session and compact.
 ---
 
-# Context Budget Optimizer
+# Context Budget Analyzer
 
-Analyze your Claude Code setup's context window consumption and produce actionable recommendations to reduce token overhead.
+Analyze your Claude Code context window consumption and produce a visual report with actionable recommendations.
 
 ## Usage
 
 ```
-/context-budget [--verbose]
+/context-budget              # Summary with gauge and top recommendations
+/context-budget --verbose    # Full breakdown per component
 ```
-
-- Default: summary with top recommendations
-- `--verbose`: full breakdown per component
 
 $ARGUMENTS
 
@@ -23,7 +21,22 @@ Run the **context-budget** skill (`skills/context-budget/SKILL.md`) with the fol
 
 1. Pass `--verbose` flag if present in `$ARGUMENTS`
 2. Assume a 200K context window (Claude Sonnet default) unless the user specifies otherwise
-3. Follow the skill's four phases: Inventory → Classify → Detect Issues → Report
-4. Output the formatted Context Budget Report to the user
+3. Follow the skill's five phases: Inventory → Classify → Visual Report → Recommendations → Quick Actions
+4. Show the visual gauge, zone indicator, and session-save nudge if usage is high
+5. Always end with the Quick Actions block
 
-The skill handles all scanning logic, token estimation, issue detection, and report formatting.
+## Zone Thresholds
+
+| Usage | Zone | Action |
+|-------|------|--------|
+| 0-50% | GREEN | Continue normally |
+| 50-70% | YELLOW | Monitor, consider compacting soon |
+| 70-80% | ORANGE | `/save-session` now, then compact or start fresh |
+| 80-90% | RED | `/save-session` immediately |
+| 90%+ | DANGER | STOP. Save and start new session. |
+
+## Related Commands
+
+- `/save-session` — Save current state for resumption
+- `/resume-session` — Load saved state in fresh context
+- `/compact` — Built-in Claude Code command to compress conversation history

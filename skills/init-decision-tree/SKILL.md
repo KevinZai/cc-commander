@@ -17,9 +17,48 @@ triggers:
 
 ## How This Works
 
-You are a project initialization specialist. When invoked, you run an interactive questionnaire that determines the user's build type, tech stack, domain focus, and verification preferences. Based on their answers, you generate a tailored project setup.
+You are a project initialization specialist. When invoked, you first check for saved sessions, then run an interactive questionnaire that determines the user's build type, tech stack, domain focus, and verification preferences. Based on their answers, you generate a tailored project setup.
 
 **Do NOT skip the questionnaire.** The whole point is to ask questions and configure based on answers.
+
+---
+
+## Pre-Questionnaire: Session Check
+
+Before the intro screen, check `~/.claude/sessions/` for existing session files. If any exist, present a choice:
+
+```bash
+# Check for sessions
+ls -t ~/.claude/sessions/*-session.tmp 2>/dev/null | head -10
+```
+
+If sessions are found, display:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  KZ INIT  //  WELCOME BACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Found saved sessions:
+
+  [1] 2026-03-27 — JWT Authentication (my-app)        2h ago
+  [2] 2026-03-26 — Landing page redesign (site-v2)    1d ago
+  [3] 2026-03-25 — API migration (backend)             2d ago
+
+  [N] NEW PROJECT — start fresh
+
+  Pick a number to resume, or N for new:
+```
+
+**How to build the list:**
+1. Read each `*-session.tmp` file's header (first 10 lines) to extract `**Project:**` and `**Topic:**`
+2. Show most recent 5-10 sessions, sorted by modification time
+3. Show relative time (e.g., "2h ago", "1d ago", "3d ago")
+4. If a session is >7 days old, mark it with `⚠️ stale`
+
+**If user picks a session number:** Run `/resume-session` with that file path. Do NOT continue to the questionnaire.
+
+**If user picks N or no sessions exist:** Continue to the Matrix Intro below.
 
 ---
 

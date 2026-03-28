@@ -97,6 +97,51 @@ To add custom keybindings, add to your VS Code `keybindings.json`:
 }
 ```
 
+## Terminal Theme: KZ Matrix
+
+The kit includes an iTerm2 color profile that gives you the full matrix aesthetic — OLED black background, bright green text, cyan accents. This is the intended visual experience for the kit's terminal art, status footers, and progress bars.
+
+### iTerm2 (recommended)
+
+```bash
+# Import directly
+open compatibility/kz-matrix.itermcolors
+```
+
+Or manually: iTerm2 → Settings → Profiles → Colors → Color Presets → Import → select `kz-matrix.itermcolors`.
+
+After importing, select "KZ Matrix" from the Color Presets dropdown.
+
+**Optional extras for the full effect:**
+- Font: JetBrains Mono or Fira Code (with ligatures)
+- Transparency: 0% (pure OLED black)
+- Blur: off
+- Cursor: blinking vertical bar, green
+
+### Terminal.app (macOS built-in)
+
+Terminal.app doesn't support `.itermcolors` files. Set these manually in Settings → Profiles:
+- Background: #000000 (pure black)
+- Text: #00FF00 (green)
+- Bold: #4CFF4C (bright green)
+- Selection: #002E00 (dark green)
+- Cursor: #00FF00 (green)
+
+### Other Terminals (Alacritty, Warp, Kitty, WezTerm)
+
+The ANSI color values from `kz-matrix.itermcolors` can be translated to any terminal's config format. Key colors:
+
+| Element | Hex | RGB |
+|---------|-----|-----|
+| Background | `#000000` | 0, 0, 0 |
+| Foreground | `#00FF00` | 0, 255, 0 |
+| Bold/Bright | `#4CFF4C` | 76, 255, 76 |
+| Cursor | `#00FF00` | 0, 255, 0 |
+| Selection BG | `#002E00` | 0, 46, 0 |
+| Cyan (accent) | `#00FFFF` | 0, 255, 255 |
+| Amber (warning) | `#DEBA00` | 222, 186, 0 |
+| Red (error) | `#CC3847` | 204, 56, 71 |
+
 ## File Reference
 
 ```
