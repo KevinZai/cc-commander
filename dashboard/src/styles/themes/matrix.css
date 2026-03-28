@@ -1,0 +1,66 @@
+/* Matrix Theme — Enhanced Classic
+   Improved green-on-black with CRT effects */
+:root[data-theme="matrix"] {
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #111111;
+  --bg-card: #141414;
+  --bg-card-hover: #1A1A1A;
+  --bg-input: #080808;
+
+  --primary: #00FF41;
+  --primary-bright: #00FF00;
+  --primary-dim: #00CC33;
+  --primary-bg: #003300;
+  --primary-deep: #001A00;
+
+  --accent: #00FFFF;
+  --accent-dim: #003333;
+
+  --emerald: #00FF00;
+  --emerald-dim: #003300;
+  --amber: #FFAA00;
+  --red: #FF0000;
+  --orange: #FF6600;
+
+  --text-white: #00FF41;
+  --text-secondary: #00AA00;
+  --text-dim: #005F00;
+
+  --border-color: #1A3A1A;
+  --border-active: #00FFFF;
+
+  --shadow-glow-primary: 0 0 20px rgba(0, 255, 65, 0.2);
+  --shadow-glow-accent: 0 0 20px rgba(0, 255, 255, 0.15);
+
+  --chart-grid: #1A3A1A;
+  --chart-axis: #00AA00;
+  --chart-tooltip-bg: #141414;
+  --chart-tooltip-border: #1A3A1A;
+
+  --heatmap-empty: #111111;
+  --heatmap-low: #003300;
+  --heatmap-medium: #006600;
+  --heatmap-high: #00CC33;
+  --heatmap-peak: #00FF41;
+}
+
+/* CRT scanline overlay */
+:root[data-theme="matrix"] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.03) 0px,
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+/* CRT glow on text */
+:root[data-theme="matrix"] * {
+  text-shadow: 0 0 2px rgba(0, 255, 65, 0.3);
+}

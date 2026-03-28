@@ -1,0 +1,45 @@
+/* OLED Black Theme
+   Pure black background for OLED displays — maximum contrast */
+:root[data-theme="oled"] {
+  --bg-primary: #000000;
+  --bg-secondary: #0A0A0A;
+  --bg-card: #111111;
+  --bg-card-hover: #1A1A1A;
+  --bg-input: #050505;
+
+  --primary: #FFFFFF;
+  --primary-bright: #FFFFFF;
+  --primary-dim: #CCCCCC;
+  --primary-bg: #333333;
+  --primary-deep: #1A1A1A;
+
+  --accent: #3B82F6;
+  --accent-dim: #1E3A5F;
+
+  --emerald: #22C55E;
+  --emerald-dim: #14532D;
+  --amber: #EAB308;
+  --red: #EF4444;
+  --orange: #F97316;
+
+  --text-white: #FFFFFF;
+  --text-secondary: #888888;
+  --text-dim: #444444;
+
+  --border-color: #1A1A1A;
+  --border-active: #3B82F6;
+
+  --shadow-glow-primary: 0 0 20px rgba(255, 255, 255, 0.05);
+  --shadow-glow-accent: 0 0 20px rgba(59, 130, 246, 0.15);
+
+  --chart-grid: #1A1A1A;
+  --chart-axis: #888888;
+  --chart-tooltip-bg: #111111;
+  --chart-tooltip-border: #1A1A1A;
+
+  --heatmap-empty: #0A0A0A;
+  --heatmap-low: #1E3A5F;
+  --heatmap-medium: #2563EB;
+  --heatmap-high: #3B82F6;
+  --heatmap-peak: #60A5FA;
+}

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# The Claude Code Bible — KZ Status Line
+# Claude Code Kit — Status Line
 # ============================================================================
 # Persistent footer showing context gauge, model, tokens, cost, rate limits.
 # Receives JSON session data on stdin from Claude Code.
@@ -13,14 +13,14 @@
 #     "padding": 1
 #   }
 #
-# Colors use KZ Matrix palette (bright green on black).
+# Colors use Claude Code Kit palette.
 # ============================================================================
 
-# Colors — KZ Matrix palette
-G='\033[38;5;46m'    # bright green
-M='\033[38;5;34m'    # mid green
-D='\033[38;5;22m'    # dim green
-C='\033[38;5;51m'    # cyan
+# Colors — Claude Code Kit palette
+G='\033[38;5;172m'   # amber
+M='\033[38;5;145m'   # gray
+D='\033[38;5;240m'   # dim gray
+C='\033[38;5;99m'    # indigo
 W='\033[38;5;255m'   # white
 A='\033[38;5;214m'   # amber
 R='\033[38;5;196m'   # red
@@ -33,7 +33,7 @@ INPUT=$(cat)
 
 # Parse fields with jq (fall back gracefully)
 if ! command -v jq &>/dev/null; then
-  echo -e "${D}━━ ${M}KZ${N} ${D}━ jq required for status line ━━━${N}"
+  echo -e "${D}━━ ${M}CC${N} ${D}━ jq required for status line ━━━${N}"
   exit 0
 fi
 
@@ -184,4 +184,4 @@ fi
 # ── Output ──────────────────────────────────────────────────────────────────
 
 # Line 1: Context gauge + model + cost
-echo -e "${D}━━${N} ${M}KZ${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${C}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${D}in:${N}${W}${IN_FMT}${N} ${D}out:${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${ACCT_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"
+echo -e "${D}━━${N} ${M}CC${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${C}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${D}in:${N}${W}${IN_FMT}${N} ${D}out:${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${ACCT_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"

@@ -5,11 +5,17 @@ import { ProjectList } from './components/ProjectList.jsx';
 import { CostTracker } from './components/CostTracker.jsx';
 import { TaskProgress } from './components/TaskProgress.jsx';
 import { ContextGauge } from './components/ContextGauge.jsx';
+import { ActivityHeatmap } from './components/ActivityHeatmap.jsx';
+import { AgentTimeline } from './components/AgentTimeline.jsx';
+import { CostChart } from './components/CostChart.jsx';
+import { TokenGauge } from './components/TokenGauge.jsx';
+import { SkillRadar } from './components/SkillRadar.jsx';
+import { HistorySearch } from './components/HistorySearch.jsx';
+import { MetricsGrid } from './components/MetricsGrid.jsx';
+import { StatusBar } from './components/StatusBar.jsx';
+import { generateDemoHistory } from './data/demo-history.js';
+import { applyTheme, getThemeList, getCurrentTheme } from './styles/themes/theme-loader.js';
 
-/**
- * Generate demo data for the dashboard.
- * In production, replace this with actual file-based polling.
- */
 function generateDemoData() {
   const now = Date.now();
   const statuses = ['idle', 'working', 'complete', 'failed'];
@@ -44,9 +50,7 @@ function generateDemoData() {
 
   const costs = {
     totalSession: agents.reduce((sum, a) => sum + a.cost, 0),
-    perAgent: agents
-      .filter((a) => a.status !== 'idle')
-      .map((a) => ({ name: a.name, cost: a.cost })),
+    perAgent: agents.filter((a) => a.status !== 'idle').map((a) => ({ name: a.name, cost: a.cost })),
     budgetLimit: 10,
     budgetUsed: agents.reduce((sum, a) => sum + a.cost, 0),
   };
@@ -83,24 +87,59 @@ function generateDemoData() {
   return { agents, projects, costs, tasks: taskData, context };
 }
 
+function ThemePicker() {
+  const [current, setCurrent] = useState(getCurrentTheme());
+  const themes = getThemeList();
+
+  const handleChange = (e) => {
+    const name = e.target.value;
+    const result = applyTheme(name);
+    setCurrent(name === 'random' ? 'random' : result);
+  };
+
+  return (
+    <select
+      value={current}
+      onChange={handleChange}
+      className="theme-picker"
+      title="Switch theme"
+    >
+      {themes.map((t) => (
+        <option key={t.id} value={t.id}>{t.name}</option>
+      ))}
+    </select>
+  );
+}
+
 export function App() {
+  const [activeTab, setActiveTab] = useState('live');
+
   const { data, loading, lastUpdated } = usePolling(
     () => Promise.resolve(generateDemoData()),
     { interval: 5000, initialData: generateDemoData() }
   );
 
+  const historyData = useMemo(() => generateDemoHistory(), []);
+
   const { agents, projects, costs, tasks, context } = data || {};
+
+  const tabs = [
+    { id: 'live', label: 'Live' },
+    { id: 'history', label: 'History' },
+    { id: 'analytics', label: 'Analytics' },
+  ];
 
   return (
     <div className="app-container">
       <header className="app-header">
         <div className="app-header__brand">
           <div>
-            <div className="app-header__title">KZ MATRIX</div>
-            <div className="app-header__subtitle">Claude Code Bible Dashboard v1.1</div>
+            <div className="app-header__title">COMMAND CENTER</div>
+            <div className="app-header__subtitle">Claude Code Kit Dashboard v1.3</div>
           </div>
         </div>
         <div className="app-header__status">
+          <ThemePicker />
           <div className="status-dot" />
           <span>Live</span>
           {lastUpdated && (
@@ -112,32 +151,101 @@ export function App() {
         </div>
       </header>
 
-      {/* Row 1: Context Gauge + Cost Tracker */}
-      <div className="dashboard-grid--wide dashboard-grid">
-        <ContextGauge context={context} />
-        <CostTracker costs={costs} />
+      {/* Tab Navigation */}
+      <div className="cc-tabs">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={`cc-tab ${activeTab === tab.id ? 'cc-tab--active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
-      {/* Row 2: Active Agents */}
-      <div className="section-gap">
-        <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: 'var(--font-size-lg)', color: 'var(--text-white)', fontWeight: 600 }}>
-            Active Agents
-          </h2>
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-dim)' }}>
-            {agents ? agents.filter((a) => a.status === 'working').length : 0} working
-          </span>
-        </div>
-        <AgentCardGrid agents={agents} />
-      </div>
+      {/* ─── LIVE TAB ─── */}
+      {activeTab === 'live' && (
+        <>
+          <StatusBar
+            agents={agents}
+            costs={costs}
+            context={context}
+          />
 
-      {/* Row 3: Projects + Task Progress */}
-      <div className="section-gap">
-        <div className="dashboard-grid--wide dashboard-grid">
-          <ProjectList projects={projects} />
-          <TaskProgress tasks={tasks} />
-        </div>
-      </div>
+          <MetricsGrid
+            metrics={[
+              { label: 'Active Agents', value: agents ? agents.filter((a) => a.status === 'working').length : 0, trend: 'up' },
+              { label: 'Session Cost', value: costs ? `$${costs.totalSession.toFixed(2)}` : '$0.00', trend: 'neutral' },
+              { label: 'Context Used', value: context ? `${context.usedPercent.toFixed(0)}%` : '0%', trend: context && context.usedPercent > 70 ? 'up' : 'neutral' },
+              { label: 'Tasks Done', value: tasks ? `${tasks.completionPercent}%` : '0%', trend: 'up' },
+            ]}
+          />
+
+          <div className="dashboard-grid--wide dashboard-grid" style={{ marginTop: '20px' }}>
+            <ContextGauge context={context} />
+            <CostTracker costs={costs} />
+          </div>
+
+          <div className="section-gap">
+            <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h2 style={{ fontSize: 'var(--font-size-lg)', color: 'var(--text-white)', fontWeight: 600 }}>
+                Active Agents
+              </h2>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-dim)' }}>
+                {agents ? agents.filter((a) => a.status === 'working').length : 0} working
+              </span>
+            </div>
+            <AgentCardGrid agents={agents} />
+          </div>
+
+          <div className="section-gap">
+            <div className="dashboard-grid--wide dashboard-grid">
+              <ProjectList projects={projects} />
+              <TaskProgress tasks={tasks} />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ─── HISTORY TAB ─── */}
+      {activeTab === 'history' && (
+        <>
+          <div className="section-gap">
+            <ActivityHeatmap data={historyData.daily} />
+          </div>
+
+          <div className="section-gap">
+            <AgentTimeline data={historyData.agentActivity} />
+          </div>
+
+          <div className="section-gap">
+            <HistorySearch sessions={historyData.sessions} />
+          </div>
+        </>
+      )}
+
+      {/* ─── ANALYTICS TAB ─── */}
+      {activeTab === 'analytics' && (
+        <>
+          <div className="dashboard-grid--wide dashboard-grid section-gap">
+            <CostChart data={historyData.costOverTime} />
+            <TokenGauge context={context} />
+          </div>
+
+          <div className="dashboard-grid--wide dashboard-grid section-gap">
+            <SkillRadar data={historyData.skillUsage} />
+            <MetricsGrid
+              metrics={[
+                { label: 'Total Sessions', value: historyData.sessions ? historyData.sessions.length : 0, trend: 'up' },
+                { label: 'Avg Duration', value: '42m', trend: 'neutral' },
+                { label: 'Total Cost', value: '$12.45', trend: 'down' },
+                { label: 'Skills Used', value: 47, trend: 'up' },
+              ]}
+            />
+          </div>
+        </>
+      )}
 
       <footer style={{
         marginTop: '40px',
@@ -147,7 +255,7 @@ export function App() {
         fontSize: 'var(--font-size-xs)',
         color: 'var(--text-dim)',
       }}>
-        The Claude Code Bible v1.1 — by Kevin Z — Refreshes every 5s
+        Claude Code Kit v1.3 — by Kevin Z — Refreshes every 5s
       </footer>
     </div>
   );

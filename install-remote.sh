@@ -1,12 +1,12 @@
 #!/bin/bash
 # ============================================================================
-# The Claude Code Bible — One-Line Remote Installer
+# Claude Code Kit — One-Line Remote Installer
 # ============================================================================
 # Paste this anywhere:
-#   curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-bible/main/install-remote.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
 #
 # Or with wget:
-#   wget -qO- https://raw.githubusercontent.com/k3v80/claude-code-bible/main/install-remote.sh | bash
+#   wget -qO- https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
 # ============================================================================
 
 set -euo pipefail
@@ -22,7 +22,7 @@ NC='\033[0m'
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "  ${WHITE}The Claude Code Bible${NC}  ${DIM}Remote Installer${NC}"
+echo -e "  ${WHITE}Claude Code Kit${NC}  ${DIM}Remote Installer${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
@@ -59,10 +59,10 @@ fi
 
 # ── Clone the kit ────────────────────────────────────────────────────────────
 
-INSTALL_DIR="${TMPDIR:-/tmp}/claude-code-bible-$$"
+INSTALL_DIR="${TMPDIR:-/tmp}/claude-code-kit-$$"
 echo -e "  ${CYAN}►${NC} Downloading kit..."
 
-if git clone --depth 1 https://github.com/k3v80/claude-code-bible.git "$INSTALL_DIR" 2>/dev/null; then
+if git clone --depth 1 https://github.com/k3v80/claude-code-kit.git "$INSTALL_DIR" 2>/dev/null; then
   echo -e "  ${GREEN}✓${NC} Kit downloaded"
 else
   echo -e "  ${RED}✗${NC} Failed to clone. Check your internet connection."

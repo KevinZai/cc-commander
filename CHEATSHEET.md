@@ -1,6 +1,6 @@
 # Claude Code Cheatsheet
-> The Claude Code Bible v1.1 — by Kevin Z — commands, workflows, and power user tips
-> v1.1 — 2026-03-28
+> The Claude Code Bible v1.3 — by Kevin Z — commands, workflows, and power user tips
+> v1.3 — 2026-03-28
 
 > **Which document?** BIBLE.md = learning guide (read once). **CHEATSHEET.md = daily reference (you are here).** SKILLS-INDEX.md = skill discovery (search by keyword/category).
 
@@ -812,7 +812,7 @@ The Claude Code Bible includes an interactive command center accessible via `/cc
 
 ---
 
-## 📊 KZ Status Line
+## 📊 Status Line
 
 Persistent footer under every response — auto-configured on install:
 
@@ -837,7 +837,7 @@ Configured via `statusLine` in `settings.json`. Script: `lib/statusline.sh`.
 
 ## 🖥️ Terminal Theme
 
-Import the KZ Matrix iTerm2 profile for the intended visual experience:
+Import the Claude Code Kit iTerm2 profile for the intended visual experience:
 
 ```bash
 open compatibility/kz-matrix.itermcolors

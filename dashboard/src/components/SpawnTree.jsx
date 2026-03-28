@@ -1,10 +1,10 @@
 import React from 'react'
 
 const statusColors = {
-  working: '#00ff00',
-  complete: '#00aa00',
-  failed: '#ff3333',
-  idle: '#ffaa00',
+  working: '#10B981',
+  complete: '#059669',
+  failed: '#EF4444',
+  idle: '#F59E0B',
 }
 
 const statusIcons = {

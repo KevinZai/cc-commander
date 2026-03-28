@@ -1,6 +1,6 @@
 # IDE Compatibility Guide
 
-This guide explains how The Claude Code Bible works across different editors and environments. The short version: the kit customizes Claude Code itself, not your IDE, so it works everywhere Claude Code runs.
+This guide explains how Claude Code Kit works across different editors and environments. The short version: the kit customizes Claude Code itself, not your IDE, so it works everywhere Claude Code runs.
 
 ## How the Kit Works
 
@@ -97,20 +97,30 @@ To add custom keybindings, add to your VS Code `keybindings.json`:
 }
 ```
 
-## Terminal Theme: KZ Matrix
+## Terminal Theme: Claude Code Kit
 
-The kit includes an iTerm2 color profile that gives you the full matrix aesthetic — OLED black background, bright green text, cyan accents. This is the intended visual experience for the kit's terminal art, status footers, and progress bars.
+The kit includes 3 iTerm2 color profiles matching the dashboard theme system. Choose the one that matches your preference:
+
+| Profile | File | Description |
+|---------|------|-------------|
+| Claude Anthropic | `claude-code-kit.itermcolors` | Amber/indigo/deep navy — professional default |
+| OLED Black | `claude-code-kit-oled.itermcolors` | Pure black background, high contrast |
+| Matrix | `claude-code-kit-matrix.itermcolors` | Enhanced green-on-black with CRT overlay feel |
+| ~~KZ Matrix~~ (legacy) | `kz-matrix.itermcolors` | Original matrix theme — preserved for backward compatibility |
 
 ### iTerm2 (recommended)
 
 ```bash
-# Import directly
-open compatibility/kz-matrix.itermcolors
+# Import the default theme
+open compatibility/claude-code-kit.itermcolors
+
+# Or import all 3 themes at once
+open compatibility/claude-code-kit.itermcolors compatibility/claude-code-kit-oled.itermcolors compatibility/claude-code-kit-matrix.itermcolors
 ```
 
-Or manually: iTerm2 → Settings → Profiles → Colors → Color Presets → Import → select `kz-matrix.itermcolors`.
+Or manually: iTerm2 → Settings → Profiles → Colors → Color Presets → Import → select the desired profile.
 
-After importing, select "KZ Matrix" from the Color Presets dropdown.
+After importing, select your preferred theme from the Color Presets dropdown.
 
 **Optional extras for the full effect:**
 - Font: JetBrains Mono or Fira Code (with ligatures)

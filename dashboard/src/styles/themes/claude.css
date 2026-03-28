@@ -1,0 +1,46 @@
+/* Claude Anthropic Theme — Default
+   Professional warm amber on deep navy */
+:root[data-theme="claude"],
+:root:not([data-theme]) {
+  --bg-primary: #0F0F1A;
+  --bg-secondary: #1A1A2E;
+  --bg-card: #16213E;
+  --bg-card-hover: #1E2A4A;
+  --bg-input: #0D0D1A;
+
+  --primary: #D97706;
+  --primary-bright: #F59E0B;
+  --primary-dim: #B45309;
+  --primary-bg: #78350F;
+  --primary-deep: #451A03;
+
+  --accent: #6366F1;
+  --accent-dim: #312E81;
+
+  --emerald: #10B981;
+  --emerald-dim: #064E3B;
+  --amber: #F59E0B;
+  --red: #EF4444;
+  --orange: #F97316;
+
+  --text-white: #F5F5F5;
+  --text-secondary: #A3A3A3;
+  --text-dim: #525252;
+
+  --border-color: #2A2A4A;
+  --border-active: #6366F1;
+
+  --shadow-glow-primary: 0 0 20px rgba(217, 119, 6, 0.15);
+  --shadow-glow-accent: 0 0 20px rgba(99, 102, 241, 0.15);
+
+  --chart-grid: #2A2A4A;
+  --chart-axis: #A3A3A3;
+  --chart-tooltip-bg: #16213E;
+  --chart-tooltip-border: #2A2A4A;
+
+  --heatmap-empty: #1A1A2E;
+  --heatmap-low: #78350F;
+  --heatmap-medium: #B45309;
+  --heatmap-high: #D97706;
+  --heatmap-peak: #F59E0B;
+}

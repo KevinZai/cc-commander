@@ -1,12 +1,13 @@
 #!/bin/bash
 # ============================================================================
-# The Claude Code Bible — Universal Installer
+# Claude Code Kit — Universal Installer
 # ============================================================================
 # Usage:
 #   ./install.sh              Interactive install (asks who you are)
 #   ./install.sh --dry-run    Preview what would be installed
 #   ./install.sh --verify     Validate an existing installation
 #   ./install.sh --force      Skip confirmation prompts
+#   ./install.sh --mode=essentials   Install essentials only
 #
 # For remote install:
 #   git clone https://github.com/k3v80/claude-code-kit.git && cd claude-code-kit && ./install.sh
@@ -14,7 +15,7 @@
 
 set -euo pipefail
 
-VERSION="1.0.0"
+VERSION="1.3.0"
 CLAUDE_DIR="$HOME/.claude"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 USER_NAME=""
@@ -22,6 +23,7 @@ DRY_RUN=false
 VERIFY_ONLY=false
 FORCE=false
 BACKUP_DIR=""
+INSTALL_MODE="full"
 
 # Source the terminal art library
 source "${SCRIPT_DIR}/lib/terminal-art.sh"
@@ -33,14 +35,16 @@ while [[ $# -gt 0 ]]; do
     --dry-run)  DRY_RUN=true; shift ;;
     --verify)   VERIFY_ONLY=true; shift ;;
     --force)    FORCE=true; shift ;;
+    --mode=*)   INSTALL_MODE="${1#*=}"; shift ;;
     --help|-h)
-      kz_mini_banner
+      cc_mini_banner
       echo "Usage: ./install.sh [flags]"
       echo ""
-      echo "  --dry-run    Preview what would be installed"
-      echo "  --verify     Validate an existing installation"
-      echo "  --force      Skip confirmation prompts"
-      echo "  --help       Show this help"
+      echo "  --dry-run          Preview what would be installed"
+      echo "  --verify           Validate an existing installation"
+      echo "  --force            Skip confirmation prompts"
+      echo "  --mode=MODE        Install mode: full|essentials|scripts|dashboard|config"
+      echo "  --help             Show this help"
       exit 0
       ;;
     *) echo -e "${M_RED}Unknown flag: $1${NC}"; exit 1 ;;
@@ -49,44 +53,44 @@ done
 
 # ── Matrix Rain Intro ──────────────────────────────────────────────────────
 
-kz_matrix_rain 2
+cc_matrix_rain 2
 clear 2>/dev/null || true
-kz_banner
-kz_typewriter "  Initializing the ultimate Claude Code setup..." 0.02 "$M_DIM"
+cc_banner
+cc_typewriter "  Initializing the ultimate Claude Code setup..." 0.02 "$M_DIM"
 echo ""
 
 # ── Verify mode ──────────────────────────────────────────────────────────────
 
 if $VERIFY_ONLY; then
-  kz_section_header "VERIFICATION"
+  cc_section_header "VERIFICATION"
   errors=0
 
   # Check claude binary
   if command -v claude &>/dev/null; then
-    kz_status_line "✓" "Claude Code CLI installed"
+    cc_status_line "✓" "Claude Code CLI installed"
   else
-    kz_status_line "✗" "Claude Code CLI not found"
+    cc_status_line "✗" "Claude Code CLI not found"
     ((errors++))
   fi
 
   # Check CLAUDE.md
   if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
-    kz_status_line "✓" "CLAUDE.md exists"
+    cc_status_line "✓" "CLAUDE.md exists"
   else
-    kz_status_line "✗" "CLAUDE.md missing"
+    cc_status_line "✗" "CLAUDE.md missing"
     ((errors++))
   fi
 
   # Check settings.json
   if [ -f "$CLAUDE_DIR/settings.json" ]; then
     if python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null; then
-      kz_status_line "✓" "settings.json valid JSON"
+      cc_status_line "✓" "settings.json valid JSON"
     else
-      kz_status_line "✗" "settings.json invalid JSON"
+      cc_status_line "✗" "settings.json invalid JSON"
       ((errors++))
     fi
   else
-    kz_status_line "✗" "settings.json missing"
+    cc_status_line "✗" "settings.json missing"
     ((errors++))
   fi
 
@@ -94,9 +98,9 @@ if $VERIFY_ONLY; then
   if [ -d "$CLAUDE_DIR/skills" ]; then
     skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
     skill_count=$((skill_count - 1))
-    kz_status_line "✓" "Skills directory ($skill_count skills)"
+    cc_status_line "✓" "Skills directory ($skill_count skills)"
   else
-    kz_status_line "✗" "Skills directory missing"
+    cc_status_line "✗" "Skills directory missing"
     ((errors++))
   fi
 
@@ -105,54 +109,54 @@ if $VERIFY_ONLY; then
     if [ -d "$CLAUDE_DIR/skills/$mega" ]; then
       sub_count=$(find "$CLAUDE_DIR/skills/$mega" -maxdepth 1 -type d | wc -l | tr -d ' ')
       sub_count=$((sub_count - 1))
-      kz_status_line "✓" "$mega ($sub_count sub-skills)" "$M_CYAN"
+      cc_status_line "✓" "$mega ($sub_count sub-skills)" "$M_CYAN"
     else
-      kz_status_line "!" "$mega not found"
+      cc_status_line "!" "$mega not found"
     fi
   done
 
   # Check commands
   if [ -d "$CLAUDE_DIR/commands" ]; then
     cmd_count=$(find "$CLAUDE_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
-    kz_status_line "✓" "Commands directory ($cmd_count commands)"
+    cc_status_line "✓" "Commands directory ($cmd_count commands)"
   else
-    kz_status_line "✗" "Commands directory missing"
+    cc_status_line "✗" "Commands directory missing"
     ((errors++))
   fi
 
   # Check hooks
   if [ -f "$CLAUDE_DIR/hooks/hooks.json" ]; then
-    kz_status_line "✓" "hooks.json exists"
+    cc_status_line "✓" "hooks.json exists"
   else
-    kz_status_line "!" "hooks.json not found"
+    cc_status_line "!" "hooks.json not found"
   fi
 
   # Check lib
   if [ -f "$CLAUDE_DIR/lib/terminal-art.sh" ]; then
-    kz_status_line "✓" "Terminal art library installed"
+    cc_status_line "✓" "Terminal art library installed"
   else
-    kz_status_line "!" "Terminal art library not found"
+    cc_status_line "!" "Terminal art library not found"
   fi
 
   # Check reference docs
   for doc in BIBLE.md CHEATSHEET.md SKILLS-INDEX.md; do
     if [ -f "$CLAUDE_DIR/$doc" ]; then
-      kz_status_line "✓" "$doc exists"
+      cc_status_line "✓" "$doc exists"
     else
-      kz_status_line "!" "$doc not found"
+      cc_status_line "!" "$doc not found"
     fi
   done
 
   # Check for placeholder tokens
   if grep -rq '\[Your Name\]' "$CLAUDE_DIR/CLAUDE.md" 2>/dev/null; then
-    kz_status_line "!" "CLAUDE.md still has [Your Name] placeholder"
+    cc_status_line "!" "CLAUDE.md still has [Your Name] placeholder"
   fi
 
   echo ""
   if [ $errors -eq 0 ]; then
-    kz_status_line "✓" "Installation is healthy" "$M_BRIGHT"
+    cc_status_line "✓" "Installation is healthy" "$M_BRIGHT"
   else
-    kz_status_line "✗" "Found $errors issue(s)" "$M_RED"
+    cc_status_line "✗" "Found $errors issue(s)" "$M_RED"
   fi
   echo ""
   exit $errors
@@ -160,18 +164,18 @@ fi
 
 # ── Identity ─────────────────────────────────────────────────────────────────
 
-kz_section_header "IDENTITY"
+cc_section_header "IDENTITY"
 echo -e "  ${M_WHITE}Who is this?${NC}"
 echo ""
 read -p "  Enter your name: " USER_NAME
 
 if [ -z "$USER_NAME" ]; then
-  kz_status_line "✗" "Name required."
+  cc_status_line "✗" "Name required."
   exit 1
 fi
 
 echo ""
-kz_status_line "►" "Setting up config for ${USER_NAME}" "$M_CYAN"
+cc_status_line "►" "Setting up config for ${USER_NAME}" "$M_CYAN"
 
 echo ""
 echo -e "  ${M_DIM}Target:${NC}       ${M_WHITE}${CLAUDE_DIR}/${NC}"
@@ -179,7 +183,7 @@ echo -e "  ${M_DIM}Target:${NC}       ${M_WHITE}${CLAUDE_DIR}/${NC}"
 # ── Dry run ──────────────────────────────────────────────────────────────────
 
 if $DRY_RUN; then
-  kz_section_header "DRY RUN"
+  cc_section_header "DRY RUN"
   echo -e "  ${M_AMBER}Nothing will be changed — preview only${NC}"
   echo ""
 
@@ -187,20 +191,20 @@ if $DRY_RUN; then
   local_skills=$((local_skills - 1))
   local_cmds=$(find "$SCRIPT_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
 
-  kz_status_line "·" "CLAUDE.md        ← CLAUDE.md.staff-template"
-  kz_status_line "·" "settings.json    ← settings.json.staff-template"
-  kz_status_line "·" "skills/          ← $local_skills skill directories"
-  kz_status_line "·" "commands/        ← $local_cmds commands"
-  kz_status_line "·" "hooks/           ← hooks.json + scripts"
-  kz_status_line "·" "lib/             ← terminal art libraries"
-  kz_status_line "·" "templates/       ← starter templates"
-  kz_status_line "·" "BIBLE.md         ← The Claude Code Bible"
-  kz_status_line "·" "CHEATSHEET.md    ← Quick reference"
-  kz_status_line "·" "SKILLS-INDEX.md  ← Skill discovery"
+  cc_status_line "·" "CLAUDE.md        ← CLAUDE.md.staff-template"
+  cc_status_line "·" "settings.json    ← settings.json.staff-template"
+  cc_status_line "·" "skills/          ← $local_skills skill directories"
+  cc_status_line "·" "commands/        ← $local_cmds commands"
+  cc_status_line "·" "hooks/           ← hooks.json + scripts"
+  cc_status_line "·" "lib/             ← terminal art libraries"
+  cc_status_line "·" "templates/       ← starter templates"
+  cc_status_line "·" "BIBLE.md         ← Claude Code Kit reference"
+  cc_status_line "·" "CHEATSHEET.md    ← Quick reference"
+  cc_status_line "·" "SKILLS-INDEX.md  ← Skill discovery"
 
   if [ -d "$CLAUDE_DIR" ]; then
     echo ""
-    kz_status_line "!" "Would backup existing ~/.claude/ first"
+    cc_status_line "!" "Would backup existing ~/.claude/ first"
   fi
 
   echo ""
@@ -223,16 +227,56 @@ if ! $FORCE; then
   read -p "  Continue? (y/N) " confirm
   if [[ "${confirm,,}" != "y" ]]; then
     echo ""
-    kz_status_line "·" "Aborted. No changes made."
+    cc_status_line "·" "Aborted. No changes made."
     echo ""
     exit 0
   fi
 fi
 
+# ── Install Mode Selection ──────────────────────────────────────────────────
+
+select_install_mode() {
+  if [[ "$INSTALL_MODE" != "full" ]]; then
+    return
+  fi
+  if [[ "$FORCE" == "true" ]]; then
+    return
+  fi
+  echo ""
+  echo "Installation mode:"
+  echo "  1) Full        — Everything (skills, commands, hooks, lib, docs, dashboard)"
+  echo "  2) Essentials  — Skills + commands + hooks + CLAUDE.md + settings"
+  echo "  3) Scripts     — Terminal art + statusline libraries only"
+  echo "  4) Dashboard   — Dashboard only (requires npm)"
+  echo "  5) Config      — Just CLAUDE.md + settings.json"
+  echo ""
+  read -p "Choose [1-5, default=1]: " mode_choice
+  case "$mode_choice" in
+    2) INSTALL_MODE="essentials" ;;
+    3) INSTALL_MODE="scripts" ;;
+    4) INSTALL_MODE="dashboard" ;;
+    5) INSTALL_MODE="config" ;;
+    *) INSTALL_MODE="full" ;;
+  esac
+}
+
+should_install() {
+  local component="$1"
+  case "$INSTALL_MODE" in
+    full) return 0 ;;
+    essentials) [[ "$component" =~ ^(skills|commands|hooks|claude-md|settings|mega-symlinks)$ ]] ;;
+    scripts) [[ "$component" == "lib" ]] ;;
+    dashboard) [[ "$component" == "dashboard" ]] ;;
+    config) [[ "$component" =~ ^(claude-md|settings)$ ]] ;;
+  esac
+}
+
+select_install_mode
+
 # ── Backup ───────────────────────────────────────────────────────────────────
 
 if [ -d "$CLAUDE_DIR" ]; then
-  kz_section_header "ARCHIVING OLD SETUP"
+  cc_section_header "ARCHIVING OLD SETUP"
 
   BACKUP_DIR="$CLAUDE_DIR.backup.$(date +%Y%m%d%H%M%S)"
 
@@ -243,33 +287,44 @@ if [ -d "$CLAUDE_DIR" ]; then
   [ -f "$CLAUDE_DIR/hooks/hooks.json" ] && old_hooks=1
 
   echo -e "  ${M_DIM}Current setup contains:${NC}"
-  [ -f "$CLAUDE_DIR/CLAUDE.md" ] && kz_status_line "·" "CLAUDE.md"
-  [ -f "$CLAUDE_DIR/settings.json" ] && kz_status_line "·" "settings.json"
-  [ "$old_skills" -gt 0 ] && kz_status_line "·" "$old_skills skills"
-  [ "$old_cmds" -gt 0 ] && kz_status_line "·" "$old_cmds commands"
-  [ "$old_hooks" -eq 1 ] && kz_status_line "·" "hooks.json"
+  [ -f "$CLAUDE_DIR/CLAUDE.md" ] && cc_status_line "·" "CLAUDE.md"
+  [ -f "$CLAUDE_DIR/settings.json" ] && cc_status_line "·" "settings.json"
+  [ "$old_skills" -gt 0 ] && cc_status_line "·" "$old_skills skills"
+  [ "$old_cmds" -gt 0 ] && cc_status_line "·" "$old_cmds commands"
+  [ "$old_hooks" -eq 1 ] && cc_status_line "·" "hooks.json"
   echo ""
 
   cp -r "$CLAUDE_DIR" "$BACKUP_DIR"
 
-  kz_status_line "✓" "Archived to: ${M_WHITE}${BACKUP_DIR}${NC}"
+  cc_status_line "✓" "Archived to: ${M_WHITE}${BACKUP_DIR}${NC}"
   echo ""
   echo -e "  ${M_DIM}Restore command:${NC}"
   echo -e "  ${M_CYAN}rm -rf ~/.claude && mv ${BACKUP_DIR} ~/.claude${NC}"
 fi
 
+# ── OpenClaw Detection ──────────────────────────────────────────────────────
+
+detect_openclaw() {
+  if command -v openclaw &>/dev/null || [[ -d "$HOME/.openclaw" ]]; then
+    echo "  OpenClaw detected — enabling native integration"
+    export CC_OPENCLAW_ENABLED=1
+  fi
+}
+
+detect_openclaw
+
 # ── Install Claude Code CLI ──────────────────────────────────────────────────
 
 if ! command -v claude &>/dev/null; then
-  kz_section_header "CLAUDE CODE CLI"
+  cc_section_header "CLAUDE CODE CLI"
   echo -e "  ${M_DIM}Claude Code CLI not found. Installing...${NC}"
   npm install -g @anthropic-ai/claude-code
-  kz_status_line "✓" "Claude Code CLI installed"
+  cc_status_line "✓" "Claude Code CLI installed"
 fi
 
 # ── Install Components ───────────────────────────────────────────────────────
 
-kz_section_header "INSTALLING"
+cc_section_header "INSTALLING"
 
 install_step=0
 install_total=8
@@ -277,135 +332,163 @@ install_total=8
 mkdir -p "$CLAUDE_DIR"
 
 # 1. Skills
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Skills"
-rm -rf "$CLAUDE_DIR/skills"
-cp -r "$SCRIPT_DIR/skills/" "$CLAUDE_DIR/skills/"
-skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
-skill_count=$((skill_count - 1))
-kz_status_line "✓" "$skill_count skills installed"
+if should_install "skills"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Skills"
+  rm -rf "$CLAUDE_DIR/skills"
+  cp -r "$SCRIPT_DIR/skills/" "$CLAUDE_DIR/skills/"
+  skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
+  skill_count=$((skill_count - 1))
+  cc_status_line "✓" "$skill_count skills installed"
+fi
 
 # 2. Commands
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Commands"
-rm -rf "$CLAUDE_DIR/commands"
-cp -r "$SCRIPT_DIR/commands/" "$CLAUDE_DIR/commands/"
-cmd_count=$(find "$CLAUDE_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
-kz_status_line "✓" "$cmd_count commands installed"
+if should_install "commands"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Commands"
+  rm -rf "$CLAUDE_DIR/commands"
+  cp -r "$SCRIPT_DIR/commands/" "$CLAUDE_DIR/commands/"
+  cmd_count=$(find "$CLAUDE_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
+  cc_status_line "✓" "$cmd_count commands installed"
+fi
 
 # 3. Hooks
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Hooks"
-mkdir -p "$CLAUDE_DIR/hooks"
-cp -r "$SCRIPT_DIR/hooks/"* "$CLAUDE_DIR/hooks/" 2>/dev/null || true
-kz_status_line "✓" "Hooks installed"
+if should_install "hooks"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Hooks"
+  mkdir -p "$CLAUDE_DIR/hooks"
+  cp -r "$SCRIPT_DIR/hooks/"* "$CLAUDE_DIR/hooks/" 2>/dev/null || true
+  cc_status_line "✓" "Hooks installed"
+fi
 
 # 4. Lib (terminal art)
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Libraries"
-mkdir -p "$CLAUDE_DIR/lib"
-cp -r "$SCRIPT_DIR/lib/"* "$CLAUDE_DIR/lib/" 2>/dev/null || true
-kz_status_line "✓" "Terminal art library installed"
+if should_install "lib"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Libraries"
+  mkdir -p "$CLAUDE_DIR/lib"
+  cp -r "$SCRIPT_DIR/lib/"* "$CLAUDE_DIR/lib/" 2>/dev/null || true
+  cc_status_line "✓" "Terminal art library installed"
+fi
 
 # 5. Templates
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Templates"
-mkdir -p "$CLAUDE_DIR/templates"
-cp -r "$SCRIPT_DIR/templates/"* "$CLAUDE_DIR/templates/" 2>/dev/null || true
-kz_status_line "✓" "Starter templates installed"
+if should_install "templates"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Templates"
+  mkdir -p "$CLAUDE_DIR/templates"
+  cp -r "$SCRIPT_DIR/templates/"* "$CLAUDE_DIR/templates/" 2>/dev/null || true
+  cc_status_line "✓" "Starter templates installed"
+fi
 
 # 6. Reference docs
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Reference docs"
-for doc in BIBLE.md CHEATSHEET.md SKILLS-INDEX.md; do
-  if [ -f "$SCRIPT_DIR/$doc" ]; then
-    cp "$SCRIPT_DIR/$doc" "$CLAUDE_DIR/$doc"
-  fi
-done
-kz_status_line "✓" "BIBLE.md + CHEATSHEET.md + SKILLS-INDEX.md"
+if should_install "docs"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Reference docs"
+  for doc in BIBLE.md CHEATSHEET.md SKILLS-INDEX.md; do
+    if [ -f "$SCRIPT_DIR/$doc" ]; then
+      cp "$SCRIPT_DIR/$doc" "$CLAUDE_DIR/$doc"
+    fi
+  done
+  cc_status_line "✓" "BIBLE.md + CHEATSHEET.md + SKILLS-INDEX.md"
+fi
 
 # 7. Config files
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Configuration"
+if should_install "claude-md" || should_install "settings"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Configuration"
 
-if [ -f "$SCRIPT_DIR/CLAUDE.md.staff-template" ]; then
-  # Sanitize user name for sed (escape sed special chars)
-  SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
-  sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
-fi
-[ -f "$SCRIPT_DIR/settings.json.staff-template" ] && cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
-kz_status_line "✓" "Config applied for $USER_NAME"
+  if should_install "claude-md" && [ -f "$SCRIPT_DIR/CLAUDE.md.staff-template" ]; then
+    # Sanitize user name for sed (escape sed special chars)
+    SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
+    sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
+  fi
+  if should_install "settings"; then
+    [ -f "$SCRIPT_DIR/settings.json.staff-template" ] && cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
+  fi
+  cc_status_line "✓" "Config applied for $USER_NAME"
 
-# Validate JSON
-if [ -f "$CLAUDE_DIR/settings.json" ]; then
-  if python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null; then
-    kz_status_line "✓" "settings.json validated"
-  else
-    kz_status_line "✗" "settings.json has syntax errors — check manually"
+  # Validate JSON
+  if [ -f "$CLAUDE_DIR/settings.json" ]; then
+    if python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null; then
+      cc_status_line "✓" "settings.json validated"
+    else
+      cc_status_line "✗" "settings.json has syntax errors — check manually"
+    fi
   fi
 fi
 
 # 8. Symlinks
-((install_step++))
-kz_progress_bar "$install_step" "$install_total" "Symlinks"
+if should_install "mega-symlinks"; then
+  ((install_step++))
+  cc_progress_bar "$install_step" "$install_total" "Symlinks"
 
-symlink_count=0
+  symlink_count=0
 
-create_symlink() {
-  local target="$1"
-  local link="$2"
-  if [ -d "$target" ] && [ ! -e "$link" ]; then
-    ln -s "$target" "$link"
-    ((symlink_count++))
+  create_symlink() {
+    local target="$1"
+    local link="$2"
+    if [ -d "$target" ] && [ ! -e "$link" ]; then
+      ln -s "$target" "$link"
+      ((symlink_count++))
+    fi
+  }
+
+  # Mega-SEO symlinks
+  for skill in ai-seo aaio seo-optimizer seo-content-brief serp-analyzer backlink-audit search-console site-architecture analytics-conversion analytics-product bulk-page-generator content-strategy blog-engine social-integration guest-blogger; do
+    create_symlink "$CLAUDE_DIR/skills/mega-seo/$skill" "$CLAUDE_DIR/skills/$skill"
+  done
+
+  # Mega-Design symlinks
+  for skill in animate svg-animation motion-design interactive-visuals particle-systems generative-backgrounds canvas-design webgl-shader retro-pixel colorize theme-factory screenshots frontend-design landing-page-builder frontend-slides web-artifacts-builder design-consultation adapt arrange audit bolder clarify critique delight distill extract harden normalize onboard optimize overdrive polish quieter typeset; do
+    create_symlink "$CLAUDE_DIR/skills/mega-design/$skill" "$CLAUDE_DIR/skills/$skill"
+  done
+
+  # Mega-Testing symlinks
+  for skill in e2e-testing webapp-testing tdd-workflow verification-loop verification-before-completion ai-regression-testing eval-harness qa qa-only plankton-code-quality python-testing; do
+    create_symlink "$CLAUDE_DIR/skills/mega-testing/$skill" "$CLAUDE_DIR/skills/$skill"
+  done
+
+  # Mega-SaaS symlinks
+  for skill in api-design backend-patterns database-designer better-auth stripe-subscriptions billing-automation saas-metrics-coach signup-flow-cro paywall-upgrade-cro form-cro nextjs-app-router shadcn-ui drizzle-neon tailwind-v4 fastify-api; do
+    create_symlink "$CLAUDE_DIR/skills/mega-saas/$skill" "$CLAUDE_DIR/skills/$skill"
+  done
+
+  # Mega-DevOps symlinks
+  for skill in docker-development senior-devops github-actions-security github-actions-reusable-workflows aws-solution-architect aws-lambda-best-practices aws-s3-patterns aws-cloudfront-optimization aws-iam-security container-security prometheus-configuration grafana-dashboards promql-alerting infra-runbook network-engineer; do
+    create_symlink "$CLAUDE_DIR/skills/mega-devops/$skill" "$CLAUDE_DIR/skills/$skill"
+  done
+
+  cc_status_line "✓" "$symlink_count backward-compatibility symlinks"
+  echo ""
+fi
+
+# ── Dashboard ───────────────────────────────────────────────────────────────
+
+if should_install "dashboard"; then
+  if [ -d "$SCRIPT_DIR/dashboard" ]; then
+    cc_section_header "DASHBOARD"
+    cc_status_line "►" "Dashboard available at: ${M_WHITE}${SCRIPT_DIR}/dashboard${NC}"
   fi
-}
-
-# Mega-SEO symlinks
-for skill in ai-seo aaio seo-optimizer seo-content-brief serp-analyzer backlink-audit search-console site-architecture analytics-conversion analytics-product bulk-page-generator content-strategy blog-engine social-integration guest-blogger; do
-  create_symlink "$CLAUDE_DIR/skills/mega-seo/$skill" "$CLAUDE_DIR/skills/$skill"
-done
-
-# Mega-Design symlinks
-for skill in animate svg-animation motion-design interactive-visuals particle-systems generative-backgrounds canvas-design webgl-shader retro-pixel colorize theme-factory screenshots frontend-design landing-page-builder frontend-slides web-artifacts-builder design-consultation adapt arrange audit bolder clarify critique delight distill extract harden normalize onboard optimize overdrive polish quieter typeset; do
-  create_symlink "$CLAUDE_DIR/skills/mega-design/$skill" "$CLAUDE_DIR/skills/$skill"
-done
-
-# Mega-Testing symlinks
-for skill in e2e-testing webapp-testing tdd-workflow verification-loop verification-before-completion ai-regression-testing eval-harness qa qa-only plankton-code-quality python-testing; do
-  create_symlink "$CLAUDE_DIR/skills/mega-testing/$skill" "$CLAUDE_DIR/skills/$skill"
-done
-
-# Mega-SaaS symlinks
-for skill in api-design backend-patterns database-designer better-auth stripe-subscriptions billing-automation saas-metrics-coach signup-flow-cro paywall-upgrade-cro form-cro nextjs-app-router shadcn-ui drizzle-neon tailwind-v4 fastify-api; do
-  create_symlink "$CLAUDE_DIR/skills/mega-saas/$skill" "$CLAUDE_DIR/skills/$skill"
-done
-
-# Mega-DevOps symlinks
-for skill in docker-development senior-devops github-actions-security github-actions-reusable-workflows aws-solution-architect aws-lambda-best-practices aws-s3-patterns aws-cloudfront-optimization aws-iam-security container-security prometheus-configuration grafana-dashboards promql-alerting infra-runbook network-engineer; do
-  create_symlink "$CLAUDE_DIR/skills/mega-devops/$skill" "$CLAUDE_DIR/skills/$skill"
-done
-
-kz_status_line "✓" "$symlink_count backward-compatibility symlinks"
-echo ""
+fi
 
 # ── Bible Summary ────────────────────────────────────────────────────────────
 
-kz_section_header "THE KEVIN Z METHOD"
-kz_bible_summary
+cc_section_header "THE KEVIN Z METHOD"
+cc_bible_summary
 
 # ── Mega-Skills Overview ─────────────────────────────────────────────────────
 
-kz_mega_skills_display
+cc_mega_skills_display
 echo ""
 
 # ── Installation Summary ─────────────────────────────────────────────────────
 
-kz_section_header "INSTALLATION COMPLETE"
+cc_section_header "INSTALLATION COMPLETE"
 
 echo -e "  ${M_WHITE}User:${NC}       ${M_BRIGHT}$USER_NAME${NC}"
-echo -e "  ${M_WHITE}Skills:${NC}     ${M_BRIGHT}$skill_count${NC} ${M_DIM}(including 6 Mega-Skills)${NC}"
-echo -e "  ${M_WHITE}Commands:${NC}   ${M_BRIGHT}$cmd_count${NC}"
-echo -e "  ${M_WHITE}Symlinks:${NC}   ${M_BRIGHT}$symlink_count${NC}"
+echo -e "  ${M_WHITE}Mode:${NC}       ${M_BRIGHT}$INSTALL_MODE${NC}"
+[ -n "${skill_count:-}" ] && echo -e "  ${M_WHITE}Skills:${NC}     ${M_BRIGHT}$skill_count${NC} ${M_DIM}(including 6 Mega-Skills)${NC}"
+[ -n "${cmd_count:-}" ] && echo -e "  ${M_WHITE}Commands:${NC}   ${M_BRIGHT}$cmd_count${NC}"
+[ -n "${symlink_count:-}" ] && echo -e "  ${M_WHITE}Symlinks:${NC}   ${M_BRIGHT}$symlink_count${NC}"
 echo ""
 
 if [ -n "$BACKUP_DIR" ]; then
@@ -416,8 +499,8 @@ fi
 
 # ── Next Steps ───────────────────────────────────────────────────────────────
 
-kz_next_steps
+cc_next_steps
 
 # ── Farewell ─────────────────────────────────────────────────────────────────
 
-kz_farewell
+cc_farewell

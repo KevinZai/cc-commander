@@ -1,31 +1,31 @@
 #!/bin/bash
 # ============================================================================
-# The Claude Code Bible — Terminal Art Library
+# Claude Code Kit — Terminal Art Library
 # ============================================================================
-# Source this file in any shell script for consistent KZ branding.
+# Source this file in any shell script for consistent Kit branding.
 #   source "$(dirname "$0")/lib/terminal-art.sh"
 #
 # All functions respect these env vars:
-#   KZ_NO_COLOR=1        Disable all ANSI colors
-#   KZ_NO_ANIMATION=1    Disable matrix rain and typewriter effects
-#   KZ_RAIN_DURATION=N   Override rain duration (seconds, default: 2)
+#   CC_NO_COLOR=1        Disable all ANSI colors (also: KZ_NO_COLOR)
+#   CC_NO_ANIMATION=1    Disable intro animation and typewriter effects (also: KZ_NO_ANIMATION)
+#   CC_INTRO_DURATION=N  Override intro animation duration (seconds, default: 2) (also: KZ_RAIN_DURATION)
 # ============================================================================
 
 # ── Color Palette (256-color ANSI) ─────────────────────────────────────────
 
-if [[ "$KZ_NO_COLOR" == "1" ]] || [[ ! -t 1 ]] || [[ "$TERM" == "dumb" ]]; then
+if [[ "$CC_NO_COLOR" == "1" ]] || [[ "$KZ_NO_COLOR" == "1" ]] || [[ ! -t 1 ]] || [[ "$TERM" == "dumb" ]]; then
   # No color mode
   M_BRIGHT="" M_MID="" M_DIM="" M_FADE=""
   M_WHITE="" M_CYAN="" M_AMBER="" M_RED="" M_GRAY=""
   M_BOLD="" M_ITALIC="" M_UNDERLINE="" NC=""
   M_BG_DIM="" M_BG_DARK=""
 else
-  M_BRIGHT='\033[38;5;46m'    # #00FF00 — headings, active elements
-  M_MID='\033[38;5;34m'       # #00AF00 — body text, borders
-  M_DIM='\033[38;5;22m'       # #005F00 — background, shadows
-  M_FADE='\033[38;5;28m'      # #008700 — gradient transitions
+  M_BRIGHT='\033[38;5;172m'   # Amber — headings, active elements
+  M_MID='\033[38;5;145m'      # Gray — body text, borders
+  M_DIM='\033[38;5;240m'      # Dim gray — background, shadows
+  M_FADE='\033[38;5;130m'     # Dark amber — gradient transitions
   M_WHITE='\033[38;5;255m'    # #EEEEEE — key values, names
-  M_CYAN='\033[38;5;51m'      # #00FFFF — links, references
+  M_CYAN='\033[38;5;99m'      # Indigo — links, references
   M_AMBER='\033[38;5;214m'    # #FFAF00 — warnings
   M_RED='\033[38;5;196m'      # #FF0000 — errors
   M_GRAY='\033[38;5;238m'     # #444444 — inactive/completed
@@ -39,28 +39,31 @@ fi
 
 # ── Utility ────────────────────────────────────────────────────────────────
 
-kz_term_width() {
+cc_term_width() {
   local w
   w=$(tput cols 2>/dev/null || echo 80)
   echo "$w"
 }
+kz_term_width() { cc_term_width "$@"; }
 
-kz_can_animate() {
-  [[ "$KZ_NO_ANIMATION" != "1" ]] && [[ -t 1 ]] && [[ "$TERM" != "dumb" ]] && \
+cc_can_animate() {
+  [[ "$CC_NO_ANIMATION" != "1" ]] && [[ "$KZ_NO_ANIMATION" != "1" ]] && [[ -t 1 ]] && [[ "$TERM" != "dumb" ]] && \
   [[ -z "$CI" ]] && [[ -z "$GITHUB_ACTIONS" ]] && [[ -z "$JENKINS_URL" ]]
 }
+kz_can_animate() { cc_can_animate "$@"; }
 
-kz_repeat_char() {
+cc_repeat_char() {
   local char="$1" count="$2"
   printf '%*s' "$count" '' | tr ' ' "$char"
 }
+kz_repeat_char() { cc_repeat_char "$@"; }
 
-# ── Matrix Rain ────────────────────────────────────────────────────────────
+# ── Intro Animation ──────────────────────────────────────────────────────
 
-kz_matrix_rain() {
-  local duration="${1:-${KZ_RAIN_DURATION:-2}}"
+cc_intro_animation() {
+  local duration="${1:-${CC_INTRO_DURATION:-${KZ_RAIN_DURATION:-2}}}"
 
-  kz_can_animate || return 0
+  cc_can_animate || return 0
 
   local cols rows
   cols=$(tput cols 2>/dev/null || echo 80)
@@ -107,18 +110,18 @@ kz_matrix_rain() {
         local ch_idx=$(( RANDOM % char_len ))
         local ch="${chars:$ch_idx:1}"
 
-        # Head (bright green)
+        # Head (bright)
         if (( y >= 0 && y < rows )); then
           printf "\033[%d;%dH${M_BRIGHT}%s${NC}" "$((y+1))" "$((c+1))" "$ch"
         fi
 
-        # Trail (mid green, 1 behind)
+        # Trail (mid, 1 behind)
         if (( y-1 >= 0 && y-1 < rows )); then
           local tr_idx=$(( RANDOM % char_len ))
           printf "\033[%d;%dH${M_MID}%s${NC}" "$y" "$((c+1))" "${chars:$tr_idx:1}"
         fi
 
-        # Fade (dim green, 3 behind)
+        # Fade (dim, 3 behind)
         if (( y-3 >= 0 && y-3 < rows )); then
           local fd_idx=$(( RANDOM % char_len ))
           printf "\033[%d;%dH${M_DIM}%s${NC}" "$((y-2))" "$((c+1))" "${chars:$fd_idx:1}"
@@ -147,15 +150,16 @@ kz_matrix_rain() {
   tput rmcup 2>/dev/null
   tput cnorm 2>/dev/null
 }
+kz_matrix_rain() { cc_intro_animation "$@"; }
 
 # ── ASCII Banners ──────────────────────────────────────────────────────────
 
-kz_banner() {
+cc_banner() {
   local w
-  w=$(kz_term_width)
+  w=$(cc_term_width)
 
   if (( w < 55 )); then
-    kz_mini_banner
+    cc_mini_banner
     return
   fi
 
@@ -166,41 +170,44 @@ kz_banner() {
   echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╠╩╗║╠╩╗║  ║╣${NC}                                   ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╚═╝╩╚═╝╩═╝╚═╝${NC}                                  ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_WHITE}The Claude Code Bible${NC}  ${M_DIM}v1.0${NC}                              ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_WHITE}Claude Code Kit${NC}  ${M_DIM}v1.0${NC}                              ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}   ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_CYAN}by Kevin Z${NC}  ${M_DIM}//${NC}  ${M_WHITE}220+ Skills. One Install.${NC}     ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
   echo -e "${M_MID}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
 }
+kz_banner() { cc_banner "$@"; }
 
-kz_mini_banner() {
+cc_mini_banner() {
   echo ""
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  echo -e "  ${M_BRIGHT}BIBLE${NC} ${M_DIM}v1.0${NC}  ${M_CYAN}The Claude Code Bible — by Kevin Z${NC}"
+  echo -e "  ${M_BRIGHT}KIT${NC} ${M_DIM}v1.0${NC}  ${M_CYAN}Claude Code Kit — by Kevin Z${NC}"
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   echo ""
 }
+kz_mini_banner() { cc_mini_banner "$@"; }
 
 # ── Section Headers ────────────────────────────────────────────────────────
 
-kz_section_header() {
+cc_section_header() {
   local title="$1"
   local w
-  w=$(kz_term_width)
+  w=$(cc_term_width)
   local title_len=${#title}
   local pad=$(( (w - title_len - 6) / 2 ))
   (( pad < 2 )) && pad=2
-  local left=$(kz_repeat_char '━' "$pad")
-  local right=$(kz_repeat_char '━' "$pad")
+  local left=$(cc_repeat_char '━' "$pad")
+  local right=$(cc_repeat_char '━' "$pad")
   echo ""
   echo -e "${M_MID}${left}${NC} ${M_BRIGHT}[ ${title} ]${NC} ${M_MID}${right}${NC}"
   echo ""
 }
+kz_section_header() { cc_section_header "$@"; }
 
 # ── Status Line ────────────────────────────────────────────────────────────
 
-kz_status_line() {
+cc_status_line() {
   local icon="$1" msg="$2" color="${3:-}"
   local icon_color=""
   case "$icon" in
@@ -213,27 +220,29 @@ kz_status_line() {
   esac
   echo -e "  ${icon_color}${icon}${NC} ${color}${msg}${NC}"
 }
+kz_status_line() { cc_status_line "$@"; }
 
 # ── Progress Bar ───────────────────────────────────────────────────────────
 
-kz_progress_bar() {
+cc_progress_bar() {
   local current="$1" total="$2" label="${3:-}"
   local bar_width=20
   local filled=$(( current * bar_width / total ))
   local empty=$(( bar_width - filled ))
 
-  local bar_filled=$(kz_repeat_char '█' "$filled")
-  local bar_empty=$(kz_repeat_char '░' "$empty")
+  local bar_filled=$(cc_repeat_char '█' "$filled")
+  local bar_empty=$(cc_repeat_char '░' "$empty")
 
   echo -e "  ${M_MID}▐${M_BRIGHT}${bar_filled}${M_DIM}${bar_empty}${M_MID}▌${NC}  ${M_WHITE}${current}/${total}${NC}  ${M_DIM}${label}${NC}"
 }
+kz_progress_bar() { cc_progress_bar "$@"; }
 
 # ── Typewriter Effect ──────────────────────────────────────────────────────
 
-kz_typewriter() {
+cc_typewriter() {
   local text="$1" delay="${2:-0.015}" color="${3:-$M_DIM}"
 
-  if ! kz_can_animate; then
+  if ! cc_can_animate; then
     echo -e "${color}${text}${NC}"
     return
   fi
@@ -246,10 +255,11 @@ kz_typewriter() {
   done
   printf "${NC}\n"
 }
+kz_typewriter() { cc_typewriter "$@"; }
 
-# ── Bible Summary Card ────────────────────────────────────────────────────
+# ── Kit Summary Card ─────────────────────────────────────────────────────
 
-kz_bible_summary() {
+cc_kit_summary() {
   echo ""
   echo -e "${M_MID}┌─────────────────────────────────────────────────────┐${NC}"
   echo -e "${M_MID}│${NC}  ${M_BRIGHT}${M_BOLD}THE KEVIN Z METHOD${NC}                                  ${M_MID}│${NC}"
@@ -265,15 +275,16 @@ kz_bible_summary() {
   echo -e "${M_MID}│${NC}  ${M_BRIGHT}QUICK${NC} <4h  ${M_DIM}│${NC}  ${M_BRIGHT}DEEP${NC} 1-5d  ${M_DIM}│${NC}  ${M_BRIGHT}SAAS${NC} 1-4w          ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  ${M_BRIGHT}OVERNIGHT${NC} 6-12h autonomous                        ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
-  echo -e "${M_MID}│${NC}  ${M_DIM}Full Bible: ~/.claude/BIBLE.md${NC}                       ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_DIM}Full Guide: ~/.claude/BIBLE.md${NC}                       ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  ${M_DIM}Cheatsheet: ~/.claude/CHEATSHEET.md${NC}                  ${M_MID}│${NC}"
   echo -e "${M_MID}└─────────────────────────────────────────────────────┘${NC}"
   echo ""
 }
+kz_bible_summary() { cc_kit_summary "$@"; }
 
 # ── Next Steps Panel ───────────────────────────────────────────────────────
 
-kz_next_steps() {
+cc_next_steps() {
   local mode="${1:-staff}"
 
   echo -e "${M_MID}┌─────────────────────────────────────────────────────┐${NC}"
@@ -284,7 +295,7 @@ kz_next_steps() {
     echo -e "${M_MID}│${NC}     Start Claude Code (API key already set)         ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}  ${M_WHITE}2.${NC} ${M_CYAN}/init${NC}                                             ${M_MID}│${NC}"
-    echo -e "${M_MID}│${NC}     Launch the KZ Project Wizard                    ${M_MID}│${NC}"
+    echo -e "${M_MID}│${NC}     Launch the CC Project Wizard                    ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}  ${M_WHITE}3.${NC} ${M_CYAN}/plan${NC}                                             ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}     Spec-first planning for any feature             ${M_MID}│${NC}"
@@ -296,27 +307,28 @@ kz_next_steps() {
     echo -e "${M_MID}│${NC}     Start Claude Code                               ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
     echo -e "${M_MID}│${NC}  ${M_WHITE}3.${NC} ${M_CYAN}/init${NC}                                             ${M_MID}│${NC}"
-    echo -e "${M_MID}│${NC}     Launch the KZ Project Wizard                    ${M_MID}│${NC}"
+    echo -e "${M_MID}│${NC}     Launch the CC Project Wizard                    ${M_MID}│${NC}"
   fi
   echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  ${M_DIM}220+ skills  │  84 commands  │  6 mega-skills${NC}      ${M_MID}│${NC}"
-  echo -e "${M_MID}│${NC}  ${M_DIM}22 hooks     │  3 templates  │  The Kevin Z Bible${NC}  ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_DIM}22 hooks     │  3 templates  │  Claude Code Kit${NC}    ${M_MID}│${NC}"
   echo -e "${M_MID}└─────────────────────────────────────────────────────┘${NC}"
   echo ""
 }
+kz_next_steps() { cc_next_steps "$@"; }
 
 # ── Farewell ───────────────────────────────────────────────────────────────
 
-kz_farewell() {
+cc_farewell() {
   echo ""
-  if kz_can_animate; then
-    # Cascading green fade effect
+  if cc_can_animate; then
+    # Cascading fade effect
     local lines=(
-      "  ${M_BRIGHT}The Matrix has you...${NC}"
-      "  ${M_MID}Now go build something amazing.${NC}"
+      "  ${M_BRIGHT}Now go build something amazing.${NC}"
+      "  ${M_MID}Your code awaits.${NC}"
       ""
       "  ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-      "  ${M_DIM}The Claude Code Bible — by Kevin Z  //  github.com/k3v80${NC}"
+      "  ${M_DIM}Claude Code Kit — by Kevin Z  //  github.com/k3v80${NC}"
       "  ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     )
     for line in "${lines[@]}"; do
@@ -324,22 +336,23 @@ kz_farewell() {
       sleep 0.15
     done
   else
-    echo -e "  ${M_DIM}The Claude Code Bible — by Kevin Z  //  github.com/k3v80${NC}"
+    echo -e "  ${M_DIM}Claude Code Kit — by Kevin Z  //  github.com/k3v80${NC}"
   fi
   echo ""
 }
+kz_farewell() { cc_farewell "$@"; }
 
 # ── Init Intro ─────────────────────────────────────────────────────────────
 
-kz_init_intro() {
+cc_init_intro() {
   echo ""
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  echo -e "  ${M_BRIGHT}${M_BOLD}BIBLE INIT${NC}  ${M_DIM}//${NC}  ${M_CYAN}CHOOSE YOUR ADVENTURE${NC}"
+  echo -e "  ${M_BRIGHT}${M_BOLD}KIT INIT${NC}  ${M_DIM}//${NC}  ${M_CYAN}CHOOSE YOUR ADVENTURE${NC}"
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   echo ""
   echo -e "${M_MID}┌──────────────────────────────────────────────────────┐${NC}"
   echo -e "${M_MID}│${NC}                                                      ${M_MID}│${NC}"
-  echo -e "${M_MID}│${NC}  ${M_WHITE}Welcome to the Bible Project Initializer.${NC}              ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_WHITE}Welcome to the Kit Project Initializer.${NC}               ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}                                                      ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  I'll ask you a series of questions to configure     ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  your perfect development environment. Every         ${M_MID}│${NC}"
@@ -355,10 +368,11 @@ kz_init_intro() {
   echo -e "${M_MID}└──────────────────────────────────────────────────────┘${NC}"
   echo ""
 }
+kz_init_intro() { cc_init_intro "$@"; }
 
 # ── Flow Display ───────────────────────────────────────────────────────────
 
-kz_flow_display() {
+cc_flow_display() {
   local current="$1" total="$2"
   local phases=("IDENTITY" "BUILD TYPE" "DEEP-DIVE" "GENERATE")
   local i
@@ -381,15 +395,16 @@ kz_flow_display() {
 
   # Progress bar
   local filled=$(( (current + 1) * 100 / total ))
-  kz_progress_bar "$((current + 1))" "$total" "Phase $((current + 1)) of $total"
+  cc_progress_bar "$((current + 1))" "$total" "Phase $((current + 1)) of $total"
   echo ""
 }
+kz_flow_display() { cc_flow_display "$@"; }
 
 # ── Mega-Skills Summary ───────────────────────────────────────────────────
 
-kz_mega_skills_display() {
+cc_mega_skills_display() {
   echo -e "${M_MID}┌─────────────────────────────────────────────────────┐${NC}"
-  echo -e "${M_MID}│${NC}  ${M_BRIGHT}${M_BOLD}KZ MEGA-SKILLS${NC}  ${M_DIM}Load ONE, get the entire domain${NC}    ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_BRIGHT}${M_BOLD}CC MEGA-SKILLS${NC}  ${M_DIM}Load ONE, get the entire domain${NC}    ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  ${M_CYAN}mega-seo${NC}       ${M_DIM}─${NC} ${M_WHITE}19${NC} SEO skills in one            ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  ${M_CYAN}mega-design${NC}    ${M_DIM}─${NC} ${M_WHITE}35+${NC} design/animation skills     ${M_MID}│${NC}"
@@ -400,3 +415,4 @@ kz_mega_skills_display() {
   echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
   echo -e "${M_MID}└─────────────────────────────────────────────────────┘${NC}"
 }
+kz_mega_skills_display() { cc_mega_skills_display "$@"; }

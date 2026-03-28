@@ -1,10 +1,10 @@
 import React from 'react';
 
 const ZONES = [
-  { max: 50, label: 'Green', color: '#00ff00', fillClass: 'context-gauge__fill--green' },
-  { max: 70, label: 'Yellow', color: '#aaaa00', fillClass: 'context-gauge__fill--yellow' },
-  { max: 85, label: 'Orange', color: '#ffaa00', fillClass: 'context-gauge__fill--orange' },
-  { max: 100, label: 'Red', color: '#ff0000', fillClass: 'context-gauge__fill--red' },
+  { max: 50, label: 'Good', color: '#10B981', fillClass: 'context-gauge__fill--green' },
+  { max: 70, label: 'Caution', color: '#F59E0B', fillClass: 'context-gauge__fill--yellow' },
+  { max: 85, label: 'Warning', color: '#F97316', fillClass: 'context-gauge__fill--orange' },
+  { max: 100, label: 'Critical', color: '#EF4444', fillClass: 'context-gauge__fill--red' },
 ];
 
 function getZone(percent) {
@@ -96,7 +96,7 @@ export function ContextGauge({ context }) {
               marginTop: '8px',
               padding: '8px 12px',
               background: percent > 90 ? 'var(--red-dim)' : 'var(--amber-dim)',
-              border: `1px solid ${percent > 90 ? 'rgba(255,0,0,0.3)' : 'rgba(255,170,0,0.3)'}`,
+              border: `1px solid ${percent > 90 ? 'rgba(239,68,68,0.3)' : 'rgba(245,158,11,0.3)'}`,
               borderRadius: 'var(--radius-sm)',
               fontSize: 'var(--font-size-xs)',
               color: percent > 90 ? 'var(--red)' : 'var(--amber)',

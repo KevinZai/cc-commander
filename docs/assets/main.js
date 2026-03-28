@@ -230,7 +230,7 @@
       if (!ticking) {
         requestAnimationFrame(function () {
           if (window.scrollY > scrollThreshold) {
-            nav.style.borderBottomColor = 'rgba(0, 255, 65, 0.15)';
+            nav.style.borderBottomColor = 'rgba(217, 119, 6, 0.15)';
           } else {
             nav.style.borderBottomColor = '';
           }

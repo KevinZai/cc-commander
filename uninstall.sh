@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# The Claude Code Bible — Uninstaller
+# Claude Code Kit — Uninstaller
 # ============================================================================
 # Removes kit-installed components from ~/.claude/ and optionally restores
 # from a backup created by the installer.
@@ -29,7 +29,7 @@ done
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  CLAUDE CODE BIBLE  //  UNINSTALLER"
+echo "  CLAUDE CODE KIT  //  UNINSTALLER"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 

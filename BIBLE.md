@@ -1,5 +1,5 @@
 # The Claude Code Bible — by Kevin Z
-> Version 1.1 | Updated: 2026-03-28 | Non-coder friendly. Practical examples throughout.
+> Version 1.3 | Updated: 2026-03-28 | Non-coder friendly. Practical examples throughout.
 > Sources: 200+ best practices distilled from: ykdojo 45 tips · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · SuperClaude Framework · chddaniel Mobile Dev · Trail of Bits · Anthropic Official Docs
 
 > **Which document?** **BIBLE.md = learning guide (you are here).** CHEATSHEET.md = daily reference (quick lookup). SKILLS-INDEX.md = skill discovery (search by keyword/category).
@@ -28,10 +28,10 @@
 - [Prompt Templates](#prompt-templates)
 - [The 45 Tips — Quick Reference](#the-45-tips--quick-reference)
 - [Power Combos](#power-combos) *(advanced only — full table in CHEATSHEET)*
-- [Workflow Modes](#workflow-modes) *(NEW in v1.1 — 9 modes)*
-- [Prompt Library](#prompt-library-1) *(NEW in v1.1 — 35+ templates)*
-- [Integrations](#integrations) *(NEW in v1.1 — Agency Orchestrator + OpenClaw)*
-- [Proactive Automation Suite](#proactive-automation-suite-v11) *(v1.1 — 15 kit-native hooks)*
+- [Workflow Modes](#workflow-modes) *(NEW in v1.3 — 9 modes)*
+- [Prompt Library](#prompt-library-1) *(NEW in v1.3 — 35+ templates)*
+- [Integrations](#integrations) *(NEW in v1.3 — Agency Orchestrator + OpenClaw)*
+- [Proactive Automation Suite](#proactive-automation-suite-v11) *(v1.3 — 15 kit-native hooks)*
 - [Settings Reference](#settings-reference)
 - [Appendix A: Model Selection](#model-selection)
 - [Appendix B: Contributor Credits](#contributor-credits)
@@ -61,14 +61,14 @@
 
 Before touching ANY code, answer one question: **What kind of build is this?**
 
-| Build Type | Time | Approach | Model | KZ Mega-Skills |
+| Build Type | Time | Approach | Model | Mega-Skills |
 |------------|------|----------|-------|----------------|
 | **QUICK** | <4 hours | Direct execute, ship fast | Sonnet | Stack-specific only |
 | **DEEP** | 1-5 days | Spec-first, TDD, subagents | Opus | mega-{domain} + mega-testing |
 | **SAAS** | 1-4 weeks | Full lifecycle: scaffold→auth→billing→ship | Opus | mega-saas + mega-seo + mega-testing + mega-devops |
 | **OVERNIGHT** | 6-12h autonomous | Checkpoints, error recovery | Opus | overnight-runner + domain skills |
 
-### KZ Mega-Skills (Load ONE, Get Everything)
+### Mega-Skills (Load ONE, Get Everything)
 
 | Mega-Skill | Skills Inside | What It Covers |
 |------------|--------------|----------------|
@@ -886,7 +886,7 @@ See `tasks/todo.md`
 
 ## Skills Catalog
 
-### KZ Mega-Skills
+### Mega-Skills
 
 Instead of loading 5-15 individual skills per session, load ONE mega-skill to get the entire domain:
 
@@ -1554,7 +1554,7 @@ Then we'll write the spec.
 
 ## Workflow Modes
 
-> NEW in v1.1 — Switch your entire workflow persona with one command.
+> NEW in v1.3 — Switch your entire workflow persona with one command.
 
 Modes adjust Claude's behavior, verbosity, risk tolerance, and auto-loaded skills. Think of them as presets for different types of work.
 
@@ -1582,7 +1582,7 @@ Each mode auto-loads the relevant mega-skills and adjusts the session behavior. 
 
 ## Prompt Library
 
-> NEW in v1.1 — 35+ battle-tested prompt templates across 6 categories.
+> NEW in v1.3 — 35+ battle-tested prompt templates across 6 categories.
 
 Instead of crafting prompts from scratch every time, use the pre-built templates in `prompts/`:
 
@@ -1603,7 +1603,7 @@ Templates are designed to be copy-pasted with minimal modification. Each include
 
 ## Integrations
 
-> NEW in v1.1 — Patterns for multi-agent orchestration.
+> NEW in v1.3 — Patterns for multi-agent orchestration.
 
 ### Agency Orchestrator
 
@@ -1626,9 +1626,9 @@ Integration patterns for OpenClaw multi-agent platform:
 
 ---
 
-## Proactive Automation Suite (v1.1)
+## Proactive Automation Suite (v1.3)
 
-The key innovation of v1.1: 15 kit-native hooks that run automatically throughout every session. No prompting required — they guard, track, checkpoint, and coach in the background.
+The key innovation of v1.3: 15 kit-native hooks that run automatically throughout every session. No prompting required — they guard, track, checkpoint, and coach in the background.
 
 ### The 9 New Hooks
 
@@ -1954,5 +1954,5 @@ graph TD
 ---
 
 *Last updated: 2026-03-28*
-*The Claude Code Bible — by Kevin Z — v1.1*
+*The Claude Code Bible — by Kevin Z — v1.3*
 *Update this file when you learn something new. That's the point.*

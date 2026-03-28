@@ -1,9 +1,43 @@
 # Changelog
 
-All notable changes to The Claude Code Bible will be documented in this file.
+All notable changes to Claude Code Kit will be documented in this file.
+
+## [1.3.0] — 2026-03-28
+
+### Added
+- **Theme System**: 4 switchable skins — Claude Anthropic (default), OLED Black, Matrix (enhanced with CRT scanline overlay), Surprise Me (random from 5 curated palettes)
+- **Dashboard Overhaul**: GitHub-style activity heatmaps, agent timeline, cost charts, token gauge, skill radar, metrics grid, history search with filters, tab navigation (Live/History/Analytics)
+- **OpenClaw Native Integration**: Auto-detection, skill sync, bidirectional event forwarding, agent profile generation, memory sync
+- **Status Update Requests**: Send progress reports to Slack/Discord/email at configurable intervals during long sessions
+- **Continuous Improvement Pipeline**: Daily cron scan for ecosystem improvements, multi-agent approval workflow, proposal queue management
+- **Task Commander**: Multi-agent orchestration with P0-P10 scoping, 6 DAG workflows, circuit breaker, cost ceiling
+- **Modular Installer**: Choose installation mode — full, essentials, scripts, dashboard, or config-only
+- **Theme Command**: `/theme list|set|preview|random` for switching visual skins
+- **3 iTerm2 Color Profiles**: Claude Anthropic, OLED Black, Matrix — matching dashboard themes
+- **Marketing Assets**: Infographic, X/Twitter threads, long-form articles, monetization strategy document
+- **New Commands**: `/openclaw`, `/status-updates`, `/theme`, `/improve`, `/deploy-check`, `/debug-session`, `/feature-start`
+- **New Skills**: status-updates, openclaw-native, task-commander, continuous-improvement
+- **New Hooks**: status-reporter (PostToolUse), openclaw-sync (SessionStart), daily-improvement-scan (cron)
+
+### Changed
+- **Visual Rebrand**: Professional Anthropic palette (amber/indigo/deep navy) replaces matrix green as default
+- **Dashboard**: React + recharts + date-fns + lucide-react for modern charting and icons
+- **Brand Architecture**: "Claude Code Command Center" umbrella brand, "Claude Code Kit" product name
+- **Env Vars**: CC_ prefix as primary with KZ_ backward compatibility on all env vars
+- **Shell Functions**: cc_* as primary with kz_* backward-compat aliases in terminal-art.sh
+- **Status Line**: Updated color palette from green to Anthropic amber/indigo
+- **Context Gauge**: Semantic zone labels (Good/Caution/Warning/Critical) replace color names
+
+### Fixed
+- Improved color contrast across all dashboard components
+- Better ANSI fallback when NO_COLOR is set
+- Consistent branding across all 280+ skills and 88+ commands
+
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
 
 ## [1.2.0] - 2026-03-28
 

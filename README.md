@@ -1,272 +1,190 @@
-# The Claude Code Bible — by Kevin Z
+# Claude Code Kit
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Claude Code](https://img.shields.io/badge/Claude_Code-Compatible-00ff41?logo=anthropic&logoColor=white)](https://claude.ai/code)
-[![Skills](https://img.shields.io/badge/Skills-260+-00d4ff)](./SKILLS-INDEX.md)
-[![Hooks](https://img.shields.io/badge/Hooks-34-ff6b35)](./hooks/)
-[![Mega Skills](https://img.shields.io/badge/Mega_Skills-10-ff6b35)](./SKILLS-INDEX.md)
-[![Version](https://img.shields.io/badge/Version-1.1-00ff41)](./CHANGELOG.md)
-[![Terminal](https://img.shields.io/badge/Terminal-CLI-00ff41?logo=gnometerminal&logoColor=white)](#install)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-Compatible-D97706?logo=anthropic&logoColor=white)](https://claude.ai/code)
+[![Skills](https://img.shields.io/badge/Skills-280+-4F46E5)](./SKILLS-INDEX.md)
+[![Hooks](https://img.shields.io/badge/Hooks-37-D97706)](./hooks/)
+[![Mega Skills](https://img.shields.io/badge/Mega_Skills-10-4F46E5)](./SKILLS-INDEX.md)
+[![Version](https://img.shields.io/badge/Version-1.3-D97706)](./CHANGELOG.md)
 
-> **260+ skills. 10 mega-skills. 35+ prompt templates. 9 workflow modes. One install. The comprehensive guide and toolkit for Claude Code.**
+**The Complete Claude Code Command Center — by Kevin Z**
 
-A non-technical CEO scanned every Claude Code article, plugin, and skill on the internet — top 200+ posts from X, Reddit, Medium, YouTube — tested every community pack, and distilled it all into one toolkit.
+> 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes | Real-time dashboard
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+```
 
 ---
 
-## Install
-
-### One-Line Install (paste anywhere)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-bible/main/install-remote.sh | bash
-```
-
-This auto-detects your system, installs Claude Code if needed, downloads the toolkit, backs up your existing config, and runs the interactive installer.
-
-### Manual Install
-
-```bash
-git clone https://github.com/k3v80/claude-code-bible.git
-cd claude-code-bible
-./install.sh
-```
-
-### VS Code
-
-Install the [Claude Code extension](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) then run the one-line install above in any terminal. The toolkit automatically works inside VS Code. Pre-configured tasks available via **Terminal > Run Task**.
-
-### Uninstall
-
-```bash
-./uninstall.sh
-```
-
-Removes kit components (skills, commands, hooks, lib, templates, reference docs). Preserves your `CLAUDE.md` and `settings.json`. Offers to restore from backup.
-
 ## What's Inside
 
-| Component | Count | Location |
-|-----------|-------|----------|
-| Skills | 260+ | `~/.claude/skills/` |
-| Commands | 84+ | `~/.claude/commands/` |
-| Hooks | 34 (15 kit-native + 19 ECC) | `~/.claude/hooks/hooks.json` |
-| Mega-Skills | 10 | `~/.claude/skills/mega-*/` |
-| Prompt Templates | 35+ | `~/.claude/prompts/` |
-| Workflow Modes | 9 | `~/.claude/skills/mode-switcher/` |
-| Starter Templates | 3 | `~/.claude/templates/` |
-| Reference Docs | 3 | `BIBLE.md`, `CHEATSHEET.md`, `SKILLS-INDEX.md` |
+| Component | Count | Description |
+|-----------|-------|-------------|
+| **Skills** | 280+ | Structured instruction sets Claude loads on demand |
+| **Mega-Skills** | 10 | Domain routers that dispatch to 20-46 sub-skills each |
+| **Commands** | 88+ | Slash commands for planning, review, orchestration |
+| **Hooks** | 37 | Lifecycle automation (18 kit-native + 19 ECC) |
+| **Prompt Templates** | 41 | Battle-tested prompts across 6 categories |
+| **Workflow Modes** | 9 | Task-specific behavior presets |
+| **Themes** | 4 | Visual skins for terminal and dashboard |
+| **Starter Templates** | 3 | Next.js, API, CLI project scaffolds |
+| **Dashboard** | 1 | Real-time React monitoring UI |
 
-## /cc Command Center
+## Quick Start
 
-Type `/cc` in any Claude Code session to access the interactive command center:
+```bash
+# 1. Install
+curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  CLAUDE CODE BIBLE  //  COMMAND CENTER       v1.1
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 2. Open Command Center
+/cc
 
-  [1] Skills Browser    — 260+ skills by category
-  [2] Mega-Skills       — 10 domain packs w/ sub-skills
-  [3] Settings          — model, permissions, hooks, MCP
-  [4] Grill Me          — Socratic planning probe
-  [5] Confidence Check  — pre-execution confidence assessment
-  [6] Mode Switcher     — 9 workflow modes
-  [7] Status            — kit health, tasks, version
-  [8] Quick Reference   — cheatsheet highlights
-  [9] /init             — project wizard
-  [10] Prompt Library   — 35+ templates across 6 categories
+# 3. Start building
+/plan "Build a REST API with auth"
 ```
 
-| Sub-command | What it does |
-|-------------|-------------|
-| `/cc skills` | Browse skills by category |
-| `/cc mega seo` | Drill into a mega-skill |
-| `/cc grill` | 7 Socratic questions — no plan mode |
-| `/cc confidence` | Pre-execution confidence 0-100% |
-| `/cc mode <name>` | Switch workflow mode (9 modes) |
-| `/cc prompts` | Browse 35+ prompt templates |
-| `/cc status` | Health dashboard |
+### Installation Modes
+
+```bash
+./install.sh                    # Interactive (choose mode)
+./install.sh --mode=full        # Everything
+./install.sh --mode=essentials  # Skills + commands + hooks + config
+./install.sh --mode=scripts     # Terminal libraries only
+./install.sh --mode=dashboard   # Dashboard only
+./install.sh --mode=config      # Just CLAUDE.md + settings.json
+```
 
 ## Mega-Skills
 
-Load ONE skill, get the entire domain. Each mega-skill has a router that dispatches to the right specialist.
+Each mega-skill is a domain router that dispatches to specialist sub-skills automatically.
 
-| Mega-Skill | Skills | Domain |
-|------------|--------|--------|
-| `mega-seo` | 19 | Technical SEO, AI search, content strategy, analytics |
-| `mega-design` | 35+ | Animations, effects, design systems, Impeccable polish suite |
-| `mega-testing` | 15 | TDD, E2E, verification, QA, regression, load testing |
-| `mega-marketing` | 46 | Content, CRO, channels, growth, sales |
-| `mega-saas` | 20 | Auth, billing, DB, API, frontend, metrics |
-| `mega-devops` | 20 | CI/CD, Docker, AWS, monitoring, Terraform |
-| `mega-research` | 8 | Deep research, literature review, competitive analysis, data synthesis |
-| `mega-mobile` | 7 | iOS, Android, React Native, Flutter, app store optimization |
-| `mega-security` | 9 | Pen testing, OWASP, supply chain, secrets management, threat modeling |
-| `mega-data` | 8 | ETL pipelines, data warehousing, analytics, visualization, ML ops |
+| Mega-Skill | Sub-Skills | Domain |
+|-----------|-----------|--------|
+| `mega-seo` | 19 | Technical SEO, content, analytics, schema |
+| `mega-design` | 35+ | UI/UX, Impeccable polish suite, visual effects |
+| `mega-testing` | 15 | Unit, integration, E2E, load, security testing |
+| `mega-marketing` | 46 | Content, CRO, growth, email, ads, analytics |
+| `mega-saas` | 20 | Auth, billing, API, deploy, monitoring |
+| `mega-devops` | 20 | CI/CD, Docker, AWS, Terraform, monitoring |
+| `mega-research` | 8 | Deep analysis, multi-source research |
+| `mega-mobile` | 7 | React Native, Flutter, iOS, Android |
+| `mega-security` | 9 | OWASP, pentest, compliance, audit |
+| `mega-data` | 8 | SQL, ETL, visualization, ML pipelines |
+
+## Theme System
+
+4 switchable visual skins for terminal and dashboard:
+
+| Theme | Description |
+|-------|-------------|
+| **Claude Anthropic** (default) | Warm amber on deep navy — professional |
+| **OLED Black** | Pure black for OLED displays |
+| **Matrix** | Classic green-on-black with CRT scanline overlay |
+| **Surprise Me** | Random palette from 5 curated options |
+
+```bash
+/theme set oled      # Switch skin
+/theme list          # See all options
+CC_THEME=matrix      # Set via env var
+```
+
+## Dashboard
+
+Real-time React monitoring UI with 3 views:
+
+- **Live**: Agent cards, context gauge, cost tracker, task progress, metrics grid
+- **History**: GitHub-style activity heatmap, agent timeline, searchable session history
+- **Analytics**: Cost charts, token gauge, skill usage radar, period metrics
+
+```bash
+cd ~/.claude/dashboard && npm run dev
+```
 
 ## Workflow Modes
 
-Switch your entire development persona with one command. Each mode adjusts Claude's behavior, verbosity, risk tolerance, and skill loading.
+| Mode | Behavior |
+|------|----------|
+| `normal` | Balanced — standard workflow |
+| `design` | Visual-first, critique loops, Impeccable suite |
+| `saas` | Full SaaS lifecycle — auth, billing, deploy |
+| `marketing` | Content, CRO, growth channel expertise |
+| `research` | Deep analysis, multi-source research |
+| `writing` | Technical writing, documentation |
+| `night` | Autonomous overnight with checkpoints |
+| `yolo` | Maximum speed, skip confirmations |
+| `unhinged` | No guardrails — experimental |
 
-| Mode | What it does |
-|------|-------------|
-| `normal` | Balanced defaults — plan-first, verify-before-done |
-| `design` | Visual-first — loads design/animation skills, critique loop |
-| `saas` | Full SaaS lifecycle — auth, billing, DB, deploy pipeline |
-| `marketing` | Content + CRO focus — SEO, copy, conversion optimization |
-| `research` | Deep research mode — citations, confidence levels, source verification |
-| `writing` | Long-form content — blog posts, docs, technical writing |
-| `night` | Autonomous overnight — checkpoints, error recovery, notifications |
-| `yolo` | Maximum speed — skip confirmations, auto-approve, ship fast |
-| `unhinged` | No guardrails — experimental, creative, push boundaries |
-
-Switch via `/cc mode <name>` or `"use mode-switcher skill, switch to <name> mode"`.
-
-## Prompt Library
-
-35+ battle-tested prompt templates across 6 categories, ready to paste or invoke:
-
-| Category | Templates | Examples |
-|----------|-----------|---------|
-| Coding | 8 | Bug fix, code review, architecture review, TDD setup |
-| Planning | 6 | Spec interview, evals-first, decomposition, handoff |
-| Design | 5 | Design critique, accessibility audit, animation brief |
-| Marketing | 6 | SEO content brief, cold email, landing page copy, ad creative |
-| DevOps | 5 | CI failure investigation, deploy checklist, incident response |
-| Meta | 5+ | Subagent dispatch, research, PR description, skill creation |
-
-Access via `/cc prompts` or browse `prompts/` directory.
+```bash
+/cc mode design    # Switch to design mode
+```
 
 ## The Kevin Z Method
 
-Every project starts with `/init` — an interactive wizard that asks:
+7 golden rules distilled from 200+ community articles and 14 months of production use:
 
-1. **Project Identity** — name, stack, deployment target
-2. **Build Type** — QUICK (<4h), DEEP (1-5 days), SAAS (1-4 weeks), OVERNIGHT (6-12h autonomous)
-3. **Domain Deep-Dive** — task-specific questions per build type
-4. **Output Generation** — auto-generates CLAUDE.md, tasks/, settings.json
+1. **Plan before coding** — `/plan` for every multi-step task
+2. **Context is milk** — Fresh context beats deep context
+3. **Verify, don't trust** — Always `/verify` before done
+4. **Subagents = fresh context** — Parallel peers for independent work
+5. **CLAUDE.md is an investment** — Rules compound like interest
+6. **Boring solutions win** — Push back on AI complexity bias
+7. **Operationalize every fix** — Every bug becomes infrastructure
 
-## Key Innovations
+Full methodology in [BIBLE.md](BIBLE.md).
 
-### Confidence Check (from SuperClaude)
-Before executing any plan, self-assess confidence 0-100%. High confidence → proceed. Low confidence → ask questions first. Saves 25-250x tokens by preventing wrong-direction work.
+## Hook Lifecycle
 
-### Four-Question Validation
-Post-implementation check: (1) Tests passing? (2) Requirements met? (3) No unverified assumptions? (4) Evidence? Catches 94% of AI errors.
+37 hooks fire automatically at 5 lifecycle stages:
 
-### Quick Start Bundles
+| Stage | Example Hooks |
+|-------|--------------|
+| **SessionStart** | Load session context, detect package manager, OpenClaw sync |
+| **PreToolUse** | Block destructive commands, confidence gate |
+| **PostToolUse** | Context guard, auto-checkpoint, cost alert, self-verify, status reporter |
+| **PreCompact** | Save state before context compaction |
+| **Stop** | Console.log audit, session persistence, cost tracking |
 
-| Bundle | Skills | For |
-|--------|--------|-----|
-| Web Wizard | `nextjs-app-router` + `shadcn-ui` + `tailwind-v4` + `drizzle-neon` | Full-stack web apps |
-| Security Engineer | `pci-compliance` + `container-security` + `github-actions-security` | Security audits |
-| Content Creator | `mega-marketing` + `mega-seo` + `blog-engine` | Content & SEO |
-| Full Stack SaaS | `mega-saas` + `mega-devops` + `mega-testing` | SaaS products |
+Every hook can be individually disabled via environment variable.
 
-## KZ Status Line
+## Stock Claude Code vs Claude Code Kit
 
-A persistent footer appears under every Claude Code response showing live session data:
+| Feature | Stock | Kit |
+|---------|-------|-----|
+| Skills | 0 | 280+ |
+| Commands | Built-in only | 88+ custom |
+| Hooks | 0 | 37 automation hooks |
+| Modes | 1 | 9 workflow modes |
+| Dashboard | None | Real-time React UI |
+| Themes | Default | 4 switchable skins |
+| Methodology | None | The Kevin Z Method |
+| Multi-agent | Basic | Task Commander + Spawn Manager |
+| Cost control | None | Auto-alerts + budget tracking |
+| Context safety | None | Auto-checkpoint + context guard |
+
+## Integrations
+
+- **OpenClaw**: Native integration with 38-agent AI platform
+- **Claude Peers**: Multi-instance collaboration patterns
+- **Everything Claude Code (ECC)**: Compatible — adds 21 more hooks
+- **VS Code / Cursor**: Snippets and IDE guides included
+
+## Contributing
+
+PRs welcome. The kit is designed to be extended:
 
 ```
-━━ KZ ▐████████████░░░░░░░░▌ 62% │ Opus │ $1.24 │ in:89K out:14K │ 23m │ +142-37 │ my-project
+skills/your-skill/SKILL.md    # Add a new skill
+commands/your-command.md       # Add a slash command
+hooks/your-hook.js             # Add a lifecycle hook
 ```
-
-Shows context gauge (color-coded zones), model, cost, tokens, duration, lines changed, rate limits, and project name. Auto-configured on install via `settings.json`.
-
-## Proactive Automation (15 Hooks)
-
-The kit ships 15 lifecycle hooks that run automatically — no prompting required. They guard against mistakes, track costs, checkpoint work, and coach you toward better workflows.
-
-| Lifecycle | Hook | What it does |
-|-----------|------|-------------|
-| PreToolUse | `careful-guard` | Blocks destructive commands (rm -rf, DROP TABLE, force push) |
-| PreToolUse | `pre-commit-verify` | Runs TypeScript check before git commit |
-| PreToolUse | `confidence-gate` | Warns on risky multi-file bash operations |
-| PostToolUse | `auto-notify` | Notifications on significant events (PR created, deploy, etc.) |
-| PostToolUse | `preuse-logger` | Logs tool usage for cost analysis |
-| PostToolUse | `context-guard` | Warns at ~70% context usage, auto-saves session |
-| PostToolUse | `auto-checkpoint` | Git-stash checkpoint every 10 file edits |
-| PostToolUse | `cost-alert` | Cost proxy alerts at ~$0.50 and ~$2.00 thresholds |
-| PostToolUse | `auto-lessons` | Captures errors and corrections to tasks/lessons.md |
-| PostToolUse | `rate-predictor` | Predicts session duration from tool call rate |
-| Stop | `status-checkin` | Session end status summary |
-| Stop | `session-end-verify` | Verifies modified files, checks for console.log |
-| Stop | `session-coach` | Periodic coaching nudges — skill tips, workflow reminders (toggleable via `KZ_COACH_DISABLE=1`) |
-| PreCompact | `pre-compact` | Saves session state and critical context before context compaction |
-| PostToolUse | `self-verify` | Auto-verifies file changes against stated intent, catches drift |
-
-With ECC installed, 19 additional hooks bring the total to 34. Without ECC, the 15 kit-native hooks work standalone via `hooks-standalone.json`.
-
-## KZ Matrix Terminal Theme
-
-OLED black background + bright green text + cyan accents. Import the iTerm2 profile:
-
-```bash
-open compatibility/kz-matrix.itermcolors
-```
-
-Color values for other terminals (Alacritty, Warp, Kitty) in [compatibility/README.md](compatibility/README.md).
-
-## IDE Compatibility
-
-The toolkit customizes **Claude Code itself** (via `~/.claude/`), not your IDE. It works everywhere Claude Code runs:
-
-| Environment | Status |
-|-------------|--------|
-| Terminal (`claude` CLI) | Full support |
-| VS Code (Claude Code extension) | Full support + task shortcuts |
-| Cursor | Full support |
-| JetBrains (IntelliJ, WebStorm) | Full support |
-| Any terminal running `claude` | Full support |
-
-Install once. Works everywhere.
-
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `BIBLE.md` | The Kevin Z Method — 7 chapters + appendices |
-| `CHEATSHEET.md` | Daily reference — commands, shortcuts, power combos |
-| `SKILLS-INDEX.md` | Searchable skill directory (260+ skills by category) |
-| `CLAUDE.md` | Global behavior instructions (loaded every session) |
-| `settings.json` | MCP servers, permissions, model selection |
-
-## Installer Options
-
-```bash
-./install.sh              # Interactive install
-./install.sh --dry-run    # Preview without changes
-./install.sh --verify     # Validate existing installation
-./install.sh --force      # Skip confirmation prompts
-./uninstall.sh            # Clean removal with backup restore
-```
-
-## Testing
-
-```bash
-node --test tests/hooks.test.js    # Run hook test harness (53 tests)
-```
-
-Tests validate all 15 kit-native hooks, verify hook file existence, check JS syntax, and exercise the proactive automation suite (context-guard, auto-checkpoint, cost-alert, confidence-gate, session-coach, pre-compact, self-verify, etc.).
-
-## For Staff: Customize
-
-1. Edit `CLAUDE.md` — replace paths/projects for your setup
-2. Edit `settings.json` — point MCP servers to your tokens
-3. Add project-level `CLAUDE.md` in each repo for stack-specific rules
-4. Run `/init` in any project to generate tailored config
-5. Type `/cc` to explore skills, settings, and workflows
-
-## Built With
-
-- [Claude Code](https://claude.ai/code) by Anthropic
-- 200+ articles from the Claude Code community
-- Patterns from SuperClaude Framework, Everything Claude Code, and Trail of Bits
-- Tested on real projects (MyWiFi Networks, DMHub, trading systems)
-
-See [CONTRIBUTORS.md](docs/CONTRIBUTORS.md) for full source credits.
 
 ## License
 
-MIT
+MIT License. See [LICENSE](LICENSE).
+
+---
+
+**Claude Code Kit v1.3** — Built by Kevin Z
+
+*Distilled from 200+ community sources. One install. Under 60 seconds.*

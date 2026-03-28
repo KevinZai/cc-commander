@@ -1,7 +1,7 @@
 # Skills Index — Quick Reference
-> The Claude Code Bible v1.2 — by Kevin Z
+> The Claude Code Bible v1.3 — by Kevin Z
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
-> Last verified: 2026-03-28 | 280+ skill directories | 10 Mega-Skills | 16 kit-native hooks (35 with ECC) | 3 starter templates | 36+ prompt templates | 9 workflow modes | Real-time dashboard
+> Last verified: 2026-03-28 | 280+ skill directories | 10 Mega-Skills | 18 kit-native hooks (37 with ECC) | 3 starter templates | 36+ prompt templates | 9 workflow modes | Real-time dashboard | 4 themes
 > Audit: `./generate-index.sh --check` to find missing or broken skills
 
 > **Which document?** BIBLE.md = learning guide (read once). CHEATSHEET.md = daily reference (quick lookup). **SKILLS-INDEX.md = skill discovery (you are here).**
@@ -60,6 +60,8 @@ Each mega-skill has a router that dispatches to the right specialist. Individual
 | `freeze` | Restrict file edits to a specific directory for the session |
 | `unfreeze` | Clear freeze boundary, allowing edits to all directories again |
 | `project-kickoff` | Initialize new project with CLAUDE.md, tasks/, .claude/settings.json, git worktree setup |
+| `status-updates` | **NEW** Send progress reports to Slack/Discord/email at configurable intervals during long sessions |
+| `continuous-improvement` | **NEW** Daily cron scan for ecosystem improvements, multi-agent approval workflow, proposal queue management |
 
 ## 🚀 Ship & Review
 | Skill | What it does |
@@ -115,6 +117,7 @@ Each mega-skill has a router that dispatches to the right specialist. Individual
 | `dispatch-templates` | **NEW** 8 pre-built Dispatch templates — overnight-build, batch-review, security-scan, perf-benchmark, and more |
 | `openclaw-bridge` | **NEW** Bridge Bible ↔ OpenClaw (38-agent platform) — skill mapping, hook translation, agent profiles, session handoff |
 | `paperclip-bridge` | **NEW** Paperclip task management integration — issue creation, priority mapping, bidirectional sync, REST API |
+| `openclaw-native` | **NEW** OpenClaw native integration — auto-detection, skill sync, bidirectional event forwarding, agent profile generation, memory sync |
 
 ## 📖 Beginner Experience (NEW in v1.2)
 | Skill | What it does |
@@ -134,7 +137,7 @@ Each mega-skill has a router that dispatches to the right specialist. Individual
 ## 📊 Dashboard (NEW in v1.2)
 | Component | What it does |
 |-----------|-------------|
-| `dashboard/` | Real-time React dashboard — agent monitoring, spawn tree, cost tracker, live logs, KZ Matrix theme |
+| `dashboard/` | Real-time React dashboard — agent monitoring, spawn tree, cost tracker, live logs, 4 themes |
 
 ## 🏗️ Backend & Database
 | Skill | What it does |
@@ -514,4 +517,4 @@ Pick a bundle to load the right skills for your project type:
 
 ---
 
-*⭐ = new in v0.4 | New mega-skills, modes, integrations, and prompt library added in v1.1*
+*⭐ = new in v0.4 | New mega-skills, modes, integrations, and prompt library added in v1.1 | Themes, OpenClaw native, status updates, continuous improvement added in v1.3*

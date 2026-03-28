@@ -1,6 +1,6 @@
 ---
 name: cc
-description: The Claude Code Bible — Command Center. Interactive menu for skills, modes, prompts, confidence checks, and more.
+description: Claude Code Kit — Command Center. Interactive menu for skills, modes, prompts, confidence checks, and more.
 triggers:
   - "/cc"
   - "/cc skills"
@@ -14,9 +14,9 @@ triggers:
   - "/cc help"
 ---
 
-# /cc — Claude Code Bible Command Center
+# /cc — Claude Code Command Center
 
-You are the Claude Code Bible Command Center. When the user invokes `/cc`, display the interactive menu below and respond to their selection. Parse any arguments to route to sub-commands directly.
+You are the Claude Code Command Center. When the user invokes `/cc`, display the interactive menu below and respond to their selection. Parse any arguments to route to sub-commands directly.
 
 ## Routing
 
@@ -31,6 +31,9 @@ You are the Claude Code Bible Command Center. When the user invokes `/cc`, displ
 - `/cc status` → Kit health and version
 - `/cc peers` → Claude Peers + spawn manager
 - `/cc dashboard` → Real-time agent monitoring dashboard
+- `/cc openclaw` → OpenClaw native integration
+- `/cc status-updates` → Status update configuration
+- `/cc theme [name]` → Switch dashboard/terminal theme (4 themes)
 - `/cc help` → Compact reference card
 
 ## Main Menu
@@ -39,7 +42,7 @@ When showing the main menu, display:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  CLAUDE CODE BIBLE  //  COMMAND CENTER          v1.2
+  CLAUDE CODE KIT  //  COMMAND CENTER           v1.3
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   [1]  Skills Browser    — 280+ skills by category
@@ -54,8 +57,11 @@ When showing the main menu, display:
   [10] Prompt Library    — 35+ battle-tested templates
   [11] Claude Peers      — multi-instance collaboration + spawn
   [12] Dashboard         — real-time agent monitoring
+  [13] OpenClaw          — native integration + sync
+  [14] Status Updates    — progress report configuration
+  [15] Theme             — switch visual theme (4 themes)
 
-  Type a number (1-12) or a sub-command name.
+  Type a number (1-15) or a sub-command name.
 ```
 
 Ask the user which option they'd like. Wait for their response.
@@ -200,7 +206,7 @@ When loading a template, read the template file and present the prompt with `{{p
 ## [7] Status (`/cc status`)
 
 Display:
-- **Version**: v1.1
+- **Version**: v1.3
 - **Skills**: Count directories in `~/.claude/skills/`
 - **Commands**: Count .md files in `~/.claude/commands/`
 - **Hooks**: Check `~/.claude/hooks/hooks.json` exists
@@ -272,4 +278,46 @@ Explain the real-time agent monitoring dashboard:
    - Cost tracker with per-agent breakdown and budget gauge
    - Build progress DAG with phase highlighting
    - Live log stream with auto-scroll
-5. **KZ Matrix theme**: Dark background, green text, monospace, animated borders
+5. **Theme system**: 4 switchable themes (Claude Anthropic, OLED Black, Matrix, Surprise Me). Dark background, green text, monospace, animated borders
+
+## [13] OpenClaw (`/cc openclaw`)
+
+Show OpenClaw native integration capabilities:
+
+1. **Auto-Detection**: Check if OpenClaw is running on the local machine (port 18789)
+2. **Skill Sync**: Synchronize Bible skills with OpenClaw agent skill registries
+3. **Event Forwarding**: Bidirectional event forwarding between Bible hooks and OpenClaw webhooks
+4. **Agent Profiles**: Generate OpenClaw agent profiles from Bible skill configurations
+5. **Memory Sync**: Synchronize learned patterns between Bible sessions and OpenClaw memory
+
+Reference the `openclaw-native` skill for full documentation. Use `/openclaw` command for quick access.
+
+## [14] Status Updates (`/cc status-updates`)
+
+Configure progress report delivery during long sessions:
+
+1. **Channels**: Slack, Discord, email — configure which channels receive updates
+2. **Intervals**: Set how often updates are sent (every N minutes, or on milestones)
+3. **Content**: What to include — task progress, cost, context usage, files changed
+4. **Triggers**: Automatic updates on significant events (PR created, tests passing, deploy)
+
+Reference the `status-updates` skill for full documentation. Use `/status-updates` command for quick access.
+
+## [15] Theme (`/cc theme [name]`)
+
+Switch the visual theme for dashboard and terminal output. 4 themes available:
+
+| Theme | Description |
+|-------|-------------|
+| `anthropic` | Claude Anthropic palette — amber/indigo/deep navy (default) |
+| `oled` | OLED Black — pure black background, high contrast |
+| `matrix` | Matrix — enhanced green-on-black with CRT overlay effect |
+| `surprise` | Surprise Me — random selection from 5 curated palettes |
+
+If no theme specified, show all 4 and ask which they want.
+
+**Behavior when a theme is selected:**
+1. Update `lib/themes.js` and `lib/themes.sh` configuration
+2. Apply to dashboard if running
+3. Update terminal color suggestions
+4. Persist selection to `bible-config.json`
