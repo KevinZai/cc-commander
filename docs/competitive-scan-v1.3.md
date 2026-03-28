@@ -52,7 +52,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **What:** 15 opinionated tools serving as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA
 - **Key features:** Role-based agent personas, opinionated workflow, celebrity endorsement factor
 - **Our coverage:** Full — our c-level-pack, engineering-pack, design-review, and delegation-templates cover same ground with more depth
-- **Action:** Skip — we already have superior coverage. Keep gstack-upgrade skill for compatibility.
+- **Action:** Integrated in v1.3 — cherry-picked `/office-hours` (product validation), `/retro` (productivity stats), `/qa` (diff-aware QA). Credited in commands + BIBLE.md Appendix B.
 
 ### 6. Composio awesome-claude-skills — 48,603 stars
 - **URL:** https://github.com/ComposioHQ/awesome-claude-skills
@@ -325,7 +325,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **What:** Official compound engineering plugin for Claude Code
 - **Key features:** Plan-first development, compound task management
 - **Our coverage:** Full — we have /ce:plan, /ce:work, /ce:brainstorm commands integrated
-- **Action:** Skip — already integrated
+- **Action:** Integrated in v1.3 — cherry-picked `/compound` (post-task learning capture). Credited in command + BIBLE.md Appendix B.
 
 ### 45. Agent-Reach — 11,007 stars
 - **URL:** https://github.com/Panniantong/Agent-Reach

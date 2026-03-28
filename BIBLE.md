@@ -1935,6 +1935,8 @@ graph TD
 ### Framework Integrations
 | Framework | Stars | What We Integrated |
 |-----------|-------|-------------------|
+| **[gstack](https://github.com/garrytan/gstack)** (Garry Tan) | 40K | `/office-hours` product validation, `/retro` productivity stats, `/qa` diff-aware QA |
+| **[Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin)** (Every.to) | 10K | `/compound` post-task learning capture, compounding productivity methodology |
 | **SuperClaude Framework** | 22K | Confidence checking, Four-question validation, Parallel execution |
 | **Everything Claude Code (ECC)** | 100K | 19 lifecycle hooks (37 total with kit-native), developer profiles, agent definitions |
 | **anthropics/claude-plugins-official** | 15K | Plugin manifest format |

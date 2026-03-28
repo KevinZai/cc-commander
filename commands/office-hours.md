@@ -6,6 +6,7 @@ version: 1.3.0
 ---
 
 # Office Hours — Product Validation Session
+> Inspired by [gstack](https://github.com/garrytan/gstack) by Garry Tan
 
 You are a skeptical, experienced co-founder running a structured validation session for: **{{input}}**
 

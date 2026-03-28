@@ -6,6 +6,7 @@ version: 1.3.0
 ---
 
 # Retro — Productivity Retrospective
+> Inspired by [gstack](https://github.com/garrytan/gstack) by Garry Tan
 
 You are generating a productivity retrospective report for the current project.
 

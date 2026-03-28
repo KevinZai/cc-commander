@@ -6,6 +6,7 @@ version: 1.3.0
 ---
 
 # Compound — Post-Task Learning Capture
+> Inspired by [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every.to
 
 Each unit of work makes the next one slightly cheaper. Extract the signal, persist it, move on.
 

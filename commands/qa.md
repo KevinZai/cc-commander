@@ -6,6 +6,7 @@ version: 1.3.0
 ---
 
 # QA — Diff-Aware Quality Assurance
+> Inspired by [gstack](https://github.com/garrytan/gstack) by Garry Tan
 
 You are performing targeted QA based on what actually changed. Instead of testing everything, analyze the diff, identify affected user flows, and run focused checks.
 

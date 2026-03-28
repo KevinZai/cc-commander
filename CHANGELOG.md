@@ -15,7 +15,7 @@ All notable changes to Claude Code Kit will be documented in this file.
 - **Theme Command**: `/theme list|set|preview|random` for switching visual skins
 - **3 iTerm2 Color Profiles**: Claude Anthropic, OLED Black, Matrix — matching dashboard themes
 - **Marketing Assets**: Infographic, X/Twitter threads, long-form articles, monetization strategy document
-- **New Commands**: `/openclaw`, `/status-updates`, `/theme`, `/improve`, `/deploy-check`, `/debug-session`, `/feature-start`
+- **New Commands**: `/openclaw`, `/status-updates`, `/theme`, `/improve`, `/deploy-check`, `/debug-session`, `/feature-start`, `/office-hours` (inspired by gstack), `/retro` (inspired by gstack), `/qa` (inspired by gstack), `/compound` (inspired by Compound Engineering)
 - **New Skills**: status-updates, openclaw-native, task-commander, continuous-improvement
 - **New Hooks**: status-reporter (PostToolUse), openclaw-sync (SessionStart), daily-improvement-scan (cron)
 
