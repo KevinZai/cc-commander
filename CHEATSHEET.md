@@ -722,5 +722,40 @@ The Claude Code Bible includes an interactive command center accessible via `/cc
 
 ---
 
+## 📊 KZ Status Line
+
+Persistent footer under every response — auto-configured on install:
+
+```
+━━ KZ ▐████████████░░░░░░░░▌ 62% │ Opus │ $1.24 │ in:89K out:14K │ 23m │ +142-37 │ my-project
+```
+
+| Element | What it shows |
+|---------|--------------|
+| Context gauge | Usage % with color zones (green → yellow → orange → red → DANGER) |
+| Model | Opus / Sonnet / Haiku |
+| Cost | Session cost in USD |
+| Tokens | Input + output token counts |
+| Duration | Session time |
+| Lines | +added -removed |
+| Rate limits | 5h and 7d usage % (when available, turns red at 80%+) |
+| Project | Current directory name |
+
+Configured via `statusLine` in `settings.json`. Script: `lib/statusline.sh`.
+
+---
+
+## 🖥️ Terminal Theme
+
+Import the KZ Matrix iTerm2 profile for the intended visual experience:
+
+```bash
+open compatibility/kz-matrix.itermcolors
+```
+
+OLED black background + bright green text + cyan accents. Color values for other terminals in `compatibility/README.md`.
+
+---
+
 *See `SKILLS-INDEX.md` for the full searchable skill library.*
 *Skills live in `~/.claude/skills/` — load any with: "use the `skill-name` skill"*

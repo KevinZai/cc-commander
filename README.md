@@ -121,6 +121,26 @@ Post-implementation check: (1) Tests passing? (2) Requirements met? (3) No unver
 | Content Creator | `mega-marketing` + `mega-seo` + `blog-engine` | Content & SEO |
 | Full Stack SaaS | `mega-saas` + `mega-devops` + `mega-testing` | SaaS products |
 
+## KZ Status Line
+
+A persistent footer appears under every Claude Code response showing live session data:
+
+```
+━━ KZ ▐████████████░░░░░░░░▌ 62% │ Opus │ $1.24 │ in:89K out:14K │ 23m │ +142-37 │ my-project
+```
+
+Shows context gauge (color-coded zones), model, cost, tokens, duration, lines changed, rate limits, and project name. Auto-configured on install via `settings.json`.
+
+## KZ Matrix Terminal Theme
+
+OLED black background + bright green text + cyan accents. Import the iTerm2 profile:
+
+```bash
+open compatibility/kz-matrix.itermcolors
+```
+
+Color values for other terminals (Alacritty, Warp, Kitty) in [compatibility/README.md](compatibility/README.md).
+
 ## IDE Compatibility
 
 The toolkit customizes **Claude Code itself** (via `~/.claude/`), not your IDE. It works everywhere Claude Code runs:

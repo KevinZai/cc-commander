@@ -48,6 +48,9 @@ Each mega-skill has a router that dispatches to the right specialist. Individual
 | `session-startup` | Session startup protocol |
 | `using-superpowers` | How to find and use skills (meta-skill) |
 | `corrective-framing` | **NEW** Prompt engineering: present possibly-wrong claims to trigger correction > "remember to X" |
+| `confidence-check` | **NEW** Pre-execution confidence assessment (0-100%) — 4 dimensions, thresholds at 90/70, 25-250x token savings |
+| `four-question-validation` | **NEW** Post-implementation hallucination check — tests passing? requirements met? no assumptions? evidence? (94% detection) |
+| `context-budget` | **NEW** Visual context window budget analyzer — gauge, zone indicators, bloat sources, session-save nudges |
 | `brainstorming` | Pre-creative-work ideation (use before creative work) |
 | `playground` | HTML playgrounds for visual/interactive problems |
 | `freeze` | Restrict file edits to a specific directory for the session |

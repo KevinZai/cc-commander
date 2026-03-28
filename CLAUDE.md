@@ -17,7 +17,7 @@ The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration 
 │   └── cc.md            # /cc command center (interactive menu)
 ├── hooks/               # 23 hooks (JS) + hooks.json + hooks-standalone.json
 ├── templates/           # 3 starter templates (nextjs, api, cli)
-├── lib/                 # Terminal art libraries (bash + JS)
+├── lib/                 # Terminal art (bash + JS) + statusline.sh
 ├── docs/                # GitHub Pages landing site
 │   ├── index.html       # Single-page marketing site
 │   └── assets/          # CSS, JS, images
@@ -26,7 +26,7 @@ The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration 
 │   ├── CLAUDE.md.kevin  # Kevin's CLAUDE.md (full MCP, OpenClaw)
 │   ├── settings.json.kevin  # Kevin's settings (all MCP servers)
 │   └── hooks/           # Kevin-specific hooks (Paperclip, OpenClaw)
-├── compatibility/       # IDE compatibility guides
+├── compatibility/       # IDE guides + kz-matrix.itermcolors terminal theme
 ├── tests/               # Hook test harness
 ├── install.sh           # Interactive installer
 ├── install-remote.sh    # One-line remote installer (curl | bash)
@@ -66,3 +66,6 @@ The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration 
 - Mega-skills use router pattern: one SKILL.md dispatches to sub-skill directories
 - Kevin's personal overlay lives in `kevin/` — not installed by the public installer
 - Tests run via `node --test tests/hooks.test.js` (Node.js built-in test runner)
+- Status line (`lib/statusline.sh`) shows live context gauge, model, cost, tokens under every response
+- `/init` checks `~/.claude/sessions/` and offers to resume prior sessions before the wizard
+- KZ Matrix iTerm2 profile at `compatibility/kz-matrix.itermcolors`
