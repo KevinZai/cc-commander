@@ -1,487 +1,612 @@
 ---
 name: openclaw-bridge
-description: |
-  Bridge between Claude Code Bible and OpenClaw (38-agent orchestration platform).
-  Maps Bible skills to OpenClaw skills, translates hooks to webhook format, generates
-  agent profiles from Bible modes, creates workspace templates, handles session handoff
-  between Claude Code and OpenClaw agents, and syncs configuration.
+description: Bridge Claude Code Bible skills and hooks to OpenClaw agent orchestration platform
 triggers:
-  - /openclaw-bridge
-  - openclaw bridge
-  - openclaw integration
-  - bible to openclaw
-  - sync openclaw
-  - openclaw config sync
+  - "/openclaw"
+  - "/openclaw-bridge"
+disable-model-invocation: true
 ---
 
 # OpenClaw Bridge
 
-## Overview
+> Connect the Claude Code Bible to the OpenClaw agent orchestration platform. Map skills, translate hooks, generate agent profiles, synchronize config, and hand off sessions between Claude Code and 38+ OpenClaw agents.
 
-OpenClaw is a 38-agent orchestration platform running on localhost:18789. This skill bridges Bible configurations, skills, and hooks into OpenClaw's format, enabling Bible-powered workflows to run across OpenClaw's agent fleet.
+## What OpenClaw Is
 
-**Key Paths:**
-- OpenClaw gateway: `http://localhost:18789`
-- Config: `~/.openclaw/openclaw.json` (JSON5, source of truth)
-- Agent state: `~/.openclaw/agents/{agentId}/sessions/`
-- Skills: `~/.openclaw/skills/`
-- Memory: `~/.openclaw/memory/` (per-agent SQLite)
-- Bible config: `~/.claude/` (skills, hooks, commands, settings)
+OpenClaw is a personal AI assistant platform running on Mac Mini M4. It operates a single WebSocket + HTTP gateway on **port 18789**, orchestrating 38+ specialized agents across 12 workspaces. Each agent has its own model, channel bindings, tools, skills, and memory.
 
-## Mapping Bible Skills to OpenClaw Skills
+**Architecture:**
+- **Gateway:** Single Node.js process (launchd-managed) at `http://localhost:18789`
+- **Config:** `~/.openclaw/openclaw.json` (JSON5, ~139KB) — source of truth for all agents, channels, models, tools
+- **Agent state:** `~/.openclaw/agents/{agentId}/sessions/` (JSONL transcripts)
+- **Skills:** `~/.openclaw/skills/` (120+ installed) + per-workspace `skills/` dirs
+- **Memory:** `~/.openclaw/memory/` (per-agent SQLite) + `~/.openclaw/lcm.db` (long-context memory)
+- **Workspaces:** `~/clawd/workspaces/{name}/` with standard files (SOUL.md, AGENTS.md, TOOLS.md, IDENTITY.md, USER.md)
 
-### Skill Format Translation
+**Key agents:** Alfred (personal assistant), Morpheus (architect), Neo (orchestrator), Viper (trading), Jarvis (GN platform), Codex/Gemini/Claude (dev), Cleo (home).
 
-Bible skills are single SKILL.md files. OpenClaw skills are directories with a `skill.json` manifest and a `prompt.md` content file.
+## When to Use This Skill
 
-**Bible SKILL.md:**
-```markdown
+- Deploying a Bible skill as an OpenClaw skill
+- Translating Bible hooks to OpenClaw webhook format
+- Generating OpenClaw agent personas from Bible workflow modes
+- Creating OpenClaw workspace files from Bible config
+- Handing off a Claude Code session to an OpenClaw agent (or vice versa)
+- Synchronizing Bible config with OpenClaw config
+- Debugging Bible-to-OpenClaw integration issues
+
+---
+
+## 1. Skill Mapping: Bible Skills to OpenClaw Skills
+
+Bible skills live in `~/.claude/skills/{name}/SKILL.md` with YAML frontmatter. OpenClaw skills live in `~/.openclaw/skills/{name}/` with a different structure.
+
+### Bible Skill Format
+```yaml
 ---
 name: my-skill
-description: Does something useful
+description: What this skill does
 triggers:
-  - /my-skill
-  - my skill trigger
+  - "/my-skill"
+allowed-tools:
+  - Bash
+  - Read
+  - Write
 ---
-
-# My Skill
-
-Instructions here...
+# Skill Content (Markdown instructions)
 ```
 
-**OpenClaw equivalent:**
-```
-~/.openclaw/skills/my-skill/
-  skill.json    # Metadata
-  prompt.md     # Skill content (body of SKILL.md)
-```
-
-**skill.json:**
+### OpenClaw Skill Format
 ```json
 {
   "id": "my-skill",
-  "name": "my-skill",
-  "description": "Does something useful",
+  "name": "My Skill",
+  "description": "What this skill does",
   "version": "1.0.0",
-  "source": "bible",
-  "triggers": ["/my-skill", "my skill trigger"],
-  "tags": ["bible", "imported"],
-  "autoLoad": false,
-  "requiredTools": []
-}
-```
-
-### Automated Skill Sync
-
-Run this to sync all Bible skills to OpenClaw format:
-
-```bash
-#!/bin/bash
-# bible-to-openclaw-skills.sh
-# Syncs Bible SKILL.md files to OpenClaw skill format
-
-BIBLE_SKILLS="$HOME/.claude/skills"
-OPENCLAW_SKILLS="$HOME/.openclaw/skills"
-
-for skill_dir in "$BIBLE_SKILLS"/*/; do
-  skill_file="$skill_dir/SKILL.md"
-  [ -f "$skill_file" ] || continue
-
-  skill_name=$(basename "$skill_dir")
-  target_dir="$OPENCLAW_SKILLS/bible-$skill_name"
-
-  mkdir -p "$target_dir"
-
-  # Extract frontmatter fields
-  description=$(sed -n '/^---$/,/^---$/p' "$skill_file" | grep '^description:' | sed 's/^description:\s*//')
-  name=$(sed -n '/^---$/,/^---$/p' "$skill_file" | grep '^name:' | sed 's/^name:\s*//')
-
-  # Write skill.json
-  cat > "$target_dir/skill.json" <<EOJSON
-{
-  "id": "bible-$skill_name",
-  "name": "${name:-$skill_name}",
-  "description": "${description:-Imported from Bible}",
-  "version": "1.0.0",
-  "source": "bible",
-  "tags": ["bible", "imported"],
+  "triggers": ["/my-skill"],
+  "instructions": "path/to/SKILL.md",
+  "tools": ["bash", "read", "write"],
   "autoLoad": false
 }
-EOJSON
-
-  # Extract body (everything after second ---)
-  sed '1,/^---$/d; 1,/^---$/d' "$skill_file" > "$target_dir/prompt.md"
-
-  echo "Synced: $skill_name -> bible-$skill_name"
-done
-
-echo "Done. Run 'openclaw doctor' to validate."
 ```
 
-### Priority Mapping
+### Mapping Procedure
 
-Bible skills and OpenClaw skills can coexist. Naming convention prevents collisions:
+1. **Parse frontmatter** from the Bible SKILL.md
+2. **Transform tool names:** Bible uses PascalCase (`Bash`, `Read`, `Write`), OpenClaw uses lowercase (`bash`, `read`, `write`). Map `AskUserQuestion` to `ask_user`. Map `TodoWrite` to `todo`.
+3. **Copy skill content** to `~/.openclaw/skills/{name}/SKILL.md` — the markdown body is compatible as-is
+4. **Generate skill manifest** in `~/.openclaw/skills/{name}/manifest.json`:
 
-| Source | Naming | Example |
-|---|---|---|
-| Bible native | `skill-name` | `overnight-runner` |
-| OpenClaw native | `skill-name` | `openclaw-health-check` |
-| Bible imported to OpenClaw | `bible-skill-name` | `bible-overnight-runner` |
+```json
+{
+  "id": "{name}",
+  "name": "{name from frontmatter}",
+  "description": "{description from frontmatter}",
+  "version": "1.0.0",
+  "source": "claude-code-bible",
+  "triggers": ["{triggers from frontmatter}"],
+  "instructions": "SKILL.md",
+  "tools": ["{mapped tool names}"],
+  "autoLoad": false,
+  "category": "{inferred from skill path}"
+}
+```
 
-When both exist, OpenClaw agents use the OpenClaw-native version. Bible-imported versions are fallbacks.
+5. **Register in openclaw.json** — add skill ID to the target agent's `skills` array
 
-## Hook Translation: Bible Hooks to OpenClaw Webhooks
+### Batch Mapping Command
 
-Bible hooks are Node.js scripts that run in Claude Code's hook lifecycle (PreToolUse, PostToolUse, Stop). OpenClaw uses HTTP webhooks for event notification.
+```bash
+# Map all Bible skills to OpenClaw format
+for skill_dir in ~/.claude/skills/*/; do
+  skill_name=$(basename "$skill_dir")
+  if [ -f "$skill_dir/SKILL.md" ]; then
+    mkdir -p ~/.openclaw/skills/$skill_name
+    cp "$skill_dir/SKILL.md" ~/.openclaw/skills/$skill_name/
+    # Generate manifest (use the openclaw-bridge hook or manual jq)
+  fi
+done
+```
 
-### Hook Event Mapping
+### Category Inference Table
 
-| Bible Hook Event | OpenClaw Webhook | Payload |
-|---|---|---|
-| PreToolUse | `POST /api/webhooks/bible/pre-tool` | `{ tool, input, sessionId }` |
-| PostToolUse | `POST /api/webhooks/bible/post-tool` | `{ tool, output, sessionId, duration }` |
-| Stop | `POST /api/webhooks/bible/session-end` | `{ sessionId, summary, cost }` |
-| cost-alert threshold | `POST /api/webhooks/bible/cost-alert` | `{ sessionId, cost, threshold }` |
-| auto-checkpoint | `POST /api/webhooks/bible/checkpoint` | `{ sessionId, editCount, stashRef }` |
-| confidence-gate fail | `POST /api/webhooks/bible/confidence-low` | `{ sessionId, score, task }` |
+| Bible Skill Path Pattern | OpenClaw Category |
+|--------------------------|-------------------|
+| `mega-*` | `mega-skill` |
+| `mode-switcher` | `workflow` |
+| `*-patterns` | `engineering` |
+| `*-testing`, `tdd-*`, `e2e-*` | `testing` |
+| `*-security`, `pentest-*`, `harden` | `security` |
+| `*-cro`, `*-seo`, `marketing-*` | `marketing` |
+| `openclaw-*` | `platform` |
+| `paperclip*` | `platform` |
+| Everything else | `general` |
 
-### Webhook Adapter
+---
 
-Use the `hooks/openclaw-adapter.js` hook (see FILE 6) to translate Bible hook events to OpenClaw webhooks in real time. The adapter:
+## 2. Hook Translation: Bible Hooks to OpenClaw Webhooks
 
-1. Reads the PostToolUse event from stdin
-2. Transforms it to OpenClaw's webhook payload format
-3. POSTs to `http://localhost:18789/api/webhooks/bible`
-4. Falls back gracefully if OpenClaw is not running
-5. Controlled by `KZ_OPENCLAW_ENABLED` environment variable
+Bible hooks are Node.js scripts that read JSON from stdin and write JSON to stdout. OpenClaw hooks are HTTP webhooks (POST requests to the gateway).
 
-### Registering Webhooks in OpenClaw
+### Bible Hook Format
+```
+stdin → { tool_name, tool_input, tool_output } → hook.js → stdout (passthrough)
+                                                          → stderr (logging)
+```
 
-Add the Bible webhook endpoint to `openclaw.json`:
+### OpenClaw Webhook Format
+```
+POST http://localhost:18789/api/webhooks/bible
+Content-Type: application/json
 
-```json5
+{
+  "event": "bible_hook",
+  "hookType": "PostToolUse|PreToolUse|Stop",
+  "hookName": "context-guard",
+  "source": "claude-code-bible",
+  "version": "1.2",
+  "timestamp": "2026-03-28T12:00:00.000Z",
+  "tool": {
+    "name": "Bash",
+    "input": { "command": "ls" },
+    "output": "file1.txt\nfile2.txt"
+  },
+  "session": {
+    "id": "abc123",
+    "cwd": "/Users/ai/project"
+  },
+  "metadata": {}
+}
+```
+
+### Translation Rules
+
+| Bible Field | OpenClaw Field | Notes |
+|-------------|----------------|-------|
+| `tool_name` | `tool.name` | Direct mapping |
+| `tool_input` | `tool.input` | Direct mapping |
+| `tool_output` | `tool.output` | Truncated to 10KB max |
+| `process.env.CLAUDE_SESSION_ID` | `session.id` | Falls back to `SESSION_ID` |
+| `process.cwd()` | `session.cwd` | Working directory |
+| Hook filename | `hookName` | e.g., `context-guard` |
+| Hook type from config | `hookType` | `PreToolUse`, `PostToolUse`, or `Stop` |
+
+### Enabling Translation
+
+Set `KZ_OPENCLAW_ENABLED=1` in your environment. The `openclaw-adapter.js` hook (included in this kit) handles the translation automatically for every PostToolUse event.
+
+### Gateway Endpoint Registration
+
+The OpenClaw gateway must register the `/api/webhooks/bible` endpoint. Add to `openclaw.json`:
+
+```json
 {
   "webhooks": {
     "bible": {
       "enabled": true,
-      "endpoints": {
-        "pre-tool": "/api/webhooks/bible/pre-tool",
-        "post-tool": "/api/webhooks/bible/post-tool",
-        "session-end": "/api/webhooks/bible/session-end",
-        "cost-alert": "/api/webhooks/bible/cost-alert",
-        "checkpoint": "/api/webhooks/bible/checkpoint",
-        "confidence-low": "/api/webhooks/bible/confidence-low"
-      },
-      "auth": "bearer",
-      "source": "claude-code-bible"
+      "source": "claude-code-bible",
+      "allowedEvents": ["bible_hook"],
+      "targetAgent": "alfred",
+      "logToComms": false
     }
   }
 }
 ```
 
-## Agent Profile Generation from Bible Modes
+---
 
-Bible has 9 workflow modes. Each mode maps to an OpenClaw agent profile template.
+## 3. Agent Profile Generation: Bible Modes to OpenClaw Personas
 
-### Mode-to-Profile Mapping
+The Bible's mode-switcher skill defines 9 workflow modes. Each maps to an OpenClaw agent persona configuration.
 
-| Bible Mode | OpenClaw Profile | Model | Persona Traits |
-|---|---|---|---|
-| normal | `bible-standard` | Sonnet | Balanced, task-focused, verification-oriented |
-| design | `bible-designer` | Sonnet | Visual, UX-focused, accessibility-aware |
-| saas | `bible-saas` | Sonnet | Metrics-driven, customer-focused, growth-oriented |
-| marketing | `bible-marketer` | Sonnet | Creative, brand-conscious, conversion-optimized |
-| research | `bible-researcher` | Opus | Deep analysis, citation-heavy, systematic |
-| writing | `bible-writer` | Sonnet | Polished prose, audience-aware, structured |
-| night | `bible-night-worker` | Flash | Cost-efficient, batch-oriented, checkpoint-heavy |
-| yolo | `bible-yolo` | Sonnet | Fast, minimal verification, ship-first |
-| unhinged | `bible-unhinged` | Sonnet | Creative, unconventional, experimental |
+### Mode to Persona Mapping
 
-### Profile Generator Script
+| Bible Mode | OpenClaw Persona | Model Tier | Tone | Primary Workspace |
+|------------|-----------------|------------|------|-------------------|
+| `normal` | Default persona | Sonnet | Balanced, professional | `main` |
+| `design` | Design Specialist | Sonnet | Creative, visual-first | `dev` |
+| `saas` | SaaS Builder | Sonnet | Product-focused, metric-driven | `dev` |
+| `marketing` | Marketing Strategist | Sonnet | Persuasive, brand-aware | `main` |
+| `research` | Research Analyst | Opus | Thorough, citation-heavy | `architecture` |
+| `writing` | Technical Writer | Sonnet | Clear, structured, concise | `main` |
+| `night` | Night Owl | Flash | Minimal, cost-efficient | `worker` |
+| `yolo` | Speed Runner | Flash | Fast, skip confirmations | `worker` |
+| `unhinged` | Creative Chaos | Sonnet | Unrestricted, experimental | `dev` |
+
+### Generating an OpenClaw Agent from a Mode
 
 ```bash
-#!/bin/bash
-# generate-openclaw-profiles.sh
-# Creates OpenClaw agent profiles from Bible modes
-
-PROFILES_DIR="$HOME/.openclaw/profiles/bible"
-mkdir -p "$PROFILES_DIR"
-
-generate_profile() {
-  local mode=$1 model=$2 traits=$3
-  cat > "$PROFILES_DIR/bible-${mode}.json" <<EOJSON
+# Example: Generate a design-focused agent
+cat > /tmp/agent-spec.json << 'EOF'
 {
-  "id": "bible-${mode}",
-  "name": "Bible ${mode^} Profile",
-  "model": "${model}",
-  "source": "bible-mode-switcher",
-  "traits": "${traits}",
-  "systemPromptAppend": "You are operating in ${mode} mode. Follow the Bible mode-switcher rules for this mode.",
-  "skills": ["bible-mode-switcher"],
-  "costTier": "$([ "$model" = "flash" ] && echo "free" || echo "standard")",
-  "maxTurns": $([ "$mode" = "night" ] && echo "200" || echo "100")
+  "id": "design-agent",
+  "name": "Pixel",
+  "model": "claude-sonnet-4-6",
+  "workspace": "dev",
+  "thinking": "medium",
+  "maxTokens": 8192,
+  "persona": {
+    "tone": "creative, visual-first",
+    "role": "Design specialist — UI/UX, component architecture, visual systems",
+    "boundaries": ["No backend work", "No database queries", "Defer security to Guardian"]
+  },
+  "skills": ["shadcn-ui", "frontend-design", "design-review", "tailwind-v4"],
+  "sourceMode": "design"
 }
-EOJSON
-  echo "Generated: bible-${mode}"
-}
-
-generate_profile "normal" "sonnet" "balanced, task-focused, verification-oriented"
-generate_profile "design" "sonnet" "visual, UX-focused, accessibility-aware"
-generate_profile "saas" "sonnet" "metrics-driven, customer-focused, growth-oriented"
-generate_profile "marketing" "sonnet" "creative, brand-conscious, conversion-optimized"
-generate_profile "research" "opus" "deep analysis, citation-heavy, systematic"
-generate_profile "writing" "sonnet" "polished prose, audience-aware, structured"
-generate_profile "night" "flash" "cost-efficient, batch-oriented, checkpoint-heavy"
-generate_profile "yolo" "sonnet" "fast, minimal verification, ship-first"
-generate_profile "unhinged" "sonnet" "creative, unconventional, experimental"
-
-echo "Profiles generated in $PROFILES_DIR"
-```
-
-## Workspace Template Generator
-
-Generate OpenClaw workspace files from a Bible project configuration.
-
-### Standard Workspace Files
-
-Bible projects map to OpenClaw workspaces:
-
-| Bible Source | OpenClaw File | Purpose |
-|---|---|---|
-| `CLAUDE.md` | `AGENTS.md` | Operating instructions |
-| Mode config | `IDENTITY.md` | Agent metadata |
-| Prompt templates | `SOUL.md` | Persona and tone |
-| `.claude/settings.json` | `TOOLS.md` | Available tools |
-| User instructions | `USER.md` | Human context |
-
-### Template Generator
-
-```bash
-#!/bin/bash
-# generate-workspace.sh <project-path> <workspace-name>
-
-PROJECT=$1
-WORKSPACE=$2
-WORKSPACE_DIR="$HOME/clawd/workspaces/$WORKSPACE"
-
-mkdir -p "$WORKSPACE_DIR/memory"
-
-# AGENTS.md from CLAUDE.md
-if [ -f "$PROJECT/CLAUDE.md" ]; then
-  cp "$PROJECT/CLAUDE.md" "$WORKSPACE_DIR/AGENTS.md"
-  echo "Created AGENTS.md from CLAUDE.md"
-fi
-
-# IDENTITY.md
-cat > "$WORKSPACE_DIR/IDENTITY.md" <<EOF
-# Identity
-
-- **Workspace:** $WORKSPACE
-- **Source:** Bible project at $PROJECT
-- **Created:** $(date -u +%Y-%m-%dT%H:%M:%SZ)
-- **Model:** sonnet
-- **Channel:** #$WORKSPACE
 EOF
-
-# TOOLS.md from settings.json
-if [ -f "$PROJECT/.claude/settings.json" ]; then
-  echo "# Tools" > "$WORKSPACE_DIR/TOOLS.md"
-  echo "" >> "$WORKSPACE_DIR/TOOLS.md"
-  echo "Sourced from: \`$PROJECT/.claude/settings.json\`" >> "$WORKSPACE_DIR/TOOLS.md"
-  echo "" >> "$WORKSPACE_DIR/TOOLS.md"
-  echo '```json' >> "$WORKSPACE_DIR/TOOLS.md"
-  cat "$PROJECT/.claude/settings.json" >> "$WORKSPACE_DIR/TOOLS.md"
-  echo '```' >> "$WORKSPACE_DIR/TOOLS.md"
-  echo "Created TOOLS.md from settings.json"
-fi
-
-echo "Workspace created at: $WORKSPACE_DIR"
 ```
 
-## Session Handoff: Claude Code <-> OpenClaw Agents
+### SOUL.md Template from Mode
+
+```markdown
+# SOUL.md — {Name} {Emoji}
+
+You are {Name} — {role derived from mode}.
+
+## Identity
+- **Name:** {Name}
+- **Model:** {model from mode mapping}
+- **Workspace:** {workspace from mode mapping}
+- **Source Mode:** {Bible mode name}
+
+## Core Expertise
+{Generated from mode's skill set}
+
+## Vibe
+{Tone from mode mapping}
+
+## Boundaries
+{Generated from mode's constraints}
+```
+
+---
+
+## 4. Workspace Template Generator
+
+Generate a complete OpenClaw workspace directory from Bible configuration.
+
+### Input: Bible Config
+```json
+{
+  "workspaceName": "my-project",
+  "agentName": "Atlas",
+  "agentEmoji": "🗺️",
+  "role": "Project navigator and task coordinator",
+  "model": "sonnet",
+  "channel": "discord-my-project",
+  "skills": ["task-commander", "delegation-templates", "executing-plans"]
+}
+```
+
+### Output: Workspace Files
+
+```
+~/clawd/workspaces/my-project/
+├── SOUL.md          # Persona, tone, boundaries
+├── AGENTS.md        # Operating instructions, workflows
+├── TOOLS.md         # Available tools and scripts
+├── IDENTITY.md      # Name, model, channel metadata
+├── USER.md          # Kevin's user context
+├── HEARTBEAT.md     # Periodic check-in protocol
+├── CRITICAL.md      # Hard rules
+└── memory/          # Daily memory logs
+    └── .gitkeep
+```
+
+### Generation Steps
+
+1. Read Bible skills specified in config
+2. Extract tool requirements from each skill's `allowed-tools`
+3. Generate SOUL.md from agent name, role, and mode-inferred personality
+4. Generate AGENTS.md with standard sections: Channel-Aware Mode, Hard Rules, Session Start, Core Loop, Memory Protocol, Inter-Agent Announce
+5. Generate TOOLS.md from aggregated tool list
+6. Generate IDENTITY.md from agent metadata
+7. Copy USER.md from `~/clawd/workspaces/architecture/USER.md`
+8. Create HEARTBEAT.md with default check-in schedule
+9. Create CRITICAL.md with fleet-wide hard rules
+10. Create `memory/` directory
+
+---
+
+## 5. Session Handoff: Claude Code to OpenClaw Agents
+
+Hand off an active Claude Code session to an OpenClaw agent for continuation.
 
 ### Claude Code to OpenClaw
 
-When a Claude Code session needs to hand off work to an OpenClaw agent:
+```bash
+# 1. Save current session state
+/save-session
 
-1. **Write handoff file:**
-```json
+# 2. Build handoff payload
+cat > /tmp/handoff.json << 'EOF'
 {
+  "type": "session_handoff",
   "from": "claude-code",
-  "to": "alfred",
-  "timestamp": "2026-03-28T10:00:00Z",
+  "to": "{target-agent-id}",
+  "sessionFile": "~/.claude/sessions/{session-id}.md",
   "context": {
-    "project": "/path/to/project",
-    "branch": "feat/new-feature",
-    "checkpoint": "tasks/checkpoint.json",
-    "currentTask": "Implement API endpoints",
-    "completedSteps": ["Schema design", "Model creation"],
-    "remainingSteps": ["Route handlers", "Tests", "Documentation"]
-  },
-  "instructions": "Continue from checkpoint. Route handlers need auth middleware.",
-  "skills": ["senior-backend", "verification-loop"]
+    "cwd": "/current/working/directory",
+    "task": "Brief description of what needs to continue",
+    "files": ["list", "of", "relevant", "files"],
+    "progress": "What has been done so far",
+    "nextSteps": "What the receiving agent should do next"
+  }
 }
-```
+EOF
 
-2. **Send via OpenClaw API:**
-```bash
-curl -s -X POST http://localhost:18789/api/sessions/handoff \
-  -H 'Content-Type: application/json' \
-  -d @tasks/handoff-to-openclaw.json
-```
-
-3. **Or via inter-agent protocol:**
-```bash
-# Use sessions_send to message the target agent
+# 3. Send to OpenClaw via sessions_send
 curl -s -X POST http://localhost:18789/api/sessions/send \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "targetAgent": "alfred",
-    "message": "Handoff from Claude Code. Read tasks/handoff-to-openclaw.json for context.",
-    "priority": "high"
-  }'
+  -H "Content-Type: application/json" \
+  -d @/tmp/handoff.json
 ```
 
 ### OpenClaw to Claude Code
 
-When an OpenClaw agent needs interactive Claude Code follow-up:
+When an OpenClaw agent needs Claude Code to take over:
 
-1. Agent writes result to the shared project directory
-2. Agent posts a handoff flag: `tasks/openclaw-handoff-{agentId}.json`
-3. Next Claude Code session detects the flag in session-startup
-4. Claude Code reads context and continues
+1. Agent posts handoff context to `#comms-log` channel
+2. Agent writes session summary to `~/clawd/workspaces/{workspace}/memory/handoff-{date}.md`
+3. Claude Code user runs `/resume-session` or reads the handoff file directly
+
+### Handoff Protocol
+
+| Step | Actor | Action |
+|------|-------|--------|
+| 1 | Sender | Save session state and pending tasks |
+| 2 | Sender | Build handoff payload with context, files, progress |
+| 3 | Sender | Send via `sessions_send` or REST API |
+| 4 | Sender | Post to `#comms-log` for audit trail |
+| 5 | Receiver | Read handoff payload |
+| 6 | Receiver | Load referenced files and session context |
+| 7 | Receiver | Continue from `nextSteps` |
+| 8 | Receiver | Post acknowledgment to `#comms-log` |
+
+---
+
+## 6. Shared Memory Protocol
+
+Synchronize session memory between Bible sessions (`~/.claude/sessions/`) and OpenClaw memory databases (`~/.openclaw/memory/`).
+
+### Bible Session Format
+```markdown
+# Session — 2026-03-28T12:00:00.000Z
+- **Session ID:** abc123
+- **Working Directory:** /Users/ai/project
+- **Key Decisions:** [list]
+- **Files Modified:** [list]
+- **Lessons Learned:** [list]
+```
+
+### OpenClaw Memory Format
+```markdown
+# 2026-03-28
+[DECISION] Chose X over Y because Z
+[CORRECTION] Fixed approach to A — was doing B, should be C
+[LEARNED] Pattern D works well for situation E
+[HANDOFF] Session abc123 → agent-id for continuation
+```
+
+### Sync Rules
+
+1. **Bible to OpenClaw:** On `/save-session`, extract tagged entries and append to `~/clawd/workspaces/{workspace}/memory/{date}.md`
+2. **OpenClaw to Bible:** On `/resume-session`, scan recent OpenClaw memory files for `[HANDOFF]` and `[DECISION]` tags relevant to current project
+3. **Conflict resolution:** OpenClaw memory is append-only. Bible sessions are snapshots. No destructive merges. Both sources are additive.
+4. **Tag mapping:**
+
+| Bible Concept | OpenClaw Tag | Direction |
+|---------------|-------------|-----------|
+| Key Decisions | `[DECISION]` | Bidirectional |
+| Lessons Learned | `[LEARNED]` | Bible to OpenClaw |
+| Corrections | `[CORRECTION]` | Bidirectional |
+| Session Handoff | `[HANDOFF]` | Bidirectional |
+| File Changes | `[CHANGED]` | Bible to OpenClaw |
+| Task Progress | `[PROGRESS]` | OpenClaw to Bible |
+
+---
+
+## 7. Config Sync: bible-config.json to openclaw.json
+
+### Bible Config Location
+Settings in `~/.claude/settings.json` and hook config in `~/.claude/settings.json` under `hooks`.
+
+### OpenClaw Config Location
+`~/.openclaw/openclaw.json` — monolithic JSON5 config.
+
+### Sync Points
+
+| Bible Config Key | OpenClaw Config Key | Sync Direction |
+|------------------|---------------------|----------------|
+| `skills[]` | `agents[].skills[]` | Bible to OpenClaw |
+| `hooks[]` | `webhooks.bible` | Bible to OpenClaw |
+| `allowedTools[]` | `agents[].tools[]` | Informational only |
+| Mode (active) | `agents[].persona` | Bible to OpenClaw |
+| Session cost | `budgets.daily` | OpenClaw to Bible |
+
+### Sync Procedure
+
+```bash
+# 1. Always backup first
+cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.backup-$(date +%Y%m%d-%H%M%S)
+
+# 2. Read Bible skills list
+bible_skills=$(jq -r '.skills // [] | .[]' ~/.claude/settings.json 2>/dev/null)
+
+# 3. Map to OpenClaw skill IDs (strip paths, normalize names)
+# 4. Update target agent's skill array in openclaw.json via jq
+# 5. Validate with openclaw doctor
+openclaw doctor
+```
+
+**NEVER** sync destructively. Always add, never remove. OpenClaw config changes require Kevin's approval if they affect gateway behavior.
+
+---
+
+## 8. Mega-Skill to Workspace Mapping
+
+Bible mega-skills map to OpenClaw workspaces and agent specializations.
+
+| Bible Mega-Skill | OpenClaw Workspace | Primary Agent | Model |
+|-------------------|-------------------|---------------|-------|
+| `mega-devops` | `dev` | Codex | Sonnet |
+| `mega-security` | `architecture` | Morpheus | Opus |
+| `mega-testing` | `dev` | Codex | Sonnet |
+| `mega-design` | `dev` | Pixel (worker) | Sonnet |
+| `mega-marketing` | `main` | Alfred | Sonnet |
+| `mega-saas` | `dev` | Codex | Sonnet |
+| `mega-seo` | `main` | Alfred | Sonnet |
+| `mega-research` | `architecture` | Morpheus | Opus |
+| `mega-data` | `dev` | Codex | Sonnet |
+| `mega-mobile` | `dev` | Codex | Sonnet |
+
+### Loading a Mega-Skill via OpenClaw
+
+When an OpenClaw agent needs a mega-skill's capabilities, it loads the skill by ID and gains access to all absorbed sub-skills. The routing logic in the mega-skill's SKILL.md handles dispatch to the correct sub-skill.
+
+---
+
+## 9. Setup Instructions
+
+### Prerequisites
+- OpenClaw gateway running on `localhost:18789`
+- Claude Code Bible installed (`~/.claude/skills/`, `~/.claude/hooks/`)
+- `curl` and `jq` available in PATH
+
+### Step 1: Enable the Bridge
+
+```bash
+# Add to your shell profile (~/.zshrc or ~/.bashrc)
+export KZ_OPENCLAW_ENABLED=1
+# Optional: enable debug logging
+# export KZ_OPENCLAW_DEBUG=1
+```
+
+### Step 2: Install the Adapter Hook
+
+The `openclaw-adapter.js` hook ships with this kit. Verify it is registered in your hooks config:
 
 ```json
 {
-  "from": "alfred",
-  "to": "claude-code",
-  "timestamp": "2026-03-28T14:30:00Z",
-  "status": "needs-review",
-  "summary": "API endpoints implemented. 2 tests failing -- need human judgment on auth approach.",
-  "artifacts": [
-    "src/routes/api.ts",
-    "tests/api.test.ts",
-    "output/alfred-review.md"
-  ],
-  "blockers": [
-    "Test auth-middleware.test.ts:45 -- unclear if JWT or session auth intended",
-    "Test rate-limit.test.ts:23 -- rate limit config not in .env.example"
-  ]
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": ["hooks/openclaw-adapter.js"]
+      }
+    ]
+  }
 }
 ```
 
-## Shared Memory Protocol
+### Step 3: Register Webhook Endpoint
 
-Bible sessions and OpenClaw agents can share context through a common memory format.
+Add to `~/.openclaw/openclaw.json` (after backup):
 
-### Memory File Format
-
-Both systems write to markdown files with tagged entries:
-
-```markdown
-# Memory -- 2026-03-28
-
-## [DECISION] Auth approach
-JWT with refresh tokens. RSA256. 15min access, 7d refresh.
-Source: Claude Code session, confirmed by Morpheus.
-
-## [LEARNED] Rate limiting
-Use express-rate-limit with Redis store for distributed deployments.
-In-memory store acceptable for single-instance.
-
-## [CORRECTION] API response format
-Always use envelope: { success, data, error, meta }.
-Previous code was returning raw data arrays.
-
-## [CONTEXT] Project state
-- Branch: feat/api-v2
-- Last commit: abc1234
-- Tests: 42 pass, 2 fail
-- Coverage: 78%
+```json
+{
+  "webhooks": {
+    "bible": {
+      "enabled": true,
+      "source": "claude-code-bible",
+      "allowedEvents": ["bible_hook"],
+      "targetAgent": "alfred"
+    }
+  }
+}
 ```
 
-### Sync Direction
-
-```
-Claude Code -> writes to -> project/tasks/memory-sync.md
-     |
-     v
-Bible session-startup reads on next session
-     |
-     v
-OpenClaw agent reads via workspace memory
-     |
-     v
-OpenClaw agent -> writes to -> workspace/memory/YYYY-MM-DD.md
-     |
-     v
-Claude Code reads on next session (via openclaw-handoff flag)
-```
-
-## Config Sync: Bible <-> OpenClaw
-
-### What Syncs
-
-| Bible Config | OpenClaw Config | Direction |
-|---|---|---|
-| `~/.claude/settings.json` | `~/.openclaw/openclaw.json` tools section | Bible -> OpenClaw |
-| Bible skills | `~/.openclaw/skills/bible-*` | Bible -> OpenClaw |
-| Bible hooks | OpenClaw webhooks | Bible -> OpenClaw (via adapter) |
-| OpenClaw agent list | Bible session context | OpenClaw -> Bible (read-only) |
-| OpenClaw costs | Bible cost-alert | OpenClaw -> Bible (webhook) |
-
-### Sync Script
+### Step 4: Validate
 
 ```bash
-#!/bin/bash
-# sync-bible-openclaw.sh
-# One-way sync: Bible config -> OpenClaw compatibility layer
+# Check gateway is running
+curl -s http://localhost:18789/api/health
 
-echo "=== Bible -> OpenClaw Sync ==="
+# Test webhook endpoint
+curl -s -X POST http://localhost:18789/api/webhooks/bible \
+  -H "Content-Type: application/json" \
+  -d '{"event":"bible_hook","source":"test","timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%S.000Z)'"}'
 
-# 1. Sync skills
-echo "Syncing skills..."
-bash ~/.claude/scripts/bible-to-openclaw-skills.sh
-
-# 2. Verify webhook registration
-echo "Checking webhook registration..."
-curl -s http://localhost:18789/api/webhooks | jq '.bible // "NOT REGISTERED"'
-
-# 3. Check adapter hook is installed
-if grep -q "openclaw-adapter" ~/.claude/settings.json 2>/dev/null; then
-  echo "OpenClaw adapter hook: installed"
-else
-  echo "OpenClaw adapter hook: NOT INSTALLED"
-  echo "  Add openclaw-adapter.js to PostToolUse hooks in settings.json"
-fi
-
-# 4. Verify gateway is reachable
-if curl -s --max-time 2 http://localhost:18789/api/health >/dev/null 2>&1; then
-  echo "OpenClaw gateway: reachable"
-else
-  echo "OpenClaw gateway: NOT REACHABLE"
-fi
-
-echo "=== Sync complete ==="
+# Run openclaw doctor
+openclaw doctor
 ```
 
-## Troubleshooting
+---
 
-| Issue | Cause | Fix |
-|---|---|---|
-| Webhook POST fails | Gateway not running | Check `openclaw gateway status` |
-| Skill not found in OpenClaw | Not synced | Run `bible-to-openclaw-skills.sh` |
-| Handoff file not detected | Wrong path | Use project root `tasks/` directory |
-| Agent not responding | Wrong session key | Check `shared/INTER-AGENT-PROTOCOL.md` |
-| Config sync stale | Manual edit without sync | Re-run `sync-bible-openclaw.sh` |
-| Memory conflict | Both systems wrote same entry | OpenClaw version wins (latest timestamp) |
+## 10. Troubleshooting
 
-## Safety Rules
+### Gateway Not Running
 
-1. **Never modify `~/.openclaw/openclaw.json` directly** -- use `openclaw config set` or request via Morpheus
-2. **Never restart gateway** without Kevin's explicit approval
-3. **Backup before config changes** -- `cp file file.backup-$(date +%Y%m%d-%H%M%S)`
-4. **Sync is one-way by default** -- Bible -> OpenClaw (read-only from OpenClaw)
-5. **Skills are prefixed** -- all Bible-imported skills use `bible-` prefix in OpenClaw
-6. **Webhooks are optional** -- Bible works fine without OpenClaw; adapter fails gracefully
-7. **Costs are independent** -- Bible and OpenClaw track costs separately; do not double-count
+```
+Symptom: curl to localhost:18789 fails with "Connection refused"
+Fix: Check launchd — `launchctl list | grep openclaw`
+     Check logs — `openclaw gateway logs --lines 20`
+     Do NOT restart without Kevin's approval
+```
+
+### Webhook Failures (HTTP 4xx/5xx)
+
+```
+Symptom: openclaw-adapter.js logs errors to stderr
+Debug: Set KZ_OPENCLAW_DEBUG=1, re-run, check stderr output
+Common causes:
+  - 401: Missing or expired auth token
+  - 404: Webhook endpoint not registered in openclaw.json
+  - 413: Payload too large — tool_output exceeds 10KB truncation limit
+  - 500: Gateway internal error — check `openclaw gateway logs`
+```
+
+### Config Mismatches
+
+```
+Symptom: Skills available in Bible but not in OpenClaw agent
+Debug: Compare skill lists
+  Bible: jq '.skills' ~/.claude/settings.json
+  OpenClaw: jq '.agents[] | select(.id == "TARGET") | .skills' ~/.openclaw/openclaw.json
+Fix: Run sync procedure (Section 7), then openclaw doctor
+```
+
+### Session Handoff Failures
+
+```
+Symptom: Target agent does not pick up handoff
+Debug: Check #comms-log for handoff post
+  Verify target agent is online — openclaw agents list
+  Check session file exists at the path specified in handoff payload
+Fix: Resend via sessions_send, or post directly to agent's channel
+```
+
+### Skill Mapping Errors
+
+```
+Symptom: Mapped skill fails to load in OpenClaw
+Debug: Validate manifest.json format — must be valid JSON
+  Check skill ID does not conflict with existing OpenClaw skills
+  Verify SKILL.md was copied to ~/.openclaw/skills/{name}/
+Fix: Regenerate manifest, ensure no trailing commas in JSON
+```
+
+### Memory Sync Gaps
+
+```
+Symptom: Decisions made in Claude Code not visible to OpenClaw agents
+Debug: Check ~/.claude/sessions/ for recent session files
+  Check ~/clawd/workspaces/{workspace}/memory/ for today's file
+Fix: Run /save-session in Claude Code, then verify memory file was written
+  Manual fallback: copy relevant entries to memory file
+```
+
+---
+
+## Quick Reference
+
+| Operation | Command / Endpoint |
+|-----------|-------------------|
+| Check gateway health | `curl -s http://localhost:18789/api/health` |
+| Send webhook | `POST /api/webhooks/bible` |
+| Session handoff | `POST /api/sessions/send` |
+| List agents | `openclaw agents list` |
+| Validate config | `openclaw doctor` |
+| View logs | `openclaw gateway logs --lines 50` |
+| Enable bridge | `export KZ_OPENCLAW_ENABLED=1` |
+| Enable debug | `export KZ_OPENCLAW_DEBUG=1` |
+| Backup config | `cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.backup-$(date +%Y%m%d-%H%M%S)` |

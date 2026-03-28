@@ -1,86 +1,83 @@
-import React from 'react'
+import React from 'react';
 
-const phaseStatus = {
-  complete: { color: '#00aa00', icon: '█' },
-  active: { color: '#00ff00', icon: '▓' },
-  pending: { color: '#333', icon: '░' },
-  failed: { color: '#ff3333', icon: '▒' },
-}
+const PHASE_STATUS = {
+  pending: { nodeClass: 'task-phase__node--pending', nameClass: 'task-phase__name--dim' },
+  active: { nodeClass: 'task-phase__node--active', nameClass: 'task-phase__name--active' },
+  complete: { nodeClass: 'task-phase__node--complete', nameClass: '' },
+  failed: { nodeClass: 'task-phase__node--failed', nameClass: '' },
+};
 
-export default function TaskProgress({ phases = [] }) {
+export function TaskProgress({ tasks }) {
+  const {
+    phases = [],
+    completionPercent = 0,
+    currentPhase = '',
+  } = tasks || {};
+
   if (phases.length === 0) {
-    // Default demo phases
-    phases = [
-      { name: 'Plan', status: 'complete' },
-      { name: 'Skills (core)', status: 'complete' },
-      { name: 'Skills (integration)', status: 'active' },
-      { name: 'Claude Peers', status: 'active' },
-      { name: 'Guides', status: 'active' },
-      { name: 'Dashboard', status: 'active' },
-      { name: 'Docs Update', status: 'pending' },
-      { name: 'Verification', status: 'pending' },
-      { name: 'Git Commit', status: 'pending' },
-    ]
+    return (
+      <div className="card">
+        <div className="card__header">
+          <span className="card__title">Task Progress</span>
+          <span className="card__badge">0%</span>
+        </div>
+        <div className="empty-state">
+          <div className="empty-state__icon">~</div>
+          <div className="empty-state__text">No active tasks</div>
+        </div>
+      </div>
+    );
   }
 
-  const completedCount = phases.filter(p => p.status === 'complete').length
-  const percentage = Math.round((completedCount / phases.length) * 100)
-
   return (
-    <div>
-      {/* Progress bar */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-        <div style={{
-          flex: 1, height: 6, background: '#111',
-          borderRadius: 3, overflow: 'hidden', border: '1px solid #1a3a1a'
-        }}>
-          <div style={{
-            width: `${percentage}%`, height: '100%',
-            background: 'linear-gradient(90deg, #005500, #00ff00)',
-            borderRadius: 3, transition: 'width 0.5s'
-          }} />
-        </div>
-        <span style={{ fontSize: 12, fontWeight: 700, color: '#00ff00', minWidth: 40 }}>
-          {percentage}%
+    <div className="card">
+      <div className="card__header">
+        <span className="card__title">Task Progress</span>
+        <span className={`card__badge ${completionPercent === 100 ? 'card__badge--active' : 'card__badge--warning'}`}>
+          {completionPercent}%
         </span>
       </div>
 
-      {/* DAG Visualization */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <div className="task-dag">
         {phases.map((phase, i) => {
-          const { color, icon } = phaseStatus[phase.status] || phaseStatus.pending
-          const isActive = phase.status === 'active'
+          const config = PHASE_STATUS[phase.status] || PHASE_STATUS.pending;
+          const connectorActive = phase.status === 'complete' || phase.status === 'active';
+
           return (
-            <div key={phase.name} style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '6px 10px', borderRadius: 4,
-              background: isActive ? '#0a1a0a' : 'transparent',
-              border: isActive ? '1px solid #1a3a1a' : '1px solid transparent',
-              animation: isActive ? 'borderPulse 3s infinite' : 'none'
-            }}>
-              {/* Connector line */}
-              <span style={{ color: '#1a3a1a', fontSize: 10, width: 20, textAlign: 'center' }}>
-                {i === 0 ? '┌' : i === phases.length - 1 ? '└' : '├'}─
-              </span>
-
-              {/* Phase block */}
-              <span style={{ color, fontSize: 12, width: 14 }}>{icon}</span>
-              <span style={{ color: isActive ? '#00ff00' : color, fontSize: 12, fontWeight: isActive ? 600 : 400 }}>
-                {phase.name}
-              </span>
-
-              {/* Status badge */}
-              <span style={{
-                marginLeft: 'auto', fontSize: 9,
-                color: color, textTransform: 'uppercase',
-                letterSpacing: 1
-              }}>
-                {phase.status}
-              </span>
-            </div>
-          )
+            <React.Fragment key={phase.id || i}>
+              {i > 0 && (
+                <div className={`task-phase__connector ${connectorActive ? 'task-phase__connector--active' : ''}`} />
+              )}
+              <div className="task-phase">
+                <div className={`task-phase__node ${config.nodeClass}`}>
+                  {phase.status === 'complete' ? '\u2713' : i + 1}
+                </div>
+                <div className="task-phase__info">
+                  <div className={`task-phase__name ${config.nameClass}`}>
+                    {phase.name}
+                  </div>
+                  {phase.detail && (
+                    <div className="task-phase__status">{phase.detail}</div>
+                  )}
+                </div>
+              </div>
+            </React.Fragment>
+          );
         })}
       </div>
+
+      <div className="task-progress-bar">
+        <div className="task-progress-bar__label">
+          <span>Overall Progress</span>
+          <span>{completionPercent}%</span>
+        </div>
+        <div className="task-progress-bar__track">
+          <div
+            className="task-progress-bar__fill"
+            style={{ width: `${completionPercent}%` }}
+          />
+        </div>
+      </div>
     </div>
-  )
+  );
 }
