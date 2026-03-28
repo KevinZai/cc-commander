@@ -28,6 +28,7 @@
 - [Prompt Templates](#prompt-templates)
 - [The 45 Tips — Quick Reference](#the-45-tips--quick-reference)
 - [Power Combos](#power-combos) *(advanced only — full table in CHEATSHEET)*
+- [Proactive Automation Suite](#proactive-automation-suite-v11) *(v1.1 — 13 kit-native hooks)*
 - [Settings Reference](#settings-reference)
 - [Appendix A: Model Selection](#model-selection)
 - [Appendix B: Contributor Credits](#contributor-credits)
@@ -1540,6 +1541,46 @@ Then we'll write the spec.
 
 ---
 
+## Proactive Automation Suite (v1.1)
+
+The key innovation of v1.1: 13 kit-native hooks that run automatically throughout every session. No prompting required — they guard, track, checkpoint, and coach in the background.
+
+### The 9 New Hooks
+
+The original 4 hooks (careful-guard, auto-notify, preuse-logger, status-checkin) are joined by 9 new proactive hooks:
+
+| Hook | Lifecycle | What it does |
+|------|-----------|-------------|
+| `context-guard` | PostToolUse | Tracks context usage — warns at ~70% and auto-saves session before overflow |
+| `pre-commit-verify` | PreToolUse | Runs TypeScript check before any git commit — blocks on tsc errors |
+| `auto-checkpoint` | PostToolUse | Creates a git-stash checkpoint every 10 file edits — automatic safety net |
+| `confidence-gate` | PreToolUse | Warns on risky multi-file bash operations (sed -i on globs, find -exec) |
+| `session-end-verify` | Stop | Verifies modified files and checks for leftover console.log statements |
+| `cost-alert` | PostToolUse | Cost proxy alerts at ~$0.50 (30 tool calls) and ~$2.00 (60 calls) |
+| `auto-lessons` | PostToolUse | Automatically captures errors and corrections to tasks/lessons.md |
+| `rate-predictor` | PostToolUse | Predicts remaining session duration based on tool call rate |
+| `session-coach` | Stop | Periodic coaching nudges — skill suggestions, workflow tips, checkpoint reminders |
+
+### Session Coach
+
+The session-coach hook fires every N responses (default: 10) with contextual suggestions: unused skills for the current task, workflow reminders, checkpoint nudges.
+
+| Env Var | Default | What it does |
+|---------|---------|-------------|
+| `KZ_COACH_INTERVAL` | `10` | Responses between coaching nudges |
+| `KZ_COACH_DISABLE` | `0` | Set to `1` to disable session coach entirely |
+
+### Hook Totals
+
+| Configuration | Hooks | File |
+|---------------|-------|------|
+| Kit standalone | 13 | `hooks-standalone.json` |
+| Kit + ECC | 32 (13 kit + 19 ECC) | `hooks.json` |
+
+Every kit-native hook can be individually disabled via its `KZ_DISABLE_*` env var. See CHEATSHEET.md for the full list.
+
+---
+
 ## Settings Reference
 
 ### `.claude/settings.json`
@@ -1808,7 +1849,7 @@ graph TD
 | Framework | Stars | What We Integrated |
 |-----------|-------|-------------------|
 | **SuperClaude Framework** | 22K | Confidence checking, Four-question validation, Parallel execution |
-| **Everything Claude Code (ECC)** | 100K | 19 lifecycle hooks, developer profiles, agent definitions |
+| **Everything Claude Code (ECC)** | 100K | 19 lifecycle hooks (32 total with kit-native), developer profiles, agent definitions |
 | **anthropics/claude-plugins-official** | 15K | Plugin manifest format |
 
 ### Further Reading

@@ -192,6 +192,42 @@ Load ONE mega-skill to get an entire domain. Each has a router that dispatches t
 | `Stop` | When agent stops | Cost tracking, session persistence, sound |
 | `PreCompact` | Before context compaction | Save state snapshot |
 
+### Proactive Hooks (13 Kit-Native)
+
+The kit ships 13 hooks that fire automatically — no prompting required. Disable any hook with its env var.
+
+**PreToolUse (3 hooks)**
+
+| Hook | What it does | Disable with |
+|------|-------------|-------------|
+| `careful-guard` | Blocks destructive commands (rm -rf, DROP TABLE, force push) | `KZ_DISABLE_CAREFUL_GUARD=1` |
+| `pre-commit-verify` | TypeScript check before git commit — blocks on tsc errors | `KZ_DISABLE_PRE_COMMIT_VERIFY=1` |
+| `confidence-gate` | Warns on multi-file bash operations (sed -i on globs, find -exec) | `KZ_DISABLE_CONFIDENCE_GATE=1` |
+
+**PostToolUse (6 hooks)**
+
+| Hook | What it does | Disable with |
+|------|-------------|-------------|
+| `auto-notify` | Notifications on significant events (PR created, deploy) | `KZ_DISABLE_AUTO_NOTIFY=1` |
+| `preuse-logger` | Logs tool usage for cost analysis | `KZ_DISABLE_PREUSE_LOGGER=1` |
+| `context-guard` | Warns at ~70% context, auto-saves session | `KZ_DISABLE_CONTEXT_GUARD=1` |
+| `auto-checkpoint` | Git-stash checkpoint every 10 file edits | `KZ_DISABLE_AUTO_CHECKPOINT=1` |
+| `cost-alert` | Cost proxy alerts at ~$0.50 (30 calls) and ~$2.00 (60 calls) | `KZ_DISABLE_COST_ALERT=1` |
+| `auto-lessons` | Captures errors and corrections to tasks/lessons.md | `KZ_DISABLE_AUTO_LESSONS=1` |
+| `rate-predictor` | Predicts remaining session duration from tool call rate | `KZ_DISABLE_RATE_PREDICTOR=1` |
+
+**Stop (3 hooks)**
+
+| Hook | What it does | Disable with |
+|------|-------------|-------------|
+| `status-checkin` | Session end status summary | `KZ_DISABLE_STATUS_CHECKIN=1` |
+| `session-end-verify` | Verifies modified files, checks for leftover console.log | `KZ_DISABLE_SESSION_END_VERIFY=1` |
+| `session-coach` | Periodic coaching nudges — skill tips, checkpoint reminders | `KZ_COACH_DISABLE=1` |
+
+**Session Coach** fires every N responses (default: 10). Customize interval with `KZ_COACH_INTERVAL=20` (number of responses between nudges). Disable entirely with `KZ_COACH_DISABLE=1`.
+
+With ECC installed, 19 additional hooks bring the total to 32. Without ECC, the 13 kit-native hooks work standalone via `hooks-standalone.json`.
+
 ---
 
 ## 🧠 Context & Memory

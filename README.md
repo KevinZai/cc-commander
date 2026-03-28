@@ -3,8 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Compatible-00ff41?logo=anthropic&logoColor=white)](https://claude.ai/code)
 [![Skills](https://img.shields.io/badge/Skills-220+-00d4ff)](./SKILLS-INDEX.md)
+[![Hooks](https://img.shields.io/badge/Hooks-32-ff6b35)](./hooks/)
 [![Mega Skills](https://img.shields.io/badge/Mega_Skills-6-ff6b35)](./SKILLS-INDEX.md)
-[![Version](https://img.shields.io/badge/Version-1.0-00ff41)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.1-00ff41)](./CHANGELOG.md)
 [![Terminal](https://img.shields.io/badge/Terminal-CLI-00ff41?logo=gnometerminal&logoColor=white)](#install)
 
 > **220+ skills. 6 mega-skills. One install. The comprehensive guide and toolkit for Claude Code.**
@@ -49,7 +50,7 @@ Removes kit components (skills, commands, hooks, lib, templates, reference docs)
 |-----------|-------|----------|
 | Skills | 220+ | `~/.claude/skills/` |
 | Commands | 84+ | `~/.claude/commands/` |
-| Hooks | 23 | `~/.claude/hooks/hooks.json` |
+| Hooks | 32 (13 kit-native + 19 ECC) | `~/.claude/hooks/hooks.json` |
 | Templates | 3 | `~/.claude/templates/` |
 | Reference Docs | 3 | `BIBLE.md`, `CHEATSHEET.md`, `SKILLS-INDEX.md` |
 
@@ -131,6 +132,28 @@ A persistent footer appears under every Claude Code response showing live sessio
 
 Shows context gauge (color-coded zones), model, cost, tokens, duration, lines changed, rate limits, and project name. Auto-configured on install via `settings.json`.
 
+## Proactive Automation (13 Hooks)
+
+The kit ships 13 lifecycle hooks that run automatically — no prompting required. They guard against mistakes, track costs, checkpoint work, and coach you toward better workflows.
+
+| Lifecycle | Hook | What it does |
+|-----------|------|-------------|
+| PreToolUse | `careful-guard` | Blocks destructive commands (rm -rf, DROP TABLE, force push) |
+| PreToolUse | `pre-commit-verify` | Runs TypeScript check before git commit |
+| PreToolUse | `confidence-gate` | Warns on risky multi-file bash operations |
+| PostToolUse | `auto-notify` | Notifications on significant events (PR created, deploy, etc.) |
+| PostToolUse | `preuse-logger` | Logs tool usage for cost analysis |
+| PostToolUse | `context-guard` | Warns at ~70% context usage, auto-saves session |
+| PostToolUse | `auto-checkpoint` | Git-stash checkpoint every 10 file edits |
+| PostToolUse | `cost-alert` | Cost proxy alerts at ~$0.50 and ~$2.00 thresholds |
+| PostToolUse | `auto-lessons` | Captures errors and corrections to tasks/lessons.md |
+| PostToolUse | `rate-predictor` | Predicts session duration from tool call rate |
+| Stop | `status-checkin` | Session end status summary |
+| Stop | `session-end-verify` | Verifies modified files, checks for console.log |
+| Stop | `session-coach` | Periodic coaching nudges — skill tips, workflow reminders (toggleable via `KZ_COACH_DISABLE=1`) |
+
+With ECC installed, 19 additional hooks bring the total to 32. Without ECC, the 13 kit-native hooks work standalone via `hooks-standalone.json`.
+
 ## KZ Matrix Terminal Theme
 
 OLED black background + bright green text + cyan accents. Import the iTerm2 profile:
@@ -178,10 +201,10 @@ Install once. Works everywhere.
 ## Testing
 
 ```bash
-node --test tests/hooks.test.js    # Run hook test harness
+node --test tests/hooks.test.js    # Run hook test harness (53 tests)
 ```
 
-Tests validate all 4 kit-native hooks (careful-guard, auto-notify, preuse-logger, status-checkin), verify hook file existence, and check JS syntax.
+Tests validate all 13 kit-native hooks, verify hook file existence, check JS syntax, and exercise the proactive automation suite (context-guard, auto-checkpoint, cost-alert, confidence-gate, session-coach, etc.).
 
 ## For Staff: Customize
 

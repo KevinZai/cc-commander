@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "_description": "Standalone hooks for The Claude Code Bible. Use this if you do NOT have ECC installed. These are the 4 kit-native hooks only.",
+  "_description": "Standalone hooks for The Claude Code Bible. Use this if you do NOT have ECC installed. All 13 kit-native hooks organized by lifecycle.",
   "hooks": {
     "PreToolUse": [
       {
@@ -12,6 +12,27 @@
           }
         ],
         "description": "Block destructive commands (rm -rf, DROP TABLE, force push, etc.)"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/pre-commit-verify.js",
+            "timeout": 15
+          }
+        ],
+        "description": "Run TypeScript check before git commit — blocks on tsc errors"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/confidence-gate.js"
+          }
+        ],
+        "description": "Warn on multi-file bash operations (sed -i on globs, find -exec, etc.)"
       }
     ],
     "PostToolUse": [
@@ -34,6 +55,56 @@
           }
         ],
         "description": "Log tool usage for analysis"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/context-guard.js"
+          }
+        ],
+        "description": "Track context usage — warns at ~70% and auto-saves session"
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/auto-checkpoint.js"
+          }
+        ],
+        "description": "Auto git-stash checkpoint every 10 file edits"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/cost-alert.js"
+          }
+        ],
+        "description": "Cost proxy alerts at ~$0.50 (30 calls) and ~$2.00 (60 calls)"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/auto-lessons.js"
+          }
+        ],
+        "description": "Auto-capture errors and corrections to tasks/lessons.md"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/rate-predictor.js"
+          }
+        ],
+        "description": "Predict session duration based on tool call rate"
       }
     ],
     "Stop": [
@@ -45,6 +116,24 @@
           }
         ],
         "description": "Session end status check-in"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/session-end-verify.js"
+          }
+        ],
+        "description": "Verify modified files and check for console.log on session end"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/session-coach.js"
+          }
+        ],
+        "description": "Periodic coaching nudges — skill suggestions, workflow tips, checkpoint reminders"
       },
       {
         "hooks": [

@@ -2,7 +2,7 @@
 
 ## What This Is
 
-The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration toolkit: 220+ skills, 6 mega-skills, 84+ commands, 23 hooks, 3 templates. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration toolkit: 220+ skills, 6 mega-skills, 84+ commands, 32 hooks (13 kit-native + 19 ECC), 3 templates. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
 
 ## Project Structure
 
@@ -15,7 +15,7 @@ The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration 
 │   └── */               # Individual skills (SKILL.md each)
 ├── commands/            # 84+ slash commands (.md files)
 │   └── cc.md            # /cc command center (interactive menu)
-├── hooks/               # 23 hooks (JS) + hooks.json + hooks-standalone.json
+├── hooks/               # 13 kit-native hooks (JS) + hooks.json (32 total w/ ECC) + hooks-standalone.json
 ├── templates/           # 3 starter templates (nextjs, api, cli)
 ├── lib/                 # Terminal art (bash + JS) + statusline.sh
 ├── docs/                # GitHub Pages landing site
@@ -65,7 +65,9 @@ The Claude Code Bible — by Kevin Z. A comprehensive Claude Code configuration 
 - OG image generated via `docs/assets/og-image.svg` → PNG conversion
 - Mega-skills use router pattern: one SKILL.md dispatches to sub-skill directories
 - Kevin's personal overlay lives in `kevin/` — not installed by the public installer
-- Tests run via `node --test tests/hooks.test.js` (Node.js built-in test runner)
+- Tests run via `node --test tests/hooks.test.js` (Node.js built-in test runner, 53 tests)
+- 13 kit-native hooks form the "Proactive Automation Suite" — context-guard, auto-checkpoint, cost-alert, confidence-gate, session-coach, etc.
+- session-coach.js fires periodic coaching nudges (toggleable via `KZ_COACH_DISABLE=1`, interval via `KZ_COACH_INTERVAL`)
 - Status line (`lib/statusline.sh`) shows live context gauge, model, cost, tokens under every response
 - `/init` checks `~/.claude/sessions/` and offers to resume prior sessions before the wizard
 - KZ Matrix iTerm2 profile at `compatibility/kz-matrix.itermcolors`

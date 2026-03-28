@@ -1,7 +1,7 @@
 # Skills Index — Quick Reference
 > The Claude Code Bible v1.0 — by Kevin Z
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
-> Last verified: 2026-03-27 | 220+ skill directories | 6 Mega-Skills | 3 starter templates
+> Last verified: 2026-03-27 | 220+ skill directories | 6 Mega-Skills | 13 kit-native hooks (32 with ECC) | 3 starter templates
 > Audit: `./generate-index.sh --check` to find missing or broken skills
 
 > **Which document?** BIBLE.md = learning guide (read once). CHEATSHEET.md = daily reference (quick lookup). **SKILLS-INDEX.md = skill discovery (you are here).**

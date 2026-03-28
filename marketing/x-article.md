@@ -197,7 +197,7 @@ Let's go.
 
 ### Post 1: The Numbers Angle
 
-220+ skills. 6 mega-skills. 84 commands. 23 hooks. One install.
+220+ skills. 6 mega-skills. 84 commands. 32 hooks. One install.
 
 I scanned every Claude Code resource on the internet and combined them into one kit.
 
