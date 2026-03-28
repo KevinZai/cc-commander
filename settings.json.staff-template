@@ -1,5 +1,10 @@
 {
   "_permissionsNote": "WebFetch is unscoped because Bash(curl:*) already allows unrestricted HTTP. Scoping WebFetch while allowing curl creates a false sense of security.",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/lib/statusline.sh",
+    "padding": 1
+  },
   "env": {
     "NODE_OPTIONS": "--max-old-space-size=4096"
   },
