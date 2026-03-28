@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check shell syntax
+        run: |
+          bash -n install.sh
+          bash -n uninstall.sh
+          bash -n kevin/install-kevin.sh
+
+      - name: Check JS syntax
+        run: |
+          for f in hooks/*.js; do
+            node --check "$f"
+          done
+          for f in kevin/hooks/*.js; do
+            node --check "$f"
+          done
+
+      - name: Validate JSON files
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('.claude-plugin/plugin.json', 'utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('hooks/hooks-standalone.json', 'utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('settings.json.staff-template', 'utf8'))"
+
+      - name: Run hook tests
+        run: node --test tests/hooks.test.js
+
+      - name: Verify no v1.1 references
+        run: |
+          if grep -r 'v1\.1' --include='*.md' --include='*.sh' --include='*.html' --include='*.svg' | grep -v CHANGELOG | grep -v node_modules; then
+            echo "ERROR: Found v1.1 references that should be v1.0"
+            exit 1
+          fi
+
+      - name: Verify no password artifacts
+        run: |
+          if grep -ri 'kz123\|PASS_HASH\|EXPECTED=' install.sh; then
+            echo "ERROR: Password artifacts found in install.sh"
+            exit 1
+          fi
+
+      - name: Verify skill structure
+        run: |
+          count=0
+          for d in skills/*/; do
+            if [ -f "$d/SKILL.md" ]; then
+              ((count++))
+            else
+              echo "WARNING: $d missing SKILL.md"
+            fi
+          done
+          echo "Found $count skills with SKILL.md"

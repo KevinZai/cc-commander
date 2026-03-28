@@ -1,6 +1,6 @@
-# Kevin Z's Claude Code Bible v2
-> Version 2.0 | Updated: 2026-03-27 | Kevin Z's Claude Code Kit v1.0 | Non-coder friendly. Practical examples throughout.
-> Sources: 100+ best practices distilled from: ykdojo 45 tips · claude-code-kit v0.5 · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · chddaniel Mobile Dev · Cloudflare Dynamic Workers · GitHub gitagent · LLM Routing Guide
+# The Claude Code Bible — by Kevin Z
+> Version 1.0 | Updated: 2026-03-27 | Non-coder friendly. Practical examples throughout.
+> Sources: 200+ best practices distilled from: ykdojo 45 tips · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · SuperClaude Framework · chddaniel Mobile Dev · Trail of Bits · Anthropic Official Docs
 
 > **Which document?** **BIBLE.md = learning guide (you are here).** CHEATSHEET.md = daily reference (quick lookup). SKILLS-INDEX.md = skill discovery (search by keyword/category).
 
@@ -8,14 +8,19 @@
 
 ## Table of Contents
 
-- [Golden Rules](#golden-rules)
-- [The Kevin Z Method](#the-kevin-z-method)
-- [Stage 1: Starting a New Project](#stage-1-starting-a-new-project)
-- [Stage 2: Daily Development Loop](#stage-2-daily-development-loop)
-- [Stage 3: Building Features](#stage-3-building-features)
-- [Stage 4: Debugging & Fixing](#stage-4-debugging--fixing)
-- [Stage 5: Shipping & Production](#stage-5-shipping--production)
-- [Stage 6: Long-Running & Autonomous Work](#stage-6-long-running--autonomous-work)
+### The Commandments
+- [Golden Rules](#golden-rules) — The 7 non-negotiable principles
+- [The Kevin Z Method](#the-kevin-z-method) — Build types, mega-skills, checklists
+
+### The Chapters
+- [Chapter 1: Genesis](#stage-1-starting-a-new-project) — Starting a New Project
+- [Chapter 2: Foundations](#stage-2-daily-development-loop) — Daily Development Loop
+- [Chapter 3: Construction](#stage-3-building-features) — Building Features
+- [Chapter 4: Debugging](#stage-4-debugging--fixing) — Fixing & Debugging
+- [Chapter 5: Deployment](#stage-5-shipping--production) — Shipping & Production
+- [Chapter 6: Autonomy](#stage-6-long-running--autonomous-work) — Long-Running & Autonomous Work
+
+### The Appendices
 - [CLAUDE.md Templates](#claudemd-templates)
 - [Skills Catalog](#skills-catalog)
 - [Commands Reference](#commands-reference)
@@ -24,6 +29,8 @@
 - [The 45 Tips — Quick Reference](#the-45-tips--quick-reference)
 - [Power Combos](#power-combos) *(advanced only — full table in CHEATSHEET)*
 - [Settings Reference](#settings-reference)
+- [Appendix A: Model Selection](#model-selection)
+- [Appendix B: Contributor Credits](#contributor-credits)
 - [Claude Certified Architect — Domain Summary](#claude-certified-architect--domain-summary)
 
 ---
@@ -1744,6 +1751,80 @@ Verification: [how you'll know it's done]
 
 ---
 
+---
+
+## Model Selection
+
+> Appendix A: Choose the right model for the task.
+
+| Model | Best For | Cost | When to Use |
+|-------|---------|------|-------------|
+| **Haiku 4.5** | Fast iteration, bulk ops, simple tasks | $ | Lightweight subagents, pair programming, worker agents |
+| **Sonnet 4.6** | General development, most coding tasks | $$ | Main development, orchestrating multi-agent workflows |
+| **Opus 4.6** | Complex architecture, deep reasoning | $$$ | Architectural decisions, research, maximum reasoning |
+
+**Cost optimization tips:**
+- Use Haiku for 90% of subagent work (3x savings, 90% of Sonnet capability)
+- Set `MAX_THINKING_TOKENS=10000` for routine work (saves ~60% thinking budget)
+- Compact within 5 min of last message (cache still warm = cheaper re-read)
+- Add `.claudeignore` to exclude node_modules, .git, build artifacts (30-40% context savings)
+- Context at 70% = precision loss begins → plan handoff to fresh session
+
+```mermaid
+graph TD
+    A[New Task] --> B{Complexity?}
+    B -->|Simple/Bulk| C[Haiku 4.5 - $]
+    B -->|Standard Dev| D[Sonnet 4.6 - $$]
+    B -->|Architecture/Research| E[Opus 4.6 - $$$]
+    C --> F{Subagent?}
+    D --> F
+    E --> F
+    F -->|Yes| G[Spawn with desired model]
+    F -->|No| H[Use current session model]
+```
+
+**Rule:** Never change models mid-session. Spawn a subagent with the desired model instead.
+
+---
+
+## Contributor Credits
+
+> Appendix B: Every source that contributed to this Bible.
+
+### Primary Sources
+| Source | Contribution |
+|--------|-------------|
+| **ykdojo** | 45 Claude Code tips — the original viral thread |
+| **hooeem** | Claude Certified Architect Guide — domain-driven architecture |
+| **aiedge_** | Skills 2.0 Guide — skill creation, mega-skill patterns |
+| **dr_cintas** | Cowork Complete Guide — session management, context optimization |
+| **MichLieben** | Vibe Marketing ($7M B2B) — marketing skill suite foundation |
+| **coreyganim** | Cowork Plugins Guide — plugin architecture, hook lifecycle |
+| **GriffinHilly** | Weekly Loop/COMP System — CLAUDE/ORIENT/MEMORY/PLAN convention |
+| **bekacru** | Agent Auth Protocol — Better Auth integration patterns |
+| **chddaniel** | Mobile Dev — cross-platform Claude Code usage |
+
+### Framework Integrations
+| Framework | Stars | What We Integrated |
+|-----------|-------|-------------------|
+| **SuperClaude Framework** | 22K | Confidence checking, Four-question validation, Parallel execution |
+| **Everything Claude Code (ECC)** | 100K | 19 lifecycle hooks, developer profiles, agent definitions |
+| **anthropics/claude-plugins-official** | 15K | Plugin manifest format |
+
+### Further Reading
+| Source | Topics |
+|--------|--------|
+| **michielhdoteth/claude-bible** | Ethics, security philosophy, prompt engineering |
+| **4riel/cc-bible** | Community best practices |
+| **Trail of Bits** | Security configuration patterns |
+| **Boris Cherny** (Claude Code creator) | Context window management, cost optimization |
+| **David Ondrej** | Comprehensive methodology, session management |
+| **Anthropic Official Docs** | CLAUDE.md conventions, hooks API, settings schema |
+
+200+ articles from X/Twitter, Reddit, Medium, YouTube, and GitHub were reviewed.
+
+---
+
 *Last updated: 2026-03-27*
-*Sources: ykdojo/claude-code-tips (45 tips) · claude-code-kit v0.5 (219 skills) · hooeem Claude Certified Architect (5 domains) · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing · coreyganim Cowork Plugins · GriffinHilly Weekly Loop + COMP System · bekacru Agent Auth Protocol · chddaniel Mobile Dev with CC · Cloudflare Dynamic Workers blog · GitHub open-gitagent/gitagent · LLM Routing Quickref*
+*The Claude Code Bible — by Kevin Z — v1.0*
 *Update this file when you learn something new. That's the point.*

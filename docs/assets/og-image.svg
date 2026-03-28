@@ -93,11 +93,11 @@
   <circle cx="234" cy="98" r="6" fill="#febc2e"/>
   <circle cx="254" cy="98" r="6" fill="#28c840"/>
   <!-- Title bar text -->
-  <text x="640" y="103" text-anchor="middle" fill="#666" font-family="SF Mono,Monaco,Menlo,monospace" font-size="12">kevin@mac — claude-code-kit</text>
+  <text x="640" y="103" text-anchor="middle" fill="#666" font-family="SF Mono,Monaco,Menlo,monospace" font-size="12">kevin@mac — claude-code-bible</text>
 
-  <!-- KZ KIT large text banner -->
+  <!-- BIBLE large text banner -->
   <g filter="url(#glow)">
-    <text x="640" y="195" text-anchor="middle" fill="#00ff41" font-family="Monaco,Menlo,Consolas,monospace" font-size="78" font-weight="bold" letter-spacing="12">KZ KIT</text>
+    <text x="640" y="195" text-anchor="middle" fill="#00ff41" font-family="Monaco,Menlo,Consolas,monospace" font-size="68" font-weight="bold" letter-spacing="8">CC BIBLE</text>
   </g>
   <!-- Decorative bracket lines -->
   <line x1="340" y1="148" x2="340" y2="208" stroke="#00ff41" stroke-width="3" opacity="0.5"/>
@@ -109,10 +109,10 @@
 
   <!-- Tagline -->
   <text x="640" y="295" text-anchor="middle" fill="#ffffff" font-family="SF Mono,Monaco,Menlo,Consolas,monospace" font-size="20" font-weight="bold" filter="url(#softGlow)">
-    Claude Code Kit  v1.1
+    The Claude Code Bible  v1.0
   </text>
   <text x="640" y="322" text-anchor="middle" fill="#00d4ff" font-family="SF Mono,Monaco,Menlo,Consolas,monospace" font-size="15" opacity="0.9">
-    The Kevin Z Method  //  Suped Up Claude Code
+    by Kevin Z  //  220+ Skills. One Install.
   </text>
 
   <!-- Divider -->
@@ -144,7 +144,7 @@
   <!-- Install command -->
   <rect x="290" y="440" width="700" height="42" rx="6" fill="#0a0a0a" stroke="#333" stroke-width="1"/>
   <text x="310" y="466" fill="#00ff41" font-family="SF Mono,Monaco,Menlo,Consolas,monospace" font-size="14">
-    $ curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+    $ curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-bible/main/install-remote.sh | bash
   </text>
 
   <!-- One install tagline -->
@@ -157,7 +157,7 @@
 
   <!-- GitHub badge bottom right -->
   <text x="1050" y="620" text-anchor="end" fill="#444" font-family="SF Mono,Monaco,Menlo,Consolas,monospace" font-size="12">
-    github.com/k3v80/claude-code-kit
+    github.com/k3v80/claude-code-bible
   </text>
 
   <!-- MIT badge -->

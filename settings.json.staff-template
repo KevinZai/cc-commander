@@ -1,4 +1,5 @@
 {
+  "_permissionsNote": "WebFetch is unscoped because Bash(curl:*) already allows unrestricted HTTP. Scoping WebFetch while allowing curl creates a false sense of security.",
   "env": {
     "NODE_OPTIONS": "--max-old-space-size=4096"
   },
@@ -8,9 +9,7 @@
       "Glob",
       "Grep",
       "WebSearch",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:npmjs.com)",
-      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch",
       "Skill(*)",
       "Bash(npm install:*)",
       "Bash(npm run:*)",

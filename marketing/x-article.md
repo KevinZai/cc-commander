@@ -1,4 +1,4 @@
-# X/Twitter Marketing Content for Claude Code Kit
+# X/Twitter Marketing Content for Claude Code Bible
 
 ---
 
@@ -50,7 +50,7 @@ I extracted the gold.
 
 ### Tweet 5 (The Numbers)
 
-The result: Kevin Z's Claude Code Kit
+The result: Kevin Z's Claude Code Bible
 
 - 220+ production-tested skills
 - 84 slash commands
@@ -156,14 +156,14 @@ Green text. Animated dots. The whole aesthetic.
 Want it? One command:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-bible/main/install-remote.sh | bash
 ```
 
 Or clone it:
 
 ```
-git clone https://github.com/k3v80/claude-code-kit.git
-cd claude-code-kit
+git clone https://github.com/k3v80/claude-code-bible.git
+cd claude-code-bible
 ./install.sh
 ```
 
@@ -181,7 +181,7 @@ The community built the knowledge. I built the distribution.
 
 ### Tweet 15 (CTA)
 
-GitHub: github.com/k3v80/claude-code-kit
+GitHub: github.com/k3v80/claude-code-bible
 
 Free. MIT licensed. Open source.
 
@@ -203,7 +203,7 @@ I scanned every Claude Code resource on the internet and combined them into one 
 
 Free. MIT licensed. Works in Terminal, VS Code, Cursor, JetBrains.
 
-github.com/k3v80/claude-code-kit
+github.com/k3v80/claude-code-bible
 
 ### Post 2: The Story Angle
 
@@ -213,17 +213,17 @@ I spent 3 months reading 200+ Claude Code articles from X, Reddit, Medium, and Y
 
 Then I distilled it all into one kit: 220+ skills, one install command.
 
-github.com/k3v80/claude-code-kit
+github.com/k3v80/claude-code-bible
 
 ### Post 3: The /init Wizard Angle
 
-My favorite thing about Claude Code Kit: the /init wizard.
+My favorite thing about Claude Code Bible: the /init wizard.
 
 Run it in any project. Pick your build type: QUICK, DEEP, SAAS, or OVERNIGHT.
 
 It auto-loads the right skills, generates your CLAUDE.md, and sets up your entire workflow. Choose Your Own Adventure for dev projects.
 
-github.com/k3v80/claude-code-kit
+github.com/k3v80/claude-code-bible
 
 ### Post 4: The Mega-Skills Angle
 
@@ -240,7 +240,7 @@ mega-testing = 15 skills
 
 Each one auto-routes to the right specialist.
 
-github.com/k3v80/claude-code-kit
+github.com/k3v80/claude-code-bible
 
 ### Post 5: The Community Angle
 
@@ -250,7 +250,7 @@ This kit was built from the community, for the community.
 
 The community built the knowledge. I built the distribution.
 
-github.com/k3v80/claude-code-kit
+github.com/k3v80/claude-code-bible
 
 ---
 

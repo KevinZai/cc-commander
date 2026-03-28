@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Kevin Z's Claude Code Kit — Terminal Art Library
+# The Claude Code Bible — Terminal Art Library
 # ============================================================================
 # Source this file in any shell script for consistent KZ branding.
 #   source "$(dirname "$0")/lib/terminal-art.sh"
@@ -162,16 +162,13 @@ kz_banner() {
   echo ""
   echo -e "${M_MID}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}██╗  ██╗${M_MID}███████╗${NC}  ${M_BRIGHT}██╗  ██╗${M_MID}██╗${M_DIM}████████╗${NC}           ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}██║ ██╔╝${M_MID}╚══███╔╝${NC}  ${M_BRIGHT}██║ ██╔╝${M_MID}██║${M_DIM}╚══██╔══╝${NC}           ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}█████╔╝${NC} ${M_MID}  ███╔╝${NC}   ${M_BRIGHT}█████╔╝${NC} ${M_MID}██║${NC}   ${M_DIM}██║${NC}              ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}██╔═██╗${NC} ${M_MID} ███╔╝${NC}    ${M_BRIGHT}██╔═██╗${NC} ${M_MID}██║${NC}   ${M_DIM}██║${NC}              ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}██║  ██╗${M_MID}███████╗${NC}  ${M_BRIGHT}██║  ██╗${M_MID}██║${NC}   ${M_DIM}██║${NC}              ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╚═╝  ╚═╝${M_MID}╚══════╝${NC}  ${M_BRIGHT}╚═╝  ╚═╝${M_MID}╚═╝${NC}   ${M_DIM}╚═╝${NC}              ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╔╗ ╦╔╗ ╦  ╔═╗${NC}                                  ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╠╩╗║╠╩╗║  ║╣${NC}                                   ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╚═╝╩╚═╝╩═╝╚═╝${NC}                                  ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_WHITE}Claude Code Kit${NC}  ${M_DIM}v1.1${NC}                              ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_WHITE}The Claude Code Bible${NC}  ${M_DIM}v1.0${NC}                              ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}   ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_CYAN}The Kevin Z Method${NC}  ${M_DIM}//${NC}  ${M_WHITE}Suped Up Claude Code${NC}     ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_CYAN}by Kevin Z${NC}  ${M_DIM}//${NC}  ${M_WHITE}220+ Skills. One Install.${NC}     ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
   echo -e "${M_MID}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
@@ -180,7 +177,7 @@ kz_banner() {
 kz_mini_banner() {
   echo ""
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  echo -e "  ${M_BRIGHT}KZ KIT${NC} ${M_DIM}v1.1${NC}  ${M_CYAN}Kevin Z's Claude Code Kit${NC}"
+  echo -e "  ${M_BRIGHT}BIBLE${NC} ${M_DIM}v1.0${NC}  ${M_CYAN}The Claude Code Bible — by Kevin Z${NC}"
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   echo ""
 }
@@ -319,7 +316,7 @@ kz_farewell() {
       "  ${M_MID}Now go build something amazing.${NC}"
       ""
       "  ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-      "  ${M_DIM}Kevin Z's Claude Code Kit  //  github.com/k3v80${NC}"
+      "  ${M_DIM}The Claude Code Bible — by Kevin Z  //  github.com/k3v80${NC}"
       "  ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     )
     for line in "${lines[@]}"; do
@@ -327,7 +324,7 @@ kz_farewell() {
       sleep 0.15
     done
   else
-    echo -e "  ${M_DIM}Kevin Z's Claude Code Kit  //  github.com/k3v80${NC}"
+    echo -e "  ${M_DIM}The Claude Code Bible — by Kevin Z  //  github.com/k3v80${NC}"
   fi
   echo ""
 }
@@ -337,12 +334,12 @@ kz_farewell() {
 kz_init_intro() {
   echo ""
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  echo -e "  ${M_BRIGHT}${M_BOLD}KZ INIT${NC}  ${M_DIM}//${NC}  ${M_CYAN}CHOOSE YOUR ADVENTURE${NC}"
+  echo -e "  ${M_BRIGHT}${M_BOLD}BIBLE INIT${NC}  ${M_DIM}//${NC}  ${M_CYAN}CHOOSE YOUR ADVENTURE${NC}"
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   echo ""
   echo -e "${M_MID}┌──────────────────────────────────────────────────────┐${NC}"
   echo -e "${M_MID}│${NC}                                                      ${M_MID}│${NC}"
-  echo -e "${M_MID}│${NC}  ${M_WHITE}Welcome to the KZ Project Initializer.${NC}              ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_WHITE}Welcome to the Bible Project Initializer.${NC}              ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}                                                      ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  I'll ask you a series of questions to configure     ${M_MID}│${NC}"
   echo -e "${M_MID}│${NC}  your perfect development environment. Every         ${M_MID}│${NC}"

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Kevin Z's Claude Code Kit — Universal Installer
+# The Claude Code Bible — Universal Installer
 # ============================================================================
 # Usage:
 #   ./install.sh              Interactive install (asks who you are)
@@ -14,10 +14,9 @@
 
 set -euo pipefail
 
-VERSION="1.1.0"
+VERSION="1.0.0"
 CLAUDE_DIR="$HOME/.claude"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-INSTALL_MODE="staff"
 USER_NAME=""
 DRY_RUN=false
 VERIFY_ONLY=false
@@ -106,9 +105,9 @@ if $VERIFY_ONLY; then
     if [ -d "$CLAUDE_DIR/skills/$mega" ]; then
       sub_count=$(find "$CLAUDE_DIR/skills/$mega" -maxdepth 1 -type d | wc -l | tr -d ' ')
       sub_count=$((sub_count - 1))
-      kz_status_line "✓" "KZ $mega ($sub_count sub-skills)" "$M_CYAN"
+      kz_status_line "✓" "$mega ($sub_count sub-skills)" "$M_CYAN"
     else
-      kz_status_line "!" "KZ $mega not found"
+      kz_status_line "!" "$mega not found"
     fi
   done
 
@@ -172,27 +171,9 @@ if [ -z "$USER_NAME" ]; then
 fi
 
 echo ""
-
-if [[ "${USER_NAME,,}" == "kevin" ]] && [ -f "$SCRIPT_DIR/CLAUDE.md.kevin" ]; then
-  read -sp "  Passphrase: " PASS
-  echo ""
-  echo ""
-  # Hash comparison — never store plaintext passwords
-  PASS_HASH=$(printf '%s' "$PASS" | shasum -a 256 | cut -d' ' -f1)
-  EXPECTED="83afc3fe3d62d629079a87a70afe9b32642162775f3929e9209741c052e99e11"
-  if [[ "$PASS_HASH" == "$EXPECTED" ]]; then
-    INSTALL_MODE="kevin"
-    kz_status_line "✓" "Welcome back, Kevin." "$M_BRIGHT"
-  else
-    kz_status_line "!" "Wrong passphrase. Installing staff config."
-    INSTALL_MODE="staff"
-  fi
-else
-  kz_status_line "►" "Setting up config for ${USER_NAME}" "$M_CYAN"
-fi
+kz_status_line "►" "Setting up config for ${USER_NAME}" "$M_CYAN"
 
 echo ""
-echo -e "  ${M_DIM}Install mode:${NC} ${M_WHITE}${INSTALL_MODE}${NC}"
 echo -e "  ${M_DIM}Target:${NC}       ${M_WHITE}${CLAUDE_DIR}/${NC}"
 
 # ── Dry run ──────────────────────────────────────────────────────────────────
@@ -206,14 +187,14 @@ if $DRY_RUN; then
   local_skills=$((local_skills - 1))
   local_cmds=$(find "$SCRIPT_DIR/commands" -name '*.md' | wc -l | tr -d ' ')
 
-  kz_status_line "·" "CLAUDE.md        ← CLAUDE.md.${INSTALL_MODE}$([ "$INSTALL_MODE" != "kevin" ] && echo '-template')"
-  kz_status_line "·" "settings.json    ← settings.json.${INSTALL_MODE}$([ "$INSTALL_MODE" != "kevin" ] && echo '-template')"
+  kz_status_line "·" "CLAUDE.md        ← CLAUDE.md.staff-template"
+  kz_status_line "·" "settings.json    ← settings.json.staff-template"
   kz_status_line "·" "skills/          ← $local_skills skill directories"
   kz_status_line "·" "commands/        ← $local_cmds commands"
   kz_status_line "·" "hooks/           ← hooks.json + scripts"
   kz_status_line "·" "lib/             ← terminal art libraries"
   kz_status_line "·" "templates/       ← starter templates"
-  kz_status_line "·" "BIBLE.md         ← Kevin Z's Claude Code Bible"
+  kz_status_line "·" "BIBLE.md         ← The Claude Code Bible"
   kz_status_line "·" "CHEATSHEET.md    ← Quick reference"
   kz_status_line "·" "SKILLS-INDEX.md  ← Skill discovery"
 
@@ -347,19 +328,13 @@ kz_status_line "✓" "BIBLE.md + CHEATSHEET.md + SKILLS-INDEX.md"
 ((install_step++))
 kz_progress_bar "$install_step" "$install_total" "Configuration"
 
-if [[ "$INSTALL_MODE" == "kevin" ]]; then
-  [ -f "$SCRIPT_DIR/CLAUDE.md.kevin" ] && cp "$SCRIPT_DIR/CLAUDE.md.kevin" "$CLAUDE_DIR/CLAUDE.md"
-  [ -f "$SCRIPT_DIR/settings.json.kevin" ] && cp "$SCRIPT_DIR/settings.json.kevin" "$CLAUDE_DIR/settings.json"
-  kz_status_line "✓" "Kevin's config applied (full MCP servers, custom paths)"
-else
-  if [ -f "$SCRIPT_DIR/CLAUDE.md.staff-template" ]; then
-    # Sanitize user name for sed (escape sed special chars)
-    SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
-    sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
-  fi
-  [ -f "$SCRIPT_DIR/settings.json.staff-template" ] && cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
-  kz_status_line "✓" "Staff config applied for $USER_NAME"
+if [ -f "$SCRIPT_DIR/CLAUDE.md.staff-template" ]; then
+  # Sanitize user name for sed (escape sed special chars)
+  SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
+  sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.staff-template" > "$CLAUDE_DIR/CLAUDE.md"
 fi
+[ -f "$SCRIPT_DIR/settings.json.staff-template" ] && cp "$SCRIPT_DIR/settings.json.staff-template" "$CLAUDE_DIR/settings.json"
+kz_status_line "✓" "Config applied for $USER_NAME"
 
 # Validate JSON
 if [ -f "$CLAUDE_DIR/settings.json" ]; then
@@ -427,8 +402,8 @@ echo ""
 
 kz_section_header "INSTALLATION COMPLETE"
 
-echo -e "  ${M_WHITE}User:${NC}       ${M_BRIGHT}$USER_NAME${NC} ${M_DIM}($INSTALL_MODE)${NC}"
-echo -e "  ${M_WHITE}Skills:${NC}     ${M_BRIGHT}$skill_count${NC} ${M_DIM}(including 6 KZ Mega-Skills)${NC}"
+echo -e "  ${M_WHITE}User:${NC}       ${M_BRIGHT}$USER_NAME${NC}"
+echo -e "  ${M_WHITE}Skills:${NC}     ${M_BRIGHT}$skill_count${NC} ${M_DIM}(including 6 Mega-Skills)${NC}"
 echo -e "  ${M_WHITE}Commands:${NC}   ${M_BRIGHT}$cmd_count${NC}"
 echo -e "  ${M_WHITE}Symlinks:${NC}   ${M_BRIGHT}$symlink_count${NC}"
 echo ""
@@ -441,7 +416,7 @@ fi
 
 # ── Next Steps ───────────────────────────────────────────────────────────────
 
-kz_next_steps "$INSTALL_MODE"
+kz_next_steps
 
 # ── Farewell ─────────────────────────────────────────────────────────────────
 

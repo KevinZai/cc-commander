@@ -1,14 +1,14 @@
 # Skills Index — Quick Reference
-> Kevin Z's Claude Code Kit v1.1
+> The Claude Code Bible v1.0 — by Kevin Z
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
-> Last verified: 2026-03-27 | 220+ skill directories | 6 KZ Mega-Skills | 3 starter templates
+> Last verified: 2026-03-27 | 220+ skill directories | 6 Mega-Skills | 3 starter templates
 > Audit: `./generate-index.sh --check` to find missing or broken skills
 
 > **Which document?** BIBLE.md = learning guide (read once). CHEATSHEET.md = daily reference (quick lookup). **SKILLS-INDEX.md = skill discovery (you are here).**
 
 ---
 
-## KZ Mega-Skills (Load ONE, Get Everything)
+## Mega-Skills (Load ONE, Get Everything)
 
 | Mega-Skill | Skills | What It Covers |
 |------------|--------|----------------|
@@ -373,6 +373,19 @@ Each mega-skill has a router that dispatches to the right specialist. Individual
 | `github` / `github-gn` | GitHub API (personal + Guest Networks) |
 | `granola` | Meeting notes / transcripts |
 | `claude-peers` | Agent-to-agent communication |
+
+---
+
+## 🚀 Quick Start Bundles
+
+Pick a bundle to load the right skills for your project type:
+
+| Bundle | Skills to Load | For |
+|--------|---------------|-----|
+| **Web Wizard** | `nextjs-app-router` + `shadcn-ui` + `tailwind-v4` + `drizzle-neon` | Full-stack web apps |
+| **Security Engineer** | `pci-compliance` + `container-security` + `github-actions-security` + `pentest-checklist` | Security audits & hardening |
+| **Content Creator** | `mega-marketing` + `mega-seo` + `blog-engine` | Content & SEO campaigns |
+| **Full Stack SaaS** | `mega-saas` + `mega-devops` + `mega-testing` | SaaS product from scratch |
 
 ---
 

@@ -92,6 +92,22 @@ These load on-demand — keeps always-loaded context lean:
 - Editing schema/migrations → Load `database-designer` + `drizzle-neon`
 - Working on auth → Load `better-auth`
 
+## Model Selection
+
+| Model | Best For | Cost |
+|-------|---------|------|
+| **Haiku 4.5** | Fast iteration, bulk ops, simple tasks, lightweight subagents | $ |
+| **Sonnet 4.6** | General development, most coding tasks, orchestration | $$ |
+| **Opus 4.6** | Complex architecture, deep reasoning, audits, research | $$$ |
+
+**Rule:** Never change models mid-session — spawn a subagent with the desired model instead.
+
+**Cost tips:**
+- Use Haiku for 90% of subagent work (3x savings, 90% of Sonnet capability)
+- Set `MAX_THINKING_TOKENS=10000` for routine work (saves ~60% thinking budget)
+- Compact within 5 min of last message (cache still warm)
+- Add `.claudeignore` to exclude node_modules, .git, build artifacts (30-40% context savings)
+
 ## Cache Efficiency Rules
 1. Never add one-off permissions to global settings — use project-level
 2. Never change tools/models mid-session — use subagents instead

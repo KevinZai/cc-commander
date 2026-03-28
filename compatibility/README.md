@@ -1,6 +1,6 @@
 # IDE Compatibility Guide
 
-This guide explains how Kevin Z's Claude Code Kit works across different editors and environments. The short version: the kit customizes Claude Code itself, not your IDE, so it works everywhere Claude Code runs.
+This guide explains how The Claude Code Bible works across different editors and environments. The short version: the kit customizes Claude Code itself, not your IDE, so it works everywhere Claude Code runs.
 
 ## How the Kit Works
 
@@ -72,6 +72,30 @@ The kit works with agent orchestration systems that spawn `claude` as a subproce
 - **Aider**: Use the `gitagent` export for cross-framework portability. Aider and Claude Code can coexist in the same project.
 - **Other orchestrators**: Any system that spawns `claude` as a subprocess inherits the kit automatically, since Claude Code reads `~/.claude/` on startup.
 - **Multi-agent setups**: The kit's `dispatching-parallel-agents` and `delegation-templates` skills support coordinating multiple Claude Code instances.
+
+## VS Code Task Shortcuts
+
+The Bible includes a `.vscode/tasks.json` with pre-configured tasks for common commands. Access via **Terminal > Run Task** or the keyboard shortcut `Ctrl+Shift+P` → "Tasks: Run Task":
+
+| Task | What it does |
+|------|-------------|
+| CC: Command Center | Opens the `/cc` interactive menu |
+| CC: Init Project | Runs `/init` project wizard |
+| CC: Code Review | Runs `/code-review` multi-agent review |
+| CC: Plan | Runs `/plan` spec-first planning |
+| CC: Verify | Runs `/verify` verification loop |
+| CC: Grill Me | Runs `/cc grill` Socratic probe |
+| CC: Confidence Check | Runs `/cc confidence` assessment |
+
+To add custom keybindings, add to your VS Code `keybindings.json`:
+
+```json
+{
+  "key": "ctrl+shift+k c",
+  "command": "workbench.action.tasks.runTask",
+  "args": "CC: Command Center"
+}
+```
 
 ## File Reference
 

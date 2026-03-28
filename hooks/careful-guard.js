@@ -1,3 +1,15 @@
+// ============================================================================
+// DISCLAIMER: This hook is a BEST-EFFORT safety net, NOT a security boundary.
+// It uses regex pattern matching which can be bypassed via:
+//   - Base64 encoding, variable expansion, shell aliases
+//   - Command substitution, indirect execution
+//   - Splitting commands across multiple tool calls
+// For real security, combine with:
+//   - settings.json deny list (pattern-based tool blocking)
+//   - OS-level protections (file permissions, sandboxing)
+//   - Code review and access controls
+// ============================================================================
+
 // EXAMPLE: PreToolUse hook — block destructive commands
 // NOTE: This is a standalone example. The actual hooks in this plugin use
 // the command-based format in hooks.json. See hooks/README.md for details.

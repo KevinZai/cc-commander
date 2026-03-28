@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CC: Command Center",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/cc"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    },
+    {
+      "label": "CC: Init Project",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/init"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    },
+    {
+      "label": "CC: Code Review",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/code-review"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    },
+    {
+      "label": "CC: Plan",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/plan"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    },
+    {
+      "label": "CC: Verify",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/verify"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    },
+    {
+      "label": "CC: Grill Me",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/cc grill"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    },
+    {
+      "label": "CC: Confidence Check",
+      "type": "shell",
+      "command": "claude",
+      "args": ["-p", "/cc confidence"],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "group": "none"
+    }
+  ]
+}

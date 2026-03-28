@@ -1,12 +1,12 @@
 # Claude Code Cheatsheet
-> Kevin Z's Claude Code Kit v1.1 — commands, workflows, and power user tips
-> v1.1 — 2026-03-27
+> The Claude Code Bible v1.0 — by Kevin Z — commands, workflows, and power user tips
+> v1.0 — 2026-03-27
 
 > **Which document?** BIBLE.md = learning guide (read once). **CHEATSHEET.md = daily reference (you are here).** SKILLS-INDEX.md = skill discovery (search by keyword/category).
 
 ---
 
-## KZ Mega-Skills (Quick Reference)
+## Mega-Skills (Quick Reference)
 
 Load ONE mega-skill to get an entire domain. Each has a router that dispatches to the right specialist.
 
@@ -701,6 +701,24 @@ See `claude-api` skill for full patterns including tool use, streaming, vision.
 | Performance | `audit` → `optimize` → `harden` → benchmark → `canary` monitor |
 | QA cycle | `qa` skill → fix bugs → `document-release` → deploy |
 | New project | `project-kickoff` → CLAUDE.md + tasks → `/plan` → build |
+
+---
+
+## 📖 /cc Command Center
+
+The Claude Code Bible includes an interactive command center accessible via `/cc`:
+
+| Command | What it does |
+|---------|-------------|
+| `/cc` | Main menu — all options |
+| `/cc skills` | Browse 220+ skills by category |
+| `/cc mega [name]` | Drill into a mega-skill's sub-skills |
+| `/cc settings` | View current model, permissions, MCP, hooks |
+| `/cc grill` | 7 Socratic questions (no plan mode) |
+| `/cc confidence` | Pre-execution confidence assessment (0-100%) |
+| `/cc mode <plan\|yolo\|normal>` | Mode descriptions + settings guidance |
+| `/cc status` | Kit health dashboard |
+| `/cc help` | Compact reference |
 
 ---
 
