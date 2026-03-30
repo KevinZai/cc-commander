@@ -12,6 +12,14 @@ triggers:
   - "/cc prompts"
   - "/cc status"
   - "/cc help"
+  - "/cc health"
+  - "/cc install"
+  - "/cc docs"
+  - "/cc cheat"
+  - "/cc coach"
+  - "/cc leaderboard"
+  - "/cc celebrate"
+  - "/cc beginner"
 ---
 
 # /cc — Claude Code Command Center
@@ -35,36 +43,63 @@ You are the Claude Code Command Center. When the user invokes `/cc`, display the
 - `/cc status-updates` → Status update configuration
 - `/cc theme [name]` → Switch dashboard/terminal theme (4 themes)
 - `/cc help` → Compact reference card
+- `/cc health` → System health check
+- `/cc install` → Install manager
+- `/cc docs [search]` → Docs browser
+- `/cc cheat [keyword]` → Quick reference card
+- `/cc coach` → Context-aware coaching suggestions
+- `/cc leaderboard` → Session stats + achievements
+- `/cc celebrate` → ASCII celebration + quip
+- `/cc beginner` → Beginner PM mode
 
 ## Main Menu
 
 When showing the main menu, display:
 
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  CLAUDE CODE KIT  //  COMMAND CENTER           v1.3
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CLAUDE CODE KIT  //  COMMAND CENTER         v1.4
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  [1]  Skills Browser    — 280+ skills by category
-  [2]  Mega-Skills       — 10 domain packs w/ sub-skills
-  [3]  Settings          — model, permissions, hooks, MCP
-  [4]  Grill Me          — Socratic planning probe
-  [5]  Confidence Check  — pre-execution confidence assessment
-  [6]  Mode Switcher     — 9 workflow modes (design/saas/night/yolo...)
-  [7]  Status            — kit health, tasks, version
-  [8]  Quick Reference   — cheatsheet highlights
-  [9]  /init             — project wizard
-  [10] Prompt Library    — 35+ battle-tested templates
-  [11] Claude Peers      — multi-instance collaboration + spawn
-  [12] Dashboard         — real-time agent monitoring
-  [13] OpenClaw          — native integration + sync
-  [14] Status Updates    — progress report configuration
-  [15] Theme             — switch visual theme (4 themes)
+  🔧 BUILD                    📋 PLAN
+  [1]  Skills Browser          [6]  Grill (Socratic)
+  [2]  Mega-Skills             [7]  Confidence Check
+  [3]  Prompts Library         [8]  Mode Switcher
 
-  Type a number (1-15) or a sub-command name.
+  ⚙️  CONFIGURE                🤝 COLLABORATE
+  [9]  Settings Editor ✨      [13] Peers & Spawn
+  [10] Theme Switcher          [14] Dispatch Center
+  [11] Install Manager ✨      [15] OpenClaw Bridge
+  [12] Health Check ✨         [16] Status Updates
+
+  📚 LEARN                    🎮 FUN
+  [17] Docs Browser ✨         [20] Leaderboard ✨
+  [18] Quick Reference ✨      [21] Celebrate ✨
+  [19] Coach ✨                [22] Beginner Mode ✨
+
+  ✨ = New in v1.4
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /cc <number> or /cc <name>  │  /cc help
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 Ask the user which option they'd like. Wait for their response.
+
+**Mapping old numbers to new layout:**
+- Old [1-2] → New [1-2] (Skills, Mega-Skills)
+- Old [3] Settings → New [9] Settings Editor
+- Old [4] Grill → New [6]
+- Old [5] Confidence → New [7]
+- Old [6] Mode → New [8]
+- Old [7] Status → see [12] Health Check
+- Old [8] Quick Ref → New [18]
+- Old [9] /init → invoke `/init` directly from any menu
+- Old [10] Prompts → New [3]
+- Old [11] Peers → New [13]
+- Old [12] Dashboard → New [14] Dispatch Center
+- Old [13] OpenClaw → New [15]
+- Old [14] Status Updates → New [16]
+- Old [15] Theme → New [10]
 
 ## [1] Skills Browser (`/cc skills`)
 
@@ -206,7 +241,7 @@ When loading a template, read the template file and present the prompt with `{{p
 ## [7] Status (`/cc status`)
 
 Display:
-- **Version**: v1.3
+- **Version**: v1.4
 - **Skills**: Count directories in `~/.claude/skills/`
 - **Commands**: Count .md files in `~/.claude/commands/`
 - **Hooks**: Check `~/.claude/hooks/hooks.json` exists
@@ -321,3 +356,137 @@ If no theme specified, show all 4 and ask which they want.
 2. Apply to dashboard if running
 3. Update terminal color suggestions
 4. Persist selection to `bible-config.json`
+
+## [11] Install Manager (`/cc install`)
+
+Check installed status of each Kit component:
+
+1. Read installed files vs repo manifest
+2. Show status table:
+   - Hooks: ✓/✗ (count matching hooks.json)
+   - Skills: ✓/✗ (count dirs in ~/.claude/skills/)
+   - Themes: ✓/✗ (themes.sh + themes.js present)
+   - Dashboard: ✓/✗ (dashboard/ dir exists)
+   - Statusline: ✓/✗ (lib/statusline.sh in ~/.claude/lib/)
+   - CLAUDE.md: ✓/✗ (file exists)
+   - settings.json: ✓/✗ (valid JSON)
+
+3. Show what's outdated (compare VERSION in install.sh vs installed)
+4. Offer: "Pick a component to install/update, or 'all' for everything"
+5. Delegate to `install.sh --mode=<component>` for actual installation
+
+## [12] Health Check (`/cc health`)
+
+Run 10 system checks with pass/fail indicators:
+
+1. CLAUDE.md exists and has content ✓/✗
+2. settings.json is valid JSON ✓/✗
+3. bible-config.json valid (if exists) ✓/✗
+4. Hooks installed (count matching hooks.json entries) ✓/✗
+5. Skills directory populated (count > 0) ✓/✗
+6. Dashboard directory exists ✓/✗
+7. Statusline configured (lib/statusline.sh) ✓/✗
+8. Git repo clean (no uncommitted CLAUDE.md changes) ✓/✗
+9. Node.js version >= 18 ✓/✗
+10. jq available ✓/✗
+
+Show summary bar: `[████████░░] 8/10 passed`
+
+If any checks fail, suggest the fix command for each.
+
+## [17] Docs Browser (`/cc docs [search]`)
+
+Browse Kit documentation interactively:
+
+1. List available docs: BIBLE.md, CHEATSHEET.md, SKILLS-INDEX.md, FEATURE-OVERVIEW.md, REFERENCE-GUIDE.md
+2. User picks a doc → extract `##` headings as table of contents
+3. User picks a section → display that section's content
+4. Search mode: `/cc docs search <term>` — grep across all docs and show matching sections
+
+Navigation: "Type a section number, 'search <term>', or 'back' for menu."
+
+## [18] Quick Reference (`/cc cheat [keyword]`)
+
+Compact one-screen reference card:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TOP COMMANDS          MEGA-SKILLS
+  /plan  — plan first   mega-seo (19)
+  /verify — check work  mega-design (35+)
+  /tdd   — TDD flow     mega-testing (15)
+  /cc    — this menu    mega-marketing (46)
+  /init  — project wiz  mega-saas (20)
+  /checkpoint — save    mega-devops (20)
+
+  MODES                 PROMPT CATEGORIES
+  normal design saas    coding (10)
+  marketing research    planning (5)
+  writing night yolo    design (5)
+  unhinged              marketing (5)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If keyword given (e.g., `/cc cheat testing`), search CHEATSHEET.md for that term and show relevant sections.
+
+## [19] Coach (`/cc coach`)
+
+Context-aware suggestion engine. Check these signals and present top 3 actionable suggestions:
+
+1. **git status** — uncommitted changes? → "Consider `/checkpoint` to save progress"
+2. **tasks/todo.md** — overdue or stuck items? → "You have N open tasks. Try `/project:todo`"
+3. **Context window** — above 60%? → "Context at X%. Consider `/save-session` then `/compact`"
+4. **Time since last /verify** — over 30 min? → "Haven't verified in a while. Try `/verify`"
+5. **Cost** — session over $1? → "Session cost is $X. Consider wrapping up or spawning a subagent"
+6. **Files modified** — many unstaged? → "N files modified. Consider committing"
+
+Present as:
+```
+  🧭 COACH SUGGESTS:
+  1. ✅ Run /verify — haven't checked work in 45 min
+  2. 💾 Run /checkpoint — 8 unstaged files
+  3. 🧹 Context at 72% — /compact soon
+
+  "Ship it before it ships you."
+```
+
+End with a random quip from `cc_random_quip()`.
+
+## [20] Leaderboard (`/cc leaderboard`)
+
+Display session stats and gamification data from `~/.claude/kit-stats.json`:
+
+1. **Session stats**: tool calls, files modified, lines +/-, cost, duration
+2. **Daily streak**: read from kit-stats.json, display with `cc_streak_display()`
+3. **Achievements**: show unlocked badges with descriptions, locked ones as ???
+   - Possible badges: First Commit, First Verify, 10/50/100 Tool Calls, Mega Skill User, Night Mode Survivor, 3/7/30 Day Streak, Celebration King, Budget Master
+4. **Progress**: show progress toward next achievement
+5. **Fun rank title**: based on total sessions — "Terminal Apprentice" → "Code Wrangler" → "CLI Wizard" → "Context Sovereign"
+
+## [21] Celebrate (`/cc celebrate`)
+
+Trigger a celebration:
+
+1. Pick a random celebration style (confetti/fireworks/victory/rocket) using `cc_celebrate()`
+2. Show a random quip using `cc_random_quip()`
+3. If session stats available from kit-stats.json, show a "Today's score" mini-card using `cc_mini_dashboard()`
+
+## [22] Beginner Mode (`/cc beginner`)
+
+**THE UNIQUE DIFFERENTIATOR** — A PM-style coordinator for users who don't know Claude Code.
+
+When activated:
+1. Greet the user warmly: "Welcome! I'm your project manager. Tell me what you want to build — in plain English. No technical jargon needed."
+2. Take their request and break it into 3-5 simple tasks
+3. Show tasks as a visual checklist using `cc_progress_checklist()`
+4. For each task, explain in simple terms what will happen
+5. Execute tasks one at a time, showing progress updates with celebrations after each
+6. Use the `beginner-pm` skill for the full PM persona and conversation style
+7. Use the `compass-bridge` skill for cross-surface state sync (saves state to `~/.claude/compass/`)
+
+**Key behaviors in Beginner Mode:**
+- Never use technical jargon without explaining it
+- Always show progress visually (checklists, celebrations)
+- Proactively explain what happened and what's next
+- Use encouraging language and celebrate small wins
+- If something fails, explain in simple terms and offer to try again

@@ -218,6 +218,17 @@
           }
         ],
         "description": "Capture tool use results for continuous learning"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/context-rot-monitor.js\"",
+            "timeout": 5
+          }
+        ],
+        "description": "Monitor context window fill level with tiered warnings (60/75/85/90%). Disable with CC_CONTEXT_ROT_DISABLE=1"
       }
     ],
     "PostToolUseFailure": [

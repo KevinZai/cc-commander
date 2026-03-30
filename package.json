@@ -1,0 +1,51 @@
+{
+  "name": "claude-code-kit",
+  "version": "1.4.0",
+  "description": "The Complete Claude Code Toolkit — 280+ skills, 88+ commands, 37 hooks, 4 themes, real-time dashboard",
+  "author": "Kevin Zicherman <kevin@kevinz.ai> (https://kevinz.ai)",
+  "license": "MIT",
+  "bin": {
+    "claude-code-kit": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "commands/",
+    "hooks/",
+    "lib/",
+    "skills/",
+    "templates/",
+    "prompts/",
+    "guides/",
+    "compatibility/",
+    "install.sh",
+    "uninstall.sh",
+    "LICENSE",
+    "README.md",
+    "BIBLE.md",
+    "CHEATSHEET.md",
+    "SKILLS-INDEX.md"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude",
+    "anthropic",
+    "ai",
+    "skills",
+    "hooks",
+    "commands",
+    "developer-tools",
+    "cli",
+    "productivity"
+  ],
+  "homepage": "https://kevinz.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/k3v80/claude-code-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/k3v80/claude-code-kit/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

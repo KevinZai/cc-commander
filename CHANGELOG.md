@@ -2,6 +2,36 @@
 
 All notable changes to Claude Code Kit will be documented in this file.
 
+## [1.4.0] — 2026-03-29
+
+### Added
+- **Interactive /cc Command Center**: Expanded from 15 to 22 menu items across 6 categories (Build, Plan, Configure, Collaborate, Learn, Fun) with new interactive sub-menus
+- **Beginner PM Mode** (`/cc beginner`): Plain English project manager — users describe what they want, the PM breaks it into tasks, dispatches to Claude Code, and reports progress. No jargon needed
+- **Celebration System**: 4 ASCII celebration styles (confetti, fireworks, victory, rocket) + 13 random quips for personality
+- **Context Rot Monitor**: PostToolUse hook that tracks context window fill with 4-tier warnings (60/75/85/90%)
+- **Gamification Stats**: Session tracking, daily streaks, 12 achievement badges, leaderboard display
+- **Session Compress Skill**: AI-powered session compression to reloadable markdown summaries
+- **Compass Bridge Skill**: Cross-surface state sync via `~/.claude/compass/` markdown files
+- **Coach** (`/cc coach`): Context-aware suggestion engine — checks git status, todo items, context usage, cost, and time since last verify
+- **Health Check** (`/cc health`): 10-point system diagnostic with pass/fail indicators and fix suggestions
+- **Install Manager** (`/cc install`): Component-level install status, outdated detection, selective install/update
+- **Docs Browser** (`/cc docs`): Interactive documentation browser with section navigation and search
+- **Quick Reference** (`/cc cheat`): Compact one-screen reference card with searchable content
+- **Leaderboard** (`/cc leaderboard`): Session stats, streak tracking, achievement badges, fun rank titles
+- **npm/npx Distribution**: `npx claude-code-kit@latest` one-command install via package.json + bin/cli.js
+- **MIT LICENSE**: Formal MIT license file added
+- **Terminal Art Celebrations**: 6 new functions (celebrate, checkmark, progress_checklist, streak_display, random_quip, mini_dashboard) in both bash and JS
+- **Statusline API Key Display**: 3-tier fallback showing last 5 chars of active API key
+- **Windsurf Compatibility Guide**: Rules file for Windsurf IDE users
+- **Codex Compatibility Guide**: Configuration for OpenAI Codex users
+- **Awesome Submission Draft**: PR template for awesome-claude-code listing
+
+### Changed
+- **Version bump**: 1.3 → 1.4 across all files (README, BIBLE, install.sh, index.html, cc.md, terminal-art)
+- **Branding**: Added Author section to README and BIBLE.md with kevinz.ai links
+- **Landing page**: Footer updated with Kevin Z attribution + @kzic link, hero badge → v1.4
+- **hooks.json**: Added context-rot-monitor to PostToolUse lifecycle
+
 ## [1.3.0] — 2026-03-28
 
 ### Added

@@ -1,5 +1,5 @@
 # The Claude Code Bible — by Kevin Z
-> Version 1.3 | Updated: 2026-03-28 | Non-coder friendly. Practical examples throughout.
+> Version 1.4 | Updated: 2026-03-29 | Non-coder friendly. Practical examples throughout.
 > Sources: 200+ best practices distilled from: ykdojo 45 tips · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · SuperClaude Framework · chddaniel Mobile Dev · Trail of Bits · Anthropic Official Docs
 
 > **Which document?** **BIBLE.md = learning guide (you are here).** CHEATSHEET.md = daily reference (quick lookup). SKILLS-INDEX.md = skill discovery (search by keyword/category).
@@ -1955,6 +1955,16 @@ graph TD
 
 ---
 
-*Last updated: 2026-03-28*
-*The Claude Code Bible — by Kevin Z — v1.3*
+## About the Author
+
+**Kevin Zicherman** is the CEO of [MyWiFi Networks](https://mywifi.io), a WiFi marketing platform used by thousands of venues worldwide. He built this kit by scanning 200+ Claude Code articles, plugins, and community resources — testing everything and keeping what worked. Not a researcher. Not a pundit. An operator who ships.
+
+- **Web:** [kevinz.ai](https://kevinz.ai)
+- **X:** [@kzic](https://x.com/kzic)
+- **GitHub:** [k3v80](https://github.com/k3v80)
+
+---
+
+*Last updated: 2026-03-29*
+*The Claude Code Bible — by Kevin Z — v1.4*
 *Update this file when you learn something new. That's the point.*

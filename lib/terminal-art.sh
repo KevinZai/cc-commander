@@ -170,7 +170,7 @@ cc_banner() {
   echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╠╩╗║╠╩╗║  ║╣${NC}                                   ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_BRIGHT}╚═╝╩╚═╝╩═╝╚═╝${NC}                                  ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_WHITE}Claude Code Kit${NC}  ${M_DIM}v1.0${NC}                              ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_WHITE}Claude Code Kit${NC}  ${M_DIM}v1.4${NC}                              ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}   ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_CYAN}by Kevin Z${NC}  ${M_DIM}//${NC}  ${M_WHITE}220+ Skills. One Install.${NC}     ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
@@ -182,7 +182,7 @@ kz_banner() { cc_banner "$@"; }
 cc_mini_banner() {
   echo ""
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  echo -e "  ${M_BRIGHT}KIT${NC} ${M_DIM}v1.0${NC}  ${M_CYAN}Claude Code Kit — by Kevin Z${NC}"
+  echo -e "  ${M_BRIGHT}KIT${NC} ${M_DIM}v1.4${NC}  ${M_CYAN}Claude Code Kit — by Kevin Z${NC}"
   echo -e "${M_MID}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   echo ""
 }
@@ -416,3 +416,66 @@ cc_mega_skills_display() {
   echo -e "${M_MID}└─────────────────────────────────────────────────────┘${NC}"
 }
 kz_mega_skills_display() { cc_mega_skills_display "$@"; }
+
+# ── Celebrate ─────────────────────────────────────────────────────────────
+cc_celebrate() {
+  [ "${CC_NO_COLOR:-}" = "1" ] && return 0
+  local style="${1:-random}"
+  [ "$style" = "random" ] && style=$(echo -e "confetti\nfireworks\nvictory\nrocket" | sort -R | head -1)
+  case "$style" in
+    confetti)  echo -e "\n  ${M_BRIGHT}🎉  ✨  🎊  ✨  🎉${NC}\n  ${M_CYAN}Another one shipped.${NC}\n" ;;
+    fireworks) echo -e "\n  ${M_DIM}˚ ₊ ‧${NC} ${M_BRIGHT}⁺${NC} ${M_DIM}˚ ₊${NC} ${M_BRIGHT}‧ ⁺${NC} ${M_DIM}·${NC} ${M_CYAN}✦${NC}\n  ${M_BRIGHT}BOOM.${NC} ${M_DIM}That's a wrap.${NC}\n" ;;
+    victory)   echo -e "\n  ${M_MID}╔══════════════╗${NC}\n  ${M_MID}║${NC} ${M_BRIGHT}${M_BOLD} SHIPPED! 🚀 ${NC} ${M_MID}║${NC}\n  ${M_MID}╚══════════════╝${NC}\n" ;;
+    rocket)    echo -e "\n  ${M_BRIGHT}🚀${NC} ${M_MID}━━━━━━━━━━━━━${NC} ${M_CYAN}LAUNCH!${NC}\n" ;;
+  esac
+}
+kz_celebrate() { cc_celebrate "$@"; }
+
+cc_checkmark() {
+  local msg="${1:-Done}"
+  if [ "${CC_NO_ANIMATION:-}" = "1" ] || [ "${CC_NO_COLOR:-}" = "1" ]; then
+    echo -e "  ${M_BRIGHT}✓${NC} ${M_WHITE}${msg}${NC}"
+  else
+    printf "  ${M_DIM}○${NC} ${M_WHITE}${msg}${NC}"; sleep 0.3; printf "\r  ${M_BRIGHT}✓${NC} ${M_WHITE}${msg}${NC}\n"
+  fi
+}
+kz_checkmark() { cc_checkmark "$@"; }
+
+cc_progress_checklist() {
+  for item in "$@"; do
+    local prefix="${item%%:*}" text="${item#*:}"
+    case "$prefix" in
+      done)    echo -e "  ${M_BRIGHT}✓${NC} ${M_DIM}${text}${NC}" ;;
+      current) echo -e "  ${M_CYAN}◉${NC} ${M_WHITE}${text}${NC}" ;;
+      pending) echo -e "  ${M_DIM}○ ${text}${NC}" ;;
+    esac
+  done
+}
+kz_progress_checklist() { cc_progress_checklist "$@"; }
+
+cc_streak_display() {
+  local count="${1:-0}" fires="💤"
+  [ "$count" -ge 7 ] && fires="🔥🔥🔥"
+  [ "$count" -ge 3 ] && [ "$count" -lt 7 ] && fires="🔥🔥"
+  [ "$count" -ge 1 ] && [ "$count" -lt 3 ] && fires="🔥"
+  echo -e "  ${M_BRIGHT}${fires}${NC} ${M_WHITE}${count}-day streak${NC}"
+}
+kz_streak_display() { cc_streak_display "$@"; }
+
+cc_random_quip() {
+  local quips=("Ship it before it ships you." "That's what I call AI-powered recklessness." "Another one. DJ Khaled voice." "Veni, vidi, vibe-coded." "Your terminal called. It's impressed." "Built different. Literally." "Zero to deployed, no coffee needed." "The commit graph is modern art." "Context is milk. You're fresh." "CLAUDE.md appreciates the investment." "Speed run any%." "The keyboard didn't even feel that." "Less meetings, more shipping.")
+  local idx=$((RANDOM % ${#quips[@]}))
+  echo -e "  ${M_DIM}\"${quips[$idx]}\"${NC}"
+}
+kz_random_quip() { cc_random_quip "$@"; }
+
+cc_mini_dashboard() {
+  echo -e "  ${M_MID}┌──────────────────────────────────────────┐${NC}"
+  echo -e "  ${M_MID}│${NC}  ${M_BRIGHT}${M_BOLD}SESSION STATS${NC}                             ${M_MID}│${NC}"
+  for pair in "$@"; do
+    local key="${pair%%:*}" val="${pair#*:}"
+    printf "  ${M_MID}│${NC}  ${M_DIM}%-16s${NC} ${M_WHITE}%-23s${NC} ${M_MID}│${NC}\n" "$key" "$val"
+  done
+  echo -e "  ${M_MID}└──────────────────────────────────────────┘${NC}"
+}
+kz_mini_dashboard() { cc_mini_dashboard "$@"; }

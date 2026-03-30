@@ -5,7 +5,7 @@
 [![Skills](https://img.shields.io/badge/Skills-280+-4F46E5)](./SKILLS-INDEX.md)
 [![Hooks](https://img.shields.io/badge/Hooks-37-D97706)](./hooks/)
 [![Mega Skills](https://img.shields.io/badge/Mega_Skills-10-4F46E5)](./SKILLS-INDEX.md)
-[![Version](https://img.shields.io/badge/Version-1.3-D97706)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.4-D97706)](./CHANGELOG.md)
 
 **The Complete Claude Code Command Center — by Kevin Z**
 
@@ -14,6 +14,14 @@
 ```bash
 curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
 ```
+
+---
+
+## The Story
+
+A non-technical CEO scanned every Claude Code article, plugin, and skill — 200+ sources. Tested everything. Kept what worked. Threw away what didn't. One install. Under 60 seconds.
+
+[Read the full story →](https://kevinz.ai)
 
 ---
 
@@ -185,6 +193,16 @@ MIT License. See [LICENSE](LICENSE).
 
 ---
 
-**Claude Code Kit v1.3** — Built by Kevin Z
+## Author
+
+**Kevin Zicherman** — CEO of [MyWiFi Networks](https://mywifi.io). Not a researcher. Not a pundit. An operator who ships.
+
+- Web: [kevinz.ai](https://kevinz.ai)
+- X: [@kzic](https://x.com/kzic)
+- GitHub: [k3v80](https://github.com/k3v80)
+
+---
+
+**Claude Code Kit v1.4** — Built by Kevin Z
 
 *Distilled from 200+ community sources. One install. Under 60 seconds.*

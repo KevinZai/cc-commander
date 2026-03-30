@@ -181,7 +181,27 @@ if [ -n "$ACCOUNT" ] && [ "$ACCOUNT" != "null" ]; then
   ACCT_STR=" ${GR}${ACCT_SHORT}${N}"
 fi
 
+# API key suffix (last 5 chars) — 3-tier fallback
+KEY_STR=""
+if [ -n "$ANTHROPIC_API_KEY" ]; then
+  KEY_TAIL="${ANTHROPIC_API_KEY: -5}"
+  KEY_STR=" ${D}key:${N}${M}..${KEY_TAIL}${N}"
+else
+  SETTINGS_FILE="$HOME/.claude/settings.json"
+  if [ -f "$SETTINGS_FILE" ]; then
+    API_HELPER=$(jq -r '.apiKeyHelper // empty' "$SETTINGS_FILE" 2>/dev/null)
+    if [ -n "$API_HELPER" ]; then
+      API_HELPER="${API_HELPER/#\~/$HOME}"
+      HELPER_KEY=$(timeout 2 $API_HELPER 2>/dev/null)
+      if [ -n "$HELPER_KEY" ]; then
+        KEY_TAIL="${HELPER_KEY: -5}"
+        KEY_STR=" ${D}key:${N}${M}..${KEY_TAIL}${N}"
+      fi
+    fi
+  fi
+fi
+
 # ── Output ──────────────────────────────────────────────────────────────────
 
-# Line 1: Context gauge + model + cost
-echo -e "${D}━━${N} ${M}CC${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${C}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${D}in:${N}${W}${IN_FMT}${N} ${D}out:${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${ACCT_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"
+# Line 1: Context gauge + model + cost + key
+echo -e "${D}━━${N} ${M}CC${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${C}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${D}in:${N}${W}${IN_FMT}${N} ${D}out:${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${ACCT_STR}${KEY_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"
