@@ -1,9 +1,9 @@
 {
   "id": "review-work",
-  "version": 1,
+  "version": 2,
   "screen": {
     "title": "Review Your Work",
-    "subtitle": "See what you've built recently."
+    "subtitle": "Browse and manage your sessions."
   },
   "action": "show_recent_sessions",
   "afterAction": {
@@ -11,16 +11,21 @@
     "choices": [
       {
         "key": "a",
-        "label": "Resume one of these sessions",
+        "label": "Resume a session",
         "action": "pick_session_to_resume"
       },
       {
         "key": "b",
-        "label": "See details of a session",
+        "label": "View session details",
         "action": "pick_session_details"
       },
       {
         "key": "c",
+        "label": "View full history",
+        "action": "show_history"
+      },
+      {
+        "key": "q",
         "label": "Back to main menu",
         "next": "main-menu"
       }

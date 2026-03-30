@@ -53,6 +53,12 @@
       "next": "check-stats"
     },
     {
+      "key": "s",
+      "label": "Settings",
+      "description": "Name, level, cost ceiling, animations",
+      "next": "settings"
+    },
+    {
       "key": "t",
       "label": "Change theme",
       "description": "Switch visual style",

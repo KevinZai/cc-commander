@@ -531,3 +531,32 @@ function renderDashboard(data) {
 }
 
 module.exports.renderDashboard = renderDashboard;
+
+// ─── Welcome Mini-Dashboard ───────────────────────────────────────
+
+function renderWelcomeDash(data) {
+  var t = getTheme();
+  var out = '';
+
+  // One-line stats bar
+  var parts = [];
+  if (data.streak > 0) parts.push(colorText('\u{1F525}' + data.streak + 'd', t.primary));
+  parts.push(dimText(data.sessions + ' sessions'));
+  if (data.achievements > 0) parts.push(dimText(data.achievements + ' badges'));
+  if (data.cost > 0) parts.push(dimText('$' + data.cost.toFixed(2)));
+  out += '  ' + parts.join(dimText(' \u2502 ')) + '\n';
+
+  // Last session
+  if (data.lastTask) {
+    out += '  ' + dimText('Last: ') + colorText(data.lastTask.slice(0, 50), t.text) + '\n';
+  }
+
+  // Top recommendation
+  if (data.recommendation) {
+    out += '  ' + colorText('\u276f', t.secondary) + ' ' + dimText(data.recommendation) + '\n';
+  }
+
+  return out;
+}
+
+module.exports.renderWelcomeDash = renderWelcomeDash;
