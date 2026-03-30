@@ -327,10 +327,10 @@ class KitCommander {
         await this.ask('n  Press Enter...');
         return { next: 'settings' };
       }
-      case 'settings_reset': {
-        var confirmIdx = await tui.select([{label:'Yes, reset everything'},{label:'No, keep my data'}], 'Are you sure?');
-        if (confirmIdx === 0) { state.saveState(state.loadState().__proto__ ? {} : require('./state').repairState() || {}); state.updateState({ firstRun: true }); process.stdout.write(tui.celebrate('State reset!')); return { next: 'main-menu' }; }
-        return { next: 'settings' };
+      case "settings_reset": {
+        var confirmIdx = await tui.select([{label:"Yes, reset everything"},{label:"No, keep my data"}], "Are you sure?");
+        if (confirmIdx === 0) { var defState = { version: 1, user: { name: null, level: "guided", sessionsCompleted: 0 }, activeSession: null, profiles: {}, firstRun: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }; state.saveState(defState); process.stdout.write(tui.celebrate("State reset!")); return { next: "main-menu" }; }
+        return { next: "settings" };
       }
       case 'change_theme': return await this.changeTheme();
       default: process.stdout.write('\n  Unknown action: ' + actionName + '\n'); await this.pause(1000); return null;
@@ -346,13 +346,27 @@ class KitCommander {
 
     process.stdout.write('\n  ' + tui.dimText(fullTask.slice(0, 200)) + '\n');
 
+    // Show orchestration plan
+    var plugins = require("./plugins");
+    var detection = plugins.detectPlugins();
+    var plan = plugins.buildDispatchPlan(detection);
+    if (detection.installed.length > 0) {
+      process.stdout.write("\n" + tui.divider("Build Pipeline") + "\n");
+      plan.forEach(function(step) {
+        var icon = step.hasPlugin ? tui.colorText("v", tui.getTheme().success) : tui.dimText("o");
+        process.stdout.write("  " + icon + " " + step.name + " " + tui.dimText("-> " + step.tool) + "\n");
+      });
+      process.stdout.write("  " + tui.dimText(plugins.getAttribution(detection.installed)) + "\n");
+    }
+
+
     var sp = tui.spinner('Dispatching to Claude Code (plan mode)...');
     sp.start();
 
     var d = getDispatcher();
     var defaults = d.getDefaultsForLevel(userLevel);
     try {
-        systemPrompt: (function() { var knowledge = require("./knowledge"); var knowledgePrompt = knowledge.buildKnowledgePrompt(fullTask); var prompt = "Start with a plan. Present it before implementing."; var cs = state.loadState(); if (cs.activeProject) { try { var pi = require("./project-importer"); var proj = pi.scanProject(cs.activeProject.dir); prompt += "\n\n" + pi.buildProjectPrompt(proj); } catch(_e) {} } return prompt + knowledgePrompt; })(),
+        systemPrompt: (function() { var knowledge = require("./knowledge"); var knowledgePrompt = knowledge.buildKnowledgePrompt(fullTask); var pluginsMod = require("./plugins"); var det = pluginsMod.detectPlugins(); var dispPlan = pluginsMod.buildDispatchPlan(det); var pluginInstructions = dispPlan.filter(function(s){return s.hasPlugin;}).map(function(s){return s.name + ": use " + s.tool;}).join(". "); var prompt = "Start with a plan. Present it before implementing." + (pluginInstructions ? " Use these tools in sequence: " + pluginInstructions + "." : ""); var cs = state.loadState(); if (cs.activeProject) { try { var pi = require("./project-importer"); var proj = pi.scanProject(cs.activeProject.dir); prompt += "\n\n" + pi.buildProjectPrompt(proj); } catch(_e) {} } return prompt + knowledgePrompt; })(),
       sp.stop(true);
       state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
       state.completeSession(session.id, 'success');
