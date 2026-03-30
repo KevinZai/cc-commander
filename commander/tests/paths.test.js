@@ -188,7 +188,7 @@ test('all 4 themes are available', function() {
 // ─── Branding ─────────────────────────────────────────────────
 
 test('branding has correct product name and tagline', function() {
-  assert.ok(branding.product === 'CC Commander');
+  assert.ok(branding.product === 'Claude Code Commander');
   assert.ok(branding.tagline.includes('managed by AI'));
   assert.ok(branding.version === '1.6.0');
 });

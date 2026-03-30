@@ -105,7 +105,8 @@ class KitCommander {
       var activePrompt = prepared.afterAction ? prepared.afterAction.prompt : prepared.prompt;
 
       await tui.wipeTransition();
-      process.stdout.write(tui.renderLogoResponsive());
+      process.stdout.write(tui.renderBanner());
+      process.stdout.write(tui.renderStatusLine([{label:"Sessions",value:String((currentState.user&&currentState.user.sessionsCompleted)||0)},{label:"Level",value:String((currentState.user&&currentState.user.level)||"guided")}]) + "\n");
       await tui.typewriter("  " + BRAND.tagline, 20);
       process.stdout.write(tui.RESET + "\n");
       // Welcome dashboard for main menu

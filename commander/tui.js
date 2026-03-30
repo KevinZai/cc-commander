@@ -12,7 +12,7 @@ var THEMES = {
     primary: [0, 255, 255],
     secondary: [255, 0, 128],
     accent: [128, 0, 255],
-    highlight: [40, 40, 80],
+    highlight: [25, 25, 30],
     dim: [80, 80, 120],
     text: [200, 200, 230],
     success: [0, 255, 128],
@@ -25,7 +25,7 @@ var THEMES = {
     primary: [255, 165, 0],
     secondary: [255, 80, 0],
     accent: [255, 220, 100],
-    highlight: [60, 30, 10],
+    highlight: [30, 20, 15],
     dim: [140, 100, 60],
     text: [255, 230, 200],
     success: [100, 255, 100],
@@ -38,7 +38,7 @@ var THEMES = {
     primary: [255, 255, 0],
     secondary: [255, 0, 100],
     accent: [0, 200, 255],
-    highlight: [50, 50, 30],
+    highlight: [25, 25, 20],
     dim: [120, 120, 80],
     text: [230, 230, 200],
     success: [0, 255, 0],
@@ -51,7 +51,7 @@ var THEMES = {
     primary: [120, 180, 255],
     secondary: [200, 140, 255],
     accent: [100, 255, 200],
-    highlight: [30, 35, 50],
+    highlight: [22, 25, 30],
     dim: [90, 100, 130],
     text: [210, 220, 240],
     success: [100, 255, 180],
@@ -209,14 +209,11 @@ function select(items, prompt) {
 
         stdout.write(ESC + '2K');
         if (active) {
-          var hl = t.highlight;
-          stdout.write(bgRgb(hl[0], hl[1], hl[2]));
-          stdout.write('  ' + boldText('\u276f ', t.primary) + BOLD + rgb(t.text[0], t.text[1], t.text[2]) + label + RESET);
-          if (desc) stdout.write(bgRgb(hl[0], hl[1], hl[2]) + '  ' + dimText(desc) + RESET);
-          stdout.write(bgRgb(hl[0], hl[1], hl[2]) + '  ' + RESET);
-        } else {
-          stdout.write('    ' + colorText(key + ')', t.dim) + ' ' + colorText(label, t.text));
+          stdout.write('  ' + colorText('\u276f ', t.primary) + BOLD + colorText(label, t.primary) + RESET);
           if (desc) stdout.write('  ' + dimText(desc));
+        } else {
+          stdout.write('    ' + colorText(label, t.dim));
+          if (desc) stdout.write('  ' + rgb(t.dim[0], t.dim[1], t.dim[2]) + desc + RESET);
         }
         stdout.write('\n');
       });
@@ -560,3 +557,56 @@ function renderWelcomeDash(data) {
 }
 
 module.exports.renderWelcomeDash = renderWelcomeDash;
+
+// ─── Claude Code Style Elements ───────────────────────────────────
+
+function renderPromptBar(text) {
+  var t = getTheme();
+  var cols = process.stdout.columns || 80;
+  var bar = colorText('▌', t.primary) + ' ' + boldText(text, t.text);
+  return '\n' + bar + '\n';
+}
+
+function renderStatusLine(items) {
+  var t = getTheme();
+  var parts = items.map(function(item) {
+    return dimText(item.label + ': ') + colorText(item.value, t.primary);
+  });
+  return '  ' + parts.join(dimText('  │  '));
+}
+
+function renderBanner() {
+  var t = getTheme();
+  var lines = [];
+  lines.push('');
+  lines.push('  ' + gradient('Claude Code Commander', t.logo.gradient) + '  ' + dimText('v1.6.0'));
+  lines.push('  ' + dimText('280+ skills · your AI work, managed by AI'));
+  lines.push('');
+  return lines.join('\n');
+}
+
+function renderCompactHeader() {
+  var t = getTheme();
+  return colorText('  ▌', t.primary) + boldText(' CCC', t.primary) + dimText(' v1.6.0') + '\n';
+}
+
+function renderSeparator() {
+  var t = getTheme();
+  var cols = Math.min(process.stdout.columns || 80, 60);
+  return '  ' + colorText('─'.repeat(cols - 4), t.dim) + '\n';
+}
+
+function renderMenuItem(label, desc, isActive, index) {
+  var t = getTheme();
+  if (isActive) {
+    return '  ' + colorText('❯ ', t.primary) + boldText(label, t.primary) + (desc ? '  ' + dimText(desc) : '');
+  }
+  return '    ' + colorText(label, t.text) + (desc ? '  ' + dimText(desc) : '');
+}
+
+module.exports.renderPromptBar = renderPromptBar;
+module.exports.renderStatusLine = renderStatusLine;
+module.exports.renderBanner = renderBanner;
+module.exports.renderCompactHeader = renderCompactHeader;
+module.exports.renderSeparator = renderSeparator;
+module.exports.renderMenuItem = renderMenuItem;
