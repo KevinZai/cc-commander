@@ -230,22 +230,35 @@ function listProfiles() {
   return Object.entries(state.profiles).map(([name, config]) => ({ name, ...config }));
 }
 
+function repairState() {
+  ensureDirs();
+  var details = [];
+  if (fs.existsSync(STATE_PATH)) {
+    try { JSON.parse(fs.readFileSync(STATE_PATH, 'utf8')); }
+    catch (_e) {
+      var backup = STATE_PATH + '.corrupt-' + Date.now();
+      fs.copyFileSync(STATE_PATH, backup);
+      fs.writeFileSync(STATE_PATH, JSON.stringify(defaultState(), null, 2));
+      details.push('state.json corrupt — backed up, reset');
+    }
+  }
+  if (fs.existsSync(HISTORY_PATH)) {
+    try { JSON.parse(fs.readFileSync(HISTORY_PATH, 'utf8')); }
+    catch (_e) {
+      var backup2 = HISTORY_PATH + '.corrupt-' + Date.now();
+      fs.copyFileSync(HISTORY_PATH, backup2);
+      fs.writeFileSync(HISTORY_PATH, '[]');
+      details.push('history.json corrupt — backed up, reset');
+    }
+  }
+  return { repaired: details.length > 0, details: details };
+}
+
 module.exports = {
-  COMMANDER_DIR,
-  STATE_PATH,
-  SESSIONS_DIR,
-  loadState,
-  saveState,
-  updateState,
-  updateUser,
-  getUserLevel,
-  createSession,
-  getSession,
-  updateSession,
-  completeSession,
-  listSessions,
-  getActiveSession,
-  createProfile,
-  getProfile,
-  listProfiles,
+  COMMANDER_DIR: COMMANDER_DIR, STATE_PATH: STATE_PATH, SESSIONS_DIR: SESSIONS_DIR,
+  loadState: loadState, saveState: saveState, updateState: updateState, updateUser: updateUser,
+  getUserLevel: getUserLevel, createSession: createSession, getSession: getSession,
+  updateSession: updateSession, completeSession: completeSession, listSessions: listSessions,
+  getActiveSession: getActiveSession, createProfile: createProfile, getProfile: getProfile,
+  listProfiles: listProfiles, repairState: repairState,
 };

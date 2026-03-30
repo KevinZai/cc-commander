@@ -1,428 +1,366 @@
 'use strict';
 
-const readline = require('readline');
-const { loadAdventure, prepareAdventure, matchChoice } = require('./adventure');
-const { renderHeader, renderAdventure, renderChecklist, renderStatsCard, renderCelebration, renderFooter, renderFreeformPrompt, renderSessionSummary, clearScreen } = require('./renderer');
-const state = require('./state');
-const BRAND = require('./branding');
+var readline = require('readline');
+var path = require('path');
+var adventure = require('./adventure');
+var tui = require('./tui');
+var state = require('./state');
+var BRAND = require('./branding');
 
-// Lazy-load dispatcher (not needed until dispatch action)
-let dispatcher = null;
-function getDispatcher() {
-  if (!dispatcher) dispatcher = require('./dispatcher');
-  return dispatcher;
-}
+var dispatcher = null;
+function getDispatcher() { if (!dispatcher) dispatcher = require('./dispatcher'); return dispatcher; }
 
-// Lazy-load kit-stats
-let kitStats = null;
+var kitStats = null;
 function getStats() {
-  if (!kitStats) {
-    try {
-      kitStats = require('../lib/kit-stats');
-    } catch {
-      kitStats = { getStats: () => ({}), getStreak: () => ({ current: 0 }), getAchievements: () => [] };
-    }
-  }
+  if (!kitStats) { try { kitStats = require('../lib/kit-stats'); } catch (_e) { kitStats = { getStats: function() { return {}; }, getStreak: function() { return { current: 0 }; }, getAchievements: function() { return []; } }; } }
   return kitStats;
 }
 
-class KitCommander {
-  constructor() {
-    this.rl = null;
-    this.running = false;
-    this.currentAdventure = null;
-  }
+var skillBrowser = null;
+function getSkillBrowser() { if (!skillBrowser) skillBrowser = require('./skill-browser'); return skillBrowser; }
 
-  /**
-   * Start the Kit Commander interactive loop.
-   */
+class KitCommander {
+  constructor() { this.rl = null; this.running = false; }
+
   async start() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+    process.on('SIGINT', function() {
+      process.stdout.write('\n\n  Interrupted. Saving state...\n');
+      process.stdout.write('  ' + tui.dimText(BRAND.footer) + '\n');
+      process.exit(0);
     });
 
     this.running = true;
-    const currentState = state.loadState();
+    var currentState = state.loadState();
 
-    // First-run onboarding
-    if (currentState.firstRun) {
-      await this.onboard();
-    }
+    // Load saved theme
+    if (currentState.theme) tui.setTheme(currentState.theme);
 
-    // Main loop
+    if (currentState.firstRun) { await this.onboard(); }
     await this.runAdventure('main-menu');
   }
 
-  /**
-   * First-time user onboarding.
-   */
   async onboard() {
-    clearScreen();
-    process.stdout.write(renderHeader());
-    process.stdout.write(`\n  ${BRAND.welcomeNew}\n\n`);
+    tui.clearScreen();
+    process.stdout.write(tui.renderLogo('CC CMD'));
+    process.stdout.write('\n  ' + tui.boldText(BRAND.tagline, tui.getTheme().primary) + '\n');
+    process.stdout.write('  ' + tui.dimText(BRAND.scope) + '\n\n');
+    process.stdout.write('  ' + BRAND.welcomeNew + '\n\n');
 
-    const name = await this.ask('  What\'s your name? ');
+    // Theme picker
+    process.stdout.write('  ' + tui.boldText('Pick a theme:', tui.getTheme().text) + '\n\n');
+    var themeNames = tui.getThemeNames();
+    var themeItems = themeNames.map(function(n) {
+      var t = tui.THEMES[n];
+      return { label: t.name, description: tui.gradient('████████', [t.primary, t.secondary]) };
+    });
+    var themeIdx = await tui.select(themeItems, 'Choose your vibe:');
+    if (themeIdx >= 0) {
+      tui.setTheme(themeNames[themeIdx]);
+      state.updateState({ theme: themeNames[themeIdx] });
+    }
+
+    tui.clearScreen();
+    process.stdout.write(tui.renderLogo('CC CMD'));
+
+    // Name
+    this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    var name = await this.ask('\n  What\'s your name? ');
     state.updateUser({ name: name.trim() || 'Friend' });
 
-    process.stdout.write(`\n  Nice to meet you, ${name.trim() || 'Friend'}! What's your experience level?\n\n`);
-    process.stdout.write('    a) I\'m brand new to coding and AI tools\n');
-    process.stdout.write('    b) I\'ve used some AI tools but I\'m not a developer\n');
-    process.stdout.write('    c) I\'m a developer looking for a guided workflow\n');
-    process.stdout.write('    d) I\'m a power user — skip the tutorial\n\n');
-
-    const level = await this.ask('  > ');
-    const levelMap = { a: 'guided', b: 'guided', c: 'assisted', d: 'power' };
-    state.updateUser({ level: levelMap[level.trim().toLowerCase()] || 'guided' });
+    // Level
+    var levelItems = [
+      { label: "I'm brand new to coding and AI tools" },
+      { label: "I've used some AI tools but I'm not a developer" },
+      { label: "I'm a developer looking for a guided workflow" },
+      { label: "I'm a power user — skip the tutorial" },
+    ];
+    this.rl.close(); this.rl = null;
+    process.stdout.write('\n  Nice to meet you, ' + (name.trim() || 'Friend') + '!\n\n');
+    var levelIdx = await tui.select(levelItems, 'What\'s your experience level?');
+    var levels = ['guided', 'guided', 'assisted', 'power'];
+    state.updateUser({ level: levels[levelIdx >= 0 ? levelIdx : 0] });
     state.updateState({ firstRun: false });
 
-    process.stdout.write(`\n  Perfect! Let's get started.\n`);
-    await this.pause(1000);
+    process.stdout.write('\n' + tui.celebrate('Setup complete!') + '\n');
+    process.stdout.write('  ' + tui.dimText(BRAND.planModeNote) + '\n');
+    await this.pause(1500);
   }
 
-  /**
-   * Run an adventure by ID.
-   * @param {string} adventureId
-   */
   async runAdventure(adventureId) {
     while (this.running) {
-      const adventure = loadAdventure(adventureId);
-      if (!adventure) {
-        process.stdout.write(`\n  Adventure "${adventureId}" not found. Returning to main menu.\n`);
-        adventureId = 'main-menu';
-        continue;
-      }
+      var adv = adventure.loadAdventure(adventureId);
+      if (!adv) { process.stdout.write('\n  Adventure "' + adventureId + '" not found.\n'); adventureId = 'main-menu'; continue; }
 
-      const currentState = state.loadState();
-      const stats = getStats().getStats ? getStats().getStats() : {};
-      const prepared = prepareAdventure(adventure, currentState, stats);
+      var currentState = state.loadState();
+      var stats = getStats().getStats ? getStats().getStats() : {};
+      var prepared = adventure.prepareAdventure(adv, currentState, stats);
 
-      // Handle pre-action (e.g., show_stats before choices)
-      if (prepared.action) {
-        await this.executeAction(prepared.action, currentState);
-      }
+      if (prepared.action) { await this.executeAction(prepared.action, currentState); }
 
-      // Use afterAction choices if present, otherwise main choices
-      const activeChoices = prepared.afterAction ? prepared.afterAction.choices : prepared.choices;
-      const activePrompt = prepared.afterAction ? prepared.afterAction.prompt : prepared.prompt;
+      var activeChoices = prepared.afterAction ? prepared.afterAction.choices : prepared.choices;
+      var activePrompt = prepared.afterAction ? prepared.afterAction.prompt : prepared.prompt;
 
-      clearScreen();
-      process.stdout.write(renderHeader());
+      tui.clearScreen();
+      process.stdout.write(tui.renderLogo());
+      if (prepared.subtitle) process.stdout.write('  ' + tui.dimText(prepared.subtitle) + '\n');
+      if (prepared.detail) process.stdout.write('  ' + tui.dimText(prepared.detail) + '\n');
+      process.stdout.write(tui.divider(prepared.title) + '\n\n');
 
-      // Render main adventure screen
-      const screenToRender = prepared.afterAction
-        ? { ...prepared, choices: activeChoices, prompt: activePrompt }
-        : prepared;
-      process.stdout.write(renderAdventure(screenToRender));
+      // Arrow-key menu
+      var menuItems = (activeChoices || []).map(function(ch) {
+        return { label: ch.label, description: ch.description || '', key: ch.key, action: ch.action, next: ch.next };
+      });
+      var idx = await tui.select(menuItems, activePrompt || 'Choose:');
 
-      // Get user input
-      const input = await this.ask('  > ');
-      const choice = matchChoice(activeChoices || [], input);
+      if (idx < 0 || idx >= menuItems.length) { continue; }
+      var choice = activeChoices[idx];
 
-      if (!choice) {
-        process.stdout.write('\n  Invalid choice. Try again.\n');
-        await this.pause(800);
-        continue;
-      }
-
-      // Handle the choice
-      if (choice.action === 'quit') {
-        await this.quit();
-        return;
-      }
+      if (choice.action === 'quit') { await this.quit(); return; }
 
       if (choice.action) {
-        const result = await this.executeAction(choice.action, currentState, choice);
-
-        // If action returns a next adventure, navigate there
-        if (result && result.next) {
-          adventureId = result.next;
-          continue;
-        }
-
-        // If action has sub-adventures (like build-something)
-        if (adventure.subAdventures && adventure.subAdventures[choice.next || choice.key]) {
-          const sub = adventure.subAdventures[choice.next || choice.key];
+        var result = await this.executeAction(choice.action, currentState, choice);
+        if (result && result.next) { adventureId = result.next; continue; }
+        if (adv.subAdventures && adv.subAdventures[choice.next || choice.key]) {
+          var sub = adv.subAdventures[choice.next || choice.key];
           if (sub.action === 'freeform_build') {
-            process.stdout.write(renderFreeformPrompt(sub.prompt));
-            const description = await this.ask('  > ');
-            const fullTask = (sub.context || '') + description;
-            await this.executeBuild(fullTask);
-            adventureId = 'main-menu';
-            continue;
+            process.stdout.write('\n  ' + tui.boldText(sub.prompt, tui.getTheme().text) + '\n');
+            if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+            var desc = await this.ask('  > ');
+            await this.executeBuild((sub.context || '') + desc);
+            adventureId = 'main-menu'; continue;
           }
         }
-
-        // Default: return to main menu after action
-        adventureId = 'main-menu';
-        continue;
+        adventureId = 'main-menu'; continue;
       }
 
       if (choice.next) {
-        // Check for sub-adventures
-        if (adventure.subAdventures && adventure.subAdventures[choice.next]) {
-          const sub = adventure.subAdventures[choice.next];
-          process.stdout.write(renderFreeformPrompt(sub.prompt));
-          const description = await this.ask('  > ');
-          if (sub.action === 'freeform_build') {
-            const fullTask = (sub.context || '') + description;
-            await this.executeBuild(fullTask);
-            adventureId = 'main-menu';
-            continue;
+        if (adv.subAdventures && adv.subAdventures[choice.next]) {
+          var sub2 = adv.subAdventures[choice.next];
+          process.stdout.write('\n  ' + tui.boldText(sub2.prompt, tui.getTheme().text) + '\n');
+          if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+          var desc2 = await this.ask('  > ');
+          if (sub2.action === 'freeform_build') {
+            await this.executeBuild((sub2.context || '') + desc2);
+            adventureId = 'main-menu'; continue;
           }
         }
-        adventureId = choice.next;
-        continue;
+        adventureId = choice.next; continue;
       }
-
-      // Fallback: stay on current adventure
     }
   }
 
-  /**
-   * Execute a named action.
-   * @param {string} actionName
-   * @param {object} currentState
-   * @param {object} choice - The choice that triggered this action
-   * @returns {object|null} Result with optional .next property
-   */
-  async executeAction(actionName, currentState, choice = {}) {
+  async executeAction(actionName, currentState, choice) {
+    if (!choice) choice = {};
+    var t = tui.getTheme();
     switch (actionName) {
       case 'freeform_build': {
-        process.stdout.write(renderFreeformPrompt('Tell me what you want to build (one sentence):'));
-        const description = await this.ask('  > ');
-        await this.executeBuild(description);
+        process.stdout.write('\n  ' + tui.boldText('Tell me what you want to build:', t.text) + '\n');
+        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        var desc = await this.ask('  > ');
+        await this.executeBuild(desc);
         return { next: 'main-menu' };
       }
-
       case 'resume_session': {
-        const active = state.getActiveSession();
-        if (!active) {
-          process.stdout.write('\n  No active session found.\n');
-          await this.pause(1500);
-          return { next: 'main-menu' };
-        }
-        process.stdout.write(`\n  Resuming: ${active.task}\n`);
+        var active = state.getActiveSession();
+        if (!active) { process.stdout.write('\n  No active session found.\n'); await this.pause(1500); return { next: 'main-menu' }; }
         await this.resumeSession(active);
         return { next: 'main-menu' };
       }
-
       case 'show_session_summary': {
-        const active = state.getActiveSession();
-        if (active) {
-          process.stdout.write('\n' + renderSessionSummary(active) + '\n');
-        } else {
-          process.stdout.write('\n  No active session.\n');
-        }
-        await this.ask('\n  Press Enter to continue...');
+        var active2 = state.getActiveSession();
+        if (active2) { process.stdout.write('\n' + this.renderSession(active2) + '\n'); }
+        else { process.stdout.write('\n  No active session.\n'); }
+        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        await this.ask('\n  Press Enter...');
         return null;
       }
-
       case 'resume_with_summary': {
-        const active = state.getActiveSession();
-        if (active) {
-          process.stdout.write(`\n  Starting fresh with context from: ${active.task}\n`);
-          state.completeSession(active.id, 'restarted');
-          await this.executeBuild(`Continue this project: ${active.task}. Previous session context: started ${active.startTime}.`);
-        }
+        var act = state.getActiveSession();
+        if (act) { state.completeSession(act.id, 'restarted'); await this.executeBuild('Continue: ' + act.task); }
         return { next: 'main-menu' };
       }
-
       case 'show_stats': {
-        const stats = getStats().getStats ? getStats().getStats() : {};
-        const streak = getStats().getStreak ? getStats().getStreak() : { current: 0 };
-        const achievements = getStats().getAchievements ? getStats().getAchievements() : [];
-        process.stdout.write(renderStatsCard({
-          sessions: stats.totalSessions || currentState.user?.sessionsCompleted || 0,
-          streak: streak.current || 0,
-          achievements: achievements.length,
-          cost: stats.totalCost || 0,
-        }));
+        var s = getStats().getStats ? getStats().getStats() : {};
+        var streak = getStats().getStreak ? getStats().getStreak() : { current: 0 };
+        var ach = getStats().getAchievements ? getStats().getAchievements() : [];
+        process.stdout.write('\n' + tui.statsCard({ Sessions: s.totalSessions || currentState.user.sessionsCompleted || 0, Streak: (streak.current || 0) + ' days', Badges: ach.length, Cost: '$' + (s.totalCost || 0).toFixed(2) }) + '\n');
         return null;
       }
-
       case 'show_achievements': {
-        const achievements = getStats().getAchievements ? getStats().getAchievements() : [];
-        if (achievements.length === 0) {
-          process.stdout.write('\n  No achievements unlocked yet. Keep building!\n');
-        } else {
-          process.stdout.write('\n  🏆 Your Achievements:\n');
-          for (const a of achievements) {
-            process.stdout.write(`  ✓ ${a}\n`);
-          }
-        }
-        process.stdout.write('\n');
-        await this.ask('  Press Enter to continue...');
+        var achs = getStats().getAchievements ? getStats().getAchievements() : [];
+        if (achs.length === 0) { process.stdout.write('\n  No achievements yet. Keep building!\n'); }
+        else { process.stdout.write('\n' + tui.divider('Achievements') + '\n'); achs.forEach(function(a) { process.stdout.write('  ' + tui.colorText('  v ', t.success) + (typeof a === 'string' ? a : a.name || String(a)) + '\n'); }); }
+        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        await this.ask('\n  Press Enter...');
         return { next: 'check-stats' };
       }
-
-      case 'show_history': {
-        const sessions = state.listSessions(5);
-        if (sessions.length === 0) {
-          process.stdout.write('\n  No session history yet.\n');
-        } else {
-          process.stdout.write('\n  Recent Sessions:\n\n');
-          for (const s of sessions) {
-            process.stdout.write(renderSessionSummary(s) + '\n\n');
-          }
-        }
-        await this.ask('  Press Enter to continue...');
+      case 'show_history': case 'show_recent_sessions': {
+        var sessions = state.listSessions(5);
+        if (sessions.length === 0) { process.stdout.write('\n  No sessions yet.\n'); }
+        else { process.stdout.write('\n' + tui.divider('Recent Sessions') + '\n\n'); sessions.forEach(function(s) { process.stdout.write(this.renderSession(s) + '\n\n'); }.bind(this)); }
+        if (actionName === 'show_recent_sessions') return null;
+        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        await this.ask('\n  Press Enter...');
         return { next: 'check-stats' };
       }
-
-      case 'show_recent_sessions': {
-        const sessions = state.listSessions(5);
-        if (sessions.length === 0) {
-          process.stdout.write('\n  No sessions yet. Build something to get started!\n');
-        } else {
-          process.stdout.write('\n  Recent Sessions:\n\n');
-          for (const s of sessions) {
-            process.stdout.write(renderSessionSummary(s) + '\n\n');
-          }
-        }
-        return null;
-      }
-
-      case 'browse_skills':
-      case 'browse_mega_skills':
-      case 'show_cheatsheet':
-      case 'recommend_skill':
-      case 'pick_session_to_resume':
-      case 'pick_session_details':
-        process.stdout.write(`\n  ${actionName} — coming in the next update!\n`);
-        await this.pause(1500);
-        return { next: 'main-menu' };
-
-      default:
-        process.stdout.write(`\n  Unknown action: ${actionName}\n`);
-        await this.pause(1000);
-        return null;
+      case 'browse_skills': return await this.browseSkills(false);
+      case 'browse_mega_skills': return await this.browseSkills(true);
+      case 'show_cheatsheet': return await this.showCheatsheet();
+      case 'recommend_skill': return await this.recommendSkill(currentState);
+      case 'pick_session_to_resume': return await this.pickSessionToResume();
+      case 'pick_session_details': return await this.pickSessionDetails();
+      default: process.stdout.write('\n  Unknown action: ' + actionName + '\n'); await this.pause(1000); return null;
     }
   }
 
-  /**
-   * Execute a build task via the dispatcher.
-   * @param {string} task - Plain English task description
-   */
   async executeBuild(task) {
-    const session = state.createSession({ task, project: null });
+    var currentState = state.loadState();
+    var userLevel = state.getUserLevel(currentState);
+    var spec = await this.runSpecFlow(task, userLevel);
+    var fullTask = spec.enrichedTask;
+    var session = state.createSession({ task: fullTask, project: null });
 
-    process.stdout.write(`\n  Got it! Here's what I'll do:\n`);
+    process.stdout.write('\n  ' + tui.dimText(fullTask.slice(0, 200)) + '\n');
 
-    // Show a planning checklist
-    const steps = [
-      { text: 'Understand what you need', status: 'active' },
-      { text: 'Set up the project', status: 'pending' },
-      { text: 'Build the main features', status: 'pending' },
-      { text: 'Review and polish', status: 'pending' },
-    ];
-    process.stdout.write(renderChecklist(steps));
+    var sp = tui.spinner('Dispatching to Claude Code (plan mode)...');
+    sp.start();
 
-    const confirm = await this.ask('  Ready to start? (y/n) ');
-    if (confirm.trim().toLowerCase() !== 'y') {
-      state.completeSession(session.id, 'cancelled');
-      process.stdout.write('\n  No problem! Come back when you\'re ready.\n');
-      await this.pause(1500);
-      return;
-    }
-
-    // Dispatch to Claude Code
-    process.stdout.write('\n  Working on it...\n');
-
+    var d = getDispatcher();
+    var defaults = d.getDefaultsForLevel(userLevel);
     try {
-      const d = getDispatcher();
-      const result = d.dispatch(task, { sync: true, maxTurns: 30 });
-
-      // Update session
-      state.updateSession(session.id, {
-        claudeSessionId: result.session_id || null,
-        cost: result.cost_usd || 0,
-      });
+      var result = d.dispatch(fullTask, { sync: true, maxTurns: defaults.maxTurns, effort: defaults.effort, model: defaults.model, maxBudgetUsd: defaults.maxBudgetUsd, permissionMode: 'plan', fallbackModel: 'sonnet', bare: true, name: d.generateSessionName(fullTask), systemPrompt: 'Start with a plan. Present it before implementing.' });
+      sp.stop(true);
+      state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
       state.completeSession(session.id, 'success');
-
-      // Celebrate!
-      steps.forEach(s => s.status = 'done');
-      process.stdout.write(renderChecklist(steps));
-      process.stdout.write(renderCelebration('DONE!'));
-
-      // Show result summary
-      if (result.result) {
-        const summary = typeof result.result === 'string'
-          ? result.result.slice(0, 500)
-          : JSON.stringify(result.result).slice(0, 500);
-        process.stdout.write(`\n  ${summary}\n`);
-      }
+      process.stdout.write(tui.celebrate('BUILD COMPLETE'));
+      if (result.result) { var summary = typeof result.result === 'string' ? result.result.slice(0, 500) : JSON.stringify(result.result).slice(0, 500); process.stdout.write('\n  ' + summary + '\n'); }
     } catch (err) {
+      sp.stop(false);
       state.completeSession(session.id, 'error');
-      process.stdout.write(`\n  Something went wrong, but don't worry!\n`);
-      process.stdout.write(`  Error: ${err.message}\n`);
-      process.stdout.write(`  Tip: Make sure Claude Code CLI is installed (npm i -g @anthropic-ai/claude-code)\n`);
+      process.stdout.write('\n  Error: ' + err.message + '\n');
+      process.stdout.write('  Tip: npm i -g @anthropic-ai/claude-code\n');
     }
-
-    await this.ask('\n  Press Enter to continue...');
+    if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    await this.ask('\n  Press Enter...');
   }
 
-  /**
-   * Resume an existing session.
-   * @param {object} session
-   */
+  async runSpecFlow(task, level) {
+    if (level === 'power') return { enrichedTask: task, answers: {} };
+    process.stdout.write('\n' + tui.divider('Clarification') + '\n\n');
+    var answers = {};
+    var goalIdx = await tui.select([{ label: 'Something that works end-to-end' }, { label: 'A solid foundation to build on' }, { label: 'A quick prototype' }], '1. Most important outcome?');
+    var goals = ['Build complete end-to-end.', 'Solid foundation, clean architecture.', 'Quick prototype to validate.'];
+    answers.goal = goals[goalIdx >= 0 ? goalIdx : 0];
+    var techIdx = await tui.select([{ label: 'Pick the best for me' }, { label: 'Popular/mainstream tools' }, { label: 'As simple as possible' }], '2. Tech preferences?');
+    var techs = ['Best tech stack for the job.', 'Popular, well-documented tools.', 'Minimal dependencies, simple as possible.'];
+    answers.tech = techs[techIdx >= 0 ? techIdx : 0];
+    var scopeIdx = await tui.select([{ label: 'Just the basics' }, { label: 'With tests and error handling' }, { label: 'Production-ready with docs' }], '3. How thorough?');
+    var scopes = ['Basics only, iterate later.', 'Include tests and error handling.', 'Production-ready with docs and tests.'];
+    answers.scope = scopes[scopeIdx >= 0 ? scopeIdx : 0];
+    return { enrichedTask: task + '\n\nRequirements:\n- ' + answers.goal + '\n- ' + answers.tech + '\n- ' + answers.scope, answers: answers };
+  }
+
   async resumeSession(session) {
-    process.stdout.write(`\n  Resuming session: ${session.task}\n`);
+    var sp = tui.spinner('Resuming session...');
+    sp.start();
+    var d = getDispatcher();
+    var currentState = state.loadState();
+    var defaults = d.getDefaultsForLevel(state.getUserLevel(currentState));
     try {
-      const d = getDispatcher();
-      const result = d.dispatch(`Continue working on: ${session.task}`, {
-        sync: true,
-        maxTurns: 30,
-        resume: session.claudeSessionId || undefined,
-      });
+      var result = d.dispatch('Continue: ' + session.task, { sync: true, maxTurns: defaults.maxTurns, effort: defaults.effort, permissionMode: 'plan', fallbackModel: 'sonnet', bare: true, resume: session.claudeSessionId || undefined });
+      sp.stop(true);
+      state.updateSession(session.id, { cost: (session.cost || 0) + (result.cost_usd || 0) });
+      process.stdout.write(tui.celebrate('Progress made!'));
+    } catch (err) { sp.stop(false); process.stdout.write('\n  Could not resume: ' + err.message + '\n'); }
+    if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    await this.ask('\n  Press Enter...');
+  }
 
-      state.updateSession(session.id, {
-        cost: (session.cost || 0) + (result.cost_usd || 0),
-      });
+  async browseSkills(megaOnly) {
+    var sb = getSkillBrowser();
+    var all = sb.listSkills();
+    var skills = megaOnly ? all.filter(function(s) { return s.isMega; }) : all;
+    if (skills.length === 0) { process.stdout.write('\n  No skills found.\n'); await this.pause(2000); return { next: 'learn-skill' }; }
+    var page = skills.slice(0, 10);
+    var items = page.map(function(s) { return { label: s.name, description: s.description ? s.description.slice(0, 50) : '' }; });
+    items.push({ label: 'Back' });
+    process.stdout.write('\n' + tui.divider((megaOnly ? 'Mega-' : '') + 'Skills (' + skills.length + ' total)') + '\n\n');
+    var idx = await tui.select(items, 'Pick a skill to preview:');
+    if (idx < 0 || idx >= page.length) return { next: 'learn-skill' };
+    var skill = page[idx];
+    var preview = sb.getSkillPreview(skill.path);
+    process.stdout.write('\n' + tui.divider(skill.name) + '\n');
+    process.stdout.write('  ' + tui.dimText(preview) + '\n\n');
+    var actionIdx = await tui.select([{ label: 'Try it now' }, { label: 'Back' }], 'What next?');
+    if (actionIdx === 0) { await this.executeBuild('Use the /' + skill.dirName + ' skill'); return { next: 'main-menu' }; }
+    return { next: 'learn-skill' };
+  }
 
-      process.stdout.write(renderCelebration('Progress made!'));
-      if (result.result) {
-        const summary = typeof result.result === 'string'
-          ? result.result.slice(0, 500)
-          : JSON.stringify(result.result).slice(0, 500);
-        process.stdout.write(`\n  ${summary}\n`);
-      }
-    } catch (err) {
-      process.stdout.write(`\n  Could not resume: ${err.message}\n`);
+  async showCheatsheet() {
+    var fs = require('fs');
+    var paths = [path.join(__dirname, '..', 'CHEATSHEET.md'), path.join(require('os').homedir(), '.claude', 'CHEATSHEET.md')];
+    var content = null;
+    for (var p of paths) { try { if (fs.existsSync(p)) { content = fs.readFileSync(p, 'utf8'); break; } } catch (_e) {} }
+    if (!content) { process.stdout.write('\n  Cheatsheet not found.\n'); await this.pause(2000); return { next: 'learn-skill' }; }
+    process.stdout.write('\n' + tui.dimText(content.split('\n').slice(0, 40).join('\n')) + '\n');
+    if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    await this.ask('\n  Press Enter...');
+    return { next: 'learn-skill' };
+  }
+
+  async recommendSkill(currentState) {
+    var recs;
+    try { var rec = require('./recommendations'); var stats = getStats().getStats ? getStats().getStats() : {}; recs = rec.getRecommendations(currentState, stats); } catch (_e) { recs = []; }
+    var top = recs.slice(0, 3);
+    if (top.length === 0) { process.stdout.write('\n  No recommendations yet.\n'); await this.pause(2000); return { next: 'learn-skill' }; }
+    var items = top.map(function(r) { return { label: (r.emoji || '>') + ' ' + r.text }; });
+    items.push({ label: 'Back' });
+    var idx = await tui.select(items, 'Recommendations:');
+    if (idx >= 0 && idx < top.length && top[idx].action) { await this.executeBuild(top[idx].action); return { next: 'main-menu' }; }
+    return { next: 'learn-skill' };
+  }
+
+  async pickSessionToResume() {
+    var sessions = state.listSessions(10);
+    if (sessions.length === 0) { process.stdout.write('\n  No sessions.\n'); await this.pause(1500); return { next: 'main-menu' }; }
+    var items = sessions.map(function(s) { return { label: (s.task || 'Untitled').slice(0, 50), description: s.status === 'completed' ? 'done' : 'active' }; });
+    items.push({ label: 'Back' });
+    var idx = await tui.select(items, 'Resume which session?');
+    if (idx >= 0 && idx < sessions.length) { await this.resumeSession(sessions[idx]); }
+    return { next: 'main-menu' };
+  }
+
+  async pickSessionDetails() {
+    var sessions = state.listSessions(10);
+    if (sessions.length === 0) { process.stdout.write('\n  No sessions.\n'); await this.pause(1500); return { next: 'main-menu' }; }
+    var items = sessions.map(function(s) { return { label: (s.task || 'Untitled').slice(0, 50) }; });
+    items.push({ label: 'Back' });
+    var idx = await tui.select(items, 'View details:');
+    if (idx >= 0 && idx < sessions.length) {
+      process.stdout.write('\n' + this.renderSession(sessions[idx]) + '\n');
+      var actionIdx = await tui.select([{ label: 'Resume' }, { label: 'Back' }], 'What next?');
+      if (actionIdx === 0) { await this.resumeSession(sessions[idx]); return { next: 'main-menu' }; }
     }
-
-    await this.ask('\n  Press Enter to continue...');
+    return { next: 'review-work' };
   }
 
-  /**
-   * Graceful quit.
-   */
+  renderSession(s) {
+    var t = tui.getTheme();
+    var duration = s.duration ? Math.round(s.duration / 60) + 'm' : 'ongoing';
+    var cost = s.cost ? '$' + s.cost.toFixed(2) : '$0.00';
+    var icon = s.status === 'completed' ? tui.colorText('v', t.success) : tui.colorText('o', t.primary);
+    return '  ' + icon + ' ' + tui.boldText(s.task || 'Untitled', t.text) + '\n  ' + tui.dimText('Duration: ' + duration + '  |  Cost: ' + cost + '  |  ' + new Date(s.startTime).toLocaleDateString());
+  }
+
   async quit() {
-    process.stdout.write('\n  See you next time! 👋\n');
-    process.stdout.write(renderFooter());
+    process.stdout.write('\n  See you next time!\n');
+    process.stdout.write('  ' + tui.dimText(BRAND.footer) + '\n\n');
     this.running = false;
-    this.rl.close();
+    if (this.rl) this.rl.close();
   }
 
-  /**
-   * Prompt user for input.
-   * @param {string} prompt
-   * @returns {Promise<string>}
-   */
-  ask(prompt) {
-    return new Promise(resolve => {
-      this.rl.question(prompt, answer => resolve(answer));
-    });
-  }
-
-  /**
-   * Pause for a duration.
-   * @param {number} ms
-   * @returns {Promise<void>}
-   */
-  pause(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  ask(prompt) { return new Promise(function(resolve) { this.rl.question(prompt, function(answer) { resolve(answer); }); }.bind(this)); }
+  pause(ms) { return new Promise(function(resolve) { setTimeout(resolve, ms); }); }
 }
 
 module.exports = KitCommander;

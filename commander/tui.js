@@ -1,0 +1,394 @@
+'use strict';
+
+var figlet = require('figlet');
+var readline = require('readline');
+
+// ─── Theme System ─────────────────────────────────────────────────
+
+var THEMES = {
+  cyberpunk: {
+    name: 'Cyberpunk',
+    logo: { font: 'ANSI Shadow', gradient: [[255, 0, 128], [0, 255, 255]] },
+    primary: [0, 255, 255],
+    secondary: [255, 0, 128],
+    accent: [128, 0, 255],
+    highlight: [40, 40, 80],
+    dim: [80, 80, 120],
+    text: [200, 200, 230],
+    success: [0, 255, 128],
+    error: [255, 50, 80],
+    border: 'rounded',
+  },
+  fire: {
+    name: 'Fire',
+    logo: { font: 'ANSI Shadow', gradient: [[255, 200, 0], [255, 50, 0]] },
+    primary: [255, 165, 0],
+    secondary: [255, 80, 0],
+    accent: [255, 220, 100],
+    highlight: [60, 30, 10],
+    dim: [140, 100, 60],
+    text: [255, 230, 200],
+    success: [100, 255, 100],
+    error: [255, 50, 50],
+    border: 'heavy',
+  },
+  graffiti: {
+    name: 'Graffiti',
+    logo: { font: 'Graffiti', gradient: [[255, 255, 0], [255, 0, 100], [0, 200, 255]] },
+    primary: [255, 255, 0],
+    secondary: [255, 0, 100],
+    accent: [0, 200, 255],
+    highlight: [50, 50, 30],
+    dim: [120, 120, 80],
+    text: [230, 230, 200],
+    success: [0, 255, 0],
+    error: [255, 0, 0],
+    border: 'single',
+  },
+  futuristic: {
+    name: 'Futuristic',
+    logo: { font: 'Calvin S', gradient: [[120, 180, 255], [200, 140, 255]] },
+    primary: [120, 180, 255],
+    secondary: [200, 140, 255],
+    accent: [100, 255, 200],
+    highlight: [30, 35, 50],
+    dim: [90, 100, 130],
+    text: [210, 220, 240],
+    success: [100, 255, 180],
+    error: [255, 100, 120],
+    border: 'rounded',
+  },
+};
+
+var activeTheme = 'cyberpunk';
+
+function setTheme(name) {
+  if (THEMES[name]) activeTheme = name;
+}
+
+function getTheme() {
+  return THEMES[activeTheme];
+}
+
+function getThemeNames() {
+  return Object.keys(THEMES);
+}
+
+// ─── ANSI Primitives ──────────────────────────────────────────────
+
+var ESC = '\x1b[';
+var RESET = ESC + '0m';
+
+function rgb(r, g, b) { return ESC + '38;2;' + r + ';' + g + ';' + b + 'm'; }
+function bgRgb(r, g, b) { return ESC + '48;2;' + r + ';' + g + ';' + b + 'm'; }
+var BOLD = ESC + '1m';
+var DIM = ESC + '2m';
+var ITALIC = ESC + '3m';
+
+function colorText(text, color) { return rgb(color[0], color[1], color[2]) + text + RESET; }
+function boldText(text, color) { return BOLD + rgb(color[0], color[1], color[2]) + text + RESET; }
+function dimText(text) { var t = getTheme(); return rgb(t.dim[0], t.dim[1], t.dim[2]) + text + RESET; }
+
+// ─── Gradient Engine ──────────────────────────────────────────────
+
+function gradient(text, stops) {
+  var segs = stops.length - 1;
+  var out = '';
+  for (var i = 0; i < text.length; i++) {
+    if (text[i] === ' ' || text[i] === '\n') { out += text[i]; continue; }
+    var t = text.length <= 1 ? 0 : i / (text.length - 1);
+    var sf = t * segs;
+    var si = Math.min(Math.floor(sf), segs - 1);
+    var st = sf - si;
+    var r = Math.round(stops[si][0] + (stops[si + 1][0] - stops[si][0]) * st);
+    var g = Math.round(stops[si][1] + (stops[si + 1][1] - stops[si][1]) * st);
+    var b = Math.round(stops[si][2] + (stops[si + 1][2] - stops[si][2]) * st);
+    out += rgb(r, g, b) + text[i];
+  }
+  return out + RESET;
+}
+
+function gradientLines(lines, topColor, bottomColor) {
+  return lines.map(function(line, i) {
+    var t = lines.length <= 1 ? 0 : i / (lines.length - 1);
+    var r = Math.round(topColor[0] + (bottomColor[0] - topColor[0]) * t);
+    var g = Math.round(topColor[1] + (bottomColor[1] - topColor[1]) * t);
+    var b = Math.round(topColor[2] + (bottomColor[2] - topColor[2]) * t);
+    return rgb(r, g, b) + line + RESET;
+  });
+}
+
+// ─── Big ASCII Logo ───────────────────────────────────────────────
+
+function renderLogo(text) {
+  var t = getTheme();
+  var art;
+  try {
+    art = figlet.textSync(text || 'CC COMMANDER', {
+      font: t.logo.font,
+      horizontalLayout: 'fitted',
+    });
+  } catch (_e) {
+    art = figlet.textSync(text || 'CC COMMANDER', { font: 'Standard' });
+  }
+  var lines = art.split('\n');
+  var colored = gradientLines(lines, t.logo.gradient[0], t.logo.gradient[t.logo.gradient.length - 1]);
+  return '\n' + colored.join('\n') + '\n';
+}
+
+// ─── Box Drawing ──────────────────────────────────────────────────
+
+var BORDERS = {
+  single:  { tl: '\u250c', tr: '\u2510', bl: '\u2514', br: '\u2518', h: '\u2500', v: '\u2502' },
+  double:  { tl: '\u2554', tr: '\u2557', bl: '\u255a', br: '\u255d', h: '\u2550', v: '\u2551' },
+  rounded: { tl: '\u256d', tr: '\u256e', bl: '\u2570', br: '\u256f', h: '\u2500', v: '\u2502' },
+  heavy:   { tl: '\u250f', tr: '\u2513', bl: '\u2517', br: '\u251b', h: '\u2501', v: '\u2503' },
+};
+
+function stripAnsi(s) { return s.replace(/\x1b\[[0-9;]*m/g, ''); }
+
+function box(content, width) {
+  var t = getTheme();
+  var b = BORDERS[t.border] || BORDERS.rounded;
+  var lines = content.split('\n');
+  if (!width) width = Math.max.apply(null, lines.map(function(l) { return stripAnsi(l).length; }));
+  var pad = function(l) { return l + ' '.repeat(Math.max(0, width - stripAnsi(l).length)); };
+  var bc = rgb(t.primary[0], t.primary[1], t.primary[2]);
+
+  var top = bc + b.tl + b.h.repeat(width + 2) + b.tr + RESET;
+  var bot = bc + b.bl + b.h.repeat(width + 2) + b.br + RESET;
+  var mid = lines.map(function(l) { return bc + b.v + RESET + ' ' + pad(l) + ' ' + bc + b.v + RESET; }).join('\n');
+  return top + '\n' + mid + '\n' + bot;
+}
+
+// ─── Arrow-Key Select Menu ────────────────────────────────────────
+
+function select(items, prompt) {
+  return new Promise(function(resolve) {
+    var sel = 0;
+    var stdin = process.stdin;
+    var stdout = process.stdout;
+    var t = getTheme();
+
+    if (!stdin.setRawMode) {
+      // Fallback for non-TTY: use letter-based selection
+      stdout.write('\n  ' + (prompt || 'Choose:') + '\n\n');
+      items.forEach(function(item, i) {
+        var label = typeof item === 'string' ? item : item.label;
+        var desc = typeof item === 'string' ? '' : (item.description || '');
+        var key = String.fromCharCode(97 + i);
+        stdout.write('    ' + colorText(key + ')', t.primary) + ' ' + label);
+        if (desc) stdout.write('  ' + dimText(desc));
+        stdout.write('\n');
+      });
+      stdout.write('\n');
+      var rl = readline.createInterface({ input: stdin, output: stdout });
+      rl.question('  > ', function(answer) {
+        rl.close();
+        var idx = answer.trim().charCodeAt(0) - 97;
+        if (idx >= 0 && idx < items.length) resolve(idx);
+        else resolve(-1);
+      });
+      return;
+    }
+
+    stdin.setRawMode(true);
+    stdin.resume();
+    readline.emitKeypressEvents(stdin);
+    stdout.write(ESC + '?25l'); // hide cursor
+
+    function draw() {
+      stdout.write(ESC + (items.length + 2) + 'A');
+      stdout.write(ESC + '2K  ' + boldText(prompt || 'Choose:', t.text) + '\n');
+      stdout.write(ESC + '2K\n');
+      items.forEach(function(item, i) {
+        var active = i === sel;
+        var label = typeof item === 'string' ? item : item.label;
+        var desc = typeof item === 'string' ? '' : (item.description || '');
+        var key = String.fromCharCode(97 + i);
+
+        stdout.write(ESC + '2K');
+        if (active) {
+          var hl = t.highlight;
+          stdout.write(bgRgb(hl[0], hl[1], hl[2]));
+          stdout.write('  ' + boldText('\u276f ', t.primary) + BOLD + rgb(t.text[0], t.text[1], t.text[2]) + label + RESET);
+          if (desc) stdout.write(bgRgb(hl[0], hl[1], hl[2]) + '  ' + dimText(desc) + RESET);
+          stdout.write(bgRgb(hl[0], hl[1], hl[2]) + '  ' + RESET);
+        } else {
+          stdout.write('    ' + colorText(key + ')', t.dim) + ' ' + colorText(label, t.text));
+          if (desc) stdout.write('  ' + dimText(desc));
+        }
+        stdout.write('\n');
+      });
+    }
+
+    // Reserve space + initial draw
+    stdout.write('\n'.repeat(items.length + 2));
+    draw();
+
+    function handler(str, key) {
+      if (!key) return;
+      if (key.name === 'up' && sel > 0) { sel--; draw(); }
+      else if (key.name === 'down' && sel < items.length - 1) { sel++; draw(); }
+      else if (key.name === 'return') { done(sel); }
+      else if (key.ctrl && key.name === 'c') { done(-1); }
+      else {
+        // Letter shortcut: a=0, b=1, c=2, etc.
+        var code = (str || '').charCodeAt(0) - 97;
+        if (code >= 0 && code < items.length) { sel = code; draw(); done(sel); }
+      }
+    }
+
+    function done(i) {
+      stdin.removeListener('keypress', handler);
+      stdin.setRawMode(false);
+      stdin.pause();
+      stdout.write(ESC + '?25h'); // show cursor
+      resolve(i);
+    }
+
+    stdin.on('keypress', handler);
+  });
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────
+
+function spinner(text) {
+  var frames = ['\u280b', '\u2819', '\u2839', '\u2838', '\u283c', '\u2834', '\u2826', '\u2827', '\u2807', '\u280f'];
+  var i = 0;
+  var timer;
+  var t = getTheme();
+
+  return {
+    start: function() {
+      process.stdout.write(ESC + '?25l');
+      timer = setInterval(function() {
+        process.stdout.write('\r' + ESC + '2K  ' + colorText(frames[i++ % frames.length], t.primary) + ' ' + colorText(text, t.text));
+      }, 80);
+      return this;
+    },
+    stop: function(success) {
+      clearInterval(timer);
+      var icon = success !== false ? colorText('\u2714', t.success) : colorText('\u2716', t.error);
+      process.stdout.write('\r' + ESC + '2K  ' + icon + ' ' + colorText(text, t.text) + '\n');
+      process.stdout.write(ESC + '?25h');
+    },
+  };
+}
+
+// ─── Typewriter Effect ────────────────────────────────────────────
+
+function typewriter(text, speed) {
+  if (!speed) speed = 25;
+  return new Promise(function(resolve) {
+    var i = 0;
+    process.stdout.write(ESC + '?25l');
+    var timer = setInterval(function() {
+      if (i < text.length) { process.stdout.write(text[i]); i++; }
+      else { clearInterval(timer); process.stdout.write(ESC + '?25h'); resolve(); }
+    }, speed);
+  });
+}
+
+// ─── Progress Bar ─────────────────────────────────────────────────
+
+function progressBar(current, total, width) {
+  if (!width) width = 30;
+  var t = getTheme();
+  var pct = Math.min(current / total, 1);
+  var filled = Math.round(pct * width);
+  var bar = '\u2588'.repeat(filled) + '\u2591'.repeat(width - filled);
+  return colorText('\u258c', t.primary) + gradient(bar, [t.secondary, t.primary]) + colorText('\u2590', t.primary) + ' ' + colorText(current + '/' + total, t.text);
+}
+
+// ─── Sparkline ────────────────────────────────────────────────────
+
+function sparkline(values) {
+  var bars = ' \u2581\u2582\u2583\u2584\u2585\u2586\u2587\u2588';
+  var min = Math.min.apply(null, values);
+  var max = Math.max.apply(null, values);
+  var range = max - min || 1;
+  var t = getTheme();
+  return values.map(function(v) {
+    var idx = Math.round(((v - min) / range) * 8);
+    return colorText(bars[idx], t.primary);
+  }).join('');
+}
+
+// ─── Screen Control ───────────────────────────────────────────────
+
+function clearScreen() { process.stdout.write(ESC + '2J' + ESC + 'H'); }
+
+function altScreen() { process.stdout.write(ESC + '?1049h'); }
+function mainScreen() { process.stdout.write(ESC + '?1049l'); }
+
+// ─── Stats Card ───────────────────────────────────────────────────
+
+function statsCard(data) {
+  var t = getTheme();
+  var lines = [];
+  var keys = Object.keys(data);
+  var maxKey = Math.max.apply(null, keys.map(function(k) { return k.length; }));
+  keys.forEach(function(k) {
+    lines.push('  ' + colorText((k + ':').padEnd(maxKey + 2), t.dim) + boldText(String(data[k]), t.primary));
+  });
+  return box(lines.join('\n'), Math.max(40, maxKey + 20));
+}
+
+// ─── Celebration ──────────────────────────────────────────────────
+
+function celebrate(message) {
+  var t = getTheme();
+  var styles = [
+    '\n  ' + gradient('\u2728 \u2728 \u2728  ' + message + '  \u2728 \u2728 \u2728', [t.primary, t.secondary, t.accent || t.primary]),
+    '\n' + box('  ' + boldText(message, t.primary) + '  ', 40),
+    '\n  ' + boldText('\u2588'.repeat(3), t.secondary) + ' ' + boldText(message, t.primary) + ' ' + boldText('\u2588'.repeat(3), t.secondary),
+  ];
+  return styles[Math.floor(Math.random() * styles.length)] + '\n';
+}
+
+// ─── Divider ──────────────────────────────────────────────────────
+
+function divider(title) {
+  var t = getTheme();
+  var b = BORDERS[t.border] || BORDERS.rounded;
+  if (title) {
+    return colorText('  ' + b.h.repeat(3) + ' ', t.dim) + boldText(title, t.primary) + colorText(' ' + b.h.repeat(30), t.dim);
+  }
+  return colorText('  ' + b.h.repeat(40), t.dim);
+}
+
+module.exports = {
+  // Theme
+  THEMES: THEMES,
+  setTheme: setTheme,
+  getTheme: getTheme,
+  getThemeNames: getThemeNames,
+  // Rendering
+  renderLogo: renderLogo,
+  gradient: gradient,
+  gradientLines: gradientLines,
+  box: box,
+  statsCard: statsCard,
+  celebrate: celebrate,
+  divider: divider,
+  progressBar: progressBar,
+  sparkline: sparkline,
+  // Interactive
+  select: select,
+  spinner: spinner,
+  typewriter: typewriter,
+  // Screen
+  clearScreen: clearScreen,
+  altScreen: altScreen,
+  mainScreen: mainScreen,
+  // Color helpers
+  colorText: colorText,
+  boldText: boldText,
+  dimText: dimText,
+  rgb: rgb,
+  bgRgb: bgRgb,
+  stripAnsi: stripAnsi,
+  RESET: RESET,
+  BOLD: BOLD,
+};

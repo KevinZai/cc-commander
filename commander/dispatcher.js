@@ -1,108 +1,79 @@
 'use strict';
 
-const { execSync } = require('child_process');
+var childProcess = require('child_process');
 
-/**
- * Dispatch a task to Claude Code in headless mode.
- *
- * Uses `claude -p` for non-interactive execution.
- * Returns parsed JSON result with session_id, result, and metadata.
- *
- * @param {string} task - Plain English task description
- * @param {object} options
- * @param {boolean} options.sync - Use synchronous execution (default: true)
- * @param {number} options.maxTurns - Max agentic iterations (default: 30)
- * @param {string} options.resume - Session ID to resume
- * @param {string[]} options.allowedTools - Tools to auto-approve
- * @param {string} options.systemPrompt - Additional system prompt
- * @param {string} options.cwd - Working directory for Claude Code
- * @returns {object} Parsed JSON result from Claude Code
- */
-function dispatch(task, options = {}) {
-  const {
-    sync = true,
-    maxTurns = 30,
-    resume,
-    allowedTools,
-    systemPrompt,
-    cwd,
-  } = options;
+function generateSessionName(task) {
+  return 'kc-' + task.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').slice(0, 40).replace(/-+$/, '');
+}
 
-  const args = ['-p', JSON.stringify(task), '--output-format', 'json'];
+function getDefaultsForLevel(level) {
+  switch (level) {
+    case 'power': return { effort: 'high', maxBudgetUsd: 5, model: 'opusplan', maxTurns: 50 };
+    case 'assisted': return { effort: 'medium', maxBudgetUsd: 3, model: 'opusplan', maxTurns: 40 };
+    case 'guided': default: return { effort: 'medium', maxBudgetUsd: 2, model: 'sonnet', maxTurns: 30 };
+  }
+}
 
+function dispatch(task, options) {
+  if (!options) options = {};
+  var sync = options.sync !== undefined ? options.sync : true;
+  var maxTurns = options.maxTurns || 30;
+  var resume = options.resume;
+  var allowedTools = options.allowedTools;
+  var systemPrompt = options.systemPrompt;
+  var cwd = options.cwd;
+  var bare = options.bare !== undefined ? options.bare : true;
+  var jsonSchema = options.jsonSchema;
+  var maxBudgetUsd = options.maxBudgetUsd;
+  var effort = options.effort;
+  var permissionMode = options.permissionMode !== undefined ? options.permissionMode : 'plan';
+  var model = options.model;
+  var fallbackModel = options.fallbackModel !== undefined ? options.fallbackModel : 'sonnet';
+  var worktree = options.worktree;
+  var name = options.name;
+  var continueSession = options.continueSession;
+
+  var args = ['-p', JSON.stringify(task), '--output-format', 'json'];
+  if (bare) args.push('--bare');
   if (maxTurns) args.push('--max-turns', String(maxTurns));
   if (resume) args.push('--resume', resume);
-  if (allowedTools && allowedTools.length > 0) {
-    args.push('--allowedTools', allowedTools.join(','));
-  }
-  if (systemPrompt) {
-    args.push('--append-system-prompt', JSON.stringify(systemPrompt));
-  }
+  if (continueSession) args.push('--continue');
+  if (model) args.push('--model', model);
+  if (fallbackModel) args.push('--fallback-model', fallbackModel);
+  if (effort) args.push('--effort', effort);
+  if (permissionMode) args.push('--permission-mode', permissionMode);
+  if (maxBudgetUsd) args.push('--max-budget-usd', String(maxBudgetUsd));
+  if (name) args.push('--name', name);
+  if (worktree) args.push('--worktree', worktree);
+  if (jsonSchema) args.push('--json-schema', JSON.stringify(jsonSchema));
+  if (allowedTools && allowedTools.length > 0) args.push('--allowedTools', allowedTools.join(','));
+  if (systemPrompt) args.push('--append-system-prompt', JSON.stringify(systemPrompt));
 
-  const command = `claude ${args.join(' ')}`;
+  var command = 'claude ' + args.join(' ');
+  if (!sync) return { command: command, async: true };
 
-  if (!sync) {
-    // For future async support — return the command for external execution
-    return { command, async: true };
-  }
+  var env = Object.assign({}, process.env, { CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: '70' });
 
   try {
-    const stdout = execSync(command, {
-      encoding: 'utf8',
-      maxBuffer: 50 * 1024 * 1024, // 50MB buffer
-      timeout: 10 * 60 * 1000, // 10 minute timeout
-      cwd: cwd || process.cwd(),
-      stdio: ['pipe', 'pipe', 'pipe'],
+    var stdout = childProcess.execSync(command, {
+      encoding: 'utf8', maxBuffer: 50 * 1024 * 1024, timeout: 10 * 60 * 1000,
+      cwd: cwd || process.cwd(), stdio: ['pipe', 'pipe', 'pipe'], env: env,
     });
-
-    // Parse JSON output
-    try {
-      return JSON.parse(stdout);
-    } catch {
-      // If not valid JSON, wrap in result object
-      return { result: stdout.trim(), session_id: null, cost_usd: 0 };
-    }
+    try { return JSON.parse(stdout); } catch (_e) { return { result: stdout.trim(), session_id: null, cost_usd: 0 }; }
   } catch (err) {
-    // Check if Claude Code is installed
-    try {
-      execSync('which claude', { encoding: 'utf8' });
-    } catch {
-      throw new Error(
-        'Claude Code CLI not found. Install with: npm install -g @anthropic-ai/claude-code'
-      );
-    }
-
-    // Re-throw with cleaner message
-    const message = err.stderr
-      ? err.stderr.toString().slice(0, 200)
-      : err.message;
-    throw new Error(`Claude Code dispatch failed: ${message}`);
+    try { childProcess.execSync('which claude', { encoding: 'utf8' }); }
+    catch (_e2) { throw new Error('Claude Code CLI not found. Install: npm i -g @anthropic-ai/claude-code'); }
+    var message = err.stderr ? err.stderr.toString().slice(0, 200) : err.message;
+    throw new Error('Claude Code dispatch failed: ' + message);
   }
 }
 
-/**
- * Check if Claude Code CLI is available.
- * @returns {boolean}
- */
 function isClaudeAvailable() {
-  try {
-    execSync('which claude', { encoding: 'utf8', stdio: 'pipe' });
-    return true;
-  } catch {
-    return false;
-  }
+  try { childProcess.execSync('which claude', { encoding: 'utf8', stdio: 'pipe' }); return true; } catch (_e) { return false; }
 }
 
-/**
- * Get Claude Code version.
- * @returns {string|null}
- */
 function getClaudeVersion() {
-  try {
-    return execSync('claude --version', { encoding: 'utf8', stdio: 'pipe' }).trim();
-  } catch {
-    return null;
-  }
+  try { return childProcess.execSync('claude --version', { encoding: 'utf8', stdio: 'pipe' }).trim(); } catch (_e) { return null; }
 }
 
-module.exports = { dispatch, isClaudeAvailable, getClaudeVersion };
+module.exports = { dispatch: dispatch, isClaudeAvailable: isClaudeAvailable, getClaudeVersion: getClaudeVersion, generateSessionName: generateSessionName, getDefaultsForLevel: getDefaultsForLevel };
