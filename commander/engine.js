@@ -274,21 +274,15 @@ class KitCommander {
       }
       case 'show_all_mega': {
         process.stdout.write('n' + tui.divider('All 10 Mega-Skills') + 'nn');
-        var megas = [
-          ['mega-design', '35+', 'UI/UX, animations, polish, responsive, accessibility, motion, canvas, SVG'],
-          ['mega-marketing', '46', 'Content, CRO, email, ads, analytics, landing pages, social, SEO'],
-          ['mega-saas', '20', 'Auth, billing, API, database, deploy, monitoring, Redis, webhooks'],
-          ['mega-testing', '15', 'Unit, integration, E2E, load, security, visual regression, TDD'],
-          ['mega-devops', '20', 'CI/CD, Docker, AWS, Terraform, Prometheus, Grafana, runbooks'],
-          ['mega-seo', '19', 'Technical SEO, content, schema, Core Web Vitals, SERP analysis'],
-          ['mega-security', '9', 'OWASP, pentest, secrets, API security, CSRF/XSS, compliance'],
-          ['mega-research', '8', 'Competitive, market, technology eval, multi-source research'],
-          ['mega-mobile', '7', 'React Native, Flutter, iOS, Android, responsive, app store'],
-          ['mega-data', '10+', 'Pipelines, ETL, visualization, SQL, migrations, dashboards'],
-        ];
+        var sb = getSkillBrowser();
+        var allSkills = sb.listSkills();
+        var megas = allSkills.filter(function(s) { return s.isMega; });
+        if (megas.length === 0) { process.stdout.write('  No mega-skills found. Install Claude Code Kit.n'); }
         megas.forEach(function(m) {
-          process.stdout.write('  ' + tui.boldText(m[0], tui.getTheme().primary) + ' (' + m[1] + ' sub-skills)n');
-          process.stdout.write('  ' + tui.dimText(m[2]) + 'nn');
+          var subCount = 0;
+          try { var fs2 = require('fs'); var entries = fs2.readdirSync(require('path').dirname(m.path), {withFileTypes:true}); subCount = entries.filter(function(e){return e.isDirectory();}).length; } catch(_e) {}
+          process.stdout.write('  ' + tui.boldText(m.name, tui.getTheme().primary) + ' (' + (subCount || '?') + ' sub-skills)n');
+          process.stdout.write('  ' + tui.dimText(m.description || '') + 'nn');
         });
         if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         await this.ask('n  Press Enter...');

@@ -5,6 +5,7 @@ const path = require('path');
 const os = require('os');
 
 const SKILL_DIRS = [
+  path.join(__dirname, '..', 'skills'),
   path.join(os.homedir(), '.claude', 'skills'),
   path.join(process.cwd(), '.claude', 'skills'),
 ];
