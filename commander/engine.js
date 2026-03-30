@@ -40,8 +40,8 @@ class KitCommander {
   }
 
   async onboard() {
-    tui.clearScreen();
-    process.stdout.write(tui.renderLogo('CC CMD'));
+    await tui.wipeTransition();
+    process.stdout.write(tui.renderLogoResponsive('CC CMD'));
     process.stdout.write('\n  ' + tui.boldText(BRAND.tagline, tui.getTheme().primary) + '\n');
     process.stdout.write('  ' + tui.dimText(BRAND.scope) + '\n\n');
     process.stdout.write('  ' + BRAND.welcomeNew + '\n\n');
@@ -59,8 +59,8 @@ class KitCommander {
       state.updateState({ theme: themeNames[themeIdx] });
     }
 
-    tui.clearScreen();
-    process.stdout.write(tui.renderLogo('CC CMD'));
+    await tui.wipeTransition();
+    process.stdout.write(tui.renderLogoResponsive('CC CMD'));
 
     // Name
     this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -100,8 +100,8 @@ class KitCommander {
       var activeChoices = prepared.afterAction ? prepared.afterAction.choices : prepared.choices;
       var activePrompt = prepared.afterAction ? prepared.afterAction.prompt : prepared.prompt;
 
-      tui.clearScreen();
-      process.stdout.write(tui.renderLogo());
+      await tui.wipeTransition();
+      process.stdout.write(tui.renderLogoResponsive());
       if (prepared.subtitle) process.stdout.write('  ' + tui.dimText(prepared.subtitle) + '\n');
       if (prepared.detail) process.stdout.write('  ' + tui.dimText(prepared.detail) + '\n');
       process.stdout.write(tui.divider(prepared.title) + '\n\n');
@@ -183,7 +183,7 @@ class KitCommander {
         var s = getStats().getStats ? getStats().getStats() : {};
         var streak = getStats().getStreak ? getStats().getStreak() : { current: 0 };
         var ach = getStats().getAchievements ? getStats().getAchievements() : [];
-        process.stdout.write('\n' + tui.statsCard({ Sessions: s.totalSessions || currentState.user.sessionsCompleted || 0, Streak: (streak.current || 0) + ' days', Badges: ach.length, Cost: '$' + (s.totalCost || 0).toFixed(2) }) + '\n');
+        var dashData = { sessions: s.totalSessions || currentState.user.sessionsCompleted || 0, streak: streak.current || 0, longestStreak: streak.longest || 0, achievements: ach.length, cost: s.totalCost || 0, level: state.getUserLevel(currentState), dailyCosts: [], dailySessions: [] }; if (s.dailyLog) { var dates = Object.keys(s.dailyLog).sort().slice(-7); dashData.dailyCosts = dates.map(function(d) { return s.dailyLog[d].cost || 0; }); dashData.dailySessions = dates.map(function(d) { return s.dailyLog[d].sessions || 0; }); } process.stdout.write(tui.renderDashboard(dashData));
         return null;
       }
       case 'show_achievements': {
@@ -209,6 +209,7 @@ class KitCommander {
       case 'recommend_skill': return await this.recommendSkill(currentState);
       case 'pick_session_to_resume': return await this.pickSessionToResume();
       case 'pick_session_details': return await this.pickSessionDetails();
+      case 'change_theme': return await this.changeTheme();
       default: process.stdout.write('\n  Unknown action: ' + actionName + '\n'); await this.pause(1000); return null;
     }
   }
@@ -350,6 +351,19 @@ class KitCommander {
     var cost = s.cost ? '$' + s.cost.toFixed(2) : '$0.00';
     var icon = s.status === 'completed' ? tui.colorText('v', t.success) : tui.colorText('o', t.primary);
     return '  ' + icon + ' ' + tui.boldText(s.task || 'Untitled', t.text) + '\n  ' + tui.dimText('Duration: ' + duration + '  |  Cost: ' + cost + '  |  ' + new Date(s.startTime).toLocaleDateString());
+  }
+
+  async changeTheme() {
+    var items = tui.themePickerItems();
+    process.stdout.write("\n" + tui.divider("Theme Picker") + "\n\n");
+    var idx = await tui.select(items, "Pick a theme:");
+    if (idx >= 0 && idx < tui.getThemeNames().length) {
+      tui.setTheme(tui.getThemeNames()[idx]);
+      state.updateState({ theme: tui.getThemeNames()[idx] });
+      process.stdout.write(tui.celebrate("Theme: " + tui.getTheme().name));
+      await this.pause(800);
+    }
+    return { next: "main-menu" };
   }
 
   async quit() {

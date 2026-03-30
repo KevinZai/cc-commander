@@ -392,3 +392,142 @@ module.exports = {
   RESET: RESET,
   BOLD: BOLD,
 };
+
+// ─── Responsive Logo ──────────────────────────────────────────────
+
+function renderLogoResponsive(text) {
+  var cols = process.stdout.columns || 80;
+  var t = getTheme();
+  if (cols < 60) {
+    // Compact: just gradient text
+    return '\n  ' + gradient(BOLD + (text || 'CC COMMANDER') + RESET, t.logo.gradient) + '\n';
+  }
+  // Full figlet
+  return renderLogo(text);
+}
+
+// ─── Animated Transitions ─────────────────────────────────────────
+
+function wipeTransition(speed) {
+  return new Promise(function(resolve) {
+    if (process.env.KC_NO_ANIMATION === '1' || !process.stdout.columns) {
+      clearScreen();
+      resolve();
+      return;
+    }
+    var cols = process.stdout.columns || 80;
+    var rows = process.stdout.rows || 24;
+    var t = getTheme();
+    var row = 0;
+    process.stdout.write(ESC + '?25l');
+    var timer = setInterval(function() {
+      if (row >= rows) {
+        clearInterval(timer);
+        process.stdout.write(ESC + 'H' + ESC + '?25h');
+        resolve();
+        return;
+      }
+      process.stdout.write(ESC + (row + 1) + ';1H');
+      process.stdout.write(bgRgb(t.highlight[0], t.highlight[1], t.highlight[2]) + ' '.repeat(cols) + RESET);
+      row++;
+    }, speed || 8);
+  });
+}
+
+function flashTransition() {
+  return new Promise(function(resolve) {
+    if (process.env.KC_NO_ANIMATION === '1') { clearScreen(); resolve(); return; }
+    var t = getTheme();
+    process.stdout.write(ESC + '?25l');
+    // Flash primary color then clear
+    process.stdout.write(ESC + '2J' + ESC + 'H');
+    process.stdout.write(bgRgb(t.primary[0], t.primary[1], t.primary[2]));
+    var cols = process.stdout.columns || 80;
+    var rows = process.stdout.rows || 24;
+    for (var i = 0; i < rows; i++) process.stdout.write(' '.repeat(cols));
+    setTimeout(function() {
+      process.stdout.write(RESET + ESC + '2J' + ESC + 'H' + ESC + '?25h');
+      resolve();
+    }, 60);
+  });
+}
+
+// ─── Theme Picker with Live Preview ───────────────────────────────
+
+function themePickerItems() {
+  return getThemeNames().map(function(name) {
+    var t = THEMES[name];
+    return {
+      label: t.name,
+      description: gradient('\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588', [t.primary, t.secondary]),
+    };
+  });
+}
+
+module.exports.renderLogoResponsive = renderLogoResponsive;
+module.exports.wipeTransition = wipeTransition;
+module.exports.flashTransition = flashTransition;
+module.exports.themePickerItems = themePickerItems;
+
+// ─── Rich Stats Dashboard ─────────────────────────────────────────
+
+function renderDashboard(data) {
+  var t = getTheme();
+  var cols = process.stdout.columns || 80;
+  var width = Math.min(cols - 4, 60);
+  var out = '';
+
+  // Header
+  out += '\n' + divider('Dashboard') + '\n\n';
+
+  // Top stats row
+  var statLine = '  '
+    + boldText(String(data.sessions || 0), t.primary) + dimText(' sessions') + '    '
+    + boldText(String(data.streak || 0), t.secondary) + dimText(' day streak') + '    '
+    + boldText(String(data.achievements || 0), t.accent || t.primary) + dimText(' badges') + '    '
+    + boldText('$' + (data.cost || 0).toFixed(2), t.text) + dimText(' spent');
+  out += statLine + '\n\n';
+
+  // Cost sparkline (last 7 entries)
+  if (data.dailyCosts && data.dailyCosts.length > 0) {
+    out += '  ' + dimText('Cost trend: ') + sparkline(data.dailyCosts) + '\n';
+  }
+
+  // Activity heatmap (last 7 days)
+  if (data.dailySessions && data.dailySessions.length > 0) {
+    var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    var today = new Date().getDay();
+    var heatmap = '  ' + dimText('Activity:   ');
+    data.dailySessions.forEach(function(count, i) {
+      var intensity = count === 0 ? '\u2591' : count < 3 ? '\u2592' : count < 6 ? '\u2593' : '\u2588';
+      var dayIdx = (today - data.dailySessions.length + 1 + i + 7) % 7;
+      heatmap += colorText(intensity + intensity, count === 0 ? t.dim : (count >= 3 ? t.primary : t.secondary)) + ' ';
+    });
+    out += heatmap + '\n';
+  }
+
+  // Streak fire
+  if (data.streak && data.streak > 0) {
+    var fires = '';
+    var fireCount = Math.min(data.streak, 10);
+    for (var i = 0; i < fireCount; i++) fires += '\u{1F525}';
+    if (data.streak > 10) fires += ' +' + (data.streak - 10);
+    out += '\n  ' + fires + '  ' + boldText(data.streak + '-day streak!', t.primary) + '\n';
+    if (data.longestStreak && data.longestStreak > data.streak) {
+      out += '  ' + dimText('Longest: ' + data.longestStreak + ' days') + '\n';
+    }
+  }
+
+  // Level progress
+  if (data.level) {
+    var nextLevel = data.level === 'guided' ? 'Assisted (5 sessions)' : data.level === 'assisted' ? 'Power (20 sessions)' : 'MAX';
+    var progress = data.level === 'guided' ? Math.min(data.sessions / 5, 1) : data.level === 'assisted' ? Math.min(data.sessions / 20, 1) : 1;
+    out += '\n  ' + dimText('Level: ') + boldText(data.level.toUpperCase(), t.primary) + '  ' + dimText('Next: ' + nextLevel) + '\n';
+    out += '  ' + progressBar(Math.round(progress * 10), 10, 20) + '\n';
+  }
+
+  out += '\n';
+  return out;
+}
+
+module.exports.renderDashboard = renderDashboard;

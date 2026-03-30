@@ -1,48 +1,66 @@
 {
   "id": "main-menu",
-  "version": 1,
+  "version": 2,
   "screen": {
-    "title": "Kit Commander",
+    "title": "CC Commander",
     "subtitle": "welcomeMessage",
-    "art": "mini_dashboard"
+    "detail": "{gitBranch} · {gitStatus} · {sessions} sessions · {achievementCount} badges",
+    "art": "logo"
   },
   "prompt": "What would you like to do?",
   "choices": [
     {
       "key": "a",
       "label": "Continue where I left off",
-      "description": "Pick up your last session",
+      "description": "Resume your last session",
       "condition": "hasActiveSession",
       "next": "continue-work"
     },
     {
       "key": "b",
       "label": "Build something new",
-      "description": "Start a fresh project or feature",
+      "description": "Code, websites, APIs, CLI tools",
       "next": "build-something"
     },
     {
       "key": "c",
-      "label": "Review what I built",
-      "description": "See recent sessions and their results",
-      "next": "review-work"
+      "label": "Create content",
+      "description": "Marketing, social media, writing",
+      "next": "create-content"
     },
     {
       "key": "d",
-      "label": "Learn a new skill",
-      "description": "Browse skills, commands, and guides",
-      "next": "learn-skill"
+      "label": "Research & analyze",
+      "description": "Deep dives, competitive analysis, reports",
+      "next": "research"
     },
     {
       "key": "e",
+      "label": "Review what I built",
+      "description": "Recent sessions and results",
+      "next": "review-work"
+    },
+    {
+      "key": "f",
+      "label": "Learn a new skill",
+      "description": "Browse 280+ skills and guides",
+      "next": "learn-skill"
+    },
+    {
+      "key": "g",
       "label": "Check my stats",
-      "description": "Streaks, achievements, session history",
+      "description": "Streaks, achievements, cost tracking",
       "next": "check-stats"
+    },
+    {
+      "key": "t",
+      "label": "Change theme",
+      "description": "Switch visual style",
+      "action": "change_theme"
     },
     {
       "key": "q",
       "label": "Quit",
-      "description": "Exit Kit Commander",
       "action": "quit"
     }
   ]
