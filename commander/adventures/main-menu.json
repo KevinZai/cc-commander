@@ -19,7 +19,7 @@
     {
       "key": "o",
       "label": "Open a project",
-      "description": "Import local CLAUDE.md + .claude/ context",
+      "description": "Optional: import local CLAUDE.md + .claude/ context",
       "action": "open_project"
     },
     {

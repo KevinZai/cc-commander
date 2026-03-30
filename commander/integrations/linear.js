@@ -62,18 +62,29 @@ async function checkConnection() {
   } catch (_e) { return { connected: false, user: null }; }
 }
 
-async function findProject(teamKey) {
-  if (!teamKey) teamKey = 'CC';
+async function findProject(projectName, teamKey) {
+  if (!projectName) projectName = process.env.KC_LINEAR_PROJECT || 'CC Commander';
+  if (!teamKey) teamKey = process.env.KC_LINEAR_TEAM || 'CC';
   var r = await graphql('{ teams { nodes { id key projects { nodes { id name } } } } }');
   if (!r.data) return null;
   for (var i = 0; i < r.data.teams.nodes.length; i++) {
     var t = r.data.teams.nodes[i];
     if (t.key === teamKey) {
-      var p = t.projects.nodes.find(function(p2) { return p2.name === 'CC Commander'; });
-      if (p) return { projectId: p.id, teamId: t.id };
+      var p = t.projects.nodes.find(function(p2) { return p2.name === projectName; });
+      if (p) return { projectId: p.id, teamId: t.id, projectName: projectName };
     }
   }
   return null;
+}
+
+async function listProjects(teamKey) {
+  if (!teamKey) teamKey = process.env.KC_LINEAR_TEAM || 'CC';
+  var r = await graphql('{ teams { nodes { id key projects { nodes { id name state } } } } }');
+  if (!r.data) return [];
+  for (var i = 0; i < r.data.teams.nodes.length; i++) {
+    if (r.data.teams.nodes[i].key === teamKey) return r.data.teams.nodes[i].projects.nodes;
+  }
+  return [];
 }
 
 async function createSessionIssue(session, project) {
@@ -116,4 +127,4 @@ async function syncSession(session, outcome) {
   catch (_e) { return null; }
 }
 
-module.exports = { checkConnection: checkConnection, findProject: findProject, createSessionIssue: createSessionIssue, updateIssue: updateIssue, addComment: addComment, getProjectIssues: getProjectIssues, getProgress: getProgress, syncSession: syncSession, graphql: graphql };
+module.exports = { listProjects: listProjects, checkConnection: checkConnection, findProject: findProject, createSessionIssue: createSessionIssue, updateIssue: updateIssue, addComment: addComment, getProjectIssues: getProjectIssues, getProgress: getProgress, syncSession: syncSession, graphql: graphql };
