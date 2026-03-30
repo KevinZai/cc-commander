@@ -1,26 +1,13 @@
 {
-  "name": "claude-code-bible",
-  "version": "1.1.0",
-  "description": "The Claude Code Bible — 260+ skills, 10 mega-skills, 84+ commands, 34 hooks, 35+ prompt templates, 9 workflow modes. The comprehensive guide and toolkit for Claude Code.",
-  "author": "Kevin Z",
+  "name": "cc-commander",
+  "version": "1.6.0",
+  "description": "CC Commander — 280+ skills. One command. Your AI work, managed by AI. Interactive project manager with knowledge compounding, plugin orchestration, YOLO Mode, and Linear integration.",
+  "author": {
+    "name": "Kevin Z",
+    "url": "https://kevinz.ai"
+  },
+  "homepage": "https://github.com/k3v80/claude-code-kit",
+  "repository": "https://github.com/k3v80/claude-code-kit",
   "license": "MIT",
-  "repository": "https://github.com/k3v80/claude-code-bible",
-  "homepage": "https://k3v80.github.io/claude-code-bible/",
-  "entryPoints": {
-    "skills": "skills/",
-    "commands": "commands/",
-    "hooks": "hooks/hooks.json"
-  },
-  "compatibility": {
-    "claudeCode": ">=1.0.0"
-  },
-  "keywords": [
-    "claude-code",
-    "skills",
-    "mega-skills",
-    "development",
-    "workflow",
-    "tdd",
-    "code-review"
-  ]
+  "keywords": ["commander", "project-manager", "skills", "knowledge", "orchestration", "yolo-mode", "linear"]
 }

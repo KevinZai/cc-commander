@@ -162,7 +162,7 @@ node bin/kc.js --test       # 18-point self-test
 node bin/kc.js --stats      # Quick stats without TUI
 node bin/kc.js --repair     # Fix corrupt state
 node bin/kc.js --help       # Full usage
-node bin/kc.js --version    # CC Commander v1.5.2
+node bin/kc.js --version    # CC Commander v1.6.0
 ```
 
 ---
@@ -509,7 +509,7 @@ MIT License. See [LICENSE](LICENSE).
 
 <div align="center">
 
-**CC Commander v1.5.2** — by [Kevin Z](https://kevinz.ai) ([@kzic](https://x.com/kzic))
+**CC Commander v1.6.0** — by [Kevin Z](https://kevinz.ai) ([@kzic](https://x.com/kzic))
 
 *280+ skills. One command. Your AI work, managed by AI.*
 

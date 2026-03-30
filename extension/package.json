@@ -1,0 +1,43 @@
+{
+  "name": "cc-commander-vscode",
+  "displayName": "CC Commander",
+  "description": "280+ skills. One command. Your AI work, managed by AI.",
+  "version": "1.6.0",
+  "publisher": "kevinz",
+  "engines": { "vscode": "^1.74.0" },
+  "categories": ["Other"],
+  "icon": "icon.png",
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "ccCommander.open", "title": "CC Commander: Open" },
+      { "command": "ccCommander.stats", "title": "CC Commander: Quick Stats" },
+      { "command": "ccCommander.yolo", "title": "CC Commander: YOLO Mode" },
+      { "command": "ccCommander.skills", "title": "CC Commander: Browse Skills" },
+      { "command": "ccCommander.linear", "title": "CC Commander: Linear Status" }
+    ],
+    "viewsContainers": {
+      "activitybar": [{
+        "id": "cc-commander",
+        "title": "CC Commander",
+        "icon": "$(rocket)"
+      }]
+    },
+    "views": {
+      "cc-commander": [
+        { "id": "ccCommander.menu", "name": "Menu", "type": "webview" },
+        { "id": "ccCommander.sessions", "name": "Sessions" },
+        { "id": "ccCommander.stats", "name": "Stats" }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.0.0"
+  }
+}
