@@ -2072,6 +2072,43 @@ Everything in Claude Code Kit works without Commander. The skills, hooks, comman
 
 Commander adds session management, guided menus, and visual flair on top.
 
+### Mega-Skill Breakdown
+
+Each mega-skill is a domain router. One command, and it dispatches to the right specialist.
+
+#### mega-design (39 sub-skills)
+UI/UX, responsive design, accessibility, animations, motion design, canvas, SVG animation, generative backgrounds, particle systems, WebGL shaders, interactive visuals, retro pixel art, design systems, Tailwind v4 patterns, shadcn/ui components, theme factory, colorize, typeset, frontend slides, brand guidelines, design consultation, design review, plan-design-review.
+
+#### mega-marketing (45 sub-skills)
+Content strategy, content creation, CRO (form, signup, paywall), email sequences (SendGrid), ad creative, analytics (conversion, product, business), landing page builder, bulk page generation, cold email, guest blogging, backlink audit, competitor alternatives, free tool strategy, social integration, video gallery, referral programs, churn prevention, monetization strategy, SEO content briefs, SERP analysis, marketing pack, c-level pack.
+
+#### mega-saas (20 sub-skills)
+Better Auth, Stripe subscriptions, API design, database designer, database migrations, PostgreSQL patterns, Redis patterns, Drizzle+Neon, backend patterns, FastAPI, JPA patterns, billing automation, metrics dashboard, SaaS metrics coach, experiment designer.
+
+#### mega-testing (15 sub-skills)
+TDD workflow, E2E testing (Playwright), webapp testing, Python testing, AI regression testing, verification loop, test coverage, eval harness, benchmark, quality gate.
+
+#### mega-devops (20 sub-skills)
+Docker development, GitHub Actions (reusable workflows, security), AWS (Lambda, S3, IAM, CloudFront, solution architect), container security, Prometheus configuration, Grafana dashboards, PromQL alerting, infrastructure runbook, deploy, senior DevOps, setup-deploy.
+
+#### mega-seo (19 sub-skills)
+SEO optimizer, AI SEO, AEO audit, SERP analyzer, search console, backlink audit, site architecture, bulk page generator, free tool strategy, SEO content brief, competitor alternatives.
+
+#### mega-security (8 sub-skills)
+Pentest checklist, container security, GitHub Actions security, PCI compliance, GDPR data handling, AWS IAM security, harden, guard.
+
+#### mega-research (8 sub-skills)
+Mega-research router, investigate, brainstorming, competitive intelligence, business analytics, trading analysis, iterative retrieval, dialectic review.
+
+#### mega-mobile (8 sub-skills)
+Vue/Nuxt, React patterns, multi-frontend, multi-backend, multi-plan, multi-execute, multi-workflow.
+
+#### mega-data (8 sub-skills)
+Data analysis, data visualization, SQL queries, statistical analysis, explore data, validate data, build dashboard, data context extractor.
+
+**Total: 190 verified sub-skills across 10 mega-skills.**
+
+
 
 ## About the Author
 

@@ -518,3 +518,31 @@ Pick a bundle to load the right skills for your project type:
 ---
 
 *⭐ = new in v0.4 | New mega-skills, modes, integrations, and prompt library added in v1.1 | Themes, OpenClaw native, status updates, continuous improvement added in v1.3*
+
+---
+
+## CC Commander Skills (v1.6.0)
+
+Interactive CLI project manager — sits above Claude Code sessions.
+
+| Skill | Category | Description |
+|-------|----------|-------------|
+| `cc-commander` | Commander | Full interactive PM with spec flow, plugin orchestration, knowledge injection |
+| `cc-yolo-mode` | Commander | YOLO Mode — 10-question spec → 8hr autonomous build (Opus, $10, 100 turns) |
+| `cc-knowledge` | Commander | Search knowledge base for past lessons |
+| `cc-plugins` | Commander | Detect installed packages + show orchestration plan |
+
+### Commander Adventures (11 flows)
+| Adventure | Choices | Description |
+|-----------|---------|-------------|
+| main-menu | 12 | Hub: build, content, research, learn, stats, settings, YOLO, theme |
+| build-something | 5 | Code: web apps, APIs, CLI tools + 3 sub-adventures |
+| create-content | 7 | Marketing: blog, social, email, copy, docs + 5 sub-adventures |
+| research | 6 | Analysis: competitive, market, code audit, SEO + 4 sub-adventures |
+| mega-skills | 7 | Browse 10 mega-skills (200+ sub-skills) with dispatch |
+| night-build | 4 | YOLO Mode + YOLO Loop (3-10 cycles) |
+| continue-work | 4 | Resume sessions: exact, summary, fresh start |
+| review-work | 4 | Session history, resume, details |
+| learn-skill | 5 | Skill browser, mega-skills, cheatsheet, recommendations |
+| check-stats | 4 | Dashboard with sparklines, achievements, history |
+| settings | 7 | Name, level, cost, theme, animations, reset |

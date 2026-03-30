@@ -1,8 +1,31 @@
-# CLAUDE.md — Claude Code Kit
+# CLAUDE.md — CC Commander (Claude Code Kit)
 
 ## What This Is
 
-Claude Code Kit — by Kevin Z. A comprehensive Claude Code configuration toolkit: 280+ skills, 10 mega-skills, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, OpenClaw native integration, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+CC Commander — by Kevin Z. 280+ skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 280+ skills, 10 mega-skills, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, OpenClaw native integration, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+
+## CC Commander (v1.6.0)
+
+Interactive CLI that sits ABOVE Claude Code sessions. Manages, dispatches, and tracks AI work.
+
+```bash
+node bin/kc.js          # Launch interactive mode
+node bin/kc.js --test   # 22-point self-test (101 tests total)
+node bin/kc.js --stats  # Quick stats
+```
+
+Key components:
+- `commander/engine.js` — Main interactive loop with arrow-key menus
+- `commander/tui.js` — TUI engine (figlet, gradients, 4 themes, spinners)
+- `commander/dispatcher.js` — 14-flag Claude Code dispatch with plan-mode-first
+- `commander/knowledge.js` — Knowledge compounding (learns from every session)
+- `commander/plugins.js` — Auto-detects gstack, CE, Superpowers, sequences them
+- `commander/adventures/*.json` — 11 JSON decision tree flows
+- `commander/cowork-plugin/` — Claude Desktop Cowork plugin (4 skills)
+- `commander/tests/paths.test.js` — 18 E2E path tests
+
+State: `~/.claude/commander/` (never modifies `.claude/`)
+Tests: `node --test commander/tests/paths.test.js`
 
 ## Project Structure
 

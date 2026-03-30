@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Claude Code Kit — Universal Installer
+# CC Commander — Universal Installer
 # ============================================================================
 # Usage:
 #   ./install.sh              Interactive install (asks who you are)
@@ -198,7 +198,7 @@ if $DRY_RUN; then
   cc_status_line "·" "hooks/           ← hooks.json + scripts"
   cc_status_line "·" "lib/             ← terminal art libraries"
   cc_status_line "·" "templates/       ← starter templates"
-  cc_status_line "·" "BIBLE.md         ← Claude Code Kit reference"
+  cc_status_line "·" "BIBLE.md         ← CC Commander reference"
   cc_status_line "·" "CHEATSHEET.md    ← Quick reference"
   cc_status_line "·" "SKILLS-INDEX.md  ← Skill discovery"
 

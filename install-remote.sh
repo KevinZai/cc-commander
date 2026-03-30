@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Claude Code Kit — One-Line Remote Installer
+# CC Commander — One-Line Remote Installer
 # ============================================================================
 # Paste this anywhere:
 #   curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
@@ -22,7 +22,7 @@ NC='\033[0m'
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "  ${WHITE}Claude Code Kit${NC}  ${DIM}Remote Installer${NC}"
+echo -e "  ${WHITE}CC Commander${NC}  ${DIM}Remote Installer${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 

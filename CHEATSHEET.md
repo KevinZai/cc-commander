@@ -849,3 +849,43 @@ OLED black background + bright green text + cyan accents. Color values for other
 
 *See `SKILLS-INDEX.md` for the full searchable skill library.*
 *Skills live in `~/.claude/skills/` — load any with: "use the `skill-name` skill"*
+
+---
+
+## CC Commander Quick Reference
+
+```bash
+# Launch
+node bin/kc.js              # Interactive mode (arrow-key menus)
+npx kit-commander           # Via npm
+kc                          # Global alias
+
+# Flags
+node bin/kc.js --test       # 22-point self-test
+node bin/kc.js --stats      # Quick stats
+node bin/kc.js --repair     # Fix corrupt state
+node bin/kc.js --help       # Usage
+node bin/kc.js --version    # Version
+
+# Themes
+Cyberpunk, Fire, Graffiti, Futuristic  # Switch via menu or settings
+
+# YOLO Mode
+10 questions → Opus + max effort + $10 + 100 turns + self-testing
+YOLO Loop: 3-10 cycles of build → review → improve
+
+# Dispatch defaults by level
+Guided:   sonnet / medium / $2 / 30 turns
+Assisted: opusplan / medium / $3 / 40 turns
+Power:    opusplan / high / $5 / 50 turns
+
+# State
+~/.claude/commander/state.json      # Preferences, theme, active session
+~/.claude/commander/sessions/       # Session history
+~/.claude/commander/knowledge/      # Learned lessons
+~/.claude/commander/yolo-status.txt # YOLO Loop progress
+
+# Backwards compatible
+Commander READS your CLAUDE.md — never modifies .claude/
+Use Commander or regular Claude Code interchangeably
+```

@@ -1,4 +1,4 @@
-# Claude Code Kit v1.3 -- X/Twitter Long-Form Articles
+# CC Commander v1.3 -- X/Twitter Long-Form Articles
 ### by Kevin Z
 
 ---
@@ -15,7 +15,7 @@ It is a race car with no steering wheel.
 
 Every session starts from scratch. Every developer reinvents the same patterns. Every team writes their own CLAUDE.md rules from zero. You lose context, repeat mistakes, burn through your budget, and wonder why the AI that was so impressive in the demo keeps producing inconsistent results in practice.
 
-I spent 14 months fixing this problem. The result is Claude Code Kit -- an open-source toolkit that transforms stock Claude Code into a structured, skill-aware, hook-driven development environment. Version 1.3 ships with 280+ skills, 88+ slash commands, 37 lifecycle hooks, 41 prompt templates, 10 mega-skills, 9 workflow modes, 3 starter templates, and a real-time monitoring dashboard.
+I spent 14 months fixing this problem. The result is CC Commander -- an open-source toolkit that transforms stock Claude Code into a structured, skill-aware, hook-driven development environment. Version 1.3 ships with 280+ skills, 88+ slash commands, 37 lifecycle hooks, 41 prompt templates, 10 mega-skills, 9 workflow modes, 3 starter templates, and a real-time monitoring dashboard.
 
 One install. Under 60 seconds.
 
@@ -167,7 +167,7 @@ That incident forced me to build a comprehensive cost control system:
 - **Session limits**: Alert at $0.50, auto-kill at $2.00.
 - **Model routing**: Free fleet first (Ollama for local inference, Cloudflare Workers AI, HuggingFace, Groq). Haiku for 90% of simple tasks. Sonnet for development. Opus only for deep reasoning.
 - **Per-agent tracking**: Python script that breaks down cost by agent by day.
-- **Auto-alerts**: The cost-alert hook in Claude Code Kit fires at 30 tool calls (~$0.50) and 60 tool calls (~$2.00).
+- **Auto-alerts**: The cost-alert hook in CC Commander fires at 30 tool calls (~$0.50) and 60 tool calls (~$2.00).
 
 The free fleet -- Forge (HuggingFace), Flare (Cloudflare), Lama (Ollama), Oracle (Groq) -- handles an estimated 40% of all agent work at zero cost. Always try free models before paid ones.
 
@@ -189,7 +189,7 @@ Through painful experience, I learned these principles:
 
 The `context-guard` hook automates the most critical part: it calculates context usage after every tool call and warns at 70%. At that point, you have a choice: compact strategically, save the session and start fresh, or finish the current task quickly.
 
-### How Claude Code Kit Fits In
+### How CC Commander Fits In
 
 The kit is the distillation of everything I learned building and running this 38-agent system.
 
@@ -227,7 +227,7 @@ After running this system for over a year, these are the lessons that transfer t
 
 The Claude Code ecosystem is exploding. Official plugin directories, multi-model consensus, self-evolving skills, AI-powered memory compression -- the surface area of what is possible grows every week.
 
-Claude Code Kit v1.3 is the most comprehensive single-install toolkit in this ecosystem: 280+ skills, 88+ commands, 37 hooks, 10 mega-skills, 9 modes, 41 prompt templates, and a real-time dashboard. All open source. All free.
+CC Commander v1.3 is the most comprehensive single-install toolkit in this ecosystem: 280+ skills, 88+ commands, 37 hooks, 10 mega-skills, 9 modes, 41 prompt templates, and a real-time dashboard. All open source. All free.
 
 But the real value is not the number of skills. It is the methodology that makes AI development predictable, verifiable, and compounding.
 
@@ -243,5 +243,5 @@ GitHub: [github.com/k3v80/claude-code-kit](https://github.com/k3v80/claude-code-
 
 ---
 
-*Claude Code Kit v1.3 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
+*CC Commander v1.3 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
 *Distilled from 200+ community sources. One install. Under 60 seconds.*

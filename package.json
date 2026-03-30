@@ -1,7 +1,7 @@
 {
   "name": "claude-code-kit",
-  "version": "1.5.0",
-  "description": "Kit Commander — Your AI-Powered Project Manager for Claude Code. 280+ skills, interactive CLI, session tracking, beginner-friendly.",
+  "version": "1.6.0",
+  "description": "CC Commander — 280+ skills. One command. Your AI work, managed by AI. Interactive CLI + Cowork plugin for Claude Code.",
   "author": "Kevin Zicherman <kevin@kevinz.ai> (https://kevinz.ai)",
   "license": "MIT",
   "bin": {

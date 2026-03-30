@@ -42,7 +42,8 @@ class KitCommander {
   async onboard() {
     await tui.wipeTransition();
     process.stdout.write(tui.renderLogoResponsive('CC CMD'));
-      process.stdout.write("  " + tui.dimText(BRAND.tagline) + "\n");
+      await tui.typewriter("  " + BRAND.tagline, 20);
+      process.stdout.write(tui.RESET + "\n");
     process.stdout.write('\n  ' + tui.boldText(BRAND.tagline, tui.getTheme().primary) + '\n');
     process.stdout.write('  ' + tui.dimText(BRAND.scope) + '\n\n');
     process.stdout.write('  ' + BRAND.welcomeNew + '\n\n');
@@ -62,7 +63,8 @@ class KitCommander {
 
     await tui.wipeTransition();
     process.stdout.write(tui.renderLogoResponsive('CC CMD'));
-      process.stdout.write("  " + tui.dimText(BRAND.tagline) + "\n");
+      await tui.typewriter("  " + BRAND.tagline, 20);
+      process.stdout.write(tui.RESET + "\n");
 
     // Name
     this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -104,7 +106,8 @@ class KitCommander {
 
       await tui.wipeTransition();
       process.stdout.write(tui.renderLogoResponsive());
-      process.stdout.write("  " + tui.dimText(BRAND.tagline) + "\n");
+      await tui.typewriter("  " + BRAND.tagline, 20);
+      process.stdout.write(tui.RESET + "\n");
       // Welcome dashboard for main menu
       if (adventureId === 'main-menu') {
         var recMod; try { recMod = require('./recommendations'); } catch(_e) {}

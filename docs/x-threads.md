@@ -1,4 +1,4 @@
-# Claude Code Kit v1.3 -- X/Twitter Threads
+# CC Commander v1.3 -- X/Twitter Threads
 ### by Kevin Z
 
 ---
@@ -15,7 +15,7 @@ One install. Under 60 seconds.
 ### Tweet 2
 Stock Claude Code: zero skills, zero hooks, zero modes.
 
-Claude Code Kit: a senior engineering partner that plans before coding, verifies before shipping, and learns from every mistake.
+CC Commander: a senior engineering partner that plans before coding, verifies before shipping, and learns from every mistake.
 
 ### Tweet 3
 Skills are instruction sets Claude loads on demand.
@@ -178,7 +178,7 @@ Claude almost never makes the same mistake twice.
 Instructions compound like interest.
 
 ### Tweet 12 (CTA)
-All 10 tricks built into Claude Code Kit v1.3.
+All 10 tricks built into CC Commander v1.3.
 
 280+ skills. 37 hooks. 88+ commands.
 
@@ -258,7 +258,7 @@ Instead of one massive CLAUDE.md, 280+ skills. Each self-contained. Load on dema
 mega-saas = 20 skills in one command.
 
 ### Tweet 9
-I distilled everything into Claude Code Kit.
+I distilled everything into CC Commander.
 
 Every workflow, hook, and skill from my 38-agent system -- packaged as a one-line install.
 
@@ -273,10 +273,10 @@ Lessons from 38 agents:
 4. Cost visibility prevents surprises
 5. Boring solutions win
 
-All in Claude Code Kit v1.3.
+All in CC Commander v1.3.
 
 github.com/k3v80/claude-code-kit
 
 ---
 
-*Claude Code Kit v1.3 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
+*CC Commander v1.3 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*

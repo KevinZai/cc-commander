@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Claude Code Kit — Uninstaller
+# CC Commander — Uninstaller
 # ============================================================================
 # Removes kit-installed components from ~/.claude/ and optionally restores
 # from a backup created by the installer.

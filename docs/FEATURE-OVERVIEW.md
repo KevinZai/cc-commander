@@ -1,8 +1,29 @@
-# Claude Code Kit v1.3 -- Complete Feature Overview
+# CC Commander v1.6.0 — Complete Feature Overview
 
-> The most comprehensive Claude Code configuration toolkit. 280+ skills, 10 mega-skills, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 41 prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
+> CC Commander — 280+ skills. One command. Your AI work, managed by AI. 280+ skills, 10 mega-skills, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 41 prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ## What Is Claude Code Kit?
 
@@ -13,6 +34,27 @@ The kit is designed for developers who want Claude Code to work like a senior en
 Installation takes under a minute. The interactive installer sets up skills, commands, hooks, and a CLAUDE.md configuration file in `~/.claude/`. Everything is modular: you can use the full kit, load individual mega-skills on demand, or cherry-pick specific commands and hooks. The kit works with Claude Code in the terminal, VS Code, Cursor, and JetBrains IDEs.
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ## Installation
 
@@ -58,6 +100,27 @@ cd claude-code-kit
 - `compatibility/` -- VS Code snippets, Cursor rules, iTerm2 color theme
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ## Feature Categories
 
@@ -311,6 +374,27 @@ Mega-skills are routers: load one and it dispatches to the right specialist sub-
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ### 2. Commands (87)
 
 Commands are slash commands invoked directly in the Claude Code REPL. They live as `.md` files in `~/.claude/commands/` and execute predefined workflows.
@@ -456,6 +540,27 @@ Commands are slash commands invoked directly in the Claude Code REPL. They live 
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ### 3. Hooks (37)
 
 Hooks are JavaScript scripts that fire automatically at specific points in the Claude Code lifecycle. The kit ships 18 kit-native hooks; with ECC (Everything Claude Code) installed, 19 additional hooks bring the total to 37. Without ECC, kit-native hooks work standalone via `hooks-standalone.json`.
@@ -506,6 +611,27 @@ Hooks are JavaScript scripts that fire automatically at specific points in the C
 When Everything Claude Code (ECC) is installed, 19 additional hooks activate across the same lifecycle stages: block `--no-verify`, tmux reminders, git push review, doc file warnings, continuous learning observer, config protection, PR logging, build analysis, quality gate, auto-format, typecheck, console.log detection, session persistence, pattern evaluation, cost tracking, and sound notification.
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ### 4. Prompt Templates (41)
 
@@ -579,6 +705,27 @@ Battle-tested prompt templates for common development scenarios. Located in `pro
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ### 5. Workflow Modes (9)
 
 Switch your entire development persona with one command. Each mode adjusts behavior, verbosity, risk tolerance, and auto-loaded skills. Switch with `/cc mode <name>`.
@@ -597,6 +744,27 @@ Switch your entire development persona with one command. Each mode adjusts behav
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ### 6. Dashboard
 
 A real-time React + Vite dashboard for monitoring agent activity, costs, and context usage. Located in `dashboard/` with the KZ Matrix visual theme.
@@ -613,6 +781,27 @@ A real-time React + Vite dashboard for monitoring agent activity, costs, and con
 No database required -- reads from Claude Code session files and hook output directly.
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ### 7. Integrations
 
@@ -642,6 +831,27 @@ Integration guide with buttons, 20+ code snippets (`compatibility/vscode-snippet
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ### 8. Starter Templates (3)
 
 Ready-to-use project scaffolds in `templates/`. Each template produces a complete, production-ready project structure.
@@ -653,6 +863,27 @@ Ready-to-use project scaffolds in `templates/`. Each template produces a complet
 | `marketing-site-starter.md` | Next.js 15 + MDX + PostHog + Framer Motion | Marketing site: hero, pricing, blog, analytics, OG images |
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ### 9. Quick Start Guides (5)
 
@@ -667,6 +898,27 @@ Developer-specific onboarding paths in `guides/`. Each guide provides a focused 
 | `quickstart-mobile.md` | Mobile developer -- React Native, Flutter, Swift, Kotlin |
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ## The Kevin Z Method (BIBLE.md)
 
@@ -698,6 +950,27 @@ The Kevin Z Method is a 7-chapter development methodology distilled from 200+ co
 Build type checklists, CLAUDE.md templates, full skills catalog, commands reference, tools reference, prompt templates, 45 tips quick reference, power combos, workflow modes, prompt library, integrations, proactive automation suite, settings reference, model selection guide, and contributor credits.
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ## Architecture
 
@@ -766,6 +1039,27 @@ Commands are markdown files in `~/.claude/commands/`. Invoking `/command-name` i
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ## Configuration
 
 ### bible-config.json
@@ -798,6 +1092,27 @@ Elements: context gauge (color-coded zones), model, session cost, token counts, 
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ## Quick Start Bundles
 
 Pre-configured skill combinations for common project types:
@@ -810,6 +1125,27 @@ Pre-configured skill combinations for common project types:
 | **Full Stack SaaS** | `mega-saas` + `mega-devops` + `mega-testing` | SaaS product from scratch |
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 ## Comparison
 
@@ -830,6 +1166,27 @@ Pre-configured skill combinations for common project types:
 
 ---
 
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
+
 ## Getting Help
 
 - **GitHub Repository:** [github.com/k3v80/claude-code-kit](https://github.com/k3v80/claude-code-kit)
@@ -841,5 +1198,26 @@ Pre-configured skill combinations for common project types:
 - **Learning Guide:** `BIBLE.md` for the full Kevin Z Method (read once)
 
 ---
+
+## CC Commander — Interactive CLI Project Manager
+
+| Feature | Description |
+|---------|-------------|
+| **Arrow-key menus** | Navigate with arrows or letter shortcuts |
+| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
+| **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
+| **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
+| **Knowledge compounding** | Learns from every session, injects past lessons |
+| **YOLO Mode** | 10-question spec → autonomous Opus build ($10, 100 turns) |
+| **YOLO Loop** | 3-10 cycles of build → review → improve → compound |
+| **Session tracking** | Persistent history, cost, streaks, achievements |
+| **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Project import** | Reads CLAUDE.md without modifying .claude/ |
+| **Cowork plugin** | 4 skills for Claude Desktop |
+| **101 tests** | 22 self-test + 61 hooks + 18 path tests |
+
+---
+
 
 *Built by Kevin Z. Incorporates best practices from 200+ community sources. See BIBLE.md Appendix B for full contributor credits.*
