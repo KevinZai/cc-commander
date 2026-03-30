@@ -64,12 +64,17 @@ CCC runs **above** them.
 ## Install
 
 ```bash
+# One-line install
 curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
-```
 
-```bash
+# Or via npm (gives you the `ccc` command globally)
+npm install -g cc-commander
+
+# Or clone
 git clone https://github.com/KevinZai/cc-commander.git && cd cc-commander && ./install.sh
 ```
+
+After install, just type **`ccc`** anywhere.
 
 **Claude Desktop:** `/plugin marketplace add KevinZai/cc-commander`
 
@@ -88,8 +93,10 @@ curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-
 ### Step 2: Launch
 
 ```bash
-node bin/kc.js
+ccc
 ```
+
+That's it. Three letters.
 
 ### Step 3: Pick what you want to do
 
@@ -130,9 +137,9 @@ Just answer questions and CCC handles everything.
 
 | Method             | Command                                             | For                   |
 |--------------------|-----------------------------------------------------|-----------------------|
-| **Quick stats**    | `node bin/kc.js --stats`                            | Sessions, streaks     |
-| **Self-test**      | `node bin/kc.js --test`                             | Verify install        |
-| **Fix issues**     | `node bin/kc.js --repair`                           | Reset corrupt state   |
+| **Quick stats**    | `ccc --stats`                                | Sessions, streaks     |
+| **Self-test**      | `ccc --test`                             | Verify install        |
+| **Fix issues**     | `ccc --repair`                           | Reset corrupt state   |
 | **Claude Desktop** | `/plugin marketplace add KevinZai/cc-commander`     | Use in the Claude app |
 
 ---
@@ -140,7 +147,7 @@ Just answer questions and CCC handles everything.
 ## The Interactive CLI
 
 ```bash
-node bin/kc.js
+ccc
 ```
 
 ```

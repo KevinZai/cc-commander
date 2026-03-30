@@ -5,7 +5,7 @@ var args = process.argv.slice(2);
 
 if (args.includes('--help') || args.includes('-h')) {
   console.log('\n  CC Commander — 280+ skills. One command. Your AI work, managed by AI.\n');
-  console.log('  Usage:  npx kit-commander    or    kc\n');
+  console.log('  Usage:  ccc                (or: npx cc-commander)\n');
   console.log('  --version    Show version');
   console.log('  --test       Validate all modules');
   console.log('  --stats      Quick stats');

@@ -5,9 +5,9 @@
   "author": "Kevin Zicherman <kevin@kevinz.ai> (https://kevinz.ai)",
   "license": "MIT",
   "bin": {
-    "claude-code-kit": "./bin/cli.js",
-    "kit-commander": "./bin/kc.js",
-    "kc": "./bin/kc.js"
+    "ccc": "./bin/kc.js",
+    "cc-commander": "./bin/kc.js",
+    "kit-commander": "./bin/kc.js"
   },
   "files": [
     "bin/",

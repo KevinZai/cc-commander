@@ -9,9 +9,9 @@ CC Commander — by Kevin Z. 280+ skills. One command. Your AI work, managed by 
 Interactive CLI that sits ABOVE Claude Code sessions. Manages, dispatches, and tracks AI work.
 
 ```bash
-node bin/kc.js          # Launch interactive mode
-node bin/kc.js --test   # 22-point self-test (101 tests total)
-node bin/kc.js --stats  # Quick stats
+ccc          # Launch interactive mode
+ccc --test   # 22-point self-test (101 tests total)
+ccc --stats  # Quick stats
 ```
 
 Key components:

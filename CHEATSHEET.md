@@ -856,16 +856,16 @@ OLED black background + bright green text + cyan accents. Color values for other
 
 ```bash
 # Launch
-node bin/kc.js              # Interactive mode (arrow-key menus)
+ccc              # Interactive mode (arrow-key menus)
 npx kit-commander           # Via npm
 kc                          # Global alias
 
 # Flags
-node bin/kc.js --test       # 22-point self-test
-node bin/kc.js --stats      # Quick stats
-node bin/kc.js --repair     # Fix corrupt state
-node bin/kc.js --help       # Usage
-node bin/kc.js --version    # Version
+ccc --test       # 22-point self-test
+ccc --stats      # Quick stats
+ccc --repair     # Fix corrupt state
+ccc --help       # Usage
+ccc --version    # Version
 
 # Themes
 Cyberpunk, Fire, Graffiti, Futuristic  # Switch via menu or settings
