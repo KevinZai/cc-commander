@@ -70,6 +70,70 @@ git clone https://github.com/KevinZai/cc-commander.git && cd cc-commander && ./i
 
 ---
 
+## How to Use (Start Here)
+
+**You don't need to know how to code.** CC Commander guides you with menus.
+
+### Step 1: Install (one command)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
+```
+
+### Step 2: Launch
+
+```bash
+node bin/kc.js
+```
+
+### Step 3: Pick what you want to do
+
+```
+  What would you like to do?
+
+  ❯ Build something new        ← websites, apps, tools
+    Create content              ← blogs, social, emails
+    Research & analyze          ← competitors, markets
+    YOLO Mode                   ← overnight autonomous build
+    Learn a new skill           ← browse 280+ skills
+    Check my stats              ← streaks, achievements
+```
+
+Use **arrow keys** to move up/down. Press **Enter** to select.
+
+### Step 4: Answer a few questions
+
+Commander asks what you need (multiple choice — just pick one):
+
+```
+  What's the most important outcome?
+
+  ❯ Something that works end-to-end
+    A solid foundation to build on
+    A quick prototype to test the idea
+```
+
+### Step 5: Commander does the rest
+
+It dispatches to Claude Code with the right settings, tracks the session,
+and learns from the results so next time is faster.
+
+### That's it.
+
+No commands to memorize. No flags to type. No config files to edit.
+Just answer questions and Commander handles everything.
+
+### Other ways to use it
+
+| Method | Command | For |
+|--------|---------|-----|
+| **Quick stats** | `node bin/kc.js --stats` | See sessions, streaks, cost |
+| **Self-test** | `node bin/kc.js --test` | Verify everything works |
+| **Fix issues** | `node bin/kc.js --repair` | Reset corrupt state |
+| **Claude Desktop** | `/plugin marketplace add KevinZai/cc-commander` | Use in the Claude app |
+
+---
+
 ## The Interactive CLI
 
 ```bash
