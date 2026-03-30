@@ -4,3 +4,31 @@ node_modules/
 skills/gstack/node_modules/
 tasks/
 dashboard/dist/
+
+# Environment & secrets
+.env*
+*.env
+
+# Editor & IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
+.npm/
+
+# OS files
+Thumbs.db
+
+# Kevin personal overlay
+kevin/
+
+# Local settings
+.claude/settings.local.json

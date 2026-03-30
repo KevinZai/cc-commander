@@ -43,7 +43,7 @@ function loadState() {
 function saveState(state) {
   ensureDirs();
   const updated = { ...state, updatedAt: new Date().toISOString() };
-  fs.writeFileSync(STATE_PATH, JSON.stringify(updated, null, 2));
+  fs.writeFileSync(STATE_PATH, JSON.stringify(updated, null, 2), { mode: 0o600 });
   return updated;
 }
 
@@ -95,7 +95,8 @@ function createSession(metadata) {
   };
   fs.writeFileSync(
     path.join(SESSIONS_DIR, `${id}.json`),
-    JSON.stringify(session, null, 2)
+    JSON.stringify(session, null, 2),
+    { mode: 0o600 }
   );
 
   // Set as active session in state
@@ -119,7 +120,8 @@ function updateSession(id, patch) {
   const updated = { ...session, ...patch };
   fs.writeFileSync(
     path.join(SESSIONS_DIR, `${id}.json`),
-    JSON.stringify(updated, null, 2)
+    JSON.stringify(updated, null, 2),
+    { mode: 0o600 }
   );
   return updated;
 }
@@ -140,7 +142,8 @@ function completeSession(id, outcome) {
   };
   fs.writeFileSync(
     path.join(SESSIONS_DIR, `${id}.json`),
-    JSON.stringify(completed, null, 2)
+    JSON.stringify(completed, null, 2),
+    { mode: 0o600 }
   );
 
   // Append to history
@@ -208,7 +211,7 @@ function appendHistory(session) {
     cost: session.cost,
     outcome: session.outcome,
   });
-  fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
+  fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2), { mode: 0o600 });
 }
 
 // --- Profiles ---
@@ -238,7 +241,7 @@ function repairState() {
     catch (_e) {
       var backup = STATE_PATH + '.corrupt-' + Date.now();
       fs.copyFileSync(STATE_PATH, backup);
-      fs.writeFileSync(STATE_PATH, JSON.stringify(defaultState(), null, 2));
+      fs.writeFileSync(STATE_PATH, JSON.stringify(defaultState(), null, 2), { mode: 0o600 });
       details.push('state.json corrupt — backed up, reset');
     }
   }
@@ -247,7 +250,7 @@ function repairState() {
     catch (_e) {
       var backup2 = HISTORY_PATH + '.corrupt-' + Date.now();
       fs.copyFileSync(HISTORY_PATH, backup2);
-      fs.writeFileSync(HISTORY_PATH, '[]');
+      fs.writeFileSync(HISTORY_PATH, '[]', { mode: 0o600 });
       details.push('history.json corrupt — backed up, reset');
     }
   }

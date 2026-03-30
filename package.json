@@ -46,8 +46,10 @@
     "url": "https://github.com/KevinZai/cc-commander/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
+  "os": ["darwin", "linux"],
   "dependencies": {
     "figlet": "^1.11.0"
   },

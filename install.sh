@@ -10,12 +10,12 @@
 #   ./install.sh --mode=essentials   Install essentials only
 #
 # For remote install:
-#   git clone https://github.com/k3v80/claude-code-kit.git && cd claude-code-kit && ./install.sh
+#   git clone https://github.com/KevinZai/cc-commander.git && cd cc-commander && ./install.sh
 # ============================================================================
 
 set -euo pipefail
 
-VERSION="1.5.0"
+VERSION="1.6.0"
 CLAUDE_DIR="$HOME/.claude"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 USER_NAME=""

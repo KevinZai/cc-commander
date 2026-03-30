@@ -34,6 +34,15 @@ function getAuth() {
   });
 }
 
+function validateAuth() {
+  var hasOAuth = process.env.LINEAR_CC_CLIENT_ID && process.env.LINEAR_CC_CLIENT_SECRET;
+  var hasApiKey = process.env.LINEAR_API_KEY_PERSONAL || process.env.LINEAR_API_KEY;
+  if (!hasOAuth && !hasApiKey) {
+    return { error: 'LINEAR_API_KEY_PERSONAL (or LINEAR_CC_CLIENT_ID + LINEAR_CC_CLIENT_SECRET) not set' };
+  }
+  return null;
+}
+
 function graphql(query, variables) {
   return getAuth().then(function(auth) {
     if (!auth) throw new Error('No Linear auth. Set LINEAR_CC_CLIENT_ID+SECRET or LINEAR_API_KEY_PERSONAL.');
@@ -54,6 +63,8 @@ function graphql(query, variables) {
 
 async function checkConnection() {
   try {
+    var authError = validateAuth();
+    if (authError) return { connected: false, user: null, error: authError.error };
     var auth = await getAuth();
     if (!auth) return { connected: false, user: null };
     var r = await graphql('{ viewer { name email } }');
@@ -63,6 +74,8 @@ async function checkConnection() {
 }
 
 async function findProject(projectName, teamKey) {
+  var authError = validateAuth();
+  if (authError) return null;
   if (!projectName) projectName = process.env.KC_LINEAR_PROJECT || 'CC Commander';
   if (!teamKey) teamKey = process.env.KC_LINEAR_TEAM || 'CC';
   var r = await graphql('{ teams { nodes { id key projects { nodes { id name } } } } }');
@@ -78,6 +91,8 @@ async function findProject(projectName, teamKey) {
 }
 
 async function listProjects(teamKey) {
+  var authError = validateAuth();
+  if (authError) return [];
   if (!teamKey) teamKey = process.env.KC_LINEAR_TEAM || 'CC';
   var r = await graphql('{ teams { nodes { id key projects { nodes { id name state } } } } }');
   if (!r.data) return [];
@@ -88,6 +103,8 @@ async function listProjects(teamKey) {
 }
 
 async function createSessionIssue(session, project) {
+  var authError = validateAuth();
+  if (authError) throw new Error(authError.error);
   if (!project) project = await findProject();
   if (!project) throw new Error('CC Commander project not found');
   var title = (session.task || 'Untitled').slice(0, 100);
@@ -111,7 +128,7 @@ async function addComment(issueId, body) {
 async function getProjectIssues() {
   var project = await findProject();
   if (!project) return [];
-  var r = await graphql('{ project(id: "' + project.projectId + '") { issues { nodes { id identifier title state { name type } priority createdAt updatedAt } } } }');
+  var r = await graphql('query($id: String!) { project(id: $id) { issues { nodes { id identifier title state { name type } priority createdAt updatedAt } } } }', { id: project.projectId });
   return (r.data && r.data.project) ? r.data.project.issues.nodes : [];
 }
 

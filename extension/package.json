@@ -4,6 +4,13 @@
   "description": "280+ skills. One command. Your AI work, managed by AI.",
   "version": "1.6.0",
   "publisher": "kevinz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinZai/cc-commander.git",
+    "directory": "extension"
+  },
+  "keywords": ["claude-code", "ai", "commander", "skills", "anthropic"],
   "engines": { "vscode": "^1.74.0" },
   "categories": ["Other"],
   "icon": "icon.png",

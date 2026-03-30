@@ -62,7 +62,7 @@ fi
 INSTALL_DIR="${TMPDIR:-/tmp}/cc-commander-$$"
 echo -e "  ${CYAN}►${NC} Downloading kit..."
 
-if git clone --depth 1 https://github.com/k3v80/claude-code-kit.git "$INSTALL_DIR" 2>/dev/null; then
+if git clone --depth 1 https://github.com/KevinZai/cc-commander.git "$INSTALL_DIR" 2>/dev/null; then
   echo -e "  ${GREEN}✓${NC} Kit downloaded"
 else
   echo -e "  ${RED}✗${NC} Failed to clone. Check your internet connection."

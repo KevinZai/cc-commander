@@ -1,0 +1,14 @@
+kevin/
+.claude/
+.github/
+docs/
+guides/
+tests/
+dashboard/
+compatibility/
+*.md
+!README.md
+!LICENSE
+.gitignore
+.eslintrc*
+.prettier*
