@@ -1,0 +1,13 @@
+{
+  "name": "cc-commander",
+  "version": "1.5.3",
+  "description": "CC Commander — 280+ skills. One command. Your AI work, managed by AI. Interactive project manager with knowledge compounding, plugin orchestration, night mode, and 4 themes.",
+  "author": {
+    "name": "Kevin Z",
+    "url": "https://kevinz.ai"
+  },
+  "homepage": "https://github.com/k3v80/claude-code-kit",
+  "repository": "https://github.com/k3v80/claude-code-kit",
+  "license": "MIT",
+  "keywords": ["commander", "project-manager", "skills", "knowledge", "orchestration", "night-mode"]
+}
