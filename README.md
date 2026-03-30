@@ -167,6 +167,47 @@ node bin/kc.js --version    # CC Commander v1.5.2
 
 ---
 
+## Linear Integration
+
+CC Commander shows up as its own agent in Linear — creates issues, posts updates, tracks progress.
+
+### Setup (2 minutes)
+
+1. Go to [Linear Settings → API → OAuth Applications](https://linear.app/settings/api/applications)
+2. Click **New Application**
+3. Fill in:
+   - **App name:** `CC Commander`
+   - **Callback URLs:** `http://localhost:3333/callback`
+   - **Client credentials:** **On**
+   - Everything else: default
+4. Copy the **Client ID** and **Client Secret**
+5. Add to your env:
+
+```bash
+# Add to ~/.openclaw/.env or ~/.env
+LINEAR_CC_CLIENT_ID=your_client_id_here
+LINEAR_CC_CLIENT_SECRET=your_client_secret_here
+```
+
+6. Done. CC Commander now posts to Linear as its own agent identity.
+
+```
+┌──────────────────────────────────────────────────┐
+│  LINEAR PROJECT: CC Commander                    │
+│                                                  │
+│  28 issues │ 19 done │ 9 backlog                 │
+│  ▌████████████████████░░░░░░░░░▐ 70%             │
+│                                                  │
+│  Every session auto-creates a Linear issue.      │
+│  Every completion updates it.                    │
+│  Check progress from your phone.                 │
+│                                                  │
+│  Agent identity: "CC Commander" (not your name)  │
+└──────────────────────────────────────────────────┘
+```
+
+---
+
 ## The Intelligence Layer
 
 CC Commander auto-detects installed packages and orchestrates them:
