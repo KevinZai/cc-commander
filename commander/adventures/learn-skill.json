@@ -15,7 +15,7 @@
     {
       "key": "b",
       "label": "See mega-skills (big workflows)",
-      "action": "browse_mega_skills"
+      "next": "mega-skills"
     },
     {
       "key": "c",

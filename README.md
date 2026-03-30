@@ -16,7 +16,7 @@
 [![Skills](https://img.shields.io/badge/Skills-280+-4F46E5)](./SKILLS-INDEX.md)
 [![Hooks](https://img.shields.io/badge/Hooks-37-D97706)](./hooks/)
 [![Mega Skills](https://img.shields.io/badge/Mega_Skills-10-4F46E5)](./SKILLS-INDEX.md)
-[![Version](https://img.shields.io/badge/Version-1.5.2-D97706)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.6.0-D97706)](./CHANGELOG.md)
 
 **by [Kevin Z](https://kevinz.ai) ([@kzic](https://x.com/kzic))**
 
@@ -251,6 +251,41 @@ Then dispatches: Opus | max effort | $10 budget | 100 turns | self-testing
 
 ---
 
+## YOLO Mode
+
+Start before bed. Wake up to shipped code. Or run continuous improvement loops.
+
+```
+┌── YOLO MODE ───────────────────────────────────────────┐
+│                                                        │
+│  10-question spec interview:                           │
+│    1. What?  2. Who?  3. Critical feature?             │
+│    4. Stack? 5. Done? 6. Broken? 7. Edge cases?        │
+│    8. Tests? 9. Deploy? 10. Extras?                    │
+│                                                        │
+│  Then: Opus | max effort | $10 budget | 100 turns      │
+│        Self-testing | Knowledge extraction             │
+│                                                        │
+│  YOLO Loop: 3-10 cycles of build → review → improve    │
+│  Status: ~/.claude/commander/yolo-status.txt           │
+│                                                        │
+└────────────────────────────────────────────────────────┘
+```
+
+## Cowork Plugin (Claude Desktop)
+
+Install CC Commander in Claude Desktop with one file:
+
+```
+cc-commander.plugin (8KB)
+├── /cc-commander       Full interactive PM
+├── /cc-night-mode      YOLO Mode (8hr autonomous)
+├── /cc-knowledge       Search past lessons
+└── /cc-plugins         Package detection + orchestration
+```
+
+---
+
 ## Skills & Mega-Skills
 
 280+ skills that Claude loads on demand. 10 mega-skills that route to specialist sub-skills.
@@ -299,6 +334,28 @@ PreToolUse ────→ Block rm -rf, confidence gate, verify commits
 PostToolUse ───→ Auto-checkpoint, context guard, cost alert
 PreCompact ────→ Save state before compaction
 Stop ──────────→ Console.log audit, session save, cost tracking
+```
+
+
+### Full Mega-Skill Catalog
+
+```
+╔══════════════════════════════════════════════════════════╗
+║  MEGA-SKILL          SUB-SKILLS  DOMAIN                 ║
+╠══════════════════════════════════════════════════════════╣
+║  mega-design         35+         UI/UX, polish, motion  ║
+║  mega-marketing      46          CRO, email, ads, SEO   ║
+║  mega-saas           20          Auth, billing, API      ║
+║  mega-testing        15          Unit, E2E, load, TDD    ║
+║  mega-devops         20          CI/CD, Docker, AWS      ║
+║  mega-seo            19          Schema, SERP, vitals    ║
+║  mega-security        9          OWASP, pentest, audit   ║
+║  mega-research        8          Competitive, market     ║
+║  mega-mobile          7          React Native, Flutter   ║
+║  mega-data           10+         SQL, ETL, dashboards    ║
+╠══════════════════════════════════════════════════════════╣
+║  TOTAL              200+        10 domain routers       ║
+╚══════════════════════════════════════════════════════════╝
 ```
 
 ---

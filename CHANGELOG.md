@@ -217,3 +217,26 @@ Built by Kevin Z. Incorporates patterns and best practices from 200+ community s
 - Zero-dependency arrow-key navigation via readline keypress
 - Session naming: auto-slugified from task description
 - Level-based dispatch defaults: guided=$2/sonnet, assisted=$3/opusplan, power=$5/opusplan
+
+## [1.6.0] - 2026-03-30 — "The Overnight Build"
+
+### Added
+- **YOLO Mode** — 10-question spec interview → autonomous build (Opus, max effort, $10, 100 turns, self-testing)
+- **YOLO Loop** — 3-10 cycles of build → review → improve → compound. Status checkpoints to ~/.claude/commander/yolo-status.txt
+- **Mega-Skill Browser** — explore all 10 mega-skills (200+ sub-skills) with one-click dispatch
+- **Cowork Plugin v2** — 4 skills with full references (skill-catalog.md, orchestration.md), YOLO Mode skill, 12KB package
+- **Knowledge compounding** — auto-extracts lessons from every session, injects relevant past experience into future dispatches
+- **Plugin orchestration** — auto-detects gstack, CE, Superpowers, ECC, Simone; maps to 8-step build pipeline
+- **Project import** — reads local CLAUDE.md + .claude/ without modifying (backwards compatible overlay)
+- **Night Mode rebranded to YOLO Mode** — "Set it. Forget it. Wake up to shipped code."
+
+### Changed
+- Self-test: 22 checks (up from 21)
+- Adventures: 11 files (mega-skills.json added)
+- Main menu: 12 choices (YOLO Mode added)
+- README: 484 lines with YOLO Mode, Cowork plugin, mega-skill catalog ASCII art
+- Cowork plugin: 12KB with references
+
+### The Overnight Build
+Built continuously from 10pm to 5am. 10 commits. Every feature tested. Every adventure validated.
+Kevin's instructions: "DONT STOP! When I wake up I want to see GOLD!"

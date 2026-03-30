@@ -222,13 +222,16 @@ class KitCommander {
         return { next: 'check-stats' };
       }
       case 'browse_skills': return await this.browseSkills(false);
-      case 'browse_mega_skills': return await this.browseSkills(true);
+      case 'browse_mega_skills': return { next: 'mega-skills' };
       case 'show_cheatsheet': return await this.showCheatsheet();
       case 'recommend_skill': return await this.recommendSkill(currentState);
       case 'pick_session_to_resume': return await this.pickSessionToResume();
       case 'pick_session_details': return await this.pickSessionDetails();
       case 'night_build': {
         return await this.nightBuild();
+      }
+      case 'yolo_loop': {
+        return await this.yoloLoop();
       }
       case 'night_explain': {
         process.stdout.write('n' + tui.divider('What is Night Mode?') + 'nn');
@@ -268,6 +271,35 @@ class KitCommander {
           await this.pause(1500);
         }
         return { next: 'main-menu' };
+      }
+      case 'show_all_mega': {
+        process.stdout.write('n' + tui.divider('All 10 Mega-Skills') + 'nn');
+        var megas = [
+          ['mega-design', '35+', 'UI/UX, animations, polish, responsive, accessibility, motion, canvas, SVG'],
+          ['mega-marketing', '46', 'Content, CRO, email, ads, analytics, landing pages, social, SEO'],
+          ['mega-saas', '20', 'Auth, billing, API, database, deploy, monitoring, Redis, webhooks'],
+          ['mega-testing', '15', 'Unit, integration, E2E, load, security, visual regression, TDD'],
+          ['mega-devops', '20', 'CI/CD, Docker, AWS, Terraform, Prometheus, Grafana, runbooks'],
+          ['mega-seo', '19', 'Technical SEO, content, schema, Core Web Vitals, SERP analysis'],
+          ['mega-security', '9', 'OWASP, pentest, secrets, API security, CSRF/XSS, compliance'],
+          ['mega-research', '8', 'Competitive, market, technology eval, multi-source research'],
+          ['mega-mobile', '7', 'React Native, Flutter, iOS, Android, responsive, app store'],
+          ['mega-data', '10+', 'Pipelines, ETL, visualization, SQL, migrations, dashboards'],
+        ];
+        megas.forEach(function(m) {
+          process.stdout.write('  ' + tui.boldText(m[0], tui.getTheme().primary) + ' (' + m[1] + ' sub-skills)n');
+          process.stdout.write('  ' + tui.dimText(m[2]) + 'nn');
+        });
+        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        await this.ask('n  Press Enter...');
+        return { next: 'mega-skills' };
+      }
+      case 'show_mega_detail': {
+        process.stdout.write('n  ' + tui.boldText('Pick a mega-skill and describe your need.', tui.getTheme().text) + 'n');
+        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        var megaTask = await this.ask('  > ');
+        if (megaTask.trim()) await this.executeBuild(megaTask);
+        return { next: 'mega-skills' };
       }
       case 'settings_name': {
         if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -455,6 +487,51 @@ class KitCommander {
       process.stdout.write(tui.celebrate("Theme: " + tui.getTheme().name));
       await this.pause(800);
     }
+    return { next: "main-menu" };
+  }
+
+  async yoloLoop() {
+    process.stdout.write("\n" + tui.divider("YOLO LOOP") + "\n\n");
+    process.stdout.write("  " + tui.boldText("YOLO Loop = continuous improvement until perfect.", tui.getTheme().primary) + "\n");
+    process.stdout.write("  " + tui.dimText("After each build step, Commander reviews, tests, and iterates.") + "\n");
+    process.stdout.write("  " + tui.dimText("Writes status to ~/.claude/commander/yolo-status.txt every cycle.") + "\n\n");
+    if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    var task = await this.ask("  What should the loop work on? > ");
+    if (!task.trim()) return { next: "night-build" };
+    var maxCycles = 5;
+    var cycleIdx = await tui.select([{label:"3 cycles"},{label:"5 cycles"},{label:"10 cycles"}], "How many improvement cycles?");
+    var cycles = [3, 5, 10];
+    maxCycles = cycles[cycleIdx >= 0 ? cycleIdx : 1];
+    process.stdout.write("\n  " + tui.boldText("Launching YOLO Loop: " + maxCycles + " cycles", tui.getTheme().primary) + "\n\n");
+    var d = getDispatcher();
+    var knowledge = require("./knowledge");
+    var fs = require("fs");
+    var path = require("path");
+    var statusPath = path.join(require("os").homedir(), ".claude", "commander", "yolo-status.txt");
+    for (var cycle = 1; cycle <= maxCycles; cycle++) {
+      var sp = tui.spinner("Cycle " + cycle + "/" + maxCycles + ": " + (cycle === 1 ? "Building" : "Improving") + "...");
+      sp.start();
+      var session = state.createSession({ task: "YOLO cycle " + cycle + ": " + task, project: null });
+      var prompt = cycle === 1 ? task : "Review and improve the previous work on: " + task + ". Fix any issues. Add missing tests. Improve quality.";
+      var knowledgePrompt = knowledge.buildKnowledgePrompt(task);
+      try {
+        fs.writeFileSync(statusPath, "YOLO Loop: cycle " + cycle + "/" + maxCycles + " | " + new Date().toISOString() + " | Task: " + task);
+        var result = d.dispatch(prompt, { sync: true, maxTurns: Math.round(100 / maxCycles), effort: cycle === 1 ? "high" : "medium", model: "opusplan", maxBudgetUsd: Math.round(10 / maxCycles), permissionMode: "plan", fallbackModel: "sonnet", bare: true, name: d.generateSessionName("yolo-" + cycle + "-" + task), systemPrompt: "YOLO Loop cycle " + cycle + "/" + maxCycles + ". " + (cycle === 1 ? "Build from scratch." : "Review previous work. Fix issues. Add tests. Ship quality.") + knowledgePrompt });
+        sp.stop(true);
+        state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
+        state.completeSession(session.id, "success");
+        knowledge.extractAndStore(state.getSession(session.id) || session, result.result || "");
+        process.stdout.write("  " + tui.colorText("Cycle " + cycle + " complete", tui.getTheme().success) + "\n");
+      } catch (err) {
+        sp.stop(false);
+        state.completeSession(session.id, "error");
+        process.stdout.write("  Cycle " + cycle + " error: " + err.message + "\n");
+      }
+    }
+    try { fs.writeFileSync(statusPath, "YOLO Loop COMPLETE | " + new Date().toISOString() + " | " + maxCycles + " cycles | Task: " + task); } catch(_e) {}
+    process.stdout.write(tui.celebrate("YOLO LOOP COMPLETE — " + maxCycles + " cycles"));
+    if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    await this.ask("\n  Press Enter...");
     return { next: "main-menu" };
   }
 

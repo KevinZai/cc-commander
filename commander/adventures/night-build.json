@@ -1,22 +1,28 @@
 {
   "id": "night-build",
-  "version": 1,
+  "version": 2,
   "screen": {
-    "title": "Night Mode",
-    "subtitle": "8-hour autonomous build. Fully self-managed.",
-    "detail": "Ask detailed questions → generate comprehensive spec → dispatch with max effort"
+    "title": "YOLO Mode",
+    "subtitle": "Set it. Forget it. Wake up to shipped code.",
+    "detail": "10-question spec → autonomous build → self-testing → knowledge compound"
   },
-  "prompt": "Night Mode will ask 10+ questions to build a complete spec, then run autonomously for hours. Ready?",
+  "prompt": "YOLO Mode runs autonomously for hours. Your AI PM handles everything.",
   "choices": [
     {
       "key": "a",
-      "label": "Start Night Mode",
-      "description": "Full autonomous build (high budget, max effort)",
+      "label": "Launch YOLO Mode",
+      "description": "Full autonomous build (Opus, $10, 100 turns)",
       "action": "night_build"
     },
     {
       "key": "b",
-      "label": "What is Night Mode?",
+      "label": "YOLO Loop (experimental)",
+      "description": "Continuous improvement loop — keeps going until perfect",
+      "action": "yolo_loop"
+    },
+    {
+      "key": "c",
+      "label": "What is YOLO Mode?",
       "action": "night_explain"
     },
     {

@@ -6,7 +6,7 @@ var BRAND = Object.freeze({
   productShort: 'CC',
   tagline: '280+ skills. One command. Your AI work, managed by AI.',
   taglineShort: 'The ultimate Claude Code setup.',
-  version: '1.5.0',
+  version: '1.6.0',
 
   author: 'Kevin Z',
   authorFull: 'Kevin Zicherman',
