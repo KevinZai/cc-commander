@@ -38,7 +38,7 @@ my-plugin/
 {
   "name": "bible-daily-standup",
   "version": "1.0.0",
-  "description": "Automated daily standup using Bible task-commander patterns",
+  "description": "Automated daily standup using CC Commander task-commander patterns",
   "author": "Kevin Z",
   "license": "MIT",
   "entry": "handler.js",
@@ -219,7 +219,7 @@ Automatically reviews new PRs and posts feedback.
 {
   "name": "bible-code-review-bot",
   "version": "1.0.0",
-  "description": "Auto-review PRs using Bible coding-standards skill",
+  "description": "Auto-review PRs using CC Commander coding-standards skill",
   "entry": "handler.js",
   "permissions": {
     "filesystem": { "read": ["**"] },
@@ -360,7 +360,7 @@ Batch-generates reports from templates and data sources.
 {
   "name": "bible-report-generator",
   "version": "1.0.0",
-  "description": "Generate reports from templates using Bible patterns",
+  "description": "Generate reports from templates using CC Commander patterns",
   "entry": "handler.js",
   "permissions": {
     "filesystem": {
@@ -552,5 +552,5 @@ zip -r bible-my-plugin-1.0.0.zip manifest.json handler.js README.md
 6. **Test with real projects** -- synthetic tests miss permission edge cases
 7. **Document config** -- every config field needs a description
 8. **Respect cost limits** -- if delegating to Claude, set maxTurns
-9. **Prefix with "bible-"** -- clear naming convention for Bible-derived plugins
+9. **Prefix with "cc-"** -- clear naming convention for CC Commander-derived plugins
 10. **Include skill references** -- the `bible.skills` field in manifest helps users understand provenance
