@@ -3,7 +3,7 @@ name: KZ Mega-SaaS
 description: "Multi-tenancy patterns for B2B SaaS -- schema-per-tenant, row-level security, subdomain routing, tenant-aware queries, data isolation"
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 ---
 
 # Multi-Tenant Patterns

@@ -3,7 +3,7 @@ name: KZ Mega-Data
 description: "Complete data ecosystem — 8 skills in one. Data pipelines, SQL optimization, visualization, machine learning, data quality, analytics, reporting, and vector search."
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 tags: [mega-skill, data, analytics, ml]
 ---
 

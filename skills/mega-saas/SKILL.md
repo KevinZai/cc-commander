@@ -3,7 +3,7 @@ name: KZ Mega-SaaS
 description: "Complete SaaS development ecosystem -- 20 skills in one. Scaffold, authenticate, bill, ship, and grow a production SaaS from zero to revenue."
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 ---
 
 # KZ Mega-SaaS

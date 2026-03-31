@@ -3,7 +3,7 @@ name: KZ Mega-SEO
 description: "Complete SEO ecosystem — 19 skills in one. Technical SEO, AI search optimization, content strategy, analytics, and programmatic SEO."
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 ---
 
 # KZ Mega-SEO

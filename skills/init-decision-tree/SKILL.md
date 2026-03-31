@@ -3,7 +3,7 @@ name: init-decision-tree
 description: "Interactive project initialization — questionnaire-driven setup that determines build type, selects skills, and generates a tailored CLAUDE.md"
 version: 1.0.0
 category: core-workflow
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 triggers:
   - /init
   - project initialization

@@ -1,6 +1,6 @@
 ---
 name: KZ Mega-Marketing
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 description: "46-skill marketing division for AI coding agents. 7 specialist pods covering content, SEO, CRO, channels, growth, intelligence, and sales — plus influencer outreach, Product Hunt launch, and SEO content production. Foundation context system + orchestration router. 27 Python tools (all stdlib-only). Works with Claude Code, Codex CLI, and OpenClaw."
 version: 3.0.0
 author: Kevin Z

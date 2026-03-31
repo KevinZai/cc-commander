@@ -18,7 +18,7 @@ disable-model-invocation: false
 
 # Continuous Improvement
 
-Automated innovation pipeline for Claude Code Kit. Scans external sources for new techniques, evaluates relevance and risk, and queues approved improvements for implementation.
+Automated innovation pipeline for CC Commander. Scans external sources for new techniques, evaluates relevance and risk, and queues approved improvements for implementation.
 
 ## Overview
 
@@ -215,4 +215,4 @@ Environment variables for customization:
 
 ## Credit
 
-Part of Kevin Z's Claude Code Kit v1.3. Built to keep the kit ahead of the ecosystem automatically.
+Part of Kevin Z's CC Commander v1.6.0. Built to keep the kit ahead of the ecosystem automatically.

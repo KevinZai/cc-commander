@@ -1,7 +1,7 @@
 ---
 name: seo-content-production
 parent: KZ Mega-Marketing
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 description: "Bridge between SEO briefs and content production. Transforms seo-content-brief output into production-ready writing guidelines and manages the brief-to-publish pipeline."
 version: 1.0.0
 dependencies:

@@ -1,13 +1,13 @@
 ---
 name: vscode-bible
-description: VS Code integration guide — rich buttons, keyboard shortcuts, walkthrough, snippets, and extension configuration for the Claude Code Bible
+description: VS Code integration guide — rich buttons, keyboard shortcuts, walkthrough, snippets, and extension configuration for the CC Commander
 tags: [vscode, ide, integration, extension]
 version: "1.2"
 ---
 
 # VS Code Bible Integration Guide
 
-> Set up VS Code as the perfect companion for the Claude Code Bible. Rich buttons, keyboard shortcuts, snippets, task runners, and debugging configuration.
+> Set up VS Code as the perfect companion for the CC Commander. Rich buttons, keyboard shortcuts, snippets, task runners, and debugging configuration.
 
 ---
 
@@ -418,4 +418,4 @@ Debug Bible hooks during development. Add to `.vscode/launch.json`:
 
 9. **Problem panel** — After `/verify`, check the VS Code Problems panel (`Cmd+Shift+M`) for any TypeScript errors or lint warnings that the verification caught.
 
-10. **Terminal profiles** — Create a "Claude Code Bible" terminal profile that sources `statusline.sh` and sets `KZ_NO_ANIMATION=0` for the full visual experience.
+10. **Terminal profiles** — Create a "CC Commander" terminal profile that sources `statusline.sh` and sets `KZ_NO_ANIMATION=0` for the full visual experience.

@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Paperclip Bridge
 
-> Connect Claude Code Bible workflows to Paperclip task management. Create issues from task-commander, track progress, auto-close tickets, and synchronize status bidirectionally between Bible sessions and Paperclip.
+> Connect CC Commander workflows to Paperclip task management. Create issues from task-commander, track progress, auto-close tickets, and synchronize status bidirectionally between Bible sessions and Paperclip.
 
 ## What Paperclip Is
 
@@ -38,7 +38,7 @@ curl -s -X POST http://localhost:3110/api/companies/${PAPERCLIP_COMPANY_ID}/issu
   -H "Authorization: Bearer ${PAPERCLIP_API_KEY}" \
   -d '{
     "title": "Task from Bible: implement user auth",
-    "description": "## Source\nClaude Code Bible task-commander\n\n## Steps\n1. Design auth schema\n2. Implement JWT middleware\n3. Add login/register endpoints\n4. Write tests",
+    "description": "## Source\nCC Commander task-commander\n\n## Steps\n1. Design auth schema\n2. Implement JWT middleware\n3. Add login/register endpoints\n4. Write tests",
     "status": "todo",
     "priority": "high",
     "labels": ["bible-task", "task-commander"],

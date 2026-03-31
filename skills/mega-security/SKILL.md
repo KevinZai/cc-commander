@@ -3,7 +3,7 @@ name: KZ Mega-Security
 description: "Complete security ecosystem — 8 skills in one. Security audits, prompt injection defense, dependency audits, secrets scanning, OWASP Top 10, CodeQL, variant analysis, and incident response."
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 tags: [mega-skill, security, appsec, devsecops]
 ---
 

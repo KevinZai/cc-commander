@@ -14,11 +14,11 @@ disable-model-invocation: false
 
 # OpenClaw Native Integration
 
-First-class integration between Claude Code Kit and the OpenClaw AI agent platform. Automatically syncs skills, hooks, and agent profiles between both systems.
+First-class integration between CC Commander and the OpenClaw AI agent platform. Automatically syncs skills, hooks, and agent profiles between both systems.
 
 ## Overview
 
-OpenClaw is a personal AI assistant platform that orchestrates multiple agents across channels (Discord, Slack, Telegram, etc.) from a single gateway. This integration makes Claude Code Kit a native extension of OpenClaw — not just a bridge.
+OpenClaw is a personal AI assistant platform that orchestrates multiple agents across channels (Discord, Slack, Telegram, etc.) from a single gateway. This integration makes CC Commander a native extension of OpenClaw — not just a bridge.
 
 ## Auto-Detection
 
@@ -129,7 +129,7 @@ See `/openclaw` command for:
 ## Architecture
 
 ```
-Claude Code Kit                    OpenClaw Gateway
+CC Commander                    OpenClaw Gateway
 ┌──────────────────┐              ┌──────────────────┐
 │  Skills (280+)   │──── sync ───→│  Skill Registry  │
 │  Hooks (18)      │←── events ──→│  Webhook System  │

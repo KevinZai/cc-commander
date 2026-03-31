@@ -1,19 +1,19 @@
 ---
 name: bible-guide
-description: Interactive onboarding guide for the Claude Code Bible — skill discovery, progressive disclosure, capability overview for beginners through experts
+description: Interactive onboarding guide for the CC Commander — skill discovery, progressive disclosure, capability overview for beginners through experts
 tags: [guide, onboarding, beginner, discovery]
 version: "1.2"
 ---
 
 # Bible Guide — Interactive Onboarding
 
-> Welcome to the Claude Code Bible by Kevin Z. This guide helps you discover the right skills, commands, and workflows for your experience level and goals.
+> Welcome to the CC Commander by Kevin Z. This guide helps you discover the right skills, commands, and workflows for your experience level and goals.
 
 ---
 
 ## Welcome
 
-The Claude Code Bible is a comprehensive toolkit: **280+ skills**, **10 mega-skills**, **88+ commands**, **37 hooks**, **9 workflow modes**, and **36+ prompt templates**. That is a lot. This guide helps you find exactly what you need without reading everything.
+CC Commander is a comprehensive toolkit: **280+ skills**, **10 mega-skills**, **88+ commands**, **37 hooks**, **9 workflow modes**, and **36+ prompt templates**. That is a lot. This guide helps you find exactly what you need without reading everything.
 
 **How this guide works:**
 1. Tell me what you are building (Skill Discovery Wizard below)

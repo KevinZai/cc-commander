@@ -3,7 +3,7 @@ name: KZ Mega-Research
 description: "Complete research ecosystem — 8 skills in one. Deep research, spec interviews, cross-model review, literature review, competitive analysis, data ingestion, trend analysis, and Gemini fallback."
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 tags: [mega-skill, research, analysis]
 ---
 

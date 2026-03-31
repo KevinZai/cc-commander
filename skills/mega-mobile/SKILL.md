@@ -3,7 +3,7 @@ name: KZ Mega-Mobile
 description: "Complete mobile development ecosystem — 8 skills in one. React Native, Flutter, SwiftUI, Jetpack Compose, testing, ASO, push notifications, and deep linking."
 version: 1.0.0
 category: mega-skill
-brand: Kevin Z's Claude Code Kit
+brand: Kevin Z's CC Commander
 tags: [mega-skill, mobile, ios, android]
 ---
 
