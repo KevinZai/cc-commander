@@ -60,6 +60,9 @@ var THEMES = {
   },
 };
 
+// Load extended theme pack
+try { var extra = require('./themes-extra'); Object.keys(extra).forEach(function(k) { THEMES[k] = extra[k]; }); } catch (_e) {}
+
 var activeTheme = 'cyberpunk';
 
 function setTheme(name) {
@@ -219,8 +222,8 @@ function select(items, prompt) {
 
         stdout.write(ESC + '2K');
         if (active) {
-          // Rainbow gradient label (lolcat-style) + bold cyan arrow
-          stdout.write('  ' + colorText('\u276f ', t.primary) + rainbow(label));
+          // Theme-colored gradient on selected item (matches active color scheme)
+          stdout.write('  ' + colorText('\u276f ', t.primary) + BOLD + gradient(label, t.logo.gradient) + RESET);
         } else {
           // Bright white — clearly readable on dark bg
           stdout.write('    \x1b[38;5;253m' + label + RESET);

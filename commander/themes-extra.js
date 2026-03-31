@@ -1,0 +1,88 @@
+'use strict';
+
+/**
+ * CC Commander — Extended Theme Pack
+ * 6 additional themes beyond the 4 built-in ones.
+ * Loaded by tui.js on startup.
+ */
+
+module.exports = {
+  ocean: {
+    name: 'Ocean',
+    logo: { font: 'ANSI Shadow', gradient: [[0, 180, 255], [0, 255, 180], [0, 100, 255]] },
+    primary: [0, 180, 255],
+    secondary: [0, 255, 180],
+    accent: [0, 220, 200],
+    highlight: [15, 25, 35],
+    dim: [70, 110, 140],
+    text: [200, 230, 245],
+    success: [0, 255, 150],
+    error: [255, 80, 100],
+    border: 'rounded',
+  },
+  aurora: {
+    name: 'Aurora',
+    logo: { font: 'ANSI Shadow', gradient: [[80, 255, 120], [0, 200, 255], [180, 100, 255]] },
+    primary: [80, 255, 120],
+    secondary: [0, 200, 255],
+    accent: [180, 100, 255],
+    highlight: [18, 25, 22],
+    dim: [80, 120, 100],
+    text: [210, 240, 220],
+    success: [80, 255, 120],
+    error: [255, 80, 80],
+    border: 'rounded',
+  },
+  sunset: {
+    name: 'Sunset',
+    logo: { font: 'ANSI Shadow', gradient: [[255, 100, 50], [255, 180, 0], [255, 50, 120]] },
+    primary: [255, 140, 50],
+    secondary: [255, 50, 120],
+    accent: [255, 200, 50],
+    highlight: [30, 20, 18],
+    dim: [150, 100, 80],
+    text: [255, 230, 210],
+    success: [100, 255, 100],
+    error: [255, 50, 50],
+    border: 'heavy',
+  },
+  monochrome: {
+    name: 'Monochrome',
+    logo: { font: 'ANSI Shadow', gradient: [[160, 160, 160], [255, 255, 255]] },
+    primary: [220, 220, 220],
+    secondary: [180, 180, 180],
+    accent: [255, 255, 255],
+    highlight: [25, 25, 25],
+    dim: [100, 100, 100],
+    text: [220, 220, 220],
+    success: [180, 255, 180],
+    error: [255, 150, 150],
+    border: 'single',
+  },
+  rainbow: {
+    name: 'Rainbow',
+    logo: { font: 'ANSI Shadow', gradient: [[255, 0, 80], [255, 200, 0], [0, 255, 100], [0, 200, 255], [100, 0, 255], [255, 0, 200]] },
+    primary: [0, 255, 255],
+    secondary: [255, 0, 255],
+    accent: [255, 255, 0],
+    highlight: [25, 20, 30],
+    dim: [100, 90, 110],
+    text: [230, 230, 240],
+    success: [0, 255, 100],
+    error: [255, 50, 50],
+    border: 'rounded',
+  },
+  dracula: {
+    name: 'Dracula',
+    logo: { font: 'ANSI Shadow', gradient: [[189, 147, 249], [255, 121, 198]] },
+    primary: [189, 147, 249],
+    secondary: [255, 121, 198],
+    accent: [139, 233, 253],
+    highlight: [40, 42, 54],
+    dim: [98, 114, 164],
+    text: [248, 248, 242],
+    success: [80, 250, 123],
+    error: [255, 85, 85],
+    border: 'rounded',
+  },
+};

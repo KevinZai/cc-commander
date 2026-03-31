@@ -53,7 +53,7 @@ After install: **`ccc`** — that's it. Three letters.
 
 ## How to Use (Start Here)
 
-**You don't need to know how to code.** CCC guides you with menus.
+**You don't need to type anything. Multiple choice.** CCC guides you with menus.
 
 ### Step 1: Install (one command)
 
