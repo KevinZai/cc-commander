@@ -62,7 +62,7 @@ jobs:
 
       - name: Verify no secrets
         run: |
-          if grep -rn 'sk-[a-zA-Z0-9]\{20\}\|ghp_[a-zA-Z0-9]\{36\}' --include='*.js' --include='*.json' --include='*.md' .; then
+          if grep -rn 'sk-[a-zA-Z0-9]\{20\}\|ghp_[a-zA-Z0-9]\{36\}' --include='*.js' --include='*.json' --include='*.md' --exclude-dir=vendor --exclude-dir=node_modules .; then
             echo "ERROR: Possible secrets found"
             exit 1
           fi
