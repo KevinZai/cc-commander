@@ -1,26 +1,4 @@
-<pre>
- ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
-██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
-██║     ██║     ███████║██║   ██║██║  ██║█████╗  
-██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝  
-╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
- ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
-                                                 
- ██████╗ ██████╗ ██████╗ ███████╗
-██╔════╝██╔═══██╗██╔══██╗██╔════╝
-██║     ██║   ██║██║  ██║█████╗  
-██║     ██║   ██║██║  ██║██╔══╝  
-╚██████╗╚██████╔╝██████╔╝███████╗
- ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-                                 
- ██████╗ ██████╗ ███╗   ███╗███╗   ███╗ █████╗ ███╗   ██╗██████╗ ███████╗██████╗ 
-██╔════╝██╔═══██╗████╗ ████║████╗ ████║██╔══██╗████╗  ██║██╔══██╗██╔════╝██╔══██╗
-██║     ██║   ██║██╔████╔██║██╔████╔██║███████║██╔██╗ ██║██║  ██║█████╗  ██████╔╝
-██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚██╗██║██║  ██║██╔══╝  ██╔══██╗
-╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║██████╔╝███████╗██║  ██║
- ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝
-                                                                                 
-</pre>
+<img src="docs/assets/ccc-hero.svg" alt="CC Commander" width="100%">
 
 > **Every Claude Code tool. One install. Guided access. Auto-updated.**
 
@@ -34,9 +12,7 @@
 
 ---
 
-<img src="docs/assets/section-why.png" alt="Why" width="100%">
-
-## Why This Exists
+<img src="docs/assets/section-why.svg" alt="Why" width="100%">
 
 Stock Claude Code is a blank terminal. No skills. No guidance. No memory.
 
@@ -59,9 +35,7 @@ You get:  A guided AI project manager with 432+ skills,
  |___|_|\_|___/ |_/_/ \_\____|____|
 ```
 
-<img src="docs/assets/section-install.png" alt="Install" width="100%">
-
-## Install
+<img src="docs/assets/section-install.svg" alt="Install" width="100%">
 
 ```bash
 # npm (recommended — gives you the `ccc` command)
@@ -84,9 +58,7 @@ After install: **`ccc`** — that's it. Three letters.
 
 ---
 
-<img src="docs/assets/section-how-to-use.png" alt="How to Use" width="100%">
-
-## How to Use (Start Here)
+<img src="docs/assets/section-how-to-use.svg" alt="How to Use" width="100%">
 
 **You don't need to type anything. Multiple choice.** CCC guides you with menus.
 
@@ -147,9 +119,7 @@ It dispatches to the best available tool (from 11 vendor packages), tracks the s
 
 ---
 
-<img src="docs/assets/section-features.png" alt="Features" width="100%">
-
-## What You Get
+<img src="docs/assets/section-features.svg" alt="Features" width="100%">
 
 <img src="docs/assets/ccc-components.png" alt="Components" width="100%">
 
@@ -174,9 +144,7 @@ It dispatches to the best available tool (from 11 vendor packages), tracks the s
  |___/ \___/|_|  |_/_/ \_\___|_|\_|___/
 ```
 
-<img src="docs/assets/section-domains.png" alt="Domains" width="100%">
-
-## 11 CCC Domain Packs
+<img src="docs/assets/section-domains.svg" alt="Domains" width="100%">
 
 Each domain is a router that dispatches to specialized sub-skills on demand.
 
@@ -203,9 +171,7 @@ Each domain is a router that dispatches to specialized sub-skills on demand.
    \_/ |___|_|\_|___/ \___/|_|_\|___/
 ```
 
-<img src="docs/assets/section-vendors.png" alt="Vendors" width="100%">
-
-## Vendor Ecosystem (11 Packages)
+<img src="docs/assets/section-vendors.svg" alt="Vendors" width="100%">
 
 CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly.
 
@@ -227,9 +193,7 @@ The **smart orchestrator** scores each tool: capability match (50%) + popularity
 
 ---
 
-<img src="docs/assets/section-orchestrator.png" alt="Orchestrator" width="100%">
-
-## Smart Orchestrator
+<img src="docs/assets/section-orchestrator.svg" alt="Orchestrator" width="100%">
 
 ```
   PHASE          BEST TOOL              FALLBACK
@@ -248,9 +212,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-<img src="docs/assets/section-xray.png" alt="XRay" width="100%">
-
-## /xray + /makeover
+<img src="docs/assets/section-xray.svg" alt="XRay" width="100%">
 
 **Audit any project. Fix it automatically.**
 
@@ -270,9 +232,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-<img src="docs/assets/section-yolo.png" alt="YOLO" width="100%">
-
-## YOLO Mode
+<img src="docs/assets/section-yolo.svg" alt="YOLO" width="100%">
 
 **Start before bed. Wake up to shipped code.**
 
@@ -282,9 +242,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-<img src="docs/assets/section-cockpit.png" alt="Cockpit" width="100%">
-
-## Cockpit Dashboard
+<img src="docs/assets/section-cockpit.svg" alt="Cockpit" width="100%">
 
 ```
   ══════════════════════════════════════════────────
