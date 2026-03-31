@@ -7,6 +7,8 @@ var tui = require('./tui');
 var state = require('./state');
 var BRAND = require('./branding');
 
+var cockpit = require('./cockpit');
+
 var dispatcher = null;
 function getDispatcher() { if (!dispatcher) dispatcher = require('./dispatcher'); return dispatcher; }
 
@@ -105,14 +107,39 @@ class KitCommander {
       var activePrompt = prepared.afterAction ? prepared.afterAction.prompt : prepared.prompt;
 
       process.stdout.write('\x1b[2J\x1b[H'); // fast clear
-      // Main menu gets full ASCII logo, sub-menus get compact header
+
+      // Build cockpit data from state
+      var skillCount = 0; try { skillCount = getSkillBrowser().listSkills().length; } catch(_e) {}
+      var vendorCount = 0; try { var fs = require('fs'); vendorCount = fs.readdirSync(require('path').join(__dirname, '..', 'vendor')).length; } catch(_e) {}
+      var activeLinear = currentState.activeSession ? (currentState.activeSession.linearIssueIdentifier || null) : null;
+      var cockpitData = {
+        model: process.env.ANTHROPIC_MODEL || 'Opus 1M',
+        cost: stats.totalCost || 0,
+        inputTokens: 0,
+        outputTokens: 0,
+        duration: '0s',
+        contextPct: 0,
+        ratePct: 0,
+        linearTicket: activeLinear,
+        linearTitle: '',
+        skillCount: skillCount,
+        vendorCount: vendorCount,
+        activeSkill: null,
+        thinking: false,
+        toolActive: false,
+      };
+
+      // Main menu: full logo + cockpit panel
       if (adventureId === 'main-menu') {
         process.stdout.write(tui.renderLogoResponsive('CCC'));
-        process.stdout.write(tui.renderBanner());
+        process.stdout.write(cockpit.renderBanner());
+        process.stdout.write(cockpit.renderCockpitStatus(cockpitData));
       } else {
-        process.stdout.write(tui.renderCompactHeader());
+        // Sub-menus: compact header + one-line footer
+        process.stdout.write(cockpit.renderCompactHeader());
+        process.stdout.write(cockpit.renderCockpitFooter(cockpitData) + '\n');
       }
-      process.stdout.write(tui.renderStatusLine([{label:"Sessions",value:String((currentState.user&&currentState.user.sessionsCompleted)||0)},{label:"Streak",value:String((stats.streak&&stats.streak.current)||0)+"d"},{label:"Level",value:String((currentState.user&&currentState.user.level)||"guided")}]) + "\n");
+
       // Welcome dashboard for main menu
       if (adventureId === 'main-menu') {
         var recMod; try { recMod = require('./recommendations'); } catch(_e) {}
