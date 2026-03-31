@@ -210,6 +210,60 @@ findProject = async function(projectName, teamKey) {
   return _origFindProject(projectName, teamKey);
 };
 
+// ─── Project Updates (posted as documents linked to project) ──
+
+async function postProjectUpdate(title, body) {
+  var authError = validateAuth();
+  if (authError) return null;
+  var project = await findProject();
+  if (!project) return null;
+  var r = await graphql(
+    'mutation($i: DocumentCreateInput!) { documentCreate(input: $i) { success document { id url } } }',
+    { i: { title: title, content: body, projectId: project.projectId } }
+  );
+  return (r.data && r.data.documentCreate && r.data.documentCreate.document) || null;
+}
+
+/**
+ * Auto-update: call after completing a session or batch of work.
+ * Summarizes recent activity and posts to Linear project.
+ */
+async function postSessionSummary(session) {
+  if (!session) return null;
+  var duration = session.duration ? Math.round(session.duration / 60) + 'm' : '?';
+  var cost = session.cost ? '$' + session.cost.toFixed(2) : '$0';
+  var files = (session.filesChanged && session.filesChanged.length) || 0;
+  var title = 'Session: ' + (session.task || 'Untitled').slice(0, 60);
+  var body = '## Session Complete\x0a\x0a';
+  body += '**Task:** ' + (session.task || 'Untitled') + '\x0a';
+  body += '**Duration:** ' + duration + ' | **Cost:** ' + cost + ' | **Files:** ' + files + '\x0a';
+  body += '**Status:** ' + (session.outcome || 'completed') + '\x0a';
+  if (session.linearIssueIdentifier) body += '**Issue:** ' + session.linearIssueIdentifier + '\x0a';
+  return postProjectUpdate(title, body);
+}
+
+/**
+ * Pulse: lightweight status ping. Call on CLAUDE.md load, session open/close.
+ * Creates a small document note attached to the project.
+ */
+async function pulse(event, details) {
+  var authError = validateAuth();
+  if (authError) return null;
+  var project = await findProject();
+  if (!project) return null;
+  var now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+  var emoji = event === 'session_start' ? '\u{1F680}' : event === 'session_end' ? '\u2705' : event === 'claude_md_loaded' ? '\u{1F4C4}' : '\u{1F4E1}';
+  var body = emoji + ' **' + event + '** at ' + now;
+  if (details) body += '\x0a' + details;
+  // Post as comment on most recent in-progress issue (lightweight pulse)
+  try {
+    var grouped = await getIssuesByStatus();
+    var active = grouped.started && grouped.started[0];
+    if (active) return addComment(active.id, body);
+  } catch (_e) {}
+  return null;
+}
+
 module.exports = {
   checkConnection: checkConnection, validateAuth: validateAuth, findProject: findProject,
   listProjects: listProjects, listTeams: listTeams, getTeamProjects: getTeamProjects,
@@ -218,4 +272,5 @@ module.exports = {
   getIssuesByStatus: getIssuesByStatus, quickCreateIssue: quickCreateIssue,
   assignIssueToMe: assignIssueToMe, findStateId: findStateId, syncSession: syncSession,
   setup: setup, saveConfig: saveConfig, loadConfig: loadConfig,
+  postProjectUpdate: postProjectUpdate, postSessionSummary: postSessionSummary, pulse: pulse,
 };

@@ -61,6 +61,7 @@ class KitCommander {
           var project = pi.scanProject(cwd);
           state.updateState({ activeProject: { dir: project.dir, name: project.name || detectedName } });
           process.stdout.write('  ' + tui.dimText('Project loaded. Context will be included in dispatches.') + '\n\n');
+          try { require('./integrations/linear').pulse('claude_md_loaded', detectedName).catch(function(){}); } catch(_e) {}
         }
       }
     }
@@ -348,6 +349,7 @@ class KitCommander {
           process.stdout.write('\n  ' + tui.dimText('Dispatches will include this project CLAUDE.md context.') + '\n');
           process.stdout.write('  ' + tui.dimText('CC Commander will NOT modify your .claude/ directory.') + '\n');
           process.stdout.write(tui.celebrate('Project loaded!'));
+          try { require('./integrations/linear').pulse('claude_md_loaded', project.name).catch(function(){}); } catch(_e) {}
           await this.pause(1500);
         }
         return { next: 'main-menu' };
@@ -523,6 +525,7 @@ class KitCommander {
       if (linearIssue && linearIssue.id) {
         state.updateSession(session.id, { linearIssueId: linearIssue.id, linearIssueIdentifier: linearIssue.identifier || null });
       }
+      linearStart.pulse("session_start", fullTask.slice(0, 80)).catch(function(){});
     } catch(_e) {}
 
     process.stdout.write('\n  ' + tui.dimText(fullTask.slice(0, 200)) + '\n');
@@ -582,8 +585,16 @@ class KitCommander {
       state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
       state.completeSession(session.id, 'success');
       try { var knowledge2 = require("./knowledge"); knowledge2.extractAndStore(state.getSession(session.id) || {task:fullTask,cost:0}, result.result || ""); } catch(_e) {}
-      // Sync completion to Linear
-      try { var linearDone = require("./integrations/linear"); var doneSession = state.getSession(session.id); if (doneSession) linearDone.syncSession(doneSession, "success").catch(function(){}); } catch(_e) {}
+      // Sync completion to Linear + post update + pulse
+      try {
+        var linearDone = require("./integrations/linear");
+        var doneSession = state.getSession(session.id);
+        if (doneSession) {
+          linearDone.syncSession(doneSession, "success").catch(function(){});
+          linearDone.postSessionSummary(doneSession).catch(function(){});
+          linearDone.pulse("session_end", (doneSession.task || "").slice(0, 80)).catch(function(){});
+        }
+      } catch(_e) {}
       // Generate session replay
       try { var replay = require("./session-replay"); var r = replay.generateReplay(state.getSession(session.id)); if (r) { replay.saveReplay(r); replay.postToLinear(r).catch(function(){}); process.stdout.write('\n  ' + tui.dimText('Session replay saved. Score: ' + r.score.total + '/100') + '\n'); } } catch(_e) {}
       process.stdout.write(tui.celebrate('BUILD COMPLETE'));
