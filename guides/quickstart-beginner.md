@@ -188,7 +188,7 @@ Congratulations — you just built, tested, and shipped a project using the CC C
 **Q: Do I need to pay for Claude Code?**
 A: Yes, Claude Code requires an Anthropic API key or a Claude Pro/Max subscription. CC Commander itself is free and open source.
 
-**Q: Will the Bible overwrite my existing Claude Code settings?**
+**Q: Will CC Commander overwrite my existing Claude Code settings?**
 A: No. The installer backs up your existing files before making changes. You can restore from backup at any time with the uninstaller.
 
 **Q: Which model should I use?**
