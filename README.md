@@ -32,12 +32,7 @@
 
 ---
 
-```
- __      ___  ___   __
- \ \    / / || \ \ / /
-  \ \/\/ /| __ |\ V / 
-   \_/\_/ |_||_| |_|
-```
+<img src="docs/assets/section-why.png" alt="Why" width="100%">
 
 ## Why This Exists
 
@@ -62,6 +57,8 @@ You get:  A guided AI project manager with 432+ skills,
  |___|_|\_|___/ |_/_/ \_\____|____|
 ```
 
+<img src="docs/assets/section-install.png" alt="Install" width="100%">
+
 ## Install
 
 ```bash
@@ -85,12 +82,7 @@ After install: **`ccc`** — that's it. Three letters.
 
 ---
 
-```
-  _  _  _____      __  _____ ___    _   _ ___ ___ 
- | || |/ _ \ \    / / |_   _/ _ \  | | | / __| __|
- | __ | (_) \ \/\/ /    | || (_) | | |_| \__ \ _| 
- |_||_|\___/ \_/\_/     |_| \___/   \___/|___/___|
-```
+<img src="docs/assets/section-how-to-use.png" alt="How to Use" width="100%">
 
 ## How to Use (Start Here)
 
@@ -153,12 +145,7 @@ It dispatches to the best available tool (from 11 vendor packages), tracks the s
 
 ---
 
-```
-  ___ ___   _ _____ _   _ ___ ___ ___ 
- | __| __| /_\_   _| | | | _ \ __/ __|
- | _|| _| / _ \| | | |_| |   / _|\__ \
- |_| |___/_/ \_\_|  \___/|_|_\___|___/
-```
+<img src="docs/assets/section-features.png" alt="Features" width="100%">
 
 ## What You Get
 
@@ -184,6 +171,8 @@ It dispatches to the best available tool (from 11 vendor packages), tracks the s
  | |) | (_) | |\/| |/ _ \ | || .` \__ \
  |___/ \___/|_|  |_/_/ \_\___|_|\_|___/
 ```
+
+<img src="docs/assets/section-domains.png" alt="Domains" width="100%">
 
 ## 11 CCC Domain Packs
 
@@ -212,6 +201,8 @@ Each domain is a router that dispatches to specialized sub-skills on demand.
    \_/ |___|_|\_|___/ \___/|_|_\|___/
 ```
 
+<img src="docs/assets/section-vendors.png" alt="Vendors" width="100%">
+
 ## Vendor Ecosystem (11 Packages)
 
 CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly.
@@ -234,12 +225,7 @@ The **smart orchestrator** scores each tool: capability match (50%) + popularity
 
 ---
 
-```
-   ___  ___  ___ _  _ ___ ___ _____ ___    _ _____ ___  ___ 
-  / _ \| _ \/ __| || | __/ __|_   _| _ \  /_\_   _/ _ \| _ \
- | (_) |   / (__| __ | _|\__ \ | | |   / / _ \| || (_) |   /
-  \___/|_|_\\___|_||_|___|___/ |_| |_|_\/_/ \_\_| \___/|_|_\
-```
+<img src="docs/assets/section-orchestrator.png" alt="Orchestrator" width="100%">
 
 ## Smart Orchestrator
 
@@ -260,12 +246,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-```
- __  _____    ___   __
- \ \/ / _ \  /_\ \ / /
-  >  <|   / / _ \ V / 
- /_/\_\_|_\/_/ \_\_|
-```
+<img src="docs/assets/section-xray.png" alt="XRay" width="100%">
 
 ## /xray + /makeover
 
@@ -287,12 +268,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-```
- __   _____  _    ___  
- \ \ / / _ \| |  / _ \ 
-  \ V / (_) | |_| (_) |
-   |_| \___/|____\___/
-```
+<img src="docs/assets/section-yolo.png" alt="YOLO" width="100%">
 
 ## YOLO Mode
 
@@ -304,12 +280,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-```
-   ___ ___   ___ _  _____ ___ _____ 
-  / __/ _ \ / __| |/ / _ \_ _|_   _|
- | (_| (_) | (__| ' <|  _/| |  | |  
-  \___\___/ \___|_|\_\_| |___| |_|
-```
+<img src="docs/assets/section-cockpit.png" alt="Cockpit" width="100%">
 
 ## Cockpit Dashboard
 
