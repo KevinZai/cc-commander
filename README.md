@@ -1,3 +1,13 @@
+<div align="center">
+<pre> ██████╗ ██████╗ ██████╗
+██╔════╝██╔════╝██╔════╝
+██║     ██║     ██║     
+██║     ██║     ██║     
+╚██████╗╚██████╗╚██████╗
+ ╚═════╝ ╚═════╝ ╚═════╝
+                        </pre>
+</div>
+
 <img src="docs/assets/ccc-screenshot.png" alt="CC Commander" width="100%">
 
 > **Every Claude Code tool. One install. Guided access. Auto-updated.**
