@@ -1,145 +1,145 @@
 {
-  "Bible: Init Project": {
+  "CC Commander: Init Project": {
     "prefix": "kz-init",
     "body": [
       "/init"
     ],
-    "description": "Initialize project with the Bible decision tree — creates CLAUDE.md, detects stack, configures modes"
+    "description": "Initialize project with the CC Commander decision tree — creates CLAUDE.md, detects stack, configures modes"
   },
-  "Bible: Plan Feature": {
+  "CC Commander: Plan Feature": {
     "prefix": "kz-plan",
     "body": [
       "/plan ${1:describe what you want to build}"
     ],
     "description": "Create an implementation plan before coding — breaks work into steps with dependencies"
   },
-  "Bible: Verify": {
+  "CC Commander: Verify": {
     "prefix": "kz-verify",
     "body": [
       "/verify"
     ],
     "description": "Run verification loop — tests pass, no errors, feature works end-to-end"
   },
-  "Bible: Command Center": {
+  "CC Commander: Command Center": {
     "prefix": "kz-cc",
     "body": [
       "/cc"
     ],
-    "description": "Open the Bible command center — interactive menu for all commands"
+    "description": "Open the CC Commander command center — interactive menu for all commands"
   },
-  "Bible: Switch Mode": {
+  "CC Commander: Switch Mode": {
     "prefix": "kz-mode",
     "body": [
       "/cc mode ${1|normal,design,saas,marketing,research,writing,night,yolo,unhinged|}"
     ],
     "description": "Switch workflow mode — changes behavior, verbosity, risk tolerance, and auto-loaded skills"
   },
-  "Bible: Browse Prompts": {
+  "CC Commander: Browse Prompts": {
     "prefix": "kz-prompts",
     "body": [
       "/cc prompts ${1|coding,planning,design,marketing,devops,meta|}"
     ],
     "description": "Browse battle-tested prompt templates by category"
   },
-  "Bible: TDD Workflow": {
+  "CC Commander: TDD Workflow": {
     "prefix": "kz-tdd",
     "body": [
       "/tdd ${1:describe the feature or function to test}"
     ],
     "description": "Start test-driven development — write test first (RED), implement (GREEN), refactor (IMPROVE)"
   },
-  "Bible: Code Review": {
+  "CC Commander: Code Review": {
     "prefix": "kz-review",
     "body": [
       "/code-review"
     ],
     "description": "Multi-perspective code review on current changes"
   },
-  "Bible: Checkpoint": {
+  "CC Commander: Checkpoint": {
     "prefix": "kz-checkpoint",
     "body": [
       "/checkpoint"
     ],
     "description": "Create a git safety checkpoint — conventional commit with current changes"
   },
-  "Bible: Task Commander": {
+  "CC Commander: Task Commander": {
     "prefix": "kz-task",
     "body": [
       "/task-commander ${1:describe the large feature to break down and parallelize}"
     ],
     "description": "Break a large feature into subtasks, dispatch parallel subagents, track progress"
   },
-  "Bible: Mega-Design": {
+  "CC Commander: Mega-Design": {
     "prefix": "kz-mega-design",
     "body": [
       "use mega-design skill. ${1:describe what you want to design or animate}"
     ],
     "description": "Load mega-design (35+ skills) — animations, effects, design systems, landing pages, polish"
   },
-  "Bible: Mega-SaaS": {
+  "CC Commander: Mega-SaaS": {
     "prefix": "kz-mega-saas",
     "body": [
       "use mega-saas skill. ${1:describe your SaaS feature — auth, billing, API, frontend, etc.}"
     ],
     "description": "Load mega-saas (20 skills) — auth, billing, database, API, frontend, metrics, CRO"
   },
-  "Bible: Mega-DevOps": {
+  "CC Commander: Mega-DevOps": {
     "prefix": "kz-mega-devops",
     "body": [
       "use mega-devops skill. ${1:describe your infrastructure, CI/CD, or deployment need}"
     ],
     "description": "Load mega-devops (20 skills) — CI/CD, Docker, AWS, monitoring, Terraform, zero-downtime deploy"
   },
-  "Bible: Mega-Testing": {
+  "CC Commander: Mega-Testing": {
     "prefix": "kz-mega-testing",
     "body": [
       "use mega-testing skill. ${1:describe what you need to test}"
     ],
     "description": "Load mega-testing (15 skills) — TDD, E2E, verification, QA, regression, visual, load testing"
   },
-  "Bible: Mega-SEO": {
+  "CC Commander: Mega-SEO": {
     "prefix": "kz-mega-seo",
     "body": [
       "use mega-seo skill. ${1:describe your SEO optimization need}"
     ],
     "description": "Load mega-seo (19 skills) — technical SEO, AI search, content strategy, analytics, programmatic SEO"
   },
-  "Bible: Mega-Mobile": {
+  "CC Commander: Mega-Mobile": {
     "prefix": "kz-mega-mobile",
     "body": [
       "use mega-mobile skill. ${1:describe your mobile app feature or platform}"
     ],
     "description": "Load mega-mobile (7 skills) — React Native, Flutter, SwiftUI, Jetpack Compose, ASO"
   },
-  "Bible: Mega-Security": {
+  "CC Commander: Mega-Security": {
     "prefix": "kz-mega-security",
     "body": [
       "use mega-security skill. ${1:describe your security concern or audit need}"
     ],
     "description": "Load mega-security (9 skills) — pen testing, OWASP, supply chain, secrets, threat modeling"
   },
-  "Bible: Mega-Marketing": {
+  "CC Commander: Mega-Marketing": {
     "prefix": "kz-mega-marketing",
     "body": [
       "use mega-marketing skill. ${1:describe your marketing or growth need}"
     ],
     "description": "Load mega-marketing (46 skills) — content, CRO, channels, growth, intelligence, sales"
   },
-  "Bible: Mega-Research": {
+  "CC Commander: Mega-Research": {
     "prefix": "kz-mega-research",
     "body": [
       "use mega-research skill. ${1:describe your research topic or analysis need}"
     ],
     "description": "Load mega-research (8 skills) — deep research, literature review, competitive analysis, data synthesis"
   },
-  "Bible: Mega-Data": {
+  "CC Commander: Mega-Data": {
     "prefix": "kz-mega-data",
     "body": [
       "use mega-data skill. ${1:describe your data pipeline, analytics, or ML need}"
     ],
     "description": "Load mega-data (8 skills) — ETL, data warehousing, analytics engineering, visualization, ML ops"
   },
-  "Bible: Overnight Mode": {
+  "CC Commander: Overnight Mode": {
     "prefix": "kz-overnight",
     "body": [
       "/cc mode night",
@@ -148,77 +148,77 @@
     ],
     "description": "Switch to night mode for autonomous overnight work — checkpoints, error recovery, cost monitoring"
   },
-  "Bible: Orchestrate": {
+  "CC Commander: Orchestrate": {
     "prefix": "kz-orchestrate",
     "body": [
       "/orchestrate ${1:describe the multi-step task to parallelize across agents}"
     ],
     "description": "Multi-agent orchestration — break work into parallel subtasks dispatched to subagents"
   },
-  "Bible: E2E Test": {
+  "CC Commander: E2E Test": {
     "prefix": "kz-e2e",
     "body": [
       "/e2e ${1:describe the user flow to test end-to-end with Playwright}"
     ],
     "description": "Write and run E2E tests with Playwright for critical user flows"
   },
-  "Bible: Deploy": {
+  "CC Commander: Deploy": {
     "prefix": "kz-deploy",
     "body": [
       "/deploy"
     ],
     "description": "Build, test, and deploy pipeline — pre-flight checks, build, push, verify"
   },
-  "Bible: Build Fix": {
+  "CC Commander: Build Fix": {
     "prefix": "kz-build-fix",
     "body": [
       "/build-fix"
     ],
     "description": "Auto-resolve build errors — analyzes error output, fixes incrementally, verifies"
   },
-  "Bible: Save Session": {
+  "CC Commander: Save Session": {
     "prefix": "kz-save",
     "body": [
       "/save-session"
     ],
     "description": "Persist current session context to disk for later restoration"
   },
-  "Bible: Resume Session": {
+  "CC Commander: Resume Session": {
     "prefix": "kz-resume",
     "body": [
       "/resume-session"
     ],
     "description": "Restore the last saved session context and continue where you left off"
   },
-  "Bible: Harness Audit": {
+  "CC Commander: Harness Audit": {
     "prefix": "kz-audit",
     "body": [
       "/harness-audit"
     ],
-    "description": "Validate Bible installation — checks skills, hooks, commands, and configuration health"
+    "description": "Validate CC Commander installation — checks skills, hooks, commands, and configuration health"
   },
-  "Bible: Grill Me": {
+  "CC Commander: Grill Me": {
     "prefix": "kz-grill",
     "body": [
       "/cc grill"
     ],
     "description": "Socratic planning probe — asks probing questions before you start building"
   },
-  "Bible: Confidence Check": {
+  "CC Commander: Confidence Check": {
     "prefix": "kz-confidence",
     "body": [
       "/cc confidence"
     ],
     "description": "Pre-execution confidence assessment — scores confidence across 4 dimensions before proceeding"
   },
-  "Bible: Context Budget": {
+  "CC Commander: Context Budget": {
     "prefix": "kz-context",
     "body": [
       "/context-budget"
     ],
     "description": "Visual context window analyzer — shows usage gauge, zone indicators, and bloat sources"
   },
-  "Bible: Learn": {
+  "CC Commander: Learn": {
     "prefix": "kz-learn",
     "body": [
       "/learn ${1:describe the pattern or lesson to extract and persist}"

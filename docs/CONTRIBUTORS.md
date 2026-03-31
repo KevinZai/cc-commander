@@ -1,6 +1,6 @@
 # Contributors & Sources
 
-The Claude Code Bible was built by **Kevin Z** by scanning, testing, and distilling 200+ sources from the Claude Code community into one comprehensive toolkit.
+CC Commander was built by **Kevin Z** by scanning, testing, and distilling 200+ sources from the Claude Code community into one comprehensive toolkit.
 
 ## Primary Sources
 

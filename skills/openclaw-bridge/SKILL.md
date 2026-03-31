@@ -1,6 +1,6 @@
 ---
 name: openclaw-bridge
-description: Bridge Claude Code Bible skills and hooks to OpenClaw agent orchestration platform
+description: Bridge CC Commander skills and hooks to OpenClaw agent orchestration platform
 triggers:
   - "/openclaw"
   - "/openclaw-bridge"
@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # OpenClaw Bridge
 
-> Connect the Claude Code Bible to the OpenClaw agent orchestration platform. Map skills, translate hooks, generate agent profiles, synchronize config, and hand off sessions between Claude Code and 38+ OpenClaw agents.
+> Connect CC Commander to the OpenClaw agent orchestration platform. Map skills, translate hooks, generate agent profiles, synchronize config, and hand off sessions between Claude Code and 38+ OpenClaw agents.
 
 ## What OpenClaw Is
 
@@ -27,21 +27,21 @@ OpenClaw is a personal AI assistant platform running on Mac Mini M4. It operates
 
 ## When to Use This Skill
 
-- Deploying a Bible skill as an OpenClaw skill
-- Translating Bible hooks to OpenClaw webhook format
-- Generating OpenClaw agent personas from Bible workflow modes
-- Creating OpenClaw workspace files from Bible config
+- Deploying a CC Commander skill as an OpenClaw skill
+- Translating CC Commander hooks to OpenClaw webhook format
+- Generating OpenClaw agent personas from CC Commander workflow modes
+- Creating OpenClaw workspace files from CC Commander config
 - Handing off a Claude Code session to an OpenClaw agent (or vice versa)
-- Synchronizing Bible config with OpenClaw config
-- Debugging Bible-to-OpenClaw integration issues
+- Synchronizing CC Commander config with OpenClaw config
+- Debugging CC Commander-to-OpenClaw integration issues
 
 ---
 
-## 1. Skill Mapping: Bible Skills to OpenClaw Skills
+## 1. Skill Mapping: CC Commander Skills to OpenClaw Skills
 
-Bible skills live in `~/.claude/skills/{name}/SKILL.md` with YAML frontmatter. OpenClaw skills live in `~/.openclaw/skills/{name}/` with a different structure.
+CC Commander skills live in `~/.claude/skills/{name}/SKILL.md` with YAML frontmatter. OpenClaw skills live in `~/.openclaw/skills/{name}/` with a different structure.
 
-### Bible Skill Format
+### CC Commander Skill Format
 ```yaml
 ---
 name: my-skill
@@ -72,8 +72,8 @@ allowed-tools:
 
 ### Mapping Procedure
 
-1. **Parse frontmatter** from the Bible SKILL.md
-2. **Transform tool names:** Bible uses PascalCase (`Bash`, `Read`, `Write`), OpenClaw uses lowercase (`bash`, `read`, `write`). Map `AskUserQuestion` to `ask_user`. Map `TodoWrite` to `todo`.
+1. **Parse frontmatter** from the CC Commander SKILL.md
+2. **Transform tool names:** CC Commander uses PascalCase (`Bash`, `Read`, `Write`), OpenClaw uses lowercase (`bash`, `read`, `write`). Map `AskUserQuestion` to `ask_user`. Map `TodoWrite` to `todo`.
 3. **Copy skill content** to `~/.openclaw/skills/{name}/SKILL.md` — the markdown body is compatible as-is
 4. **Generate skill manifest** in `~/.openclaw/skills/{name}/manifest.json`:
 
@@ -97,7 +97,7 @@ allowed-tools:
 ### Batch Mapping Command
 
 ```bash
-# Map all Bible skills to OpenClaw format
+# Map all CC Commander skills to OpenClaw format
 for skill_dir in ~/.claude/skills/*/; do
   skill_name=$(basename "$skill_dir")
   if [ -f "$skill_dir/SKILL.md" ]; then
@@ -110,8 +110,8 @@ done
 
 ### Category Inference Table
 
-| Bible Skill Path Pattern | OpenClaw Category |
-|--------------------------|-------------------|
+| CC Commander Skill Path Pattern | OpenClaw Category |
+|---------------------------------|-------------------|
 | `mega-*` | `mega-skill` |
 | `mode-switcher` | `workflow` |
 | `*-patterns` | `engineering` |
@@ -124,11 +124,11 @@ done
 
 ---
 
-## 2. Hook Translation: Bible Hooks to OpenClaw Webhooks
+## 2. Hook Translation: CC Commander Hooks to OpenClaw Webhooks
 
-Bible hooks are Node.js scripts that read JSON from stdin and write JSON to stdout. OpenClaw hooks are HTTP webhooks (POST requests to the gateway).
+CC Commander hooks are Node.js scripts that read JSON from stdin and write JSON to stdout. OpenClaw hooks are HTTP webhooks (POST requests to the gateway).
 
-### Bible Hook Format
+### CC Commander Hook Format
 ```
 stdin → { tool_name, tool_input, tool_output } → hook.js → stdout (passthrough)
                                                           → stderr (logging)
@@ -161,8 +161,8 @@ stdin → { tool_name, tool_input, tool_output } → hook.js → stdout (passthr
 
 ### Translation Rules
 
-| Bible Field | OpenClaw Field | Notes |
-|-------------|----------------|-------|
+| CC Commander Field | OpenClaw Field | Notes |
+|--------------------|----------------|-------|
 | `tool_name` | `tool.name` | Direct mapping |
 | `tool_input` | `tool.input` | Direct mapping |
 | `tool_output` | `tool.output` | Truncated to 10KB max |
@@ -196,14 +196,14 @@ For channel binding in `openclaw.json`:
 
 ---
 
-## 3. Agent Profile Generation: Bible Modes to OpenClaw Personas
+## 3. Agent Profile Generation: CC Commander Modes to OpenClaw Personas
 
-The Bible's mode-switcher skill defines 9 workflow modes. Each maps to an OpenClaw agent persona configuration.
+CC Commander's mode-switcher skill defines 9 workflow modes. Each maps to an OpenClaw agent persona configuration.
 
 ### Mode to Persona Mapping
 
-| Bible Mode | OpenClaw Persona | Model Tier | Tone | Primary Workspace |
-|------------|-----------------|------------|------|-------------------|
+| CC Commander Mode | OpenClaw Persona | Model Tier | Tone | Primary Workspace |
+|-------------------|-----------------|------------|------|-------------------|
 | `normal` | Default persona | Sonnet | Balanced, professional | `main` |
 | `design` | Design Specialist | Sonnet | Creative, visual-first | `dev` |
 | `saas` | SaaS Builder | Sonnet | Product-focused, metric-driven | `dev` |
@@ -248,7 +248,7 @@ You are {Name} — {role derived from mode}.
 - **Name:** {Name}
 - **Model:** {model from mode mapping}
 - **Workspace:** {workspace from mode mapping}
-- **Source Mode:** {Bible mode name}
+- **Source Mode:** {CC Commander mode name}
 
 ## Core Expertise
 {Generated from mode's skill set}
@@ -264,9 +264,9 @@ You are {Name} — {role derived from mode}.
 
 ## 4. Workspace Template Generator
 
-Generate a complete OpenClaw workspace directory from Bible configuration.
+Generate a complete OpenClaw workspace directory from CC Commander configuration.
 
-### Input: Bible Config
+### Input: CC Commander Config
 ```json
 {
   "workspaceName": "my-project",
@@ -296,7 +296,7 @@ Generate a complete OpenClaw workspace directory from Bible configuration.
 
 ### Generation Steps
 
-1. Read Bible skills specified in config
+1. Read CC Commander skills specified in config
 2. Extract tool requirements from each skill's `allowed-tools`
 3. Generate SOUL.md from agent name, role, and mode-inferred personality
 4. Generate AGENTS.md with standard sections: Channel-Aware Mode, Hard Rules, Session Start, Core Loop, Memory Protocol, Inter-Agent Announce
@@ -366,9 +366,9 @@ When an OpenClaw agent needs Claude Code to take over:
 
 ## 6. Shared Memory Protocol
 
-Synchronize session memory between Bible sessions (`~/.claude/sessions/`) and OpenClaw memory databases (`~/.openclaw/memory/`).
+Synchronize session memory between CC Commander sessions (`~/.claude/sessions/`) and OpenClaw memory databases (`~/.openclaw/memory/`).
 
-### Bible Session Format
+### CC Commander Session Format
 ```markdown
 # Session — 2026-03-28T12:00:00.000Z
 - **Session ID:** abc123
@@ -389,25 +389,25 @@ Synchronize session memory between Bible sessions (`~/.claude/sessions/`) and Op
 
 ### Sync Rules
 
-1. **Bible to OpenClaw:** On `/save-session`, extract tagged entries and append to `~/clawd/workspaces/{workspace}/memory/{date}.md`
-2. **OpenClaw to Bible:** On `/resume-session`, scan recent OpenClaw memory files for `[HANDOFF]` and `[DECISION]` tags relevant to current project
-3. **Conflict resolution:** OpenClaw memory is append-only. Bible sessions are snapshots. No destructive merges. Both sources are additive.
+1. **CC Commander to OpenClaw:** On `/save-session`, extract tagged entries and append to `~/clawd/workspaces/{workspace}/memory/{date}.md`
+2. **OpenClaw to CC Commander:** On `/resume-session`, scan recent OpenClaw memory files for `[HANDOFF]` and `[DECISION]` tags relevant to current project
+3. **Conflict resolution:** OpenClaw memory is append-only. CC Commander sessions are snapshots. No destructive merges. Both sources are additive.
 4. **Tag mapping:**
 
-| Bible Concept | OpenClaw Tag | Direction |
-|---------------|-------------|-----------|
+| CC Commander Concept | OpenClaw Tag | Direction |
+|----------------------|-------------|-----------|
 | Key Decisions | `[DECISION]` | Bidirectional |
-| Lessons Learned | `[LEARNED]` | Bible to OpenClaw |
+| Lessons Learned | `[LEARNED]` | CC Commander to OpenClaw |
 | Corrections | `[CORRECTION]` | Bidirectional |
 | Session Handoff | `[HANDOFF]` | Bidirectional |
-| File Changes | `[CHANGED]` | Bible to OpenClaw |
-| Task Progress | `[PROGRESS]` | OpenClaw to Bible |
+| File Changes | `[CHANGED]` | CC Commander to OpenClaw |
+| Task Progress | `[PROGRESS]` | OpenClaw to CC Commander |
 
 ---
 
 ## 7. Config Sync: bible-config.json to openclaw.json
 
-### Bible Config Location
+### CC Commander Config Location
 Settings in `~/.claude/settings.json` and hook config in `~/.claude/settings.json` under `hooks`.
 
 ### OpenClaw Config Location
@@ -415,13 +415,13 @@ Settings in `~/.claude/settings.json` and hook config in `~/.claude/settings.jso
 
 ### Sync Points
 
-| Bible Config Key | OpenClaw Config Key | Sync Direction |
-|------------------|---------------------|----------------|
-| `skills[]` | `agents[].skills[]` | Bible to OpenClaw |
-| `hooks[]` | `webhooks.bible` | Bible to OpenClaw |
+| CC Commander Config Key | OpenClaw Config Key | Sync Direction |
+|-------------------------|---------------------|----------------|
+| `skills[]` | `agents[].skills[]` | CC Commander to OpenClaw |
+| `hooks[]` | `webhooks.bible` | CC Commander to OpenClaw |
 | `allowedTools[]` | `agents[].tools[]` | Informational only |
-| Mode (active) | `agents[].persona` | Bible to OpenClaw |
-| Session cost | `budgets.daily` | OpenClaw to Bible |
+| Mode (active) | `agents[].persona` | CC Commander to OpenClaw |
+| Session cost | `budgets.daily` | OpenClaw to CC Commander |
 
 ### Sync Procedure
 
@@ -429,8 +429,8 @@ Settings in `~/.claude/settings.json` and hook config in `~/.claude/settings.jso
 # 1. Always backup first
 cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.backup-$(date +%Y%m%d-%H%M%S)
 
-# 2. Read Bible skills list
-bible_skills=$(jq -r '.skills // [] | .[]' ~/.claude/settings.json 2>/dev/null)
+# 2. Read CC Commander skills list
+cc_skills=$(jq -r '.skills // [] | .[]' ~/.claude/settings.json 2>/dev/null)
 
 # 3. Map to OpenClaw skill IDs (strip paths, normalize names)
 # 4. Update target agent's skill array in openclaw.json via jq
@@ -444,10 +444,10 @@ openclaw doctor
 
 ## 8. Mega-Skill to Workspace Mapping
 
-Bible mega-skills map to OpenClaw workspaces and agent specializations.
+CC Commander mega-skills map to OpenClaw workspaces and agent specializations.
 
-| Bible Mega-Skill | OpenClaw Workspace | Primary Agent | Model |
-|-------------------|-------------------|---------------|-------|
+| CC Commander Mega-Skill | OpenClaw Workspace | Primary Agent | Model |
+|-------------------------|--------------------|---------------|-------|
 | `mega-devops` | `dev` | Codex | Sonnet |
 | `mega-security` | `architecture` | Morpheus | Opus |
 | `mega-testing` | `dev` | Codex | Sonnet |
@@ -469,7 +469,7 @@ When an OpenClaw agent needs a mega-skill's capabilities, it loads the skill by 
 
 ### Prerequisites
 - OpenClaw gateway running on `localhost:18789`
-- Claude Code Bible installed (`~/.claude/skills/`, `~/.claude/hooks/`)
+- CC Commander installed (`~/.claude/skills/`, `~/.claude/hooks/`)
 - `curl` and `jq` available in PATH
 
 ### Step 1: Enable the Bridge
@@ -558,9 +558,9 @@ Common causes:
 ### Config Mismatches
 
 ```
-Symptom: Skills available in Bible but not in OpenClaw agent
+Symptom: Skills available in CC Commander but not in OpenClaw agent
 Debug: Compare skill lists
-  Bible: jq '.skills' ~/.claude/settings.json
+  CC Commander: jq '.skills' ~/.claude/settings.json
   OpenClaw: jq '.agents[] | select(.id == "TARGET") | .skills' ~/.openclaw/openclaw.json
 Fix: Run sync procedure (Section 7), then openclaw doctor
 ```

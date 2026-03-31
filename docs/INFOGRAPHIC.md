@@ -1,4 +1,4 @@
-# Claude Code Kit v1.3 -- Visual Overview
+# CC Commander v1.6.0 -- Visual Overview
 ### by Kevin Z
 
 ```
@@ -95,7 +95,7 @@
     │           │  agents | cost | context │                        │
     │           └─────────────────────────┘                        │
     │                                                               │
-    │                  CLAUDE CODE KIT v1.3                         │
+    │                  CC COMMANDER v1.6.0                         │
     └───────────────────────────────────────────────────────────────┘
                                     │
                     ┌───────────────┴───────────────────┐
@@ -226,7 +226,7 @@
 
 ```
     ┌──────────────────────────────────────────────────────────────┐
-    │                    CLAUDE CODE KIT v1.3                       │
+    │                    CC COMMANDER v1.6.0                       │
     │                                                              │
     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
     │  │  Claude   │  │  Cowork  │  │ Dispatch │  │  Spawn   │    │
@@ -360,5 +360,5 @@
 
 ---
 
-*Claude Code Kit v1.3 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
+*CC Commander v1.6.0 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
 *Distilled from 200+ community sources. One install. Under 60 seconds.*

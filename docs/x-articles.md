@@ -1,4 +1,4 @@
-# CC Commander v1.3 -- X/Twitter Long-Form Articles
+# CC Commander v1.6.0 -- X/Twitter Long-Form Articles
 ### by Kevin Z
 
 ---
@@ -227,7 +227,7 @@ After running this system for over a year, these are the lessons that transfer t
 
 The Claude Code ecosystem is exploding. Official plugin directories, multi-model consensus, self-evolving skills, AI-powered memory compression -- the surface area of what is possible grows every week.
 
-CC Commander v1.3 is the most comprehensive single-install toolkit in this ecosystem: 280+ skills, 88+ commands, 37 hooks, 10 mega-skills, 9 modes, 36+ prompt templates, and a real-time dashboard. All open source. All free.
+CC Commander v1.6.0 is the most comprehensive single-install toolkit in this ecosystem: 280+ skills, 88+ commands, 37 hooks, 10 mega-skills, 9 modes, 36+ prompt templates, and a real-time dashboard. All open source. All free.
 
 But the real value is not the number of skills. It is the methodology that makes AI development predictable, verifiable, and compounding.
 
@@ -243,5 +243,5 @@ GitHub: [github.com/KevinZai/cc-commander](https://github.com/KevinZai/cc-comman
 
 ---
 
-*CC Commander v1.3 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
+*CC Commander v1.6.0 by Kevin Z -- 280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 4 themes | 9 modes*
 *Distilled from 200+ community sources. One install. Under 60 seconds.*

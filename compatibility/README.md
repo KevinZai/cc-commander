@@ -75,7 +75,7 @@ The kit works with agent orchestration systems that spawn `claude` as a subproce
 
 ## VS Code Task Shortcuts
 
-The Bible includes a `.vscode/tasks.json` with pre-configured tasks for common commands. Access via **Terminal > Run Task** or the keyboard shortcut `Ctrl+Shift+P` → "Tasks: Run Task":
+CC Commander includes a `.vscode/tasks.json` with pre-configured tasks for common commands. Access via **Terminal > Run Task** or the keyboard shortcut `Ctrl+Shift+P` → "Tasks: Run Task":
 
 | Task | What it does |
 |------|-------------|

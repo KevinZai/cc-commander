@@ -1,4 +1,4 @@
-# The Claude Code Bible — by Kevin Z
+# CC Commander — by Kevin Z
 > Version 1.5.2 | Updated: 2026-03-30 | Non-coder friendly. Practical examples throughout.
 > Sources: 200+ best practices distilled from: ykdojo 45 tips · hooeem Claude Certified Architect Guide · aiedge_ Skills 2.0 Guide · dr_cintas Cowork Complete Guide · MichLieben Vibe Marketing ($7M B2B) · coreyganim Cowork Plugins Guide · GriffinHilly Weekly Loop/COMP System · bekacru Agent Auth Protocol · SuperClaude Framework · chddaniel Mobile Dev · Trail of Bits · Anthropic Official Docs
 
@@ -29,10 +29,10 @@
 - [Prompt Templates](#prompt-templates)
 - [The 45 Tips — Quick Reference](#the-45-tips--quick-reference)
 - [Power Combos](#power-combos) *(advanced only — full table in CHEATSHEET)*
-- [Workflow Modes](#workflow-modes) *(NEW in v1.3 — 9 modes)*
-- [Prompt Library](#prompt-library-1) *(NEW in v1.3 — 36+ templates)*
-- [Integrations](#integrations) *(NEW in v1.3 — Agency Orchestrator + OpenClaw)*
-- [Proactive Automation Suite](#proactive-automation-suite-v11) *(v1.3 — 15 kit-native hooks)*
+- [Workflow Modes](#workflow-modes) *(9 modes)*
+- [Prompt Library](#prompt-library-1) *(36+ templates)*
+- [Integrations](#integrations) *(Agency Orchestrator + OpenClaw)*
+- [Proactive Automation Suite](#proactive-automation-suite-v11) *(15 kit-native hooks)*
 - [Settings Reference](#settings-reference)
 - [Appendix A: Model Selection](#model-selection)
 - [Appendix B: Contributor Credits](#contributor-credits)
@@ -1555,7 +1555,7 @@ Then we'll write the spec.
 
 ## Workflow Modes
 
-> NEW in v1.3 — Switch your entire workflow persona with one command.
+> Switch your entire workflow persona with one command.
 
 Modes adjust Claude's behavior, verbosity, risk tolerance, and auto-loaded skills. Think of them as presets for different types of work.
 
@@ -2121,5 +2121,5 @@ Data analysis, data visualization, SQL queries, statistical analysis, explore da
 ---
 
 *Last updated: 2026-03-29*
-*The Claude Code Bible — by Kevin Z — v1.5*
+*CC Commander — by Kevin Z — v1.6.0*
 *Update this file when you learn something new. That's the point.*
