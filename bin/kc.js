@@ -10,10 +10,13 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --test       Validate all modules');
   console.log('  --stats      Quick stats');
   console.log('  --repair     Fix corrupt state');
+  console.log('  --split      Split mode: CCC menu + Claude Code side by side (tmux)');
+  console.log('  --update     Check vendor package updates');
   console.log('  --help       This help\n');
   process.exit(0);
 }
 if (args.includes('--version')) { var B = require(path.join(__dirname,'..','commander','branding')); console.log(B.product + ' v' + B.version); process.exit(0); }
+if (args.includes('--split')) { var cp = require('child_process'); var script = path.join(__dirname, 'ccc-split.sh'); try { cp.execSync('bash ' + script, { stdio: 'inherit' }); } catch(_e) {} process.exit(0); }
 if (args.includes('--repair')) { var st = require(path.join(__dirname,'..','commander','state')); console.log('CC Commander — State Repair\n'); var r = st.repairState(); console.log(r.repaired ? '  Repaired: ' + r.details.join(', ') : '  State healthy.'); process.exit(0); }
 if (args.includes('--stats')) {
   var st2 = require(path.join(__dirname,'..','commander','state')); var cs = st2.loadState();

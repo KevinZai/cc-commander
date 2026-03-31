@@ -179,31 +179,20 @@ fi
 AGENT_STR=""
 [ -n "$AGENT" ] && AGENT_STR=" ${MG}⚡${AGENT}${N}"
 
-# ── API key + claudeswap profile (4-tier fallback) ─────────────────────────
+# ── API key (compact: just icon + last 4 digits) ───────────────────────────
 KEY_STR=""
 SWAP_STR=""
-# Tier 1: claudeswap (shows active profile + key suffix)
+# Tier 1: claudeswap — get last 4 chars of active key
 if command -v claudeswap &>/dev/null; then
-  SWAP_PROFILE=$(claudeswap status 2>/dev/null | grep -o '◀ ACTIVE.*' | head -1)
-  if [ -z "$SWAP_PROFILE" ]; then
-    # Parse active profile name from the status output
-    SWAP_PROFILE=$(claudeswap status 2>/dev/null | grep 'Active' | sed 's/.*Active.*\x1b\[1m//' | sed 's/\x1b\[0m.*//' | tr -d ' ')
-  fi
-  SWAP_KEY=$(claudeswap status 2>/dev/null | grep '◀ ACTIVE' -A1 | grep -o '\.\.\.[a-zA-Z0-9]*' | head -1)
-  if [ -z "$SWAP_KEY" ]; then
-    SWAP_KEY=$(claudeswap status 2>/dev/null | grep '◀ ACTIVE' | grep -o '\.\.\.[a-zA-Z0-9]*' | head -1)
-  fi
-  if [ -n "$SWAP_PROFILE" ]; then
-    SWAP_STR=" ${C}${SWAP_PROFILE}${N}"
-  fi
-  if [ -n "$SWAP_KEY" ]; then
-    KEY_STR=" ${D}key:${N}${M}${SWAP_KEY}${N}"
+  SWAP_TAIL=$(claudeswap status 2>/dev/null | grep '◀ ACTIVE' | grep -o '\.\.\.[a-zA-Z0-9]*' | head -1 | sed 's/\.\.\.//' | tail -c 5)
+  if [ -n "$SWAP_TAIL" ]; then
+    KEY_STR=" \xf0\x9f\x94\x91${M}${SWAP_TAIL}${N}"
   fi
 fi
 # Tier 2: env var
 if [ -z "$KEY_STR" ] && [ -n "$ANTHROPIC_API_KEY" ]; then
-  KEY_TAIL="${ANTHROPIC_API_KEY: -5}"
-  KEY_STR=" ${D}key:${N}${M}..${KEY_TAIL}${N}"
+  KEY_TAIL="${ANTHROPIC_API_KEY: -4}"
+  KEY_STR=" \xf0\x9f\x94\x91${M}${KEY_TAIL}${N}"
 fi
 # Tier 3: apiKeyHelper from settings
 if [ -z "$KEY_STR" ]; then
@@ -256,4 +245,4 @@ CC_LABEL="CC"
 
 # ── Output ──────────────────────────────────────────────────────────────────
 # ━━ CCC2.0 ▐██████░░░▌62% │ 🔥Opus1M │ $2.14 │ ↑42K↓8K │ 3m12s │ 📋CC-48 │ 🎯432 │ 📦11 │ 5h:23m │ key:..a4F2x │ cc-commander
-echo -e "${D}━━${N} ${C}${CC_LABEL}${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${STATUS_EMOJI}${MG}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${C}↑${N}${W}${IN_FMT}${N}${C}↓${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${LINEAR_STR}${SKILL_STR}${VENDOR_STR}${SWAP_STR}${KEY_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"
+echo -e "${D}━━${N} ${C}${CC_LABEL}${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${STATUS_EMOJI}${MG}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${C}↑${N}${W}${IN_FMT}${N}${C}↓${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${LINEAR_STR}${SKILL_STR}${VENDOR_STR}${KEY_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"
