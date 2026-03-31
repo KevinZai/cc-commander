@@ -88,9 +88,9 @@ When a session runs out of context or needs fresh start:
 
 **This is exactly what CC Commander's hooks automate:** context-guard warns at 70%, pre-compact saves before compaction, session-coach gives periodic guidance.
 
-## Integration with Bible Components
+## Integration with CC Commander Components
 
-| OpenClaw Pattern | Bible Equivalent |
+| OpenClaw Pattern | CC Commander Equivalent |
 |-----------------|-----------------|
 | COMP system | tasks/todo.md + /verify |
 | Micro-commits | auto-checkpoint hook |

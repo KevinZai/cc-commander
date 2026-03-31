@@ -59,7 +59,7 @@ The contextual assist system monitors these signals to understand what you're do
 
 ### Suggestion Categories
 
-Suggestions are drawn from across the entire Bible kit:
+Suggestions are drawn from across the entire CC Commander kit:
 
 1. **Mega-Skills** — Route to the right mega-skill for the domain
 2. **Individual Skills** — Specific skills for specific tasks
