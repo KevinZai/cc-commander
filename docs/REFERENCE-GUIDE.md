@@ -386,7 +386,7 @@ Rule: Never change models mid-session -- spawn a subagent with the desired model
 
 ```bash
 # One-line remote install
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 
 # Local install
 ./install.sh              # Interactive install
@@ -400,5 +400,5 @@ curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-
 
 ---
 
-*Claude Code Kit v1.3 -- k3v80.github.io/claude-code-kit*
+*Claude Code Kit v1.3 -- kevinzai.github.io/cc-commander*
 *280+ skills | 10 mega-skills | 88+ commands | 37 hooks | 36+ prompts | 9 modes | 4 themes | 3 templates*

@@ -62,7 +62,7 @@ function httpGet(url, headers) {
       path: parsedUrl.pathname + parsedUrl.search,
       method: 'GET',
       headers: {
-        'User-Agent': 'claude-code-kit-scanner/1.3',
+        'User-Agent': 'cc-commander-scanner/1.3',
         'Accept': 'application/vnd.github+json',
         ...headers,
       },

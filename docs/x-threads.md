@@ -69,11 +69,11 @@ Open source. Free. No vendor lock-in.
 
 ### Tweet 9 (CTA)
 Install:
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 
 Then type /cc to open the Command Center.
 
-github.com/k3v80/claude-code-kit
+github.com/KevinZai/cc-commander
 
 ---
 
@@ -182,9 +182,9 @@ All 10 tricks built into CC Commander v1.3.
 
 280+ skills. 37 hooks. 88+ commands.
 
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 
-github.com/k3v80/claude-code-kit
+github.com/KevinZai/cc-commander
 
 ---
 
@@ -275,7 +275,7 @@ Lessons from 38 agents:
 
 All in CC Commander v1.3.
 
-github.com/k3v80/claude-code-kit
+github.com/KevinZai/cc-commander
 
 ---
 

@@ -1,4 +1,4 @@
-# Claude Code Kit — Branding, Licensing & Personal Brand Plan
+# CC Commander — Branding, Licensing & Personal Brand Plan
 
 > **Status:** FUTURE PHASE — saved 2026-03-28, not yet executed
 > **Context:** Kevin Z going public on X with AI story, positioning as authority in AI dev tools
@@ -7,11 +7,11 @@
 
 ## Context
 
-Kevin Z built a 38-agent AI system (OpenClaw + Claude Code Kit) on a Mac Mini and wants to be recognized as an authority in AI developer tools. This plan covers:
+Kevin Z built a 38-agent AI system (OpenClaw + CC Commander) on a Mac Mini and wants to be recognized as an authority in AI developer tools. This plan covers:
 
 1. **MIT LICENSE** — legally required, currently missing
 2. **Strategic attribution** — keep credits for high-profile creators as marketing leverage
-3. **Brand positioning** — how to brand Claude Code Kit with Kevin Z's personal brand
+3. **Brand positioning** — how to brand CC Commander with Kevin Z's personal brand
 4. **3-tier brand architecture** — personal brand, open-source product, consulting business
 5. **Kit touchpoints** — social links, author section, origin story (tasteful, not salesy)
 6. **kevinz.ai** — what the personal brand website should be
@@ -25,7 +25,7 @@ No project in the Claude Code ecosystem credits idea sources. Not gstack (40K st
 **But we KEEP the "inspired by" credits for big names.** This is strategic, not charitable:
 
 1. **Credibility** — shows the Kit builds on proven, respected work
-2. **@ Mention leverage** — "Hey @garrytan, your /office-hours was so good I built it into Claude Code Kit. Check it out" → free exposure to their audience
+2. **@ Mention leverage** — "Hey @garrytan, your /office-hours was so good I built it into CC Commander. Check it out" → free exposure to their audience
 3. **Protection** — prevents "this guy stole Garry's stuff" accusations from their followers
 4. **Networking** — creates relationship opportunities with high-profile builders
 
@@ -75,7 +75,7 @@ creator of a 38-agent orchestration system.
 
 - [X/Twitter](https://x.com/kzic)
 - [Blog](https://kevinz.ai)
-- [GitHub](https://github.com/k3v80)
+- [GitHub](https://github.com/KevinZai)
 ```
 
 ### 2B. docs/index.html — Add footer social links
@@ -110,8 +110,8 @@ After Appendix B, add 3-4 sentences:
 
 ```
 Kevin Z (kevinz.ai)          ← Personal brand, the person, the story
-├── Claude Code Kit           ← Open source project, authority builder
-│   (github.com/k3v80/claude-code-kit)
+├── CC Commander           ← Open source project, authority builder
+│   (github.com/KevinZai/cc-commander)
 ├── [Consulting Brand TBD]    ← Paid services, B2B credibility
 │   (kevinz.ai/consulting → standalone domain later)
 └── Learning Platform          ← Education, courses, tools
@@ -124,7 +124,7 @@ Kevin Z (kevinz.ai)          ← Personal brand, the person, the story
 |-------|-----------------|-------|
 | **Personal brand** | Kevin Z / kevinz.ai | Hub that connects everything |
 | **X handle** | @kzic (keep) | 18-year history = credibility. Just update bio |
-| **Open source project** | Claude Code Kit | Keep. Drop "CCCC" as external acronym |
+| **Open source project** | CC Commander | Keep. Drop "CCCC" as external acronym |
 | **Methodology** | The Kevin Z Method | Keep. Strong IP |
 | **Consulting** | TBD — see options | Separate from Kit |
 | **Legal entity** | Axiom Marketing Inc | Keep for legal/tax, not customer-facing |
@@ -140,7 +140,7 @@ Kevin Z (kevinz.ai)          ← Personal brand, the person, the story
 
 ```
 CEO @MyWiFiNetworks (20+ yrs). Built a 38-agent AI system on a Mac Mini.
-Creator of Claude Code Kit (280+ skills, open source).
+Creator of CC Commander (280+ skills, open source).
 Non-coder building with AI. kevinz.ai
 ```
 
@@ -149,7 +149,7 @@ Non-coder building with AI. kevinz.ai
 > I'm a non-technical CEO. 20+ years in tech, never wrote production code.
 > When I found Claude Code, I didn't just use it — I built a system around it.
 > 38 specialized AI agents. One Mac Mini. One terminal.
-> Then I open-sourced the toolkit: Claude Code Kit.
+> Then I open-sourced the toolkit: CC Commander.
 
 ---
 
@@ -168,7 +168,7 @@ Non-coder building with AI. kevinz.ai
 - Photo/avatar (optional but recommended for personal brand)
 
 **Projects Section** (3-4 cards)
-- **Claude Code Kit** — "280+ skills for Claude Code. Open source." → GitHub link
+- **CC Commander** — "280+ skills for Claude Code. Open source." → GitHub link
 - **OpenClaw** — "38-agent orchestration platform. Runs on a Mac Mini." → brief description (private repo, link to blog post)
 - **MyWiFi Networks** — "WiFi marketing platform. 15K+ resellers. 40+ countries." → mywifinetworks.com
 - **[Consulting]** — "AI consulting for businesses." → kevinz.ai/consulting (when ready)

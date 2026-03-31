@@ -168,7 +168,7 @@ Sources: Boris Cherny's tips, David Ondrej's thread, 4riel/cc-bible, michielhdot
 - **Mission Control:** Ensure hook stays enabled for real-time visibility
 
 ### MCP Server Configs (Kevin's)
-- `github` (k3v80 account)
+- `github` (KevinZai account)
 - `github-gn` (mywifinetworks account)
 - Third public-facing account TBD
 - `linear` (personal/CC- tasks)
@@ -293,7 +293,7 @@ Kevin is torn between uniqueness and descriptiveness.
 | Decision | Choice | Status |
 |----------|--------|--------|
 | Name | "The Claude Code Bible" — by Kevin Z | Confirmed |
-| Repo rename | claude-code-kit → claude-code-bible | Confirmed |
+| Repo rename | claude-code-kit → claude-code-bible → cc-commander | Confirmed |
 | Slash command | `/cc` (no conflicts verified) | Confirmed |
 | Kevin overlay | Same repo, `kevin/` directory, clearly marked | Confirmed |
 | SuperClaude integration | All 3 concepts (confidence + 4Q + parallel) | Confirmed |

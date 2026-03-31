@@ -13,7 +13,7 @@ version: "1.2"
 
 ## Welcome
 
-The Claude Code Bible is a comprehensive toolkit: **220+ skills**, **10 mega-skills**, **84+ commands**, **32 hooks**, **9 workflow modes**, and **35+ prompt templates**. That is a lot. This guide helps you find exactly what you need without reading everything.
+The Claude Code Bible is a comprehensive toolkit: **280+ skills**, **10 mega-skills**, **88+ commands**, **37 hooks**, **9 workflow modes**, and **36+ prompt templates**. That is a lot. This guide helps you find exactly what you need without reading everything.
 
 **How this guide works:**
 1. Tell me what you are building (Skill Discovery Wizard below)
@@ -100,7 +100,7 @@ The router inside each mega-skill dispatches your request to the right specialis
 
 #### Prompt Templates
 
-35+ battle-tested prompts across 6 categories. Access them with:
+36+ battle-tested prompts across 6 categories. Access them with:
 
 ```
 /cc prompts              # Browse the prompt library
@@ -301,7 +301,7 @@ Step 6: /checkpoint
 |----------|---------------|-------------|
 | [BIBLE.md](../../BIBLE.md) | The full learning guide — 7 chapters from project setup to autonomous work | Once, when you want to deeply understand the system |
 | [CHEATSHEET.md](../../CHEATSHEET.md) | Daily reference — commands, skill selection tables, power combos | Every day, for quick lookups |
-| [SKILLS-INDEX.md](../../SKILLS-INDEX.md) | Searchable directory of all 220+ skills by keyword and category | When you need to find a specific skill |
+| [SKILLS-INDEX.md](../../SKILLS-INDEX.md) | Searchable directory of all 280+ skills by keyword and category | When you need to find a specific skill |
 | [guides/quickstart-beginner.md](../../guides/quickstart-beginner.md) | Complete beginner guide — installation to first project | If you have never used Claude Code before |
 | [guides/quickstart-frontend.md](../../guides/quickstart-frontend.md) | Frontend developer guide — design mode, React/Vue/Svelte/Next.js | If you primarily build frontends |
 | [guides/quickstart-backend.md](../../guides/quickstart-backend.md) | Backend developer guide — SaaS mode, APIs, databases | If you primarily build backends |

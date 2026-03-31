@@ -43,7 +43,7 @@ function generateDemoData() {
 
   const projects = [
     { id: 'p1', name: 'mywifi-redesign', agentCount: 2, lastActivity: new Date(now - 120000) },
-    { id: 'p2', name: 'claude-code-kit', agentCount: 1, lastActivity: new Date(now - 300000) },
+    { id: 'p2', name: 'cc-commander', agentCount: 1, lastActivity: new Date(now - 300000) },
     { id: 'p3', name: 'dmhub-platform', agentCount: 3, lastActivity: new Date(now - 600000) },
     { id: 'p4', name: 'guestnetworks-mcp', agentCount: 0, lastActivity: new Date(now - 7200000) },
   ];

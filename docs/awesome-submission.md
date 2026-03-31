@@ -6,18 +6,18 @@ Draft PR entry for [awesome-claude-code](https://github.com/anthropics/awesome-c
 
 ### PR Title
 
-Add Claude Code Kit -- comprehensive skills, commands, and hooks toolkit
+Add CC Commander -- comprehensive skills, commands, and hooks toolkit
 
 ### Entry
 
 ```markdown
-- [Claude Code Kit](https://github.com/k3v80/claude-code-kit) - The complete Claude Code configuration toolkit with 280+ skills, 88+ commands, 37 hooks, 9 workflow modes, 4 themes, prompt templates, starter project templates, real-time agent dashboard, and a one-line installer. Includes beginner-friendly PM mode, multi-agent orchestration, and cross-surface state sync.
+- [CC Commander](https://github.com/KevinZai/cc-commander) - The complete Claude Code configuration toolkit with 280+ skills, 88+ commands, 37 hooks, 9 workflow modes, 4 themes, prompt templates, starter project templates, real-time agent dashboard, and a one-line installer. Includes beginner-friendly PM mode, multi-agent orchestration, and cross-surface state sync.
 ```
 
 ### PR Description
 
 ```markdown
-## What is Claude Code Kit?
+## What is CC Commander?
 
 A comprehensive, modular toolkit for Claude Code that installs to `~/.claude/`. Built by scanning 200+ articles from the Claude Code community and distilling the best patterns into one install.
 
@@ -33,18 +33,18 @@ A comprehensive, modular toolkit for Claude Code that installs to `~/.claude/`. 
 - Beginner PM mode for non-technical users
 - Cross-surface state sync (Chat/Cowork/Code)
 - Multi-agent orchestration patterns
-- One-line install: `curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash`
+- One-line install: `curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash`
 
 **Works everywhere Claude Code runs:** Terminal, VS Code, Cursor, JetBrains, SSH sessions.
 
 **Install:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 ```
 
 Or via npx:
 ```bash
-npx claude-code-kit
+npx cc-commander
 ```
 ```
 

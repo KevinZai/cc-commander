@@ -261,13 +261,13 @@ The Bible includes VS Code snippets for quick access to common commands and prom
 ```bash
 # Copy snippets to VS Code user snippets directory
 cp ~/.claude/compatibility/vscode-snippets.json \
-   ~/Library/Application\ Support/Code/User/snippets/claude-code-bible.code-snippets
+   ~/Library/Application\ Support/Code/User/snippets/cc-commander.code-snippets
 ```
 
 Or on Linux:
 ```bash
 cp ~/.claude/compatibility/vscode-snippets.json \
-   ~/.config/Code/User/snippets/claude-code-bible.code-snippets
+   ~/.config/Code/User/snippets/cc-commander.code-snippets
 ```
 
 Once installed, type any snippet prefix in a markdown file or the Claude Code input and press `Tab`:

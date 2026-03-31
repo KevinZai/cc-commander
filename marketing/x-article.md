@@ -52,11 +52,11 @@ I extracted the gold.
 
 The result: Kevin Z's Claude Code Bible
 
-- 220+ production-tested skills
-- 84 slash commands
-- 23 lifecycle hooks
+- 280+ production-tested skills
+- 88+ slash commands
+- 37 lifecycle hooks
 - 3 starter templates
-- 6 "mega-skills" (the real magic)
+- 10 "mega-skills" (the real magic)
 - 1 install command
 
 All MIT licensed. Completely free.
@@ -145,7 +145,7 @@ That's what this kit is. A system. My system. Now yours.
 
 Oh, and the installer has Matrix-themed terminal art.
 
-Because if you're going to install 220 skills with one command, it should feel like something.
+Because if you're going to install 280+ skills with one command, it should feel like something.
 
 Green text. Animated dots. The whole aesthetic.
 
@@ -156,14 +156,14 @@ Green text. Animated dots. The whole aesthetic.
 Want it? One command:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-bible/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 ```
 
 Or clone it:
 
 ```
-git clone https://github.com/k3v80/claude-code-bible.git
-cd claude-code-bible
+git clone https://github.com/KevinZai/cc-commander.git
+cd cc-commander
 ./install.sh
 ```
 
@@ -181,7 +181,7 @@ The community built the knowledge. I built the distribution.
 
 ### Tweet 15 (CTA)
 
-GitHub: github.com/k3v80/claude-code-bible
+GitHub: github.com/KevinZai/cc-commander
 
 Free. MIT licensed. Open source.
 
@@ -197,13 +197,13 @@ Let's go.
 
 ### Post 1: The Numbers Angle
 
-220+ skills. 6 mega-skills. 84 commands. 32 hooks. One install.
+280+ skills. 10 mega-skills. 88+ commands. 37 hooks. One install.
 
 I scanned every Claude Code resource on the internet and combined them into one kit.
 
 Free. MIT licensed. Works in Terminal, VS Code, Cursor, JetBrains.
 
-github.com/k3v80/claude-code-bible
+github.com/KevinZai/cc-commander
 
 ### Post 2: The Story Angle
 
@@ -211,9 +211,9 @@ I'm a non-technical CEO who can't write code.
 
 I spent 3 months reading 200+ Claude Code articles from X, Reddit, Medium, and YouTube. Tested every community pack.
 
-Then I distilled it all into one kit: 220+ skills, one install command.
+Then I distilled it all into one kit: 280+ skills, one install command.
 
-github.com/k3v80/claude-code-bible
+github.com/KevinZai/cc-commander
 
 ### Post 3: The /init Wizard Angle
 
@@ -223,7 +223,7 @@ Run it in any project. Pick your build type: QUICK, DEEP, SAAS, or OVERNIGHT.
 
 It auto-loads the right skills, generates your CLAUDE.md, and sets up your entire workflow. Choose Your Own Adventure for dev projects.
 
-github.com/k3v80/claude-code-bible
+github.com/KevinZai/cc-commander
 
 ### Post 4: The Mega-Skills Angle
 
@@ -240,7 +240,7 @@ mega-testing = 15 skills
 
 Each one auto-routes to the right specialist.
 
-github.com/k3v80/claude-code-bible
+github.com/KevinZai/cc-commander
 
 ### Post 5: The Community Angle
 
@@ -250,7 +250,7 @@ This kit was built from the community, for the community.
 
 The community built the knowledge. I built the distribution.
 
-github.com/k3v80/claude-code-bible
+github.com/KevinZai/cc-commander
 
 ---
 

@@ -83,7 +83,7 @@ async function run() {
   try {
     await sendEvent(gatewayUrl, {
       type: 'cc_kit_session_start',
-      source: 'claude-code-kit',
+      source: 'cc-commander',
       version: '1.3',
       skills_count: skills.length,
       timestamp: new Date().toISOString(),
@@ -125,7 +125,7 @@ function discoverSkills(dir) {
           id: entry.name,
           name: nameMatch ? nameMatch[1].trim() : entry.name,
           description: descMatch ? descMatch[1].trim() : '',
-          source: 'claude-code-kit',
+          source: 'cc-commander',
         });
       }
     }
@@ -137,13 +137,13 @@ function discoverSkills(dir) {
 
 function registerSkills(baseUrl, skills, timeout) {
   return new Promise((resolve, reject) => {
-    const url = new URL('/api/webhooks/claude-code-kit', baseUrl);
+    const url = new URL('/api/webhooks/cc-commander', baseUrl);
     const body = JSON.stringify({ type: 'skill_sync', skills });
     const req = http.request(url.href, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CC-Kit-Source': 'claude-code-kit',
+        'X-CC-Kit-Source': 'cc-commander',
         'X-CC-Kit-Version': '1.3',
       },
       timeout,
@@ -160,13 +160,13 @@ function registerSkills(baseUrl, skills, timeout) {
 
 function sendEvent(baseUrl, event, timeout) {
   return new Promise((resolve, reject) => {
-    const url = new URL('/api/webhooks/claude-code-kit', baseUrl);
+    const url = new URL('/api/webhooks/cc-commander', baseUrl);
     const body = JSON.stringify(event);
     const req = http.request(url.href, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CC-Kit-Source': 'claude-code-kit',
+        'X-CC-Kit-Source': 'cc-commander',
         'X-CC-Kit-Version': '1.3',
       },
       timeout,

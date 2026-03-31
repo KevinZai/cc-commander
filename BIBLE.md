@@ -30,7 +30,7 @@
 - [The 45 Tips — Quick Reference](#the-45-tips--quick-reference)
 - [Power Combos](#power-combos) *(advanced only — full table in CHEATSHEET)*
 - [Workflow Modes](#workflow-modes) *(NEW in v1.3 — 9 modes)*
-- [Prompt Library](#prompt-library-1) *(NEW in v1.3 — 35+ templates)*
+- [Prompt Library](#prompt-library-1) *(NEW in v1.3 — 36+ templates)*
 - [Integrations](#integrations) *(NEW in v1.3 — Agency Orchestrator + OpenClaw)*
 - [Proactive Automation Suite](#proactive-automation-suite-v11) *(v1.3 — 15 kit-native hooks)*
 - [Settings Reference](#settings-reference)
@@ -1583,7 +1583,7 @@ Each mode auto-loads the relevant mega-skills and adjusts the session behavior. 
 
 ## Prompt Library
 
-> NEW in v1.3 — 35+ battle-tested prompt templates across 6 categories.
+> NEW in v1.3 — 36+ battle-tested prompt templates across 6 categories.
 
 Instead of crafting prompts from scratch every time, use the pre-built templates in `prompts/`:
 
@@ -2116,7 +2116,7 @@ Data analysis, data visualization, SQL queries, statistical analysis, explore da
 
 - **Web:** [kevinz.ai](https://kevinz.ai)
 - **X:** [@kzic](https://x.com/kzic)
-- **GitHub:** [k3v80](https://github.com/k3v80)
+- **GitHub:** [KevinZai](https://github.com/KevinZai)
 
 ---
 

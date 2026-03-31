@@ -459,7 +459,7 @@ Each mega-skill has a router that dispatches to the right specialist. Individual
 | `openclaw-patterns` | OpenClaw integration — agent configs, channel routing, session management, tool binding |
 
 ## 📝 Prompt Library
-> 35+ prompt templates across 6 categories in `prompts/`
+> 36+ prompt templates across 6 categories in `prompts/`
 
 | Category | Templates | What they cover |
 |----------|-----------|----------------|

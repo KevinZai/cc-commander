@@ -1,6 +1,6 @@
 # CC Commander v1.6.0 — Complete Feature Overview
 
-> CC Commander — 280+ skills. One command. Your AI work, managed by AI. 280+ skills, 10 mega-skills, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 41 prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
+> CC Commander — 280+ skills. One command. Your AI work, managed by AI. 280+ skills, 10 mega-skills, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
 
 ---
 
@@ -61,14 +61,14 @@ Installation takes under a minute. The interactive installer sets up skills, com
 ### One-Line Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 ```
 
 ### Local Install
 
 ```bash
-git clone https://github.com/k3v80/claude-code-kit.git
-cd claude-code-kit
+git clone https://github.com/KevinZai/cc-commander.git
+cd cc-commander
 ./install.sh
 ```
 
@@ -410,7 +410,7 @@ Commands are slash commands invoked directly in the Claude Code REPL. They live 
 | `/cc grill` | 7 Socratic questions to stress-test your plan |
 | `/cc confidence` | Pre-execution confidence assessment (0-100%) |
 | `/cc mode <name>` | Switch workflow mode (9 modes) |
-| `/cc prompts` | Browse 41 prompt templates by category |
+| `/cc prompts` | Browse 36+ prompt templates by category |
 | `/cc status` | Kit health dashboard |
 | `/cc help` | Compact reference |
 
@@ -977,7 +977,7 @@ Build type checklists, CLAUDE.md templates, full skills catalog, commands refere
 ### Directory Structure
 
 ```
-claude-code-kit/
+cc-commander/
 ├── skills/              # 280+ skill directories, each with SKILL.md
 │   ├── mega-*/          # 10 mega-skill routers with sub-skill directories
 │   ├── mode-switcher/   # 9 workflow mode definitions
@@ -989,7 +989,7 @@ claude-code-kit/
 │   ├── project/         # Project management commands (7)
 │   ├── test/            # Testing commands
 │   └── tools/           # Tool commands
-├── prompts/             # 41 prompt templates
+├── prompts/             # 36+ prompt templates
 │   ├── coding/          # 10 coding prompts
 │   ├── planning/        # 5 planning prompts
 │   ├── design/          # 5 design prompts
@@ -1189,9 +1189,9 @@ Pre-configured skill combinations for common project types:
 
 ## Getting Help
 
-- **GitHub Repository:** [github.com/k3v80/claude-code-kit](https://github.com/k3v80/claude-code-kit)
-- **Issues:** [github.com/k3v80/claude-code-kit/issues](https://github.com/k3v80/claude-code-kit/issues)
-- **Landing Page:** [k3v80.github.io/claude-code-kit](https://k3v80.github.io/claude-code-kit)
+- **GitHub Repository:** [github.com/KevinZai/cc-commander](https://github.com/KevinZai/cc-commander)
+- **Issues:** [github.com/KevinZai/cc-commander/issues](https://github.com/KevinZai/cc-commander/issues)
+- **Landing Page:** [kevinzai.github.io/cc-commander](https://kevinzai.github.io/cc-commander)
 - **In-Kit Help:** `/cc help` for compact reference, `bible-guide` skill for interactive onboarding
 - **Daily Reference:** `CHEATSHEET.md` for commands, workflows, and power user tips
 - **Skill Discovery:** `SKILLS-INDEX.md` for searchable skill directory

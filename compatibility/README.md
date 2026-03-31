@@ -1,6 +1,6 @@
 # IDE Compatibility Guide
 
-This guide explains how Claude Code Kit works across different editors and environments. The short version: the kit customizes Claude Code itself, not your IDE, so it works everywhere Claude Code runs.
+This guide explains how CC Commander works across different editors and environments. The short version: the kit customizes Claude Code itself, not your IDE, so it works everywhere Claude Code runs.
 
 ## How the Kit Works
 
@@ -97,25 +97,25 @@ To add custom keybindings, add to your VS Code `keybindings.json`:
 }
 ```
 
-## Terminal Theme: Claude Code Kit
+## Terminal Theme: CC Commander
 
 The kit includes 3 iTerm2 color profiles matching the dashboard theme system. Choose the one that matches your preference:
 
 | Profile | File | Description |
 |---------|------|-------------|
-| Claude Anthropic | `claude-code-kit.itermcolors` | Amber/indigo/deep navy — professional default |
-| OLED Black | `claude-code-kit-oled.itermcolors` | Pure black background, high contrast |
-| Matrix | `claude-code-kit-matrix.itermcolors` | Enhanced green-on-black with CRT overlay feel |
+| Claude Anthropic | `cc-commander.itermcolors` | Amber/indigo/deep navy — professional default |
+| OLED Black | `cc-commander-oled.itermcolors` | Pure black background, high contrast |
+| Matrix | `cc-commander-matrix.itermcolors` | Enhanced green-on-black with CRT overlay feel |
 | ~~KZ Matrix~~ (legacy) | `kz-matrix.itermcolors` | Original matrix theme — preserved for backward compatibility |
 
 ### iTerm2 (recommended)
 
 ```bash
 # Import the default theme
-open compatibility/claude-code-kit.itermcolors
+open compatibility/cc-commander.itermcolors
 
 # Or import all 3 themes at once
-open compatibility/claude-code-kit.itermcolors compatibility/claude-code-kit-oled.itermcolors compatibility/claude-code-kit-matrix.itermcolors
+open compatibility/cc-commander.itermcolors compatibility/cc-commander-oled.itermcolors compatibility/cc-commander-matrix.itermcolors
 ```
 
 Or manually: iTerm2 → Settings → Profiles → Colors → Color Presets → Import → select the desired profile.

@@ -47,7 +47,7 @@ Switch your entire workflow persona with one command. Each mode adjusts behavior
 
 ## Prompt Library (NEW in v1.1)
 
-35+ battle-tested prompt templates across 6 categories:
+36+ battle-tested prompt templates across 6 categories:
 
 | Category | Count | Examples |
 |----------|-------|---------|
@@ -800,13 +800,13 @@ The Claude Code Bible includes an interactive command center accessible via `/cc
 | Command | What it does |
 |---------|-------------|
 | `/cc` | Main menu — all options |
-| `/cc skills` | Browse 260+ skills by category |
+| `/cc skills` | Browse 280+ skills by category |
 | `/cc mega [name]` | Drill into a mega-skill's sub-skills |
 | `/cc settings` | View current model, permissions, MCP, hooks |
 | `/cc grill` | 7 Socratic questions (no plan mode) |
 | `/cc confidence` | Pre-execution confidence assessment (0-100%) |
 | `/cc mode <name>` | Switch workflow mode (9 modes available) |
-| `/cc prompts` | Browse 35+ prompt templates by category |
+| `/cc prompts` | Browse 36+ prompt templates by category |
 | `/cc status` | Kit health dashboard |
 | `/cc help` | Compact reference |
 

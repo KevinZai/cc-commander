@@ -83,7 +83,7 @@ allowed-tools:
   "name": "{name from frontmatter}",
   "description": "{description from frontmatter}",
   "version": "1.0.0",
-  "source": "claude-code-bible",
+  "source": "cc-commander",
   "triggers": ["{triggers from frontmatter}"],
   "instructions": "SKILL.md",
   "tools": ["{mapped tool names}"],
@@ -143,7 +143,7 @@ stdin → { tool_name, tool_input, tool_output } → hook.js → stdout (passthr
   "event": "bible_hook",
   "hookType": "PostToolUse|PreToolUse|Stop",
   "hookName": "context-guard",
-  "source": "claude-code-bible",
+  "source": "cc-commander",
   "version": "1.2",
   "timestamp": "2026-03-28T12:00:00.000Z",
   "tool": {
@@ -185,7 +185,7 @@ For channel binding in `openclaw.json`:
   "webhooks": {
     "bible": {
       "enabled": true,
-      "source": "claude-code-bible",
+      "source": "cc-commander",
       "allowedEvents": ["bible_hook"],
       "targetAgent": "alfred",
       "logToComms": false
@@ -507,7 +507,7 @@ Add to `~/.openclaw/openclaw.json` (after backup):
   "webhooks": {
     "bible": {
       "enabled": true,
-      "source": "claude-code-bible",
+      "source": "cc-commander",
       "allowedEvents": ["bible_hook"],
       "targetAgent": "alfred"
     }

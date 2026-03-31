@@ -15,7 +15,7 @@ It is a race car with no steering wheel.
 
 Every session starts from scratch. Every developer reinvents the same patterns. Every team writes their own CLAUDE.md rules from zero. You lose context, repeat mistakes, burn through your budget, and wonder why the AI that was so impressive in the demo keeps producing inconsistent results in practice.
 
-I spent 14 months fixing this problem. The result is CC Commander -- an open-source toolkit that transforms stock Claude Code into a structured, skill-aware, hook-driven development environment. Version 1.3 ships with 280+ skills, 88+ slash commands, 37 lifecycle hooks, 41 prompt templates, 10 mega-skills, 9 workflow modes, 3 starter templates, and a real-time monitoring dashboard.
+I spent 14 months fixing this problem. The result is CC Commander -- an open-source toolkit that transforms stock Claude Code into a structured, skill-aware, hook-driven development environment. Version 1.3 ships with 280+ skills, 88+ slash commands, 37 lifecycle hooks, 36+ prompt templates, 10 mega-skills, 9 workflow modes, 3 starter templates, and a real-time monitoring dashboard.
 
 One install. Under 60 seconds.
 
@@ -96,16 +96,16 @@ But the compounding effect of CLAUDE.md rules is the real story. Every bug fix t
 ### Get Started
 
 ```
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 ```
 
 Then type `/cc` in Claude Code to open the Command Center.
 
-280+ skills. 88+ commands. 37 hooks. 10 mega-skills. 9 modes. 41 prompt templates. 3 starter templates. Real-time dashboard.
+280+ skills. 88+ commands. 37 hooks. 10 mega-skills. 9 modes. 36+ prompt templates. 3 starter templates. Real-time dashboard.
 
 One install. Free. Open source. No vendor lock-in.
 
-GitHub: [github.com/k3v80/claude-code-kit](https://github.com/k3v80/claude-code-kit)
+GitHub: [github.com/KevinZai/cc-commander](https://github.com/KevinZai/cc-commander)
 
 ---
 
@@ -227,7 +227,7 @@ After running this system for over a year, these are the lessons that transfer t
 
 The Claude Code ecosystem is exploding. Official plugin directories, multi-model consensus, self-evolving skills, AI-powered memory compression -- the surface area of what is possible grows every week.
 
-CC Commander v1.3 is the most comprehensive single-install toolkit in this ecosystem: 280+ skills, 88+ commands, 37 hooks, 10 mega-skills, 9 modes, 41 prompt templates, and a real-time dashboard. All open source. All free.
+CC Commander v1.3 is the most comprehensive single-install toolkit in this ecosystem: 280+ skills, 88+ commands, 37 hooks, 10 mega-skills, 9 modes, 36+ prompt templates, and a real-time dashboard. All open source. All free.
 
 But the real value is not the number of skills. It is the methodology that makes AI development predictable, verifiable, and compounding.
 
@@ -236,10 +236,10 @@ Instructions are infrastructure. Build yours.
 ### Install
 
 ```
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 ```
 
-GitHub: [github.com/k3v80/claude-code-kit](https://github.com/k3v80/claude-code-kit)
+GitHub: [github.com/KevinZai/cc-commander](https://github.com/KevinZai/cc-commander)
 
 ---
 

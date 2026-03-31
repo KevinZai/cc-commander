@@ -10,17 +10,17 @@ Claude Code is an AI coding assistant that runs in your terminal (or VS Code). Y
 
 Think of it as a senior developer pair programming with you, except it never gets tired and has read every framework's documentation.
 
-## What is the Claude Code Bible?
+## What is CC Commander?
 
-The Bible is a configuration toolkit that makes Claude Code dramatically more effective. It adds:
+CC Commander is a configuration toolkit that makes Claude Code dramatically more effective. It adds:
 
-- **220+ skills** — specialized knowledge modules (like plugins)
-- **84+ commands** — slash commands for common workflows (`/plan`, `/verify`, `/tdd`)
+- **280+ skills** — specialized knowledge modules (like plugins)
+- **88+ commands** — slash commands for common workflows (`/plan`, `/verify`, `/tdd`)
 - **9 workflow modes** — switch Claude's behavior to match your task (design, SaaS, marketing, etc.)
-- **35+ prompt templates** — battle-tested starting points for common tasks
-- **13 hooks** — automatic behaviors (checkpoints, cost alerts, context monitoring)
+- **36+ prompt templates** — battle-tested starting points for common tasks
+- **37 hooks** — automatic behaviors (checkpoints, cost alerts, context monitoring)
 
-Without the Bible, Claude Code is a general-purpose assistant. With the Bible, it becomes a structured development environment with best practices baked in.
+Without CC Commander, Claude Code is a general-purpose assistant. With CC Commander, it becomes a structured development environment with best practices baked in.
 
 ---
 
@@ -32,12 +32,12 @@ Without the Bible, Claude Code is a general-purpose assistant. With the Bible, i
 - **Claude Code** — install from [anthropic.com/claude/code](https://claude.ai/code) or `npm install -g @anthropic-ai/claude-code`
 - **Git** — check with `git --version`
 
-### Install the Bible (One Command)
+### Install CC Commander (One Command)
 
 Open your terminal and run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
 ```
 
 The installer:
@@ -49,8 +49,8 @@ The installer:
 **Alternative: Clone and install manually**
 
 ```bash
-git clone https://github.com/k3v80/claude-code-kit.git
-cd claude-code-kit
+git clone https://github.com/KevinZai/cc-commander.git
+cd cc-commander
 ./install.sh
 ```
 
@@ -83,7 +83,7 @@ This shows you every available command, organized by category. Browse the list t
 /harness-audit
 ```
 
-This verifies that the Bible is installed correctly — skills loaded, hooks active, commands available.
+This verifies that CC Commander is installed correctly — skills loaded, hooks active, commands available.
 
 ### Minute 4: Try a Simple Task
 
@@ -117,13 +117,13 @@ git init
 claude
 ```
 
-### Step 2: Initialize with the Bible
+### Step 2: Initialize with CC Commander
 
 ```
 /init
 ```
 
-The Bible's decision tree wizard asks you:
+CC Commander's decision tree wizard asks you:
 - What are you building? (landing page, API, SaaS, CLI, etc.)
 - What is your tech stack? (auto-detected if package.json exists)
 - How complex is this? (quick build, deep build, full SaaS)
@@ -179,14 +179,14 @@ Full verification: tests pass, no errors, API responds correctly.
 
 Creates a git commit with a conventional commit message.
 
-Congratulations — you just built, tested, and shipped a project using the Bible workflow.
+Congratulations — you just built, tested, and shipped a project using the CC Commander workflow.
 
 ---
 
 ## Common Questions
 
 **Q: Do I need to pay for Claude Code?**
-A: Yes, Claude Code requires an Anthropic API key or a Claude Pro/Max subscription. The Bible itself is free and open source.
+A: Yes, Claude Code requires an Anthropic API key or a Claude Pro/Max subscription. CC Commander itself is free and open source.
 
 **Q: Will the Bible overwrite my existing Claude Code settings?**
 A: No. The installer backs up your existing files before making changes. You can restore from backup at any time with the uninstaller.
@@ -216,7 +216,7 @@ It removes Bible components and restores your backup.
 
 | Resource | URL / Path |
 |----------|-----------|
-| GitHub Issues | [github.com/k3v80/claude-code-kit/issues](https://github.com/k3v80/claude-code-kit/issues) |
+| GitHub Issues | [github.com/KevinZai/cc-commander/issues](https://github.com/KevinZai/cc-commander/issues) |
 | Bible Guide Skill | Type "use bible-guide skill" in Claude Code |
 | Cheatsheet | `~/.claude/CHEATSHEET.md` or type `/cc` |
 | Full Documentation | `~/.claude/BIBLE.md` |

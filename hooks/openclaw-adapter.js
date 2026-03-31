@@ -23,7 +23,7 @@ const DEBUG = process.env.KZ_OPENCLAW_DEBUG === '1';
 const GATEWAY_URL = process.env.KZ_OPENCLAW_URL || 'http://localhost:18789';
 const TIMEOUT_MS = parseInt(process.env.KZ_OPENCLAW_TIMEOUT, 10) || 2000;
 const WEBHOOK_PATH = '/api/webhooks/bible';
-const SOURCE = 'claude-code-bible';
+const SOURCE = 'cc-commander';
 const VERSION = '1.2';
 const MAX_OUTPUT_BYTES = 10240; // 10KB truncation limit for tool output
 

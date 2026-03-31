@@ -43,7 +43,7 @@
 │   ███        │  │   ████       │  │   ██         │  │   ███        │
 │              │  │   ████       │  │              │  │   ███        │
 │              │  │              │  │              │  │              │
-│      4       │  │     41       │  │      3       │  │      9       │
+│      4       │  │     36+      │  │      3       │  │      9       │
 │   THEMES     │  │  PROMPT      │  │  STARTER     │  │  WORKFLOW    │
 │              │  │ TEMPLATES    │  │ TEMPLATES    │  │   MODES      │
 └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘
@@ -77,7 +77,7 @@
     │   ▼               ▼           ▼           ▼              ▼   │
     │ ┌─────┐     ┌──────────┐ ┌────────┐ ┌─────────┐  ┌───────┐ │
     │ │SKILLS│     │ COMMANDS │ │ HOOKS  │ │PROMPTS  │  │STARTER│ │
-    │ │ 280+ │     │   88+    │ │  37    │ │  41     │  │TMPLS 3│ │
+    │ │ 280+ │     │   88+    │ │  37    │ │  36+    │  │TMPLS 3│ │
     │ └──┬──┘     └────┬─────┘ └───┬────┘ └────┬────┘  └───┬───┘ │
     │    │             │           │            │            │     │
     │    └─────────────┴─────┬─────┴────────────┴────────────┘     │
@@ -265,7 +265,7 @@
   ║  Skills ............... 0    ║    ║  Skills ............. 280+   ║
   ║  Commands ............ ~12   ║    ║  Commands ........... 88+    ║
   ║  Hooks ............... 0     ║    ║  Hooks .............. 37     ║
-  ║  Prompt templates .... 0     ║    ║  Prompt templates ... 41     ║
+  ║  Prompt templates .... 0     ║    ║  Prompt templates ... 36+    ║
   ║  Workflow modes ...... 0     ║    ║  Workflow modes ..... 9      ║
   ║  Mega-skills ......... 0     ║    ║  Mega-skills ........ 10     ║
   ║  Starter templates ... 0     ║    ║  Starter templates .. 3      ║
@@ -342,7 +342,7 @@
 ```
   ┌────────────────────────────────────────────────────────────────────┐
   │                                                                    │
-  │   curl -fsSL https://raw.githubusercontent.com/k3v80/             │
+  │   curl -fsSL https://raw.githubusercontent.com/KevinZai/             │
   │        cc-commander/main/install-remote.sh | bash               │
   │                                                                    │
   └────────────────────────────────────────────────────────────────────┘
@@ -355,8 +355,8 @@
   └──────────┘     └──────────────┘     └──────────────────┘
 ```
 
-**GitHub:** [github.com/k3v80/claude-code-kit](https://github.com/k3v80/claude-code-kit)
-**Landing Page:** [k3v80.github.io/claude-code-kit](https://k3v80.github.io/claude-code-kit)
+**GitHub:** [github.com/KevinZai/cc-commander](https://github.com/KevinZai/cc-commander)
+**Landing Page:** [kevinzai.github.io/cc-commander](https://kevinzai.github.io/cc-commander)
 
 ---
 

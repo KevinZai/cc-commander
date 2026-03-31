@@ -38,7 +38,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **What:** Official Claude Code CLI from Anthropic
 - **Key features:** Plugin system (`/plugin marketplace`), native statusline API, agent teams experimental feature
 - **Our coverage:** Partial — we use hooks/skills but haven't published as an official plugin
-- **Action:** **Add** — Publish claude-code-kit as an installable plugin via `/plugin marketplace add KevinZai/cc-commander`
+- **Action:** **Add** — Publish cc-commander as an installable plugin via `/plugin marketplace add KevinZai/cc-commander`
 
 ### 4. ui-ux-pro-max-skill — 52,972 stars
 - **URL:** https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
@@ -241,7 +241,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **What:** Official Anthropic-managed plugin directory with standardized plugin structure
 - **Key features:** Standard plugin format (.claude-plugin/plugin.json, .mcp.json, commands/, agents/, skills/), official quality/security review, `/plugin marketplace` integration
 - **Our coverage:** None — we don't publish as an official plugin
-- **Action:** **Add** — This is CRITICAL. We need to publish claude-code-kit as an official plugin. The `.claude-plugin` format is the new standard. Create plugin.json metadata, restructure for compatibility.
+- **Action:** **Add** — This is CRITICAL. We need to publish cc-commander as an official plugin. The `.claude-plugin` format is the new standard. Create plugin.json metadata, restructure for compatibility.
 
 ### 33. Hermes Agent (NousResearch) — 14,770 stars
 - **URL:** https://github.com/NousResearch/hermes-agent

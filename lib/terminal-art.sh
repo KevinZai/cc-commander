@@ -172,7 +172,7 @@ cc_banner() {
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_WHITE}Claude Code Kit${NC}  ${M_DIM}v1.4${NC}                              ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}   ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}   ${M_MID}┃${NC}"
-  echo -e "${M_MID}┃${NC}   ${M_CYAN}by Kevin Z${NC}  ${M_DIM}//${NC}  ${M_WHITE}220+ Skills. One Install.${NC}     ${M_MID}┃${NC}"
+  echo -e "${M_MID}┃${NC}   ${M_CYAN}by Kevin Z${NC}  ${M_DIM}//${NC}  ${M_WHITE}280+ Skills. One Install.${NC}     ${M_MID}┃${NC}"
   echo -e "${M_MID}┃${NC}                                                     ${M_MID}┃${NC}"
   echo -e "${M_MID}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
   echo ""
@@ -310,8 +310,8 @@ cc_next_steps() {
     echo -e "${M_MID}│${NC}     Launch the CC Project Wizard                    ${M_MID}│${NC}"
   fi
   echo -e "${M_MID}│${NC}                                                     ${M_MID}│${NC}"
-  echo -e "${M_MID}│${NC}  ${M_DIM}220+ skills  │  84 commands  │  6 mega-skills${NC}      ${M_MID}│${NC}"
-  echo -e "${M_MID}│${NC}  ${M_DIM}22 hooks     │  3 templates  │  Claude Code Kit${NC}    ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_DIM}280+ skills  │  88+ commands  │  10 mega-skills${NC}      ${M_MID}│${NC}"
+  echo -e "${M_MID}│${NC}  ${M_DIM}37 hooks     │  3 templates  │  CC Commander${NC}    ${M_MID}│${NC}"
   echo -e "${M_MID}└─────────────────────────────────────────────────────┘${NC}"
   echo ""
 }
@@ -328,7 +328,7 @@ cc_farewell() {
       "  ${M_MID}Your code awaits.${NC}"
       ""
       "  ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-      "  ${M_DIM}Claude Code Kit — by Kevin Z  //  github.com/k3v80${NC}"
+      "  ${M_DIM}Claude Code Kit — by Kevin Z  //  github.com/KevinZai/cc-commander${NC}"
       "  ${M_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     )
     for line in "${lines[@]}"; do
@@ -336,7 +336,7 @@ cc_farewell() {
       sleep 0.15
     done
   else
-    echo -e "  ${M_DIM}Claude Code Kit — by Kevin Z  //  github.com/k3v80${NC}"
+    echo -e "  ${M_DIM}Claude Code Kit — by Kevin Z  //  github.com/KevinZai/cc-commander${NC}"
   fi
   echo ""
 }

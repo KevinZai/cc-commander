@@ -30,7 +30,7 @@ Tests: `node --test commander/tests/paths.test.js`
 ## Project Structure
 
 ```
-├── skills/              # 260+ skills organized by category
+├── skills/              # 280+ skills organized by category
 │   ├── mega-*/          # 10 mega-skills (router + sub-skills)
 │   ├── mode-switcher/   # 9 workflow modes
 ��   ├── init-decision-tree/  # /init project wizard
@@ -39,7 +39,7 @@ Tests: `node --test commander/tests/paths.test.js`
 ���   └── */               # Individual skills (SKILL.md each)
 ├── commands/            # 88+ slash commands (.md files)
 │   └── cc.md            # /cc command center (interactive menu)
-├── prompts/             # 35+ prompt templates across 6 categories
+├── prompts/             # 36+ prompt templates across 6 categories
 ├── hooks/               # 18 kit-native hooks (JS) + hooks.json (37 total w/ ECC) + hooks-standalone.json
 ├── templates/           # 3 starter templates (nextjs, api, cli)
 ├── lib/                 # Terminal art (bash + JS) + statusline.sh
@@ -68,9 +68,9 @@ Tests: `node --test commander/tests/paths.test.js`
 **Version:** 1.3
 
 **Live:**
-- GitHub repo: github.com/k3v80/claude-code-kit
-- Landing page: k3v80.github.io/claude-code-kit
-- One-line install: `curl -fsSL https://raw.githubusercontent.com/k3v80/claude-code-kit/main/install-remote.sh | bash`
+- GitHub repo: github.com/KevinZai/cc-commander
+- Landing page: KevinZai.github.io/cc-commander
+- One-line install: `curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash`
 
 ## Key Commands
 

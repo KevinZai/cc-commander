@@ -13,7 +13,7 @@ Use this to quickly pivot branding if product name, author, or URLs change.
 | File | Content | Category |
 |------|---------|----------|
 | `LICENSE` | Copyright (c) 2026 Kevin Zicherman | Legal |
-| `package.json` | author: Kevin Zicherman, homepage: kevinz.ai, repo: k3v80 | NPM |
+| `package.json` | author: Kevin Zicherman, homepage: kevinz.ai, repo: KevinZai | NPM |
 | `commander/branding.js` | All product strings — single source of truth | Code |
 
 ## Tier 2: Product (change in next release)
@@ -26,9 +26,9 @@ Use this to quickly pivot branding if product name, author, or URLs change.
 | `SKILLS-INDEX.md` | "by Kevin Z" header | Reference |
 | `CHANGELOG.md` | Kevin Z attribution in release notes | History |
 | `CLAUDE.md` | KevinZai/cc-commander references | Project config |
-| `install.sh` | github.com/k3v80 clone URL | Installer |
-| `install-remote.sh` | raw.githubusercontent.com/k3v80 URL | Installer |
-| `lib/terminal-art.sh` | github.com/k3v80 in footer | Terminal UI |
+| `install.sh` | github.com/KevinZai clone URL | Installer |
+| `install-remote.sh` | raw.githubusercontent.com/KevinZai URL | Installer |
+| `lib/terminal-art.sh` | github.com/KevinZai/cc-commander in footer | Terminal UI |
 
 ## Tier 3: Marketing (change anytime, no build impact)
 
@@ -38,11 +38,11 @@ Use this to quickly pivot branding if product name, author, or URLs change.
 | `docs/assets/og-image.svg` | "by Kevin Z", kevinz.ai | Social preview |
 | `docs/x-threads.md` | @kzic, kevinz.ai references | Social content |
 | `docs/x-articles.md` | @kzic, kevinz.ai references | Social content |
-| `marketing/x-article.md` | k3v80 references | Marketing |
+| `marketing/x-article.md` | KevinZai/cc-commander references | Marketing |
 | `docs/awesome-submission.md` | KevinZai/cc-commander | PR draft |
 | `docs/BRANDING-PLAN.md` | Full brand strategy | Strategy |
-| `docs/FEATURE-OVERVIEW.md` | k3v80 GitHub | Feature docs |
-| `docs/INFOGRAPHIC.md` | k3v80 GitHub | Visual marketing |
+| `docs/FEATURE-OVERVIEW.md` | KevinZai GitHub | Feature docs |
+| `docs/INFOGRAPHIC.md` | KevinZai GitHub | Visual marketing |
 | `docs/MONETIZATION.md` | kevinz.ai references | Revenue model |
 | `prompts/marketing/ad-copy.md` | Landing page URL | Marketing |
 | `guides/quickstart-beginner.md` | KevinZai/cc-commander | User guide |
@@ -55,7 +55,7 @@ Use this to quickly pivot branding if product name, author, or URLs change.
 | `docs/BRANDING-PLAN.md` | Brand architecture strategy | Internal |
 | `docs/competitive-scan-v1.3.md` | Competitive analysis | Internal |
 | `docs/RESEARCH.md` | Research notes | Internal |
-| `.claude-plugin/plugin.json` | repository: k3v80 | Plugin manifest |
+| `.claude-plugin/plugin.json` | repository: KevinZai/cc-commander | Plugin manifest |
 
 ## Tier 5: Code (auto-generated or hook banners)
 
@@ -70,10 +70,10 @@ These are internal identifiers, not user-facing. Change via find-and-replace if 
 
 ```bash
 # Preview all branding references
-grep -rn "kevinz\.ai\|Kevin Z\|k3v80\|@kzic" --include="*.md" --include="*.json" --include="*.js" --include="*.html" --include="*.sh" | grep -v node_modules
+grep -rn "kevinz\.ai\|Kevin Z\|KevinZai\|@kzic" --include="*.md" --include="*.json" --include="*.js" --include="*.html" --include="*.sh" | grep -v node_modules
 
 # Count touchpoints
-grep -rl "kevinz\.ai\|Kevin Z\|k3v80\|@kzic" --include="*.md" --include="*.json" --include="*.js" --include="*.html" --include="*.sh" | grep -v node_modules | wc -l
+grep -rl "kevinz\.ai\|Kevin Z\|KevinZai\|@kzic" --include="*.md" --include="*.json" --include="*.js" --include="*.html" --include="*.sh" | grep -v node_modules | wc -l
 
 # Replace author name (dry run)
 grep -rl "Kevin Z" --include="*.md" | grep -v node_modules | xargs grep -l "Kevin Z"

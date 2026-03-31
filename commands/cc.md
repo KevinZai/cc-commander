@@ -36,7 +36,7 @@ You are the Claude Code Command Center. When the user invokes `/cc`, display the
 - `/cc grill` → Socratic planning probe
 - `/cc confidence` → Pre-execution confidence assessment
 - `/cc mode <name>` → Switch workflow mode (9 modes available)
-- `/cc prompts [category]` → Browse prompt templates (35+)
+- `/cc prompts [category]` → Browse prompt templates (36+)
 - `/cc status` → Kit health and version
 - `/cc peers` → Claude Peers + spawn manager
 - `/cc dashboard` → Real-time agent monitoring dashboard
@@ -220,7 +220,7 @@ If no mode specified, show all 9 and ask which they want.
 
 ## [10] Prompt Library (`/cc prompts [category]`)
 
-Browse 35+ battle-tested prompt templates designed for Claude Code workflows.
+Browse 36+ battle-tested prompt templates designed for Claude Code workflows.
 
 If no category given, show the category overview:
 
@@ -274,7 +274,7 @@ Show a compact version of the most-used commands:
 | `/cc grill` | Socratic planning probe |
 | `/cc confidence` | Pre-execution confidence check |
 | `/cc mode <name>` | Switch workflow mode (9 modes) |
-| `/cc prompts [cat]` | Browse 35+ prompt templates |
+| `/cc prompts [cat]` | Browse 36+ prompt templates |
 | `/cc mega [name]` | Explore 10 mega-skill packs |
 | `/spawn` | Spawn multiple Claude Code peers |
 | `/peers` | Discover and message other instances |
