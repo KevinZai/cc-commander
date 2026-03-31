@@ -38,6 +38,33 @@ class KitCommander {
     if (currentState.theme) tui.setTheme(currentState.theme);
 
     if (currentState.firstRun) { await this.onboard(); }
+
+    // Auto-detect project in current directory
+    if (!currentState.activeProject) {
+      var fs = require('fs');
+      var detectedName = null;
+      var cwd = process.cwd();
+      if (fs.existsSync(require('path').join(cwd, 'CLAUDE.md'))) {
+        detectedName = require('path').basename(cwd);
+      } else if (fs.existsSync(require('path').join(cwd, '.claude', 'CLAUDE.md'))) {
+        detectedName = require('path').basename(cwd);
+      }
+      if (detectedName) {
+        process.stdout.write('\n  ' + tui.boldText('\u{1F4C2} Project detected: ' + detectedName, tui.getTheme().primary) + '\n');
+        var loadItems = [
+          { label: 'Yes, load ' + detectedName, description: 'Use this project\'s CLAUDE.md for context' },
+          { label: 'No, skip', description: 'Start without a project' },
+        ];
+        var loadIdx = await tui.select(loadItems, 'Load this project?');
+        if (loadIdx === 0) {
+          var pi = require('./project-importer');
+          var project = pi.scanProject(cwd);
+          state.updateState({ activeProject: { dir: project.dir, name: project.name || detectedName } });
+          process.stdout.write('  ' + tui.dimText('Project loaded. Context will be included in dispatches.') + '\n\n');
+        }
+      }
+    }
+
     await this.runAdventure('main-menu');
   }
 
