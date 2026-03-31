@@ -2063,7 +2063,7 @@ Environment: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` for auto-compaction.
 
 ### Without Commander
 
-Everything in Claude Code Kit works without Commander. The skills, hooks, commands, and prompt templates are all standalone. Commander is one way to access them — not the only way. You can always:
+Everything in CC Commander works without the CLI. The skills, hooks, commands, and prompt templates are all standalone. Commander is one way to access them — not the only way. You can always:
 
 - Use skills directly: `/@skill-name` in Claude Code
 - Use commands: `/command-name` in Claude Code
