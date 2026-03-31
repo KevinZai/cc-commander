@@ -197,30 +197,44 @@ function select(items, prompt) {
     readline.emitKeypressEvents(stdin);
     stdout.write(ESC + '?25l'); // hide cursor
 
+    // Claude Code style: bold title, dim subtitle below, space between items
+    var totalLines = 2; // prompt + blank
+    items.forEach(function(item) {
+      totalLines++; // title line
+      var desc = typeof item === 'string' ? '' : (item.description || '');
+      if (desc) totalLines++; // subtitle line
+    });
+
     function draw() {
-      stdout.write(ESC + (items.length + 2) + 'A');
+      stdout.write(ESC + totalLines + 'A');
       stdout.write(ESC + '2K  ' + boldText(prompt || 'Choose:', t.text) + '\n');
       stdout.write(ESC + '2K\n');
       items.forEach(function(item, i) {
         var active = i === sel;
         var label = typeof item === 'string' ? item : item.label;
         var desc = typeof item === 'string' ? '' : (item.description || '');
-        var key = String.fromCharCode(97 + i);
 
         stdout.write(ESC + '2K');
         if (active) {
-          stdout.write('  ' + colorText('\u276f ', t.primary) + BOLD + colorText(label, t.primary) + RESET);
-          if (desc) stdout.write('  ' + dimText(desc));
+          stdout.write('  ' + colorText('\u276f ', t.primary) + BOLD + colorText(label, t.text) + RESET);
         } else {
-          stdout.write('    ' + colorText(label, t.dim));
-          if (desc) stdout.write('  ' + rgb(t.dim[0], t.dim[1], t.dim[2]) + desc + RESET);
+          stdout.write('    ' + dimText(label));
         }
         stdout.write('\n');
+        if (desc) {
+          stdout.write(ESC + '2K');
+          if (active) {
+            stdout.write('    ' + dimText(desc));
+          } else {
+            stdout.write('    ' + rgb(t.dim[0], t.dim[1], t.dim[2]) + desc + RESET);
+          }
+          stdout.write('\n');
+        }
       });
     }
 
     // Reserve space + initial draw
-    stdout.write('\n'.repeat(items.length + 2));
+    stdout.write('\n'.repeat(totalLines));
     draw();
 
     function handler(str, key) {
