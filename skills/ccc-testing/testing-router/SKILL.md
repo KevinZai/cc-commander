@@ -1,6 +1,6 @@
 ---
 name: Testing Router
-description: "Routes your testing task to the right specialist skill within KZ Mega-Testing."
+description: "Routes your testing task to the right specialist skill within ccc-testing."
 version: 1.0.0
 category: testing
 parent: ccc-testing

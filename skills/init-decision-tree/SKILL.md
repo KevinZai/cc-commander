@@ -169,7 +169,7 @@ WHAT KIND OF BUILD IS THIS?
   c) SAAS BUILD (1-4 weeks)
      Full SaaS platform from scratch or major platform build
      → Full lifecycle: scaffold → auth → billing → dashboard → ship
-     → Uses KZ Mega-SaaS + KZ Mega-Testing + KZ Mega-DevOps
+     → Uses ccc-saas + ccc-testing + ccc-devops
 
   d) OVERNIGHT BUILD (6-12 hours autonomous)
      Batch processing, mass content generation, data migration, test suite generation
@@ -194,12 +194,12 @@ Ask different follow-up questions based on build type.
 ### For QUICK BUILD:
 ```
 What's the main task?
-  a) Build a landing page → loads KZ Mega-Design
+  a) Build a landing page → loads ccc-design
   b) Add a feature to existing app → detects stack, loads relevant skills
   c) Fix bugs → loads systematic-debugging + investigate
-  d) Write content / marketing materials → loads KZ Mega-Marketing
-  e) SEO work → loads KZ Mega-SEO
-  f) DevOps / deploy / CI → loads KZ Mega-DevOps
+  d) Write content / marketing materials → loads ccc-marketing
+  e) SEO work → loads ccc-seo
+  f) DevOps / deploy / CI → loads ccc-devops
   g) API endpoint or integration → loads api-design + backend-patterns
   h) Other — describe it
 
@@ -222,12 +222,12 @@ Q: Solo or collaborative?
 ### For DEEP BUILD:
 ```
 Q5: What's the primary domain?
-  a) Frontend / UI → loads KZ Mega-Design + frontend-patterns
-  b) Backend / API → loads KZ Mega-SaaS (backend subset)
-  c) Full-stack feature → loads KZ Mega-SaaS
-  d) Testing / QA → loads KZ Mega-Testing
-  e) Marketing / Growth → loads KZ Mega-Marketing + KZ Mega-SEO
-  f) DevOps / Infrastructure → loads KZ Mega-DevOps
+  a) Frontend / UI → loads ccc-design + frontend-patterns
+  b) Backend / API → loads ccc-saas (backend subset)
+  c) Full-stack feature → loads ccc-saas
+  d) Testing / QA → loads ccc-testing
+  e) Marketing / Growth → loads ccc-marketing + ccc-seo
+  f) DevOps / Infrastructure → loads ccc-devops
   g) AI / Agent system → loads multi-agent-swarm + claude-api
 
 Q6: Do you have a spec or requirements doc?
@@ -268,7 +268,7 @@ Q11: How should I verify my work?
 Q5: What phase are you in?
   a) Greenfield — starting from scratch → full scaffold from starter template
   b) MVP exists — adding billing/auth/dashboard → targeted skill loading
-  c) Growth phase — analytics, SEO, marketing → KZ Mega-SEO + KZ Mega-Marketing
+  c) Growth phase — analytics, SEO, marketing → ccc-seo + ccc-marketing
 
 Q6: Which starter template?
   a) Next.js + shadcn + Drizzle + Better Auth (nextjs-shadcn-starter)
@@ -319,8 +319,8 @@ Q5: What's the batch job?
   a) Content generation at scale → bulk-page-generator + content-strategy
   b) Data migration → database-migrations + database-designer
   c) Codebase refactor → refactor-clean + systematic-debugging
-  d) Test suite generation → KZ Mega-Testing
-  e) SEO audit + fix → KZ Mega-SEO
+  d) Test suite generation → ccc-testing
+  e) SEO audit + fix → ccc-seo
   f) Custom — describe it
 
 Q6: How many hours of autonomous runtime?

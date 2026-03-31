@@ -1,12 +1,12 @@
 ---
-name: KZ Mega-Testing
-description: "Complete testing ecosystem — 15 skills in one. TDD, E2E, verification, QA, regression, visual testing, and load testing."
+name: ccc-testing
+description: "CCC domain — complete testing ecosystem — 15 skills in one. TDD, E2E, verification, QA, regression, visual testing, and load testing."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 ---
 
-# KZ Mega-Testing
+# ccc-testing
 
 > Load ONE skill. Get the entire testing domain. Built from 11 proven skills + 4 new ones.
 

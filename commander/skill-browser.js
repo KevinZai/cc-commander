@@ -53,7 +53,10 @@ function listSkills(dirs = SKILL_DIRS) {
     try {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
       for (const entry of entries) {
-        if (!entry.isDirectory()) continue;
+        const isDir = entry.isDirectory() || (entry.isSymbolicLink() && (() => {
+          try { return fs.statSync(path.join(dir, entry.name)).isDirectory(); } catch { return false; }
+        })());
+        if (!isDir) continue;
         if (seen.has(entry.name)) continue;
         seen.add(entry.name);
 

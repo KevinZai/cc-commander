@@ -1,6 +1,6 @@
 ---
 name: product-hunt-launch
-parent: KZ Mega-Marketing
+parent: ccc-marketing
 brand: Kevin Z's CC Commander
 description: "Complete Product Hunt launch playbook: pre-launch community building, launch day execution, post-launch conversion. Includes timeline template from T-30 to T+7."
 version: 1.0.0

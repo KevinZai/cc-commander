@@ -1,6 +1,6 @@
 ---
 name: seo-content-production
-parent: KZ Mega-Marketing
+parent: ccc-marketing
 brand: Kevin Z's CC Commander
 description: "Bridge between SEO briefs and content production. Transforms seo-content-brief output into production-ready writing guidelines and manages the brief-to-publish pipeline."
 version: 1.0.0
@@ -15,7 +15,7 @@ tags:
 
 # SEO Content Production
 
-Bridge skill between SEO content briefs and finished content. Takes the output of KZ Mega-SEO's `seo-content-brief` skill and transforms it into production-ready writing guidelines, then manages the draft-review-publish pipeline while ensuring SEO requirements survive every editing round.
+Bridge skill between SEO content briefs and finished content. Takes the output of ccc-seo's `seo-content-brief` skill and transforms it into production-ready writing guidelines, then manages the draft-review-publish pipeline while ensuring SEO requirements survive every editing round.
 
 ## When to Use
 

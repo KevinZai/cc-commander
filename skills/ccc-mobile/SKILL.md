@@ -1,13 +1,13 @@
 ---
-name: KZ Mega-Mobile
-description: "Complete mobile development ecosystem — 8 skills in one. React Native, Flutter, SwiftUI, Jetpack Compose, testing, ASO, push notifications, and deep linking."
+name: ccc-mobile
+description: "CCC domain — complete mobile development ecosystem — 8 skills in one. React Native, Flutter, SwiftUI, Jetpack Compose, testing, ASO, push notifications, and deep linking."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 tags: [CCC domain, mobile, ios, android]
 ---
 
-# KZ Mega-Mobile
+# ccc-mobile
 
 > Load ONE skill. Get the entire mobile development domain. From cross-platform frameworks to native iOS/Android to distribution and engagement.
 

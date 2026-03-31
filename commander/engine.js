@@ -61,7 +61,7 @@ class KitCommander {
           var project = pi.scanProject(cwd);
           state.updateState({ activeProject: { dir: project.dir, name: project.name || detectedName } });
           process.stdout.write('  ' + tui.dimText('Project loaded. Context will be included in dispatches.') + '\n\n');
-          try { require('./integrations/linear').pulse('claude_md_loaded', detectedName).catch(function(){}); } catch(_e) {}
+          try { require('./integrations/linear').pulse('claude_md_loaded', detectedName).catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-pulse-load'); } catch(_) {} }
         }
       }
     }
@@ -204,19 +204,26 @@ class KitCommander {
       if (choice.action === 'quit') { await this.quit(); return; }
 
       if (choice.action) {
-        var result = await this.executeAction(choice.action, currentState, choice);
-        if (result && result.next) { adventureId = result.next; continue; }
-        if (adv.subAdventures && adv.subAdventures[choice.next || choice.key]) {
-          var sub = adv.subAdventures[choice.next || choice.key];
-          if (sub.action === 'freeform_build') {
-            process.stdout.write('\n  ' + tui.boldText(sub.prompt, tui.getTheme().text) + '\n');
-            if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-            var desc = await this.ask('  > ');
-            await this.executeBuild((sub.context || '') + desc);
-            adventureId = 'main-menu'; continue;
+        try {
+          var result = await this.executeAction(choice.action, currentState, choice);
+          if (result && result.next) { adventureId = result.next; continue; }
+          if (adv.subAdventures && adv.subAdventures[choice.next || choice.key]) {
+            var sub = adv.subAdventures[choice.next || choice.key];
+            if (sub.action === 'freeform_build') {
+              process.stdout.write('\n  ' + tui.boldText(sub.prompt, tui.getTheme().text) + '\n');
+              if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+              var desc = await this.ask('  > ');
+              await this.executeBuild((sub.context || '') + desc);
+              adventureId = 'main-menu'; continue;
+            }
           }
+          adventureId = 'main-menu'; continue;
+        } catch (actionError) {
+          process.stdout.write('\x0a  CC Commander error: ' + (actionError.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(actionError, 'runAdventure'); } catch(_) {}
+          adventureId = 'main-menu';
+          continue;
         }
-        adventureId = 'main-menu'; continue;
       }
 
       if (choice.next) {
@@ -241,67 +248,112 @@ class KitCommander {
     switch (actionName) {
       case 'freeform_build':
       case 'freeform_dispatch': {
-        process.stdout.write('\n  ' + tui.boldText('Tell me what you want to build:', t.text) + '\n');
-        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-        var desc = await this.ask('  > ');
-        await this.executeBuild(desc);
+        try {
+          process.stdout.write('\n  ' + tui.boldText('Tell me what you want to build:', t.text) + '\n');
+          if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+          var desc = await this.ask('  > ');
+          await this.executeBuild(desc);
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'freeform_build'); } catch(_) {}
+        }
         return { next: 'main-menu' };
       }
       case 'dispatch': {
-        var dispatchTask = (choice && choice.description) || 'autonomous task';
-        await this.executeBuild(dispatchTask);
+        try {
+          var dispatchTask = (choice && choice.description) || 'autonomous task';
+          await this.executeBuild(dispatchTask);
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'dispatch'); } catch(_) {}
+        }
         return { next: 'main-menu' };
       }
       case 'freeform_prompt': {
-        process.stdout.write('\x0a  ' + tui.boldText('Type anything — a command, a question, or what you want to build:', tui.getTheme().text) + '\x0a');
-        process.stdout.write('  ' + tui.dimText('Examples: /ccc:xray  |  build a landing page  |  /plan  |  fix the auth bug') + '\x0a\x0a');
-        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-        var freeInput = await this.ask('  > ');
-        if (!freeInput.trim()) return { next: 'main-menu' };
-        await this.executeBuild(freeInput.trim());
+        try {
+          process.stdout.write('\x0a  ' + tui.boldText('Type anything — a command, a question, or what you want to build:', tui.getTheme().text) + '\x0a');
+          process.stdout.write('  ' + tui.dimText('Examples: /ccc:xray  |  build a landing page  |  /plan  |  fix the auth bug') + '\x0a\x0a');
+          if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+          var freeInput = await this.ask('  > ');
+          if (!freeInput.trim()) return { next: 'main-menu' };
+          await this.executeBuild(freeInput.trim());
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'freeform_prompt'); } catch(_) {}
+        }
         return { next: 'main-menu' };
       }
       case 'resume_session': {
-        var active = state.getActiveSession();
-        if (!active) { process.stdout.write('\n  No active session found.\n'); await this.pause(1500); return { next: 'main-menu' }; }
-        await this.resumeSession(active);
+        try {
+          var active = state.getActiveSession();
+          if (!active) { process.stdout.write('\n  No active session found.\n'); await this.pause(1500); return { next: 'main-menu' }; }
+          await this.resumeSession(active);
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'resume_session'); } catch(_) {}
+        }
         return { next: 'main-menu' };
       }
       case 'show_session_summary': {
-        var active2 = state.getActiveSession();
-        if (active2) { process.stdout.write('\n' + this.renderSession(active2) + '\n'); }
-        else { process.stdout.write('\n  No active session.\n'); }
-        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-        await this.ask('\n  Press Enter...');
+        try {
+          var active2 = state.getActiveSession();
+          if (active2) { process.stdout.write('\n' + this.renderSession(active2) + '\n'); }
+          else { process.stdout.write('\n  No active session.\n'); }
+          if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+          await this.ask('\n  Press Enter...');
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'show_session_summary'); } catch(_) {}
+        }
         return null;
       }
       case 'resume_with_summary': {
-        var act = state.getActiveSession();
-        if (act) { state.completeSession(act.id, 'restarted'); await this.executeBuild('Continue: ' + act.task); }
+        try {
+          var act = state.getActiveSession();
+          if (act) { state.completeSession(act.id, 'restarted'); await this.executeBuild('Continue: ' + act.task); }
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'resume_with_summary'); } catch(_) {}
+        }
         return { next: 'main-menu' };
       }
       case 'show_stats': {
-        var s = getStats().getStats ? getStats().getStats() : {};
-        var streak = getStats().getStreak ? getStats().getStreak() : { current: 0 };
-        var ach = getStats().getAchievements ? getStats().getAchievements() : [];
-        var dashData = { sessions: s.totalSessions || currentState.user.sessionsCompleted || 0, streak: streak.current || 0, longestStreak: streak.longest || 0, achievements: ach.length, cost: s.totalCost || 0, level: state.getUserLevel(currentState), dailyCosts: [], dailySessions: [] }; if (s.dailyLog) { var dates = Object.keys(s.dailyLog).sort().slice(-7); dashData.dailyCosts = dates.map(function(d) { return s.dailyLog[d].cost || 0; }); dashData.dailySessions = dates.map(function(d) { return s.dailyLog[d].sessions || 0; }); } process.stdout.write(tui.renderDashboard(dashData));
+        try {
+          var s = getStats().getStats ? getStats().getStats() : {};
+          var streak = getStats().getStreak ? getStats().getStreak() : { current: 0 };
+          var ach = getStats().getAchievements ? getStats().getAchievements() : [];
+          var dashData = { sessions: s.totalSessions || currentState.user.sessionsCompleted || 0, streak: streak.current || 0, longestStreak: streak.longest || 0, achievements: ach.length, cost: s.totalCost || 0, level: state.getUserLevel(currentState), dailyCosts: [], dailySessions: [] }; if (s.dailyLog) { var dates = Object.keys(s.dailyLog).sort().slice(-7); dashData.dailyCosts = dates.map(function(d) { return s.dailyLog[d].cost || 0; }); dashData.dailySessions = dates.map(function(d) { return s.dailyLog[d].sessions || 0; }); } process.stdout.write(tui.renderDashboard(dashData));
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'show_stats'); } catch(_) {}
+        }
         return null;
       }
       case 'show_achievements': {
-        var achs = getStats().getAchievements ? getStats().getAchievements() : [];
-        if (achs.length === 0) { process.stdout.write('\n  No achievements yet. Keep building!\n'); }
-        else { process.stdout.write('\n' + tui.divider('Achievements') + '\n'); achs.forEach(function(a) { process.stdout.write('  ' + tui.colorText('  v ', t.success) + (typeof a === 'string' ? a : a.name || String(a)) + '\n'); }); }
-        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-        await this.ask('\n  Press Enter...');
+        try {
+          var achs = getStats().getAchievements ? getStats().getAchievements() : [];
+          if (achs.length === 0) { process.stdout.write('\n  No achievements yet. Keep building!\n'); }
+          else { process.stdout.write('\n' + tui.divider('Achievements') + '\n'); achs.forEach(function(a) { process.stdout.write('  ' + tui.colorText('  v ', t.success) + (typeof a === 'string' ? a : a.name || String(a)) + '\n'); }); }
+          if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+          await this.ask('\n  Press Enter...');
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'show_achievements'); } catch(_) {}
+        }
         return { next: 'check-stats' };
       }
       case 'show_history': case 'show_recent_sessions': {
-        var sessions = state.listSessions(5);
-        if (sessions.length === 0) { process.stdout.write('\n  No sessions yet.\n'); }
-        else { process.stdout.write('\n' + tui.divider('Recent Sessions') + '\n\n'); sessions.forEach(function(s) { process.stdout.write(this.renderSession(s) + '\n\n'); }.bind(this)); }
-        if (actionName === 'show_recent_sessions') return null;
-        if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-        await this.ask('\n  Press Enter...');
+        try {
+          var sessions = state.listSessions(5);
+          if (sessions.length === 0) { process.stdout.write('\n  No sessions yet.\n'); }
+          else { process.stdout.write('\n' + tui.divider('Recent Sessions') + '\n\n'); sessions.forEach(function(s) { process.stdout.write(this.renderSession(s) + '\n\n'); }.bind(this)); }
+          if (actionName === 'show_recent_sessions') return null;
+          if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+          await this.ask('\n  Press Enter...');
+        } catch(_e) {
+          process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
+          try { require('./error-logger').log(_e, 'show_history'); } catch(_) {}
+        }
         return { next: 'check-stats' };
       }
       case 'browse_skills': return await this.browseSkills(false);
@@ -357,7 +409,7 @@ class KitCommander {
           process.stdout.write('\n  ' + tui.dimText('Dispatches will include this project CLAUDE.md context.') + '\n');
           process.stdout.write('  ' + tui.dimText('CC Commander will NOT modify your .claude/ directory.') + '\n');
           process.stdout.write(tui.celebrate('Project loaded!'));
-          try { require('./integrations/linear').pulse('claude_md_loaded', project.name).catch(function(){}); } catch(_e) {}
+          try { require('./integrations/linear').pulse('claude_md_loaded', project.name).catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-pulse-project'); } catch(_) {} }
           await this.pause(1500);
         }
         return { next: 'main-menu' };
@@ -394,7 +446,7 @@ class KitCommander {
           process.stdout.write('  Connected: ' + (conn.connected ? 'Yes (' + (conn.user||'') + ')' : 'No') + '\n');
           process.stdout.write('  ' + prog.total + ' issues: ' + prog.done + ' done, ' + prog.inProgress + ' active, ' + prog.backlog + ' backlog\n');
           process.stdout.write('  ' + tui.progressBar(prog.done, prog.total) + '\n');
-        } catch(_e) { process.stdout.write('\n  Linear not connected. Set LINEAR_API_KEY_PERSONAL.\n'); }
+        } catch(_e) { try { require('./error-logger').log(_e, 'show_linear'); } catch(_) {} process.stdout.write('\n  Linear not connected. Set LINEAR_API_KEY_PERSONAL.\n'); }
         if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         await this.ask('\n  Press Enter...');
         return { next: 'settings' };
@@ -419,7 +471,7 @@ class KitCommander {
           setupLinear.saveConfig(selectedTeam.key, projects[projIdx].name);
           process.stdout.write(tui.celebrate('Linear: ' + selectedTeam.key + ' / ' + projects[projIdx].name));
           await this.pause(1000);
-        } catch(_e) { process.stdout.write('\n  Error: ' + _e.message + '\n'); }
+        } catch(_e) { try { require('./error-logger').log(_e, 'linear_setup'); } catch(_) {} process.stdout.write('\n  Error: ' + (_e.message || _e) + '\n'); }
         return { next: 'settings' };
       }
       case 'show_linear_board': {
@@ -447,7 +499,7 @@ class KitCommander {
           if (grouped.completed.length > 0) {
             process.stdout.write('  ' + tui.dimText('Done: ' + grouped.completed.length + ' issues') + '\n\n');
           }
-        } catch(_e) { process.stdout.write('\n  Error loading board: ' + _e.message + '\n'); }
+        } catch(_e) { try { require('./error-logger').log(_e, 'show_linear_board'); } catch(_) {} process.stdout.write('\n  Error loading board: ' + (_e.message || _e) + '\n'); }
         return null;
       }
       case 'linear_create_issue': {
@@ -459,7 +511,7 @@ class KitCommander {
           var createLinear = require('./integrations/linear');
           var created = await createLinear.quickCreateIssue(issueTitle.trim(), issueDesc.trim());
           process.stdout.write(tui.celebrate(created.identifier + ' created!'));
-        } catch(_e) { process.stdout.write('\n  Error: ' + _e.message + '\n'); }
+        } catch(_e) { try { require('./error-logger').log(_e, 'linear_create_issue'); } catch(_) {} process.stdout.write('\n  Error: ' + (_e.message || _e) + '\n'); }
         return { next: 'linear-board' };
       }
       case 'linear_pick_issue': {
@@ -479,7 +531,8 @@ class KitCommander {
           if (startedStateId) await pickLinear.updateIssue(picked.id, { stateId: startedStateId });
           await this.executeBuildFromIssue(picked);
         } catch(_e) {
-          process.stdout.write('\n  Error: ' + _e.message + '\n');
+          try { require('./error-logger').log(_e, 'linear_pick_issue'); } catch(_) {}
+          process.stdout.write('\n  Error: ' + (_e.message || _e) + '\n');
         }
         return { next: 'main-menu' };
       }
@@ -534,7 +587,7 @@ class KitCommander {
         state.updateSession(session.id, { linearIssueId: linearIssue.id, linearIssueIdentifier: linearIssue.identifier || null });
       }
       linearStart.pulse("session_start", fullTask.slice(0, 80)).catch(function(){});
-    } catch(_e) {}
+    } catch(_e) { try { require('./error-logger').log(_e, 'linear-sync-start'); } catch(_) {} }
 
     process.stdout.write('\n  ' + tui.dimText(fullTask.slice(0, 200)) + '\n');
 
@@ -602,7 +655,7 @@ class KitCommander {
           linearDone.postSessionSummary(doneSession).catch(function(){});
           linearDone.pulse("session_end", (doneSession.task || "").slice(0, 80)).catch(function(){});
         }
-      } catch(_e) {}
+      } catch(_e) { try { require('./error-logger').log(_e, 'linear-sync-done'); } catch(_) {} }
       // Generate session replay
       try { var replay = require("./session-replay"); var r = replay.generateReplay(state.getSession(session.id)); if (r) { replay.saveReplay(r); replay.postToLinear(r).catch(function(){}); process.stdout.write('\n  ' + tui.dimText('Session replay saved. Score: ' + r.score.total + '/100') + '\n'); } } catch(_e) {}
       process.stdout.write(tui.celebrate('BUILD COMPLETE'));
@@ -610,7 +663,7 @@ class KitCommander {
     } catch (err) {
       sp.stop(false);
       // Sync error to Linear
-      try { var linearErr = require("./integrations/linear"); var errSession = state.getSession(session.id); if (errSession) linearErr.syncSession(errSession, "error").catch(function(){}); } catch(_e) {}
+      try { var linearErr = require("./integrations/linear"); var errSession = state.getSession(session.id); if (errSession) linearErr.syncSession(errSession, "error").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-sync-error'); } catch(_) {} }
       state.completeSession(session.id, 'error');
       process.stdout.write('\n  Error: ' + err.message + '\n');
       process.stdout.write('  Tip: npm i -g @anthropic-ai/claude-code\n');
@@ -649,11 +702,11 @@ class KitCommander {
       state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
       state.completeSession(session.id, 'success');
       try { var knowledge2 = require("./knowledge"); knowledge2.extractAndStore(state.getSession(session.id) || {task:fullTask,cost:0}, result.result || ""); } catch(_e) {}
-      try { var linearDone = require("./integrations/linear"); var doneSession = state.getSession(session.id); if (doneSession) linearDone.syncSession(doneSession, "success").catch(function(){}); } catch(_e) {}
+      try { var linearDone = require("./integrations/linear"); var doneSession = state.getSession(session.id); if (doneSession) linearDone.syncSession(doneSession, "success").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-issue-done'); } catch(_) {} }
       process.stdout.write(tui.celebrate('BUILD COMPLETE'));
     } catch (err) {
       sp.stop(false);
-      try { var linearErr = require("./integrations/linear"); var errSession = state.getSession(session.id); if (errSession) linearErr.syncSession(errSession, "error").catch(function(){}); } catch(_e) {}
+      try { var linearErr = require("./integrations/linear"); var errSession = state.getSession(session.id); if (errSession) linearErr.syncSession(errSession, "error").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-issue-error'); } catch(_) {} }
       state.completeSession(session.id, 'error');
       process.stdout.write('\n  Error: ' + err.message + '\n');
     }
@@ -824,7 +877,7 @@ class KitCommander {
         var yoloLinear = require("./integrations/linear");
         var yoloIssue = await yoloLinear.syncSession(session, "started");
         if (yoloIssue && yoloIssue.id) state.updateSession(session.id, { linearIssueId: yoloIssue.id, linearIssueIdentifier: yoloIssue.identifier || null });
-      } catch(_e) {}
+      } catch(_e) { try { require('./error-logger').log(_e, 'yolo-linear-start'); } catch(_) {} }
 
       var prompt = cycle === 1 ? task : "Review and improve the previous work on: " + task + ". Fix any issues. Add missing tests. Improve quality.";
       var knowledgePrompt = knowledge.buildKnowledgePrompt(task);
@@ -835,11 +888,11 @@ class KitCommander {
         state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
         state.completeSession(session.id, "success");
         knowledge.extractAndStore(state.getSession(session.id) || session, result.result || "");
-        try { var yoloDone = require("./integrations/linear"); var yoloDoneSession = state.getSession(session.id); if (yoloDoneSession) yoloDone.syncSession(yoloDoneSession, "success").catch(function(){}); } catch(_e) {}
+        try { var yoloDone = require("./integrations/linear"); var yoloDoneSession = state.getSession(session.id); if (yoloDoneSession) yoloDone.syncSession(yoloDoneSession, "success").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'yolo-linear-done'); } catch(_) {} }
         process.stdout.write("  " + tui.colorText("Cycle " + cycle + " complete", tui.getTheme().success) + "\n");
       } catch (err) {
         sp.stop(false);
-        try { var yoloErr = require("./integrations/linear"); var yoloErrSession = state.getSession(session.id); if (yoloErrSession) yoloErr.syncSession(yoloErrSession, "error").catch(function(){}); } catch(_e) {}
+        try { var yoloErr = require("./integrations/linear"); var yoloErrSession = state.getSession(session.id); if (yoloErrSession) yoloErr.syncSession(yoloErrSession, "error").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'yolo-linear-error'); } catch(_) {} }
         state.completeSession(session.id, "error");
         process.stdout.write("  Cycle " + cycle + " error: " + err.message + "\n");
       }

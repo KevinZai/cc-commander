@@ -1,4 +1,4 @@
-# KZ Mega-SaaS -- Architecture
+# ccc-saas -- Architecture
 
 This CCC domain contains 20 SaaS specialist skills organized for full-stack SaaS development, from scaffold to scale.
 

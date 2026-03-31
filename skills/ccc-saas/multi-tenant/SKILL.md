@@ -1,5 +1,5 @@
 ---
-name: KZ Mega-SaaS
+name: ccc-saas
 description: "Multi-tenancy patterns for B2B SaaS -- schema-per-tenant, row-level security, subdomain routing, tenant-aware queries, data isolation"
 version: 1.0.0
 category: CCC domain

@@ -1,13 +1,13 @@
 ---
-name: KZ Mega-Research
-description: "Complete research ecosystem — 8 skills in one. Deep research, spec interviews, cross-model review, literature review, competitive analysis, data ingestion, trend analysis, and Gemini fallback."
+name: ccc-research
+description: "CCC domain — complete research ecosystem — 8 skills in one. Deep research, spec interviews, cross-model review, literature review, competitive analysis, data ingestion, trend analysis, and Gemini fallback."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 tags: [CCC domain, research, analysis]
 ---
 
-# KZ Mega-Research
+# ccc-research
 
 > Load ONE skill. Get the entire research domain. From multi-source deep dives to spec interviews to cross-model validation.
 

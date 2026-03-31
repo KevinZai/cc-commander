@@ -1,5 +1,5 @@
 ---
-name: KZ Mega-SaaS
+name: ccc-saas
 description: "Feature flag implementation -- PostHog, LaunchDarkly, custom database/Redis flags, gradual rollouts, A/B testing integration, flag lifecycle management"
 version: 1.0.0
 category: CCC domain

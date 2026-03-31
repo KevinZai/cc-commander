@@ -1,12 +1,12 @@
 ---
-name: KZ Mega-Design
-description: "Complete design & animation ecosystem — 35+ skills in one. Animations, visual effects, design systems, landing pages, and the Impeccable polish suite."
+name: ccc-design
+description: "CCC domain — complete design & animation ecosystem — 35+ skills in one. Animations, visual effects, design systems, landing pages, and the Impeccable polish suite."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 ---
 
-# KZ Mega-Design
+# ccc-design
 
 > Load ONE skill. Get the entire design/animation domain. Built from 30+ proven skills + 5 new ones.
 

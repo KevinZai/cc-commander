@@ -1,5 +1,5 @@
 ---
-name: KZ Mega-SaaS
+name: ccc-saas
 description: "End-to-end SaaS scaffold generator -- takes a starter template and customizes it with database, auth, billing, and environment configuration"
 version: 1.0.0
 category: CCC domain

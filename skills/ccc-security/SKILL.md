@@ -1,13 +1,13 @@
 ---
-name: KZ Mega-Security
-description: "Complete security ecosystem — 8 skills in one. Security audits, prompt injection defense, dependency audits, secrets scanning, OWASP Top 10, CodeQL, variant analysis, and incident response."
+name: ccc-security
+description: "CCC domain — complete security ecosystem — 8 skills in one. Security audits, prompt injection defense, dependency audits, secrets scanning, OWASP Top 10, CodeQL, variant analysis, and incident response."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 tags: [CCC domain, security, appsec, devsecops]
 ---
 
-# KZ Mega-Security
+# ccc-security
 
 > Load ONE skill. Get the entire application security domain. From proactive auditing to reactive incident response, with AI-specific defenses included.
 

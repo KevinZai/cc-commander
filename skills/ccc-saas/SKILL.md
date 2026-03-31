@@ -1,12 +1,12 @@
 ---
-name: KZ Mega-SaaS
-description: "Complete SaaS development ecosystem -- 20 skills in one. Scaffold, authenticate, bill, ship, and grow a production SaaS from zero to revenue."
+name: ccc-saas
+description: "CCC domain — complete SaaS development ecosystem -- 20 skills in one. Scaffold, authenticate, bill, ship, and grow a production SaaS from zero to revenue."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 ---
 
-# KZ Mega-SaaS
+# ccc-saas
 
 > Load ONE skill. Get the entire SaaS stack. Built from 15 proven skills + 5 new ones.
 

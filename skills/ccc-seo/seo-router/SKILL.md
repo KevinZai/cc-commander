@@ -1,6 +1,6 @@
 ---
 name: seo-router
-description: "Routes SEO requests to the right specialist skill within KZ Mega-SEO"
+description: "Routes SEO requests to the right specialist skill within ccc-seo"
 ---
 
 # SEO Router

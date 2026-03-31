@@ -1,4 +1,4 @@
-# KZ Mega-Testing — Architecture
+# ccc-testing — Architecture
 
 This CCC domain contains 15 testing specialist skills covering the full testing lifecycle.
 

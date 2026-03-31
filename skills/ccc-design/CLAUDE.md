@@ -1,4 +1,4 @@
-# KZ Mega-Design — Architecture
+# ccc-design — Architecture
 
 This CCC domain contains 35+ design specialist skills organized into 5 tiers.
 

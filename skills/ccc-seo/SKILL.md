@@ -1,12 +1,12 @@
 ---
-name: KZ Mega-SEO
-description: "Complete SEO ecosystem — 19 skills in one. Technical SEO, AI search optimization, content strategy, analytics, and programmatic SEO."
+name: ccc-seo
+description: "CCC domain — complete SEO ecosystem — 19 skills in one. Technical SEO, AI search optimization, content strategy, analytics, and programmatic SEO."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 ---
 
-# KZ Mega-SEO
+# ccc-seo
 
 > Load ONE skill. Get the entire SEO domain. Built from 15 proven skills + 4 new ones.
 

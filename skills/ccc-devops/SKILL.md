@@ -1,12 +1,12 @@
 ---
-name: KZ Mega-DevOps
-description: "Complete DevOps ecosystem — 20 skills in one. Deployments, CI/CD, containers, AWS, monitoring, security, IaC, networking, and runbooks."
+name: ccc-devops
+description: "CCC domain — complete DevOps ecosystem — 20 skills in one. Deployments, CI/CD, containers, AWS, monitoring, security, IaC, networking, and runbooks."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 ---
 
-# KZ Mega-DevOps
+# ccc-devops
 
 > Load ONE skill. Get the entire DevOps domain. Built from 15 proven skills + 5 new ones.
 

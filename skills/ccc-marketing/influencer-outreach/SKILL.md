@@ -1,6 +1,6 @@
 ---
 name: influencer-outreach
-parent: KZ Mega-Marketing
+parent: ccc-marketing
 brand: Kevin Z's CC Commander
 description: "End-to-end influencer marketing: identification, outreach, negotiation, collaboration management, and ROI tracking."
 version: 1.0.0

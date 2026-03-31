@@ -8,7 +8,7 @@ parent: ccc-design
 
 # Design Router
 
-Central routing specialist for KZ Mega-Design. Analyzes the user's design intent and dispatches to the correct sub-skill(s).
+Central routing specialist for ccc-design. Analyzes the user's design intent and dispatches to the correct sub-skill(s).
 
 ## How It Works
 

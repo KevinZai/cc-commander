@@ -1,4 +1,4 @@
-# KZ Mega-DevOps — Architecture
+# ccc-devops — Architecture
 
 This CCC domain contains 20 DevOps specialist skills organized across 7 domains.
 

@@ -1,4 +1,4 @@
-# KZ Mega-SEO — Architecture
+# ccc-seo — Architecture
 
 This CCC domain contains 19 SEO specialist skills organized for domain-complete coverage.
 

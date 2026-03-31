@@ -1,13 +1,13 @@
 ---
-name: KZ Mega-Data
-description: "Complete data ecosystem — 8 skills in one. Data pipelines, SQL optimization, visualization, machine learning, data quality, analytics, reporting, and vector search."
+name: ccc-data
+description: "CCC domain — complete data ecosystem — 8 skills in one. Data pipelines, SQL optimization, visualization, machine learning, data quality, analytics, reporting, and vector search."
 version: 1.0.0
 category: CCC domain
 brand: Kevin Z's CC Commander
 tags: [CCC domain, data, analytics, ml]
 ---
 
-# KZ Mega-Data
+# ccc-data
 
 > Load ONE skill. Get the entire data domain. From pipeline design to ML models to dashboards and vector search.
 
