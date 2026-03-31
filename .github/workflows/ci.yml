@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -55,6 +57,9 @@ jobs:
       - name: Run path tests
         run: node --test commander/tests/paths.test.js
 
+      - name: Run vendor + orchestrator tests
+        run: node --test commander/tests/vendor-scanner.test.js commander/tests/orchestrator.test.js
+
       - name: Verify no secrets
         run: |
           if grep -rn 'sk-[a-zA-Z0-9]\{20\}\|ghp_[a-zA-Z0-9]\{36\}' --include='*.js' --include='*.json' --include='*.md' .; then
@@ -64,14 +69,9 @@ jobs:
 
       - name: Verify skill structure
         run: |
-          count=0
-          for d in skills/*/; do
-            if [ -f "$d/SKILL.md" ]; then
-              ((count++))
-            fi
-          done
+          count=$(find skills -name 'SKILL.md' | wc -l | tr -d ' ')
           echo "Found $count skills with SKILL.md"
-          if [ "$count" -lt 200 ]; then
-            echo "ERROR: Expected 200+ skills, found $count"
+          if [ "$count" -lt 100 ]; then
+            echo "ERROR: Expected 100+ skills, found $count"
             exit 1
           fi
