@@ -2,6 +2,55 @@
 
 All notable changes to CC Commander will be documented in this file.
 
+## [2.0.0] — 2026-03-31
+
+### The Aggregator Release — "Every Claude Code tool. One install. Auto-updated."
+
+CC Commander v2.0 transforms from a skills toolkit into THE aggregator for the entire Claude Code ecosystem.
+
+### Added
+- **Aggregator Architecture**: 11 vendor submodules (ECC 120K stars, gstack 58K, Superpowers 29K, oh-my-claudecode 17K, claude-code-best-practice 26K, Claude HUD 15K, RTK 14.6K, Compound Engineering 11.5K, acpx 1.8K, caliber 302, claude-reflect 860) — all MIT licensed
+- **Smart Orchestrator** (`commander/orchestrator.js`): Scoring engine picks best tool per phase — capabilityMatch 50%, stars 15%, recency 15%, userPreference 20%
+- **Vendor Scanner** (`commander/vendor-scanner.js`): Scans vendor/ submodules, builds capability index across 8-phase pipeline
+- **CCC Domain Rename**: All mega-* skills renamed to ccc-* (CCC Domains branding). 11 domains, 172+ sub-skills
+- **/xray Project Audit** (`commander/signal-scanner.js`, `rule-engine.js`, `xray-report.js`): Pure Node.js project scanner with 21 rules, health score 0-100, maturity level 1-5, ISO 25010 quality model
+- **/makeover Execution**: Agent swarm dispatch with git worktrees, circuit breaker, cost ceiling, before/after report card
+- **Boris Cherny Workflows**: 6 new skills (auto-loop-patterns, visual-verify, desktop-preview-loop, batch-migration, voice-workflow, multi-repo-orchestrate) + autonomous mode adventure
+- **4 New Commands**: /ccc:teleport, /ccc:fork, /ccc:parallel, /ccc:multi-repo
+- **Showstopper CLI UI**: ora spinners, boxen info cards, chalk-animation effects, listr2 task lists, cli-progress bars
+- **Statusline v2**: Heat-mapped 10-char context bar (cyan→magenta→orange→red), fire/lightning/brain emojis, compact layout
+- **CLAUDE.md Refresh System**: /ccc:refresh command, staleness hook (auto-prompts when stale >30 days), template v2.0.0
+- **Auto-Update Pipeline**: `commander/upstream-monitor.js`, GitHub Actions weekly cron, `ccc --update` flag
+- **GitHub + Social Scanners**: `commander/ingestion/github-scanner.js` + `social-scanner.js` for weekly ecosystem discovery
+- **Multi-Platform Adapters**: `commander/adapters/` supports Claude, Gemini CLI, Codex CLI with auto-detection
+- **acpx Integration**: Dispatcher prefers acpx when available — structured JSON output, persistent sessions, crash recovery
+- **Linear Tracking Hooks**: 4 new hooks (auto-track, pr-link, phase-gate, vendor-update-notify)
+- **VS Code Extension**: Scaffold at `extensions/vscode/` — sidebar with stats, skills, vendor packages
+- **Ecosystem Directory**: `docs/ECOSYSTEM.md` — 45+ repos across 8 tiers, the definitive Claude Code ecosystem map
+- **Architecture SVG**: `docs/assets/ccc-architecture.svg` — full decision-tree visualization
+- **ACKNOWLEDGMENTS.md**: Proper upstream credits for all 11 vendor packages
+- **Cowork Plugin v2.0**: Unified plugin manifests, 44 VS Code snippets, orchestrator-aware dispatch
+- **OpenClaw Management + Coordination Skills**: Fleet management and cross-agent coordination
+- **SafeClaw Integration**: Docker-based isolated sessions for YOLO mode
+- **Plugin Registry Skill**: `/cc-plugin-registry` reports all installed plugins + vendor capabilities
+
+### Changed
+- Tagline: "280+ skills" → "Every Claude Code tool. One install. Auto-updated."
+- Skills count: 171 → 180+ (6 new skills, 4 new commands)
+- Commands: 72 → 80+ (8 new commands with /ccc: prefix)
+- Package manager dependencies: figlet → figlet + ora + boxen + chalk-animation + listr2 + cli-progress
+- CLAUDE.md staff template: v1.3 → v2.0.0 (202 lines, added aggregator ecosystem, CCC domains, knowledge compounding, Boris workflows)
+
+### Fixed
+- Stale skills/gstack and skills/humanizer submodule references removed
+- Adventure dead-end: learn-skill → mega-skills (now → ccc-domains)
+- skill-browser.js: isMega detection updated for ccc-* prefix
+
+### Linear Issues Closed
+CC-3, CC-5, CC-29, CC-37, CC-39, CC-40, CC-41, CC-42, CC-45, CC-46, CC-47, CC-48, CC-49, CC-50, CC-51, CC-52, CC-53, CC-54, CC-55, CC-56, CC-57, CC-58, CC-59, CC-60
+
+---
+
 ## [1.6.0] — 2026-03-30
 
 ### Added
