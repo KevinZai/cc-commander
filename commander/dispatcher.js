@@ -39,7 +39,7 @@ function dispatch(task, options) {
   if (resume) args.push('--resume', resume);
   if (continueSession) args.push('--continue');
   if (model) args.push('--model', model);
-  if (fallbackModel) args.push('--fallback-model', fallbackModel);
+  if (fallbackModel && fallbackModel !== model) args.push('--fallback-model', fallbackModel);
   if (effort) args.push('--effort', effort);
   if (permissionMode) args.push('--permission-mode', permissionMode);
   if (maxBudgetUsd) args.push('--max-budget-usd', String(maxBudgetUsd));
