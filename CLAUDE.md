@@ -2,9 +2,11 @@
 
 ## What This Is
 
-CC Commander — by Kevin Z. 280+ skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 280+ skills, 10 CCC domains, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, OpenClaw native integration, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+CC Commander — by Kevin Z. 438 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 438 skills, 11 CCC domains, 78 commands, 25 hooks, 36+ prompt templates, 10 themes, 11 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
 
-## CC Commander (v1.6.0)
+**Version:** 2.0.0 — The Aggregator Release
+
+## CC Commander (v2.0.0)
 
 Interactive CLI that sits ABOVE Claude Code sessions. Manages, dispatches, and tracks AI work.
 
@@ -63,9 +65,32 @@ Tests: `node --test commander/tests/paths.test.js`
 └── CLAUDE.md.staff-template  # Staff CLAUDE.md template
 ```
 
+## Aggregator Ecosystem
+11 vendor submodules in `vendor/`. Smart orchestrator scores tools: capability 50% + stars 15% + recency 15% + user pref 20%.
+Vendor scanner builds capability index across 8-phase pipeline.
+Auto-updates weekly via GitHub Actions.
+
+## CCC Domains
+
+| Domain | Sub-Skills | Focus |
+|--------|-----------|-------|
+| `mega-code` | 18 | Code generation, refactoring, review |
+| `mega-testing` | 15 | TDD, E2E, coverage, regression |
+| `mega-devops` | 14 | CI/CD, Docker, deploy, monitoring |
+| `mega-saas` | 16 | Auth, billing, multi-tenant, schema |
+| `mega-design` | 12 | UI/UX, components, accessibility |
+| `mega-seo` | 10 | Technical SEO, content, analytics |
+| `mega-marketing` | 8 | Content, email, social, ads |
+| `mega-security` | 9 | Audit, pen-test, compliance |
+| `mega-data` | 7 | ETL, analytics, visualization |
+| `mega-api` | 6 | REST, GraphQL, SDK design |
+| `mega-docs` | 5 | Technical writing, API docs, guides |
+
 ## Current Status
 
-**Version:** 1.3
+**Version:** 2.0.0
+
+**Stats:** 438 skills, 78 commands, 25 hooks, 11 vendors, 10 themes
 
 **Live:**
 - GitHub repo: github.com/KevinZai/cc-commander
