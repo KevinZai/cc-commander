@@ -211,11 +211,18 @@ class KitCommander {
     if (!choice) choice = {};
     var t = tui.getTheme();
     switch (actionName) {
-      case 'freeform_build': {
+      case 'freeform_build':
+      case 'freeform_dispatch': {
         process.stdout.write('\n  ' + tui.boldText('Tell me what you want to build:', t.text) + '\n');
         if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         var desc = await this.ask('  > ');
         await this.executeBuild(desc);
+        return { next: 'main-menu' };
+      }
+      case 'dispatch': {
+        // Autonomous mode dispatch — build the command from choice context
+        var dispatchTask = (choice && choice.description) || 'autonomous task';
+        await this.executeBuild(dispatchTask);
         return { next: 'main-menu' };
       }
       case 'resume_session': {
