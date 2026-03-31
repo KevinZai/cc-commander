@@ -25,6 +25,11 @@ function defaultState() {
     activeSession: null,
     profiles: {},
     firstRun: true,
+    orchestrator: {
+      pinnedTools: {},
+      stackPreferences: [],
+      toolHistory: [],
+    },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

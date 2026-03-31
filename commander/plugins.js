@@ -147,7 +147,32 @@ function detectPlugins() {
     });
   });
 
-  return { installed: installed, missing: missing, phaseTools: phaseTools, foundSkills: Array.from(foundSkills).length };
+  // Merge vendor capabilities if vendor/ exists (v2.0 aggregator)
+  var vendorPackages = [];
+  try {
+    var vs = require('./vendor-scanner');
+    if (fs.existsSync(vs.VENDOR_DIR)) {
+      var vendorIndex = vs.getCachedIndex();
+      if (vendorIndex) {
+        Object.keys(vendorIndex).forEach(function(phaseId) {
+          if (!phaseTools[phaseId]) return;
+          vendorIndex[phaseId].forEach(function(cap) {
+            phaseTools[phaseId].tools.push({
+              package: 'vendor:' + cap.vendor,
+              skill: cap.skill,
+              description: cap.description || '',
+              author: cap.vendor,
+            });
+          });
+        });
+        vendorPackages = vs.scanVendorDir().map(function(v) { return v.name; });
+      }
+    }
+  } catch (_e) {
+    // vendor-scanner not available, continue with built-in detection
+  }
+
+  return { installed: installed, missing: missing, phaseTools: phaseTools, foundSkills: Array.from(foundSkills).length, vendorPackages: vendorPackages };
 }
 
 /**
