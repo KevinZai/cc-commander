@@ -159,10 +159,10 @@ test('listSkills finds skills on disk', function() {
   assert.ok(skills.length > 100, 'Expected 100+ skills, got ' + skills.length);
 });
 
-test('listSkills finds mega-skills', function() {
+test('listSkills finds CCC domain skills', function() {
   var skills = skillBrowser.listSkills();
-  var megas = skills.filter(function(s) { return s.isMega; });
-  assert.ok(megas.length >= 10, 'Expected 10+ mega-skills, got ' + megas.length);
+  var domains = skills.filter(function(s) { return s.isMega; });
+  assert.ok(domains.length >= 10, 'Expected 10+ CCC domains, got ' + domains.length);
 });
 
 // ─── TUI ──────────────────────────────────────────────────────

@@ -68,7 +68,7 @@ function listSkills(dirs = SKILL_DIRS) {
           description: summary.description,
           dirName: entry.name,
           path: skillMd,
-          isMega: entry.name.startsWith('mega-'),
+          isMega: entry.name.startsWith('ccc-'),
         });
       }
     } catch { /* permission or fs error — skip dir */ }
