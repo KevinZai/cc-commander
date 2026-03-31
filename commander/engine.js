@@ -131,14 +131,17 @@ class KitCommander {
         toolActive: false,
       };
 
+      // Active project for title bar
+      var projName = (currentState.activeProject && currentState.activeProject.name) || null;
+
       // Main menu: full logo + cockpit panel
       if (adventureId === 'main-menu') {
         process.stdout.write(tui.renderLogoResponsive('CCC'));
-        process.stdout.write(cockpit.renderBanner());
+        process.stdout.write(cockpit.renderBanner(null, projName));
         process.stdout.write(cockpit.renderCockpitStatus(cockpitData));
       } else {
         // Sub-menus: compact header with project name + one-line footer
-        process.stdout.write(cockpit.renderCompactHeader(null, activeProjectName));
+        process.stdout.write(cockpit.renderCompactHeader(null, projName));
         process.stdout.write(cockpit.renderCockpitFooter(cockpitData) + '\n');
       }
 
