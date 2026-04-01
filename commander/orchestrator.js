@@ -25,6 +25,7 @@ var PACKAGE_META = {
   'rtk': { stars: 14600, updated: '2026-03-30' },
   'acpx': { stars: 1800, updated: '2026-03-31' },
   'repomix': { stars: 22816, updated: '2026-04-01' },
+  'claude-skills': { stars: 8581, updated: '2026-04-01' },
 };
 
 /**

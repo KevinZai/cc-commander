@@ -34,3 +34,6 @@
 [submodule "vendor/repomix"]
 	path = vendor/repomix
 	url = https://github.com/yamadashy/repomix.git
+[submodule "vendor/claude-skills"]
+	path = vendor/claude-skills
+	url = https://github.com/alirezarezvani/claude-skills.git
