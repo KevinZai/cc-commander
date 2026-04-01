@@ -151,6 +151,7 @@ cc_intro_animation() {
   tput cnorm 2>/dev/null
 }
 kz_matrix_rain() { cc_intro_animation "$@"; }
+cc_matrix_rain() { cc_intro_animation "$@"; }
 
 # ── ASCII Banners ──────────────────────────────────────────────────────────
 
