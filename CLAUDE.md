@@ -6,7 +6,7 @@ CC Commander — by Kevin Z. 438 skills. One command. Your AI work, managed by A
 
 **Version:** 2.0.0 — The Aggregator Release
 
-## CC Commander (v2.0.0)
+## CC Commander (v2.0.1)
 
 Interactive CLI that sits ABOVE Claude Code sessions. Manages, dispatches, and tracks AI work.
 
@@ -18,7 +18,7 @@ ccc --stats  # Quick stats
 
 Key components:
 - `commander/engine.js` — Main interactive loop with arrow-key menus
-- `commander/tui.js` — TUI engine (figlet, gradients, 4 themes, spinners)
+- `commander/tui.js` — TUI engine (figlet, gradients, 10 themes, spinners)
 - `commander/dispatcher.js` — 14-flag Claude Code dispatch with plan-mode-first
 - `commander/knowledge.js` — Knowledge compounding (learns from every session)
 - `commander/plugins.js` — Auto-detects gstack, CE, Superpowers, sequences them
@@ -32,8 +32,8 @@ Tests: `node --test commander/tests/paths.test.js`
 ## Project Structure
 
 ```
-├── skills/              # 280+ skills organized by category
-│   ├── mega-*/          # 10 CCC domains (router + sub-skills)
+├── skills/              # 432+ skills organized by category
+│   ├── mega-*/          # 11 CCC domains (router + sub-skills)
 │   ├── mode-switcher/   # 9 workflow modes
 ��   ├── init-decision-tree/  # /init project wizard
 │   ├── confidence-check/    # Pre-execution confidence assessment

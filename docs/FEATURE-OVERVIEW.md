@@ -1,6 +1,6 @@
-# CC Commander v1.6.0 — Complete Feature Overview
+# CC Commander v2.0.1 — Complete Feature Overview
 
-> CC Commander — 280+ skills. One command. Your AI work, managed by AI. 280+ skills, 10 CCC domains, 88+ commands, 37 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 4 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
+> CC Commander — 432+ skills. One command. Your AI work, managed by AI. 432+ skills, 11 CCC domains, 78+ commands, 25 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 10 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
 
 ---
 
@@ -9,7 +9,7 @@
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -40,7 +40,7 @@ Installation takes under a minute. The interactive installer sets up skills, com
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -106,7 +106,7 @@ cd cc-commander
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -379,7 +379,7 @@ Mega-skills are routers: load one and it dispatches to the right specialist sub-
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -404,7 +404,7 @@ Commands are slash commands invoked directly in the Claude Code REPL. They live 
 | Command | Description |
 |---------|-------------|
 | `/cc` | Interactive command center -- main menu for all kit features |
-| `/cc skills` | Browse 280+ skills by category |
+| `/cc skills` | Browse 432+ skills by category |
 | `/cc mega [name]` | Drill into a CCC domain's sub-skills |
 | `/cc settings` | View current model, permissions, MCP, hooks |
 | `/cc grill` | 7 Socratic questions to stress-test your plan |
@@ -545,7 +545,7 @@ Commands are slash commands invoked directly in the Claude Code REPL. They live 
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -617,7 +617,7 @@ When Everything Claude Code (ECC) is installed, 19 additional hooks activate acr
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -710,7 +710,7 @@ Battle-tested prompt templates for common development scenarios. Located in `pro
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -749,7 +749,7 @@ Switch your entire development persona with one command. Each mode adjusts behav
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -787,7 +787,7 @@ No database required -- reads from Claude Code session files and hook output dir
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -836,7 +836,7 @@ Integration guide with buttons, 20+ code snippets (`compatibility/vscode-snippet
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -869,7 +869,7 @@ Ready-to-use project scaffolds in `templates/`. Each template produces a complet
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -904,7 +904,7 @@ Developer-specific onboarding paths in `guides/`. Each guide provides a focused 
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -956,7 +956,7 @@ Build type checklists, CLAUDE.md templates, full skills catalog, commands refere
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -997,7 +997,7 @@ cc-commander/
 │   ├── devops/          # 5 devops prompts
 │   └── meta/            # 6 meta prompts + PROMPTS.md index
 ├── hooks/               # 18 kit-native hooks (JS) + configuration
-│   ├── hooks.json       # Full hook config (kit + ECC = 37 hooks)
+│   ├── hooks.json       # Full hook config (kit + ECC = 25 hooks)
 │   └── hooks-standalone.json  # Standalone config (kit-only = 18 hooks)
 ├── templates/           # 3 project starter templates
 ├── guides/              # 5 quickstart guides by developer type
@@ -1044,7 +1044,7 @@ Commands are markdown files in `~/.claude/commands/`. Invoking `/command-name` i
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -1097,7 +1097,7 @@ Elements: context gauge (color-coded zones), model, session cost, token counts, 
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -1131,7 +1131,7 @@ Pre-configured skill combinations for common project types:
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -1171,7 +1171,7 @@ Pre-configured skill combinations for common project types:
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |
@@ -1204,7 +1204,7 @@ Pre-configured skill combinations for common project types:
 | Feature | Description |
 |---------|-------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic |
 | **11 adventure flows** | Build, content, research, learn, stats, settings, YOLO |
 | **Spec-driven builds** | 3 questions (guided) or 10 questions (YOLO Mode) |
 | **Plugin orchestration** | Auto-detects gstack, CE, Superpowers — 8-step pipeline |

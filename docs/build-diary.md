@@ -212,14 +212,14 @@ The gloves came off. Kevin said "BUILD IT ALL" and meant it. In one continuous s
 
 **The Rebrand**
 - Kit Commander → CC Commander (Claude Code Commander)
-- Tagline: "280+ skills. One command. Your AI work, managed by AI."
+- Tagline: "432+ skills. One command. Your AI work, managed by AI."
 
 ### The Numbers
 - 18/18 self-test checks
 - 61/61 hook tests
 - 9 adventure files
 - 217 browsable skills
-- 4 themes
+- 10 themes
 - 10 main menu choices
 - 12 settings/action handlers
 - 3 commits this session
@@ -302,12 +302,12 @@ Kevin's final words before bed: "DONT STOP! When I wake up I want to see GOLD!"
 - Status checkpoint at ~/.claude/commander/yolo-status.txt
 
 **CCC Domain Browser** — New adventure flow:
-- Browse all 10 CCC domains with sub-skill counts and descriptions
+- Browse all 11 CCC domains with sub-skill counts and descriptions
 - One-click dispatch to any CCC domain with custom task
 - Full breakdown: ccc-design (35+), ccc-marketing (46), ccc-saas (20), ccc-testing (15), ccc-devops (20), ccc-seo (19), ccc-security (9), ccc-research (8), ccc-mobile (7), ccc-data (10+)
 
 **Cowork Plugin Polish**:
-- Full references/ content: skill-catalog.md (all 280+ skills categorized), orchestration.md (package detection + phase mapping)
+- Full references/ content: skill-catalog.md (all 432+ skills categorized), orchestration.md (package detection + phase mapping)
 - 4 skills in the plugin, ready for Claude Desktop
 
 **The Numbers at 4am:**
@@ -327,4 +327,4 @@ Kevin's final words before bed: "DONT STOP! When I wake up I want to see GOLD!"
 16. "YOLO Mode: 10 questions, then go to sleep" — the autonomous build story
 17. "My CLI has continuous improvement loops" — the Larry Loop angle
 18. "I built a Claude Desktop plugin in one session" — the Cowork plugin story
-19. "200+ sub-skills across 10 CCC domains, one menu" — the skill catalog story
+19. "200+ sub-skills across 11 CCC domains, one menu" — the skill catalog story

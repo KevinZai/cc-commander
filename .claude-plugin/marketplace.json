@@ -9,7 +9,7 @@
       "name": "cc-commander",
       "source": "./commander/cowork-plugin",
       "description": "CC Commander — 280+ skills. One command. Your AI work, managed by AI.",
-      "version": "1.6.0",
+      "version": "2.0.1",
       "author": {
         "name": "Kevin Z",
         "url": "https://kevinz.ai"

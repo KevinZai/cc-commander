@@ -33,7 +33,7 @@ You are the Improvement Pipeline Manager. When the user invokes `/improve`, pars
 When `/improve` is invoked with no arguments, display:
 
 ```
-CONTINUOUS IMPROVEMENT PIPELINE  //  CC Commander v1.6.0
+CONTINUOUS IMPROVEMENT PIPELINE  //  CC Commander v2.0.1
 ==========================================================
 
   Pipeline Stats

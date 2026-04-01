@@ -1,7 +1,7 @@
 # Skills Index — Quick Reference
-> CC Commander v1.6.0 — by Kevin Z
+> CC Commander v2.0.1 — by Kevin Z
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
-> Last verified: 2026-03-28 | 280+ skill directories | 10 CCC Domains | 18 kit-native hooks (37 with ECC) | 3 starter templates | 36+ prompt templates | 9 workflow modes | Real-time dashboard | 4 themes
+> Last verified: 2026-03-28 | 280+ skill directories | 10 CCC Domains | 18 kit-native hooks (37 with ECC) | 3 starter templates | 36+ prompt templates | 9 workflow modes | Real-time dashboard | 10 themes
 > Audit: `./generate-index.sh --check` to find missing or broken skills
 
 > **Which document?** BIBLE.md = learning guide (read once). CHEATSHEET.md = daily reference (quick lookup). **SKILLS-INDEX.md = skill discovery (you are here).**
@@ -137,7 +137,7 @@ Each CCC domain has a router that dispatches to the right specialist. Individual
 ## 📊 Dashboard (NEW in v1.2)
 | Component | What it does |
 |-----------|-------------|
-| `dashboard/` | Real-time React dashboard — agent monitoring, spawn tree, cost tracker, live logs, 4 themes |
+| `dashboard/` | Real-time React dashboard — agent monitoring, spawn tree, cost tracker, live logs, 10 themes |
 
 ## 🏗️ Backend & Database
 | Skill | What it does |
@@ -517,11 +517,11 @@ Pick a bundle to load the right skills for your project type:
 
 ---
 
-*⭐ = new in v0.4 | New CCC domains, modes, integrations, and prompt library added in v1.1 | Themes, OpenClaw native, status updates, continuous improvement added in v1.3 | Linear MCP, board view, full rebrand in v1.6.0*
+*⭐ = new in v0.4 | New CCC domains, modes, integrations, and prompt library added in v1.1 | Themes, OpenClaw native, status updates, continuous improvement added in v1.3 | Linear MCP, board view, full rebrand in v2.0.1*
 
 ---
 
-## CC Commander Skills (v1.6.0)
+## CC Commander Skills (v2.0.1)
 
 Interactive CLI project manager — sits above Claude Code sessions.
 
@@ -539,7 +539,7 @@ Interactive CLI project manager — sits above Claude Code sessions.
 | build-something | 5 | Code: web apps, APIs, CLI tools + 3 sub-adventures |
 | create-content | 7 | Marketing: blog, social, email, copy, docs + 5 sub-adventures |
 | research | 6 | Analysis: competitive, market, code audit, SEO + 4 sub-adventures |
-| CCC domains | 7 | Browse 10 CCC domains (200+ sub-skills) with dispatch |
+| CCC domains | 7 | Browse 11 CCC domains (200+ sub-skills) with dispatch |
 | night-build | 4 | YOLO Mode + YOLO Loop (3-10 cycles) |
 | continue-work | 4 | Resume sessions: exact, summary, fresh start |
 | review-work | 4 | Session history, resume, details |

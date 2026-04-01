@@ -1998,14 +1998,14 @@ node bin/kc.js --repair
 | Feature | Description |
 |---------|------------|
 | **Arrow-key menus** | Navigate with arrows or letter shortcuts |
-| **4 themes** | Cyberpunk, Fire, Graffiti, Futuristic (switch anytime) |
+| **10 themes** | Cyberpunk, Fire, Graffiti, Futuristic (switch anytime) |
 | **Spec-driven build** | 3 clarification questions before dispatch |
 | **Plan-mode-first** | Every dispatch starts in plan mode for safety |
 | **Auto-compact** | 70% context threshold for compaction |
 | **Level-based defaults** | Guided=$2/sonnet, Assisted=$3/opusplan, Power=$5/opusplan |
 | **Project import** | Reads local CLAUDE.md without modifying .claude/ |
 | **Session tracking** | Persistent history across days/weeks |
-| **Skill browser** | Browse all 280+ skills from within Commander |
+| **Skill browser** | Browse all 432+ skills from within Commander |
 | **Stats dashboard** | Sparklines, activity heatmap, streak tracking |
 | **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
 
@@ -2106,7 +2106,7 @@ Vue/Nuxt, React patterns, multi-frontend, multi-backend, multi-plan, multi-execu
 #### ccc-data (8 sub-skills)
 Data analysis, data visualization, SQL queries, statistical analysis, explore data, validate data, build dashboard, data context extractor.
 
-**Total: 190 verified sub-skills across 10 CCC domains.**
+**Total: 190 verified sub-skills across 11 CCC domains.**
 
 
 
@@ -2121,5 +2121,5 @@ Data analysis, data visualization, SQL queries, statistical analysis, explore da
 ---
 
 *Last updated: 2026-03-29*
-*CC Commander — by Kevin Z — v1.6.0*
+*CC Commander — by Kevin Z — v2.0.1*
 *Update this file when you learn something new. That's the point.*

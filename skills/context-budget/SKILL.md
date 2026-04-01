@@ -77,7 +77,7 @@ Display the full report using this format:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  KZ CONTEXT BUDGET                          v1.6.0
+  KZ CONTEXT BUDGET                          v2.0.1
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   CONTEXT WINDOW: 200K tokens (Claude Sonnet)

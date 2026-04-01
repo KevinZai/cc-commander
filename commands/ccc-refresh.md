@@ -109,7 +109,7 @@ Claude:
 
 ## Proposed Changes
 + [ADD] ## Aggregator Ecosystem — CC Commander v2.0 vendor packages
-+ [ADD] ## CCC Domains — 10 CCC domains, 172+ sub-skills
++ [ADD] ## CCC Domains — 11 CCC domains, 172+ sub-skills
 + [ADD] ## Knowledge Compounding — session learning system
 ~ [UPDATE] ## Workflow — add Anti-Sycophancy, Scope Discipline, Corrective Framing
 = [KEEP] ## My Custom Rules — unchanged

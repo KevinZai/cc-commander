@@ -316,7 +316,7 @@ Run safe dependency updates.
       { "name": "@types/node", "from": "20.11.0", "to": "20.12.0" }
     ],
     "failed": [
-      { "name": "vitest", "from": "1.6.0", "to": "1.7.0", "reason": "test failures" }
+      { "name": "vitest", "from": "2.0.1", "to": "1.7.0", "reason": "test failures" }
     ],
     "skipped": [
       { "name": "next", "from": "14.0.0", "to": "15.0.0", "reason": "major version" }

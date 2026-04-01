@@ -1,4 +1,4 @@
-# CC Commander v1.6.0 -- Visual Overview
+# CC Commander v2.0.1 -- Visual Overview
 ### by Kevin Z
 
 ```
@@ -95,7 +95,7 @@
     │           │  agents | cost | context │                        │
     │           └─────────────────────────┘                        │
     │                                                               │
-    │                  CC COMMANDER v1.6.0                         │
+    │                  CC COMMANDER v2.0.1                         │
     └───────────────────────────────────────────────────────────────┘
                                     │
                     ┌───────────────┴───────────────────┐
@@ -226,7 +226,7 @@
 
 ```
     ┌──────────────────────────────────────────────────────────────┐
-    │                    CC COMMANDER v1.6.0                       │
+    │                    CC COMMANDER v2.0.1                       │
     │                                                              │
     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
     │  │  Claude   │  │  Cowork  │  │ Dispatch │  │  Spawn   │    │
@@ -351,7 +351,7 @@
 
   ┌──────────┐     ┌──────────────┐     ┌──────────────────┐
   │ Install  │────>│ Type /cc     │────>│ Start building   │
-  │ (< 60s)  │     │ in terminal  │     │ with 280+ skills │
+  │ (< 60s)  │     │ in terminal  │     │ with 432+ skills │
   └──────────┘     └──────────────┘     └──────────────────┘
 ```
 
@@ -360,5 +360,5 @@
 
 ---
 
-*CC Commander v1.6.0 by Kevin Z -- 280+ skills | 10 CCC domains | 88+ commands | 37 hooks | 4 themes | 9 modes*
+*CC Commander v2.0.1 by Kevin Z -- 432+ skills | 11 CCC domains | 78+ commands | 25 hooks | 10 themes | 9 modes*
 *Distilled from 200+ community sources. One install. Under 60 seconds.*

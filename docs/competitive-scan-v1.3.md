@@ -121,7 +121,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **URL:** https://github.com/sickn33/antigravity-awesome-skills
 - **What:** 1,326+ installable agentic skills with installer CLI, bundles, workflows
 - **Key features:** Installer CLI, bundles, cross-platform (Codex, Gemini CLI, Cursor), massive skill library
-- **Our coverage:** Partial — we have 280+ skills but no bundle/package system
+- **Our coverage:** Partial — we have 432+ skills but no bundle/package system
 - **Action:** **Evaluate** — Consider skill bundles concept (install groups of related skills at once)
 
 ### 16. ruflo — 27,591 stars
@@ -170,7 +170,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **URL:** https://github.com/SuperClaude-Org/SuperClaude_Framework
 - **What:** Configuration framework with 30 commands, 20 agents, 7 modes, 8 MCP integrations
 - **Key features:** Cognitive personas, mode system, PyPI/npm installable, SuperGemini/SuperQwen variants
-- **Our coverage:** Full — we have 88+ commands, 9 modes, 4 themes, 35+ agents. We're bigger.
+- **Our coverage:** Full — we have 78+ commands, 9 modes, 10 themes, 35+ agents. We're bigger.
 - **Action:** Skip — we're the larger framework. Note their multi-platform (Gemini/Qwen) ports.
 
 ### 23. opcode — 21,152 stars
@@ -282,7 +282,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 - **URL:** https://github.com/VoltAgent/awesome-agent-skills
 - **What:** 1000+ agent skills from official dev teams and community, cross-platform
 - **Key features:** Cross-platform compatibility (Codex, Antigravity, Gemini CLI, Cursor)
-- **Our coverage:** Partial — we have 280+ skills but are Claude Code focused
+- **Our coverage:** Partial — we have 432+ skills but are Claude Code focused
 - **Action:** Skip — curated list, not a toolkit
 
 ### 39. last30days-skill — 13,059 stars
@@ -475,7 +475,7 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 
 ## Features We Already Cover Well
 
-1. **Skills System** — 280+ skills vs closest competitor at 30 commands (SuperClaude). We're the largest skill library that ships as one installable kit.
+1. **Skills System** — 432+ skills vs closest competitor at 30 commands (SuperClaude). We're the largest skill library that ships as one installable kit.
 
 2. **Hook Lifecycle** — 18 kit-native hooks covering context-guard, auto-checkpoint, cost-alert, confidence-gate, session-coach, status-reporter, openclaw-sync, etc. More comprehensive than any competitor.
 
@@ -526,4 +526,4 @@ The Claude Code ecosystem has exploded. The official Anthropic plugin system (`/
 
 5. **Token optimization matters.** RTK at 15K stars shows developers care deeply about cost. A simple hook or integration would add significant value.
 
-6. **We're still the most comprehensive single-install kit.** No competitor matches our breadth (280+ skills, 88+ commands, 18 kit-native hooks, 9 modes, 4 themes, 36+ templates). Our moat is comprehensiveness + curation quality.
+6. **We're still the most comprehensive single-install kit.** No competitor matches our breadth (432+ skills, 78+ commands, 18 kit-native hooks, 9 modes, 10 themes, 36+ templates). Our moat is comprehensiveness + curation quality.
