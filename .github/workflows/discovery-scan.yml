@@ -1,0 +1,151 @@
+name: Weekly Discovery Scan
+
+on:
+  schedule:
+    - cron: '0 8 * * 3'  # Wednesday 8am UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run GitHub scanner
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          var scanner = require('./commander/ingestion/github-scanner');
+          var result = scanner.run();
+          console.log('Scanned: ' + result.scanned + ' repos, ' + result.saved.new + ' new');
+          " > /tmp/scan-results.txt 2>&1
+          cat /tmp/scan-results.txt
+
+      - name: Evaluate and curate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node << 'EVALEOF'
+          var fs = require('fs');
+          var cp = require('child_process');
+          var inboxPath = require('os').homedir() + '/.claude/commander/inbox/pending.json';
+
+          if (!fs.existsSync(inboxPath)) { console.log('No discoveries'); process.exit(0); }
+
+          var items = JSON.parse(fs.readFileSync(inboxPath, 'utf8'));
+          var pending = items.filter(function(i) { return i.status === 'pending'; });
+
+          if (pending.length === 0) { console.log('No new items'); process.exit(0); }
+
+          // Evaluate each repo
+          var evaluated = pending.map(function(repo) {
+            var score = 0;
+            var notes = [];
+
+            // Stars score (0-30)
+            if (repo.stars >= 10000) { score += 30; notes.push('HIGH STARS'); }
+            else if (repo.stars >= 1000) { score += 20; notes.push('Good traction'); }
+            else if (repo.stars >= 100) { score += 10; notes.push('Early stage'); }
+            else { score += 2; notes.push('Low traction'); }
+
+            // License check via gh api
+            var license = 'unknown';
+            try {
+              license = cp.execSync('gh api repos/' + repo.name + ' --jq .license.spdx_id 2>/dev/null', {encoding:'utf8'}).trim();
+            } catch(e) {}
+
+            if (license === 'MIT' || license === 'Apache-2.0' || license === 'BSD-2-Clause' || license === 'BSD-3-Clause') {
+              score += 25;
+              notes.push('License: ' + license + ' (OK)');
+            } else {
+              notes.push('License: ' + (license || 'unknown') + ' (REVIEW)');
+            }
+
+            // Recency (0-20)
+            if (repo.updated) {
+              var daysSince = Math.floor((Date.now() - new Date(repo.updated).getTime()) / 86400000);
+              if (daysSince <= 7) { score += 20; notes.push('Updated this week'); }
+              else if (daysSince <= 30) { score += 15; notes.push('Updated this month'); }
+              else if (daysSince <= 90) { score += 5; notes.push('Updated recently'); }
+              else { notes.push('Stale (' + daysSince + 'd ago)'); }
+            }
+
+            // Relevance keywords (0-25)
+            var desc = ((repo.description || '') + ' ' + repo.name).toLowerCase();
+            var keywords = ['skill', 'hook', 'agent', 'plugin', 'claude-code', 'workflow', 'tdd', 'orchestrat'];
+            var matches = keywords.filter(function(k) { return desc.indexOf(k) >= 0; });
+            score += Math.min(25, matches.length * 8);
+            if (matches.length > 0) notes.push('Keywords: ' + matches.join(', '));
+
+            // Recommendation
+            var recommendation = score >= 70 ? 'STRONG — consider as vendor submodule' :
+                                 score >= 50 ? 'MAYBE — add to ECOSYSTEM.md as reference' :
+                                 score >= 30 ? 'WATCH — monitor for growth' : 'SKIP — low relevance';
+
+            return {
+              name: repo.name,
+              stars: repo.stars,
+              license: license,
+              description: (repo.description || '').slice(0, 100),
+              url: repo.url || ('https://github.com/' + repo.name),
+              score: score,
+              recommendation: recommendation,
+              notes: notes
+            };
+          });
+
+          // Sort by score descending
+          evaluated.sort(function(a, b) { return b.score - a.score; });
+
+          // Write evaluation report
+          var report = '# Weekly Discovery Report\n\n';
+          report += '**Date:** ' + new Date().toISOString().split('T')[0] + '\n';
+          report += '**Repos scanned:** ' + pending.length + '\n\n';
+
+          report += '## Recommended for Review\n\n';
+          report += '| Score | Repo | Stars | License | Recommendation |\n';
+          report += '|-------|------|-------|---------|----------------|\n';
+
+          evaluated.forEach(function(r) {
+            report += '| ' + r.score + ' | [' + r.name + '](' + r.url + ') | ' + r.stars + ' | ' + r.license + ' | ' + r.recommendation + ' |\n';
+          });
+
+          report += '\n## Details\n\n';
+          evaluated.slice(0, 10).forEach(function(r) {
+            report += '### ' + r.name + ' (score: ' + r.score + ')\n';
+            report += '- ' + r.description + '\n';
+            report += '- ' + r.notes.join(' | ') + '\n';
+            report += '- **Action:** ' + r.recommendation + '\n\n';
+          });
+
+          report += '\n---\n*Approve repos to add by commenting on this issue. CC Commander will integrate approved repos.*\n';
+
+          fs.writeFileSync('/tmp/discovery-report.md', report);
+          console.log('Evaluated ' + evaluated.length + ' repos');
+          console.log('Strong: ' + evaluated.filter(function(r){return r.score>=70}).length);
+          console.log('Maybe: ' + evaluated.filter(function(r){return r.score>=50&&r.score<70}).length);
+          EVALEOF
+
+      - name: Create review issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f /tmp/discovery-report.md ]; then
+            STRONG=$(grep -c "STRONG" /tmp/discovery-report.md || echo "0")
+            gh issue create \
+              --title "Weekly Discovery: review $STRONG recommended repos ($(date +%Y-%m-%d))" \
+              --body-file /tmp/discovery-report.md \
+              --label "discovery,needs-review"
+            echo "Issue created for review"
+          else
+            echo "No report generated"
+          fi
