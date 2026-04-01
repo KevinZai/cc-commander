@@ -167,6 +167,11 @@ CC Commander aggregates the best Claude Code tools as git submodules. Auto-updat
 | [acpx](https://github.com/openclaw/acpx) | 1.8K+ | ACP protocol, structured agents |
 | [claude-reflect](https://github.com/BayramAnnakov/claude-reflect) | 860+ | Self-improving skills |
 | [Caliber](https://github.com/caliber-ai-org/ai-setup) | 300+ | Config scoring, drift detection |
+| [repomix](https://github.com/yamadashy/repomix) | 22.8K+ | Context packing for AI-friendly codebase analysis |
+| [claude-skills](https://github.com/alirezarezvani/claude-skills) | 8.6K+ | 507 skills, Python CLI tools, finance and C-level |
+| [notebooklm-py](https://github.com/teng-lin/notebooklm-py) | 8.6K+ | NotebookLM integration, podcast generation |
+| [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) | 2.7K+ | 219 CC0 templates, threat database, MCP server |
+| [claude-code-prompts](https://github.com/repowise-dev/claude-code-prompts) | 142+ | Defensive prompt patterns, verification specialist |
 
 The **smart orchestrator** scores each tool: capability match (50%) + popularity (15%) + recency (15%) + your preference (20%) — then picks the best one for each phase.
 
