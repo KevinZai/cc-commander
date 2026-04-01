@@ -190,7 +190,7 @@ test('all 4 themes are available', function() {
 test('branding has correct product name and tagline', function() {
   assert.ok(branding.product === 'Claude Code Commander');
   assert.ok(branding.tagline.includes('One install'));
-  assert.ok(branding.version === '2.0.0');
+  assert.ok(branding.version === '2.0.1');
 });
 
 // ─── State ────────────────────────────────────────────────────
