@@ -461,6 +461,34 @@ if should_install "mega-symlinks"; then
   echo ""
 fi
 
+# ── CCC Command ────────────────────────────────────────────────────────────
+
+cc_section_header "CCC COMMAND"
+
+CCC_BIN="${SCRIPT_DIR}/bin/kc.js"
+chmod +x "$CCC_BIN"
+CCC_INSTALLED=""
+
+if ! $DRY_RUN; then
+  if [[ -d /usr/local/bin ]] && [[ -w /usr/local/bin ]]; then
+    ln -sf "$CCC_BIN" /usr/local/bin/ccc
+    CCC_INSTALLED="/usr/local/bin/ccc"
+    cc_status_line "✓" "Linked ccc → /usr/local/bin/ccc"
+  elif [[ -d "${HOME}/.local/bin" ]] || mkdir -p "${HOME}/.local/bin" 2>/dev/null; then
+    ln -sf "$CCC_BIN" "${HOME}/.local/bin/ccc"
+    CCC_INSTALLED="${HOME}/.local/bin/ccc"
+    cc_status_line "✓" "Linked ccc → ~/.local/bin/ccc"
+    if ! echo "${PATH}" | grep -q "${HOME}/.local/bin"; then
+      echo -e "  ${M_AMBER}Add to your shell profile:${NC} ${M_WHITE}export PATH=\"\$HOME/.local/bin:\$PATH\"${NC}"
+    fi
+  else
+    cc_status_line "!" "Could not create ccc symlink — run: sudo ln -sf $CCC_BIN /usr/local/bin/ccc"
+  fi
+else
+  cc_status_line "►" "Would link ccc → /usr/local/bin/ccc"
+fi
+echo ""
+
 # ── Dashboard ───────────────────────────────────────────────────────────────
 
 if should_install "dashboard"; then
@@ -489,6 +517,13 @@ echo -e "  ${M_WHITE}Mode:${NC}       ${M_BRIGHT}$INSTALL_MODE${NC}"
 [ -n "${skill_count:-}" ] && echo -e "  ${M_WHITE}Skills:${NC}     ${M_BRIGHT}$skill_count${NC} ${M_DIM}(including 6 Mega-Skills)${NC}"
 [ -n "${cmd_count:-}" ] && echo -e "  ${M_WHITE}Commands:${NC}   ${M_BRIGHT}$cmd_count${NC}"
 [ -n "${symlink_count:-}" ] && echo -e "  ${M_WHITE}Symlinks:${NC}   ${M_BRIGHT}$symlink_count${NC}"
+[ -n "${CCC_INSTALLED:-}" ] && echo -e "  ${M_WHITE}ccc:${NC}        ${M_BRIGHT}${CCC_INSTALLED}${NC}"
+echo ""
+echo -e "  ${M_WHITE}Launch:${NC}"
+echo -e "    ${M_BRIGHT}ccc${NC}           ${M_DIM}Full interactive mode (arrow-key menus, cockpit)${NC}"
+echo -e "    ${M_BRIGHT}ccc --split${NC}   ${M_DIM}Tmux split: CCC menu + Claude Code side by side${NC}"
+echo -e "    ${M_BRIGHT}ccc --test${NC}    ${M_DIM}Verify installation${NC}"
+echo -e "  ${M_DIM}Note: ccc --split requires tmux (brew install tmux)${NC}"
 echo ""
 
 if [ -n "$BACKUP_DIR" ]; then
