@@ -33,9 +33,8 @@ tmux send-keys -t "$SESSION_NAME" "node $CCC_BIN" Enter
 # Split right pane: Claude Code prompt
 tmux split-window -h -t "$SESSION_NAME" -p 65
 
-# Right pane: empty shell (CCC sends commands here when user dispatches a build)
-tmux send-keys -t "$SESSION_NAME" "echo '  Waiting for CCC dispatch... Use the menu on the left.'" Enter
-tmux send-keys -t "$SESSION_NAME" "echo '  Or type: claude --dangerously-skip-permissions'" Enter
+# Right pane: clear and show brief prompt
+tmux send-keys -t "$SESSION_NAME" "clear && printf '\\n  CCC Ready — pick a task from the left menu.\\n\\n'" Enter
 
 # Set pane titles
 tmux select-pane -t "$SESSION_NAME:0.0" -T "CCC Menu"
@@ -55,16 +54,16 @@ tmux set-option -t "$SESSION_NAME" status-left-length 20
 
 # Keybindings — Ctrl+A prefix (simpler than Ctrl+B, works on Mac)
 tmux set-option -t "$SESSION_NAME" prefix C-a
-tmux bind-key -t "$SESSION_NAME" C-a send-prefix
+tmux bind-key C-a send-prefix
 
 # Ctrl+A then: 1=Menu, 2=Claude, q=Quit, ←/→=resize
-tmux bind-key -t "$SESSION_NAME" 1 select-pane -t "$SESSION_NAME:0.0"
-tmux bind-key -t "$SESSION_NAME" 2 select-pane -t "$SESSION_NAME:0.1"
-tmux bind-key -t "$SESSION_NAME" Left resize-pane -L 5
-tmux bind-key -t "$SESSION_NAME" Right resize-pane -R 5
-tmux bind-key -t "$SESSION_NAME" q kill-session -t "$SESSION_NAME"
+tmux bind-key 1 select-pane -t "$SESSION_NAME:0.0"
+tmux bind-key 2 select-pane -t "$SESSION_NAME:0.1"
+tmux bind-key Left resize-pane -L 5
+tmux bind-key Right resize-pane -R 5
+tmux bind-key q kill-session -t "$SESSION_NAME"
 
-# Also allow prefix-free mouse switching
+# Mouse clicking to switch panes
 tmux set-option -t "$SESSION_NAME" mouse on
 
 # Key legend in status bar
