@@ -272,10 +272,11 @@ class KitCommander {
       case 'freeform_prompt': {
         try {
           process.stdout.write('\x0a  ' + tui.boldText('Type anything — a command, a question, or what you want to build:', tui.getTheme().text) + '\x0a');
-          process.stdout.write('  ' + tui.dimText('Examples: /ccc:xray  |  build a landing page  |  /plan  |  fix the auth bug') + '\x0a\x0a');
+          process.stdout.write('  ' + tui.dimText('Examples: /ccc:xray  |  build a landing page  |  /plan  |  fix the auth bug') + '\x0a');
+          process.stdout.write('  ' + tui.dimText('(empty or "back" to cancel)') + '\x0a\x0a');
           if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
           var freeInput = await this.ask('  > ');
-          if (!freeInput.trim()) return { next: 'main-menu' };
+          if (!freeInput || !freeInput.trim() || /^(back|cancel|q|quit|exit)$/i.test(freeInput.trim())) return { next: 'main-menu' };
           await this.executeBuild(freeInput.trim());
         } catch(_e) {
           process.stdout.write('\x0a  Error: ' + (_e.message || 'Unknown error') + '\x0a');
