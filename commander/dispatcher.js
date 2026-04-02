@@ -33,11 +33,16 @@ function dispatch(task, options) {
   var continueSession = options.continueSession;
   var stream = options.stream !== false;
 
-  var args = ['-p', JSON.stringify(task)];
+  var args = [];
+  if (resume) {
+    args.push('--resume', resume, '--continue');
+  } else {
+    args.push('-p', JSON.stringify(task));
+  }
 
   // Stream mode: use stream-json for live events. Batch: json for final result only.
   if (stream && !bare) {
-    args.push('--output-format', 'stream-json');
+    args.push('--output-format', 'stream-json', '--verbose');
   } else {
     args.push('--output-format', 'json');
   }
@@ -45,8 +50,8 @@ function dispatch(task, options) {
   if (bare) args.push('--bare');
   args.push('--dangerously-skip-permissions');
   if (maxTurns) args.push('--max-turns', String(maxTurns));
-  if (resume) args.push('--resume', resume);
-  if (continueSession) args.push('--continue');
+  // resume handled above in args init
+  // continue handled above in args init
   if (model) args.push('--model', model);
   if (fallbackModel && fallbackModel !== model) args.push('--fallback-model', fallbackModel);
   if (effort) args.push('--effort', effort);
