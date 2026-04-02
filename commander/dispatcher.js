@@ -68,7 +68,7 @@ function dispatch(task, options) {
       proc.stdout.on('data', function(chunk) {
         var text = chunk.toString();
         output += text;
-        process.stdout.write(text); // stream live to terminal
+        if (bare) process.stdout.write(text); // only echo stdout in bare mode; non-bare streams via stderr
       });
 
       proc.on('close', function(code) {
