@@ -703,10 +703,16 @@ class KitCommander {
 
     try {
       sp.stop(true); // stop spinner before streaming starts
+      process.stdout.write('
+  ' + tui.dimText('Claude is working — live output below. Ctrl+C to cancel.') + '
+');
+      process.stdout.write(tui.divider('Claude Output') + '
+
+');
       var result = await d.dispatch(fullTask, {
         stream: true, maxTurns: defaults.maxTurns, effort: defaults.effort,
         model: defaults.model, maxBudgetUsd: defaults.maxBudgetUsd,
-        permissionMode: "plan", fallbackModel: "sonnet", bare: true,
+        permissionMode: "plan", fallbackModel: "sonnet", bare: false,
         name: d.generateSessionName(fullTask), systemPrompt: sysPrompt
       });
       state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
@@ -759,10 +765,16 @@ class KitCommander {
     })();
     try {
       sp.stop(true); // stop spinner before streaming starts
+      process.stdout.write('
+  ' + tui.dimText('Claude is working — live output below. Ctrl+C to cancel.') + '
+');
+      process.stdout.write(tui.divider('Claude Output') + '
+
+');
       var result = await d.dispatch(fullTask, {
         stream: true, maxTurns: defaults.maxTurns, effort: defaults.effort,
         model: defaults.model, maxBudgetUsd: defaults.maxBudgetUsd,
-        permissionMode: "plan", fallbackModel: "sonnet", bare: true,
+        permissionMode: "plan", fallbackModel: "sonnet", bare: false,
         name: d.generateSessionName(fullTask), systemPrompt: sysPrompt
       });
       state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
