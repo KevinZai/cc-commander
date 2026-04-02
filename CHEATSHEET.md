@@ -64,6 +64,26 @@ Switch your entire workflow persona with one command. Each mode adjusts behavior
 
 ## ⌨️ Keyboard Shortcuts & Power Commands
 
+### Split Mode (tmux)
+
+| Command | What It Does |
+|---------|-------------|
+| `ccc --split` | Launch tabbed tmux mode |
+| `Ctrl+A n` | Next tab |
+| `Ctrl+A p` | Previous tab |
+| `Ctrl+A 0` | Back to CCC menu tab |
+| `Ctrl+A q` | Quit session |
+
+### Agent API (Headless)
+
+| Command | What It Does |
+|---------|-------------|
+| `ccc --dispatch "task"` | Run task, print result |
+| `ccc --dispatch "task" --json` | JSON output (session_id, cost, result) |
+| `ccc --list-skills --json` | All skills as JSON array |
+| `ccc --list-sessions --json` | Session history as JSON |
+| `ccc --status` | Health check JSON |
+
 | Command | Key | What It Does |
 |---------|-----|-------------|
 | `/btw` | — | Side question without polluting main context |

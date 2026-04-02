@@ -1187,6 +1187,54 @@ Pre-configured skill combinations for common project types:
 ---
 
 
+## Split Mode
+
+CCC can run in tabbed tmux sessions so each dispatched task gets its own window with full Claude output visible.
+
+```bash
+ccc --split
+```
+
+The CCC menu runs in tab 0. Each task dispatched from the menu opens a new tmux window. You can watch Claude work in real-time, switch between tasks, and return to the menu without interrupting anything.
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+A n` | Next tab |
+| `Ctrl+A p` | Previous tab |
+| `Ctrl+A 0` | Back to CCC menu |
+| `Ctrl+A q` | Quit session |
+| Mouse click | Switch tabs |
+
+**Requirements:** tmux must be installed (`brew install tmux`).
+
+---
+
+## Agent-Friendly API
+
+CCC exposes a headless CLI API designed for AI orchestrators — OpenClaw, Claude Code agents, CI pipelines, or any automation that needs to dispatch tasks and read structured output.
+
+| Command | Output | Purpose |
+|---------|--------|---------|
+| `ccc --dispatch "task" --json` | JSON | Run task headlessly |
+| `ccc --list-skills --json` | JSON | All 441+ skills |
+| `ccc --list-sessions --json` | JSON | Session history |
+| `ccc --status` | JSON | Health check |
+
+**Override flags:** `--model opusplan` · `--max-turns 50` · `--budget 5` · `--cwd /path`
+
+```bash
+# OpenClaw agent dispatches a build
+result=$(ccc --dispatch "Build auth with JWT" --json --model opusplan --budget 5)
+
+# Claude Code agent checks available skills
+ccc --list-skills --json | jq '.[] | select(.name | contains("auth"))'
+```
+
+All `--json` output includes `session_id`, `cost`, `model`, `turns`, and `result` fields.
+
+---
+
+
 ## Getting Help
 
 - **GitHub Repository:** [github.com/KevinZai/cc-commander](https://github.com/KevinZai/cc-commander)

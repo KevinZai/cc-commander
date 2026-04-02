@@ -794,6 +794,56 @@ On resume:
 "Load tasks/checkpoint-[latest].md and continue from where we left off."
 ```
 
+### Split Mode (Tabbed tmux)
+
+Long-running or multi-task work benefits from visual separation. CCC's split mode runs the interactive menu in tab 0 and opens a new tmux window for each dispatched task — so you can watch Claude work, switch between jobs, and return to the menu without disrupting anything.
+
+```bash
+ccc --split
+```
+
+Each dispatched task gets its own named window. Claude output streams in full. No logs to tail — it's all visible.
+
+**Navigation:**
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+A n` | Next tab |
+| `Ctrl+A p` | Previous tab |
+| `Ctrl+A 0` | Back to CCC menu |
+| `Ctrl+A q` | Quit session |
+| Mouse click | Switch tabs |
+
+**Combine with git worktrees:** run one worktree per tab for fully isolated parallel feature work with zero branch conflicts.
+
+### Agent-Friendly API
+
+CCC is designed to be driven by AI agents, not just humans. Any orchestrator — OpenClaw, Claude Code, n8n, a shell script — can dispatch tasks headlessly and read structured JSON results.
+
+**Core flags:**
+
+| Command | Output | Purpose |
+|---------|--------|---------|
+| `ccc --dispatch "task" --json` | JSON | Run task, return result |
+| `ccc --list-skills --json` | JSON | Full skill catalog |
+| `ccc --list-sessions --json` | JSON | Session history |
+| `ccc --status` | JSON | Health + config check |
+
+**Override flags:** `--model <alias>` · `--max-turns <n>` · `--budget <$>` · `--cwd <path>`
+
+**OpenClaw agent dispatching a build:**
+```bash
+result=$(ccc --dispatch "Build JWT auth module" --json --model opusplan --budget 5)
+echo $result | jq '.session_id, .cost, .result'
+```
+
+**Claude Code agent finding relevant skills:**
+```bash
+ccc --list-skills --json | jq '.[] | select(.name | contains("auth"))'
+```
+
+JSON responses include: `session_id`, `cost`, `model`, `turns`, `result`, `status`. Use `--status` for a health check before dispatching from CI pipelines or scheduled runners.
+
 ---
 
 ## CLAUDE.md Templates

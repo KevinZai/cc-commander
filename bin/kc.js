@@ -12,6 +12,10 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --repair     Fix corrupt state');
   console.log('  --split      Split mode: CCC menu + Claude Code side by side (tmux)');
   console.log('  --update     Check vendor package updates');
+  console.log('  --dispatch   Headless: ccc --dispatch "task" [--json --model X --max-turns N --budget N --cwd PATH]');
+  console.log('  --list-skills  List all skills (add --json for JSON)');
+  console.log('  --list-sessions  Session history (add --json for JSON)');
+  console.log('  --status     Health check (JSON: version, skills, vendors)');
   console.log('  --help       This help\n');
   process.exit(0);
 }
@@ -63,5 +67,49 @@ if (args.includes('--test')) {
   console.log('\n  ' + passed + '/' + checks.length + ' passed');
   process.exit(passed === checks.length ? 0 : 1);
 }
-var KitCommander = require(path.join(__dirname,'..','commander','engine'));
-new KitCommander().start().catch(function(err) { console.error('CC Commander error:', err.message); process.exit(1); });
+// Agent API: --status
+if (args.includes('--status')) {
+  var sb = require(path.join(__dirname,'..','commander','skill-browser'));
+  var fs = require('fs');
+  var B = require(path.join(__dirname,'..','commander','branding'));
+  var vc = 0; try { vc = fs.readdirSync(path.join(__dirname,'..','vendor')).length; } catch(_e) {}
+  console.log(JSON.stringify({ version: B.version, skills: sb.listSkills().length, vendors: vc, health: 'ok' }));
+  process.exit(0);
+}
+// Agent API: --list-skills
+if (args.includes('--list-skills')) {
+  var sb2 = require(path.join(__dirname,'..','commander','skill-browser'));
+  var skills = sb2.listSkills();
+  if (args.includes('--json')) console.log(JSON.stringify(skills));
+  else skills.forEach(function(s) { console.log(s.name + (s.description ? ' — ' + s.description.slice(0, 80) : '')); });
+  process.exit(0);
+}
+// Agent API: --list-sessions
+if (args.includes('--list-sessions')) {
+  var st3 = require(path.join(__dirname,'..','commander','state'));
+  var sessions = st3.listSessions(50);
+  if (args.includes('--json')) console.log(JSON.stringify(sessions));
+  else sessions.forEach(function(s) { console.log((s.id||'?') + ' | ' + (s.task||'').slice(0,60) + ' | ' + (s.status||'?')); });
+  process.exit(0);
+}
+// Agent API: --dispatch "task"
+var dispatching = false;
+if (args.includes('--dispatch')) {
+  dispatching = true;
+  var ti = args.indexOf('--dispatch') + 1;
+  var task = args[ti];
+  if (!task || task.startsWith('--')) { console.error('Usage: ccc --dispatch "task"'); process.exit(1); }
+  var jm = args.includes('--json');
+  var md = args.includes('--model') ? args[args.indexOf('--model') + 1] : undefined;
+  var mt = args.includes('--max-turns') ? parseInt(args[args.indexOf('--max-turns') + 1]) : 30;
+  var bg = args.includes('--budget') ? parseFloat(args[args.indexOf('--budget') + 1]) : undefined;
+  var cw = args.includes('--cwd') ? args[args.indexOf('--cwd') + 1] : undefined;
+  var d = require(path.join(__dirname,'..','commander','dispatcher'));
+  d.dispatch(task, { model: md, maxTurns: mt, maxBudgetUsd: bg, cwd: cw, bare: true, stream: false })
+    .then(function(r) { if (jm) console.log(JSON.stringify(r)); else console.log(r.result || 'Done'); process.exit(0); })
+    .catch(function(e) { if (jm) console.log(JSON.stringify({error:e.message})); else console.error('Error: '+e.message); process.exit(1); });
+}
+if (!dispatching) {
+  var KitCommander = require(path.join(__dirname,'..','commander','engine'));
+  new KitCommander().start().catch(function(err) { console.error('CC Commander error:', err.message); process.exit(1); });
+}

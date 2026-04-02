@@ -109,6 +109,8 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 | **Self-test** | `ccc --test` | Verify install |
 | **Check updates** | `ccc --update` | Vendor package updates |
 | **Fix issues** | `ccc --repair` | Reset corrupt state |
+| **Split mode** | `ccc --split` | Tmux tabs: menu + Claude sessions |
+| **Dispatch** | `ccc --dispatch "task"` | Headless (for agents) |
 
 ---
 
@@ -127,6 +129,51 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 | Themes | 4 | Cyberpunk, Fire, Graffiti, Futuristic |
 | Prompts | 36+ | Battle-tested templates |
 | Modes | 9 | Workflow presets |
+| Split Mode | tmux | Tabbed sessions — each task gets a window |
+| Agent API | CLI | Headless dispatch for AI orchestrators |
+
+---
+
+## Split Mode
+
+**Tabbed tmux sessions. Each task gets its own window.**
+
+```
+ccc --split
+```
+
+CCC menu runs in tab 0. Each dispatched task opens a new tmux window where Claude works with full output visible. Switch tabs with `Ctrl+A` then `n`(next) / `p`(prev) / `0-9`(by number). Mouse click works too.
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+A n` | Next tab |
+| `Ctrl+A p` | Previous tab |
+| `Ctrl+A 0` | Back to CCC menu |
+| `Ctrl+A q` | Quit session |
+| Mouse click | Switch tabs |
+
+---
+
+## Agent-Friendly API
+
+CCC is built to be controlled by AI agents — OpenClaw, Claude Code, or any orchestrator.
+
+| Command | Output | Purpose |
+|---------|--------|---------|
+| `ccc --dispatch "task" --json` | JSON | Run task headlessly |
+| `ccc --list-skills --json` | JSON | All 441+ skills |
+| `ccc --list-sessions --json` | JSON | Session history |
+| `ccc --status` | JSON | Health check |
+
+**Override flags:** `--model opusplan` · `--max-turns 50` · `--budget 5` · `--cwd /path`
+
+```bash
+# OpenClaw agent dispatches a build
+result=$(ccc --dispatch "Build auth with JWT" --json --model opusplan --budget 5)
+
+# Claude Code agent checks available skills
+ccc --list-skills --json | jq '.[] | select(.name | contains("auth"))'
+```
 
 ---
 

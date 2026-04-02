@@ -2,9 +2,9 @@
 
 ## What This Is
 
-CC Commander — by Kevin Z. 441 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 441 skills, 11 CCC domains, 78 commands, 25 hooks, 36+ prompt templates, 10 themes, 16 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+CC Commander — by Kevin Z. 441 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 441 skills, 11 CCC domains, 78 commands, 25 hooks, 36+ prompt templates, 10 themes, 16 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
 
-**Version:** 2.0.0 — The Aggregator Release
+**Version:** 2.1.0 — The Aggregator Release
 
 ## CC Commander (v2.1.0)
 
@@ -88,7 +88,7 @@ Auto-updates weekly via GitHub Actions.
 
 ## Current Status
 
-**Version:** 2.0.0
+**Version:** 2.1.0
 
 **Stats:** 441 skills, 78 commands, 25 hooks, 16 vendors, 10 themes
 
@@ -105,6 +105,10 @@ Auto-updates weekly via GitHub Actions.
 ./install.sh --verify     # Validate existing installation
 ./install.sh --force      # Skip confirmation prompts
 ./uninstall.sh            # Remove kit components (preserves CLAUDE.md + settings.json)
+ccc --split               # Tabbed tmux mode
+ccc --dispatch "task" --json  # Headless agent dispatch
+ccc --list-skills --json      # Skill catalog for agents
+ccc --status                  # Health check
 ```
 
 ## Development Notes
