@@ -768,6 +768,7 @@ class KitCommander {
 
     try {
       sp.stop(true); // stop spinner before streaming starts
+      tmuxStatus('Building: ' + fullTask.slice(0, 60));
       process.stdout.write('\x0a  ' + tui.dimText('Claude is working \u2014 live output below. Ctrl+C to cancel.') + '\x0a');
       process.stdout.write(tui.divider('Claude Output') + '\x0a\x0a');
       var result = await d.dispatch(fullTask, {
@@ -829,6 +830,7 @@ class KitCommander {
     })();
     try {
       sp.stop(true); // stop spinner before streaming starts
+      tmuxStatus('Building: ' + fullTask.slice(0, 60));
       process.stdout.write('\x0a  ' + tui.dimText('Claude is working \u2014 live output below. Ctrl+C to cancel.') + '\x0a');
       process.stdout.write(tui.divider('Claude Output') + '\x0a\x0a');
       var result = await d.dispatch(fullTask, {
@@ -877,11 +879,15 @@ class KitCommander {
     var defaults = d.getDefaultsForLevel(state.getUserLevel(currentState));
     try {
       sp.stop(true);
+      tmuxStatus('Resuming: ' + (session.task || 'previous session').slice(0, 60));
       process.stdout.write('\x0a' + tui.divider('Resuming Session') + '\x0a\x0a');
-        var result = await d.dispatch('Continue: ' + session.task, { stream: true, maxTurns: defaults.maxTurns, effort: defaults.effort, permissionMode: 'plan', fallbackModel: 'sonnet', bare: false, resume: session.claudeSessionId || undefined });
+      process.stdout.write('  ' + tui.dimText('Task: ' + (session.task || 'unknown').slice(0, 120)) + '\x0a');
+      process.stdout.write('  ' + tui.dimText('Claude is working \u2014 live output below.') + '\x0a\x0a');
+      var result = await d.dispatch('Continue: ' + session.task, { stream: true, maxTurns: defaults.maxTurns, effort: defaults.effort, fallbackModel: 'sonnet', bare: false, resume: session.claudeSessionId || undefined });
       state.updateSession(session.id, { cost: (session.cost || 0) + (result.cost_usd || 0) });
+      tmuxStatus('RESUME COMPLETE \u2714');
       process.stdout.write(tui.celebrate('Progress made!'));
-    } catch (err) { sp.stop(false); process.stdout.write('\n  Could not resume: ' + err.message + '\n'); }
+    } catch (err) { try { sp.stop(false); } catch(_) {} tmuxStatus('RESUME FAILED'); process.stdout.write('\n  Could not resume: ' + err.message + '\n'); }
     if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     await this.ask('\n  Press Enter...');
   }
