@@ -26,14 +26,22 @@ function dispatch(task, options) {
   var jsonSchema = options.jsonSchema;
   var maxBudgetUsd = options.maxBudgetUsd;
   var effort = options.effort;
-  var permissionMode = options.permissionMode !== undefined ? options.permissionMode : 'plan';
   var model = options.model;
   var fallbackModel = options.fallbackModel !== undefined ? options.fallbackModel : 'sonnet';
   var worktree = options.worktree;
   var name = options.name;
   var continueSession = options.continueSession;
+  var stream = options.stream !== false;
 
-  var args = ['-p', JSON.stringify(task), '--output-format', 'json'];
+  var args = ['-p', JSON.stringify(task)];
+
+  // Stream mode: use stream-json for live events. Batch: json for final result only.
+  if (stream && !bare) {
+    args.push('--output-format', 'stream-json');
+  } else {
+    args.push('--output-format', 'json');
+  }
+
   if (bare) args.push('--bare');
   args.push('--dangerously-skip-permissions');
   if (maxTurns) args.push('--max-turns', String(maxTurns));
@@ -42,7 +50,6 @@ function dispatch(task, options) {
   if (model) args.push('--model', model);
   if (fallbackModel && fallbackModel !== model) args.push('--fallback-model', fallbackModel);
   if (effort) args.push('--effort', effort);
-  // --dangerously-skip-permissions replaces --permission-mode (they conflict)
   if (maxBudgetUsd) args.push('--max-budget-usd', String(maxBudgetUsd));
   if (name) args.push('--name', name);
   if (worktree) args.push('--worktree', worktree);
@@ -54,44 +61,74 @@ function dispatch(task, options) {
   if (!sync) return { command: command + ' ' + args.join(' '), async: true };
 
   var env = Object.assign({}, process.env, { CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: '70' });
-  var stream = options.stream !== false; // default: stream live output
 
   if (stream) {
-    // Stream mode: show live output like regular claude, collect result at end
     return new Promise(function(resolve, reject) {
       var proc = childProcess.spawn(command, args, {
         cwd: cwd || process.cwd(),
         env: env,
-        stdio: ['inherit', 'pipe', 'pipe'], // stdin inherit, stdout+stderr piped
+        stdio: ['inherit', 'pipe', 'pipe'],
       });
 
       var output = '';
-      var stderrOutput = '';
+      var lastResult = null;
+
       proc.stdout.on('data', function(chunk) {
         var text = chunk.toString();
         output += text;
-        if (bare) process.stdout.write(text);
+
+        if (!bare) {
+          // stream-json: each line is a JSON event. Print assistant text live.
+          text.split('\n').forEach(function(line) {
+            if (!line.trim()) return;
+            try {
+              var evt = JSON.parse(line);
+              if (evt.type === 'assistant' && evt.message && evt.message.content) {
+                evt.message.content.forEach(function(block) {
+                  if (block.type === 'text' && block.text) {
+                    process.stdout.write(block.text);
+                  }
+                  if (block.type === 'tool_use') {
+                    process.stdout.write('\n  \x1b[38;5;245m[\u2699 ' + block.name + ']\x1b[0m\n');
+                  }
+                });
+              }
+              if (evt.type === 'result') {
+                lastResult = evt;
+              }
+            } catch(_e) {
+              // partial JSON line or non-JSON — skip silently
+            }
+          });
+        } else {
+          process.stdout.write(text);
+        }
       });
+
       proc.stderr.on('data', function(chunk) {
-        var text = chunk.toString();
-        stderrOutput += text;
-        process.stderr.write(text); // always stream stderr to terminal
+        process.stderr.write(chunk.toString());
       });
 
       proc.on('close', function(code) {
         if (code !== 0) {
-          var detail = stderrOutput.trim().split('\n').slice(-3).join(' ').slice(0, 300);
+          var detail = output.trim().split('\n').slice(-3).join(' ').slice(0, 300);
           reject(new Error('Claude Code exited with code ' + code + (detail ? ': ' + detail : '')));
           return;
         }
-        // Try to parse the last JSON object from output
-        try {
-          // Find last complete JSON object (claude outputs JSON at end with --output-format json)
-          var jsonMatch = output.match(/\{[\s\S]*\}\s*$/);
-          if (jsonMatch) resolve(JSON.parse(jsonMatch[0]));
-          else resolve({ result: output.trim(), session_id: null, cost_usd: 0 });
-        } catch (_e) {
-          resolve({ result: output.trim(), session_id: null, cost_usd: 0 });
+        if (lastResult) {
+          resolve({
+            result: lastResult.result || output.trim(),
+            session_id: lastResult.session_id || null,
+            cost_usd: lastResult.cost_usd || 0,
+          });
+        } else {
+          try {
+            var jsonMatch = output.match(/\{[\s\S]*\}\s*$/);
+            if (jsonMatch) resolve(JSON.parse(jsonMatch[0]));
+            else resolve({ result: output.trim(), session_id: null, cost_usd: 0 });
+          } catch (_e) {
+            resolve({ result: output.trim(), session_id: null, cost_usd: 0 });
+          }
         }
       });
 
@@ -101,7 +138,7 @@ function dispatch(task, options) {
     });
   }
 
-  // Silent mode (stream=false): original behavior for background/batch jobs
+  // Silent mode (stream=false): batch JSON for background jobs
   try {
     var stdout = childProcess.execSync(command + ' ' + args.join(' '), {
       encoding: 'utf8', maxBuffer: 50 * 1024 * 1024, timeout: 10 * 60 * 1000,
