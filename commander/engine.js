@@ -32,8 +32,12 @@ function inSplitMode() {
 function tmuxDispatch(claudeCmd) {
   try {
     var cp = require('child_process');
-    // Send the command to pane 1 (Claude side)
-    cp.execSync('tmux send-keys -t ccc-split:0.1 ' + JSON.stringify(claudeCmd) + ' Enter', { stdio: 'pipe' });
+    // Write command to a temp file to avoid shell escaping hell
+    var fs = require('fs');
+    var tmpFile = require('path').join(require('os').tmpdir(), 'ccc-dispatch.sh');
+    fs.writeFileSync(tmpFile, claudeCmd + '\n');
+    // Send "bash /tmp/ccc-dispatch.sh" to the right pane
+    cp.execSync('tmux send-keys -t ccc-split:0.1 "bash ' + tmpFile + '" Enter', { stdio: 'pipe' });
     // Focus on the Claude pane so user can watch
     cp.execSync('tmux select-pane -t ccc-split:0.1', { stdio: 'pipe' });
     return true;
@@ -794,7 +798,7 @@ class KitCommander {
 
       if (inSplitMode()) {
         // Split mode: send command to the visible Claude pane
-        var claudeArgs = 'claude -p ' + JSON.stringify(fullTask).replace(/'/g, "'\\'") + ' --dangerously-skip-permissions --max-turns ' + defaults.maxTurns;
+        var claudeArgs = 'claude -p ' + JSON.stringify(fullTask) + ' --dangerously-skip-permissions --max-turns ' + defaults.maxTurns;
         if (defaults.model) claudeArgs += ' --model ' + defaults.model;
         tmuxDispatch(claudeArgs);
         process.stdout.write('\x0a  ' + tui.boldText('Dispatched to Claude pane \u2192', tui.getTheme().primary) + '\x0a');
@@ -814,22 +818,23 @@ class KitCommander {
         state.completeSession(session.id, 'success');
         try { var knowledge2 = require("./knowledge"); knowledge2.extractAndStore(state.getSession(session.id) || {task:fullTask,cost:0}, result.result || ""); } catch(_e) {}
       }
-      // Sync completion to Linear + post update + pulse
-      try {
-        var linearDone = require("./integrations/linear");
-        var doneSession = state.getSession(session.id);
-        if (doneSession) {
-          linearDone.syncSession(doneSession, "success").catch(function(){});
-          linearDone.postSessionSummary(doneSession).catch(function(){});
-          linearDone.pulse("session_end", (doneSession.task || "").slice(0, 80)).catch(function(){});
-        }
-      } catch(_e) { try { require('./error-logger').log(_e, 'linear-sync-done'); } catch(_) {} }
-      // Generate session replay
-      try { var replay = require("./session-replay"); var r = replay.generateReplay(state.getSession(session.id)); if (r) { replay.saveReplay(r); replay.postToLinear(r).catch(function(){}); process.stdout.write('\n  ' + tui.dimText('Session replay saved. Score: ' + r.score.total + '/100') + '\n'); } } catch(_e) {}
-      tmuxStatus('BUILD COMPLETE');
-      try { require('fs').writeFileSync(require('path').join(require('os').homedir(), '.claude', 'commander', 'yolo-status.txt'), 'COMPLETE: ' + fullTask.slice(0, 200) + ' | ' + new Date().toISOString()); } catch(_e) {}
-      process.stdout.write(tui.celebrate('BUILD COMPLETE'));
-      if (result.result) { var summary = typeof result.result === 'string' ? result.result.slice(0, 500) : JSON.stringify(result.result).slice(0, 500); process.stdout.write('\n  ' + summary + '\n'); }
+      if (!inSplitMode()) {
+        // Only show completion UI in simple mode (split mode: Claude handles it in right pane)
+        try {
+          var linearDone = require("./integrations/linear");
+          var doneSession = state.getSession(session.id);
+          if (doneSession) {
+            linearDone.syncSession(doneSession, "success").catch(function(){});
+            linearDone.postSessionSummary(doneSession).catch(function(){});
+            linearDone.pulse("session_end", (doneSession.task || "").slice(0, 80)).catch(function(){});
+          }
+        } catch(_e) { try { require('./error-logger').log(_e, 'linear-sync-done'); } catch(_) {} }
+        try { var replay = require("./session-replay"); var r = replay.generateReplay(state.getSession(session.id)); if (r) { replay.saveReplay(r); replay.postToLinear(r).catch(function(){}); process.stdout.write('\n  ' + tui.dimText('Session replay saved. Score: ' + r.score.total + '/100') + '\n'); } } catch(_e) {}
+        tmuxStatus('BUILD COMPLETE');
+        try { require('fs').writeFileSync(require('path').join(require('os').homedir(), '.claude', 'commander', 'yolo-status.txt'), 'COMPLETE: ' + fullTask.slice(0, 200) + ' | ' + new Date().toISOString()); } catch(_e) {}
+        process.stdout.write(tui.celebrate('BUILD COMPLETE'));
+        if (result && result.result) { var summary = typeof result.result === 'string' ? result.result.slice(0, 500) : JSON.stringify(result.result).slice(0, 500); process.stdout.write('\n  ' + summary + '\n'); }
+      }
     } catch (err) {
       try { sp.stop(false); } catch(_) {}
       try { require('./error-logger').log(err, 'executeBuild'); } catch(_) {}
@@ -870,7 +875,7 @@ class KitCommander {
 
       if (inSplitMode()) {
         // Split mode: send command to the visible Claude pane
-        var claudeArgs = 'claude -p ' + JSON.stringify(fullTask).replace(/'/g, "'\\'") + ' --dangerously-skip-permissions --max-turns ' + defaults.maxTurns;
+        var claudeArgs = 'claude -p ' + JSON.stringify(fullTask) + ' --dangerously-skip-permissions --max-turns ' + defaults.maxTurns;
         if (defaults.model) claudeArgs += ' --model ' + defaults.model;
         tmuxDispatch(claudeArgs);
         process.stdout.write('\x0a  ' + tui.boldText('Dispatched to Claude pane \u2192', tui.getTheme().primary) + '\x0a');
@@ -890,10 +895,12 @@ class KitCommander {
         state.completeSession(session.id, 'success');
         try { var knowledge2 = require("./knowledge"); knowledge2.extractAndStore(state.getSession(session.id) || {task:fullTask,cost:0}, result.result || ""); } catch(_e) {}
       }
-      try { var linearDone = require("./integrations/linear"); var doneSession = state.getSession(session.id); if (doneSession) linearDone.syncSession(doneSession, "success").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-issue-done'); } catch(_) {} }
-      tmuxStatus('BUILD COMPLETE');
-      try { require('fs').writeFileSync(require('path').join(require('os').homedir(), '.claude', 'commander', 'yolo-status.txt'), 'COMPLETE: ' + fullTask.slice(0, 200) + ' | ' + new Date().toISOString()); } catch(_e) {}
-      process.stdout.write(tui.celebrate('BUILD COMPLETE'));
+      if (!inSplitMode()) {
+        try { var linearDone = require("./integrations/linear"); var doneSession = state.getSession(session.id); if (doneSession) linearDone.syncSession(doneSession, "success").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-issue-done'); } catch(_) {} }
+        tmuxStatus('BUILD COMPLETE');
+        try { require('fs').writeFileSync(require('path').join(require('os').homedir(), '.claude', 'commander', 'yolo-status.txt'), 'COMPLETE: ' + fullTask.slice(0, 200) + ' | ' + new Date().toISOString()); } catch(_e) {}
+        process.stdout.write(tui.celebrate('BUILD COMPLETE'));
+      }
     } catch (err) {
       sp.stop(false);
       try { var linearErr = require("./integrations/linear"); var errSession = state.getSession(session.id); if (errSession) linearErr.syncSession(errSession, "error").catch(function(){}); } catch(_e) { try { require('./error-logger').log(_e, 'linear-issue-error'); } catch(_) {} }
