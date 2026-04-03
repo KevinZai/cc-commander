@@ -46,7 +46,7 @@ Hooks are lifecycle scripts that run automatically during Claude Code sessions. 
 |------|------|---------|
 | Status Check-in | `status-checkin.js` | Session end status summary |
 | Session End Verify | `session-end-verify.js` | Verify modified files, check for console.log |
-| Session Coach | `session-coach.js` | Periodic coaching nudges (toggleable: `KZ_COACH_DISABLE=1`) |
+| Session Coach | `session-coach.js` | Periodic coaching nudges (toggleable: `CC_COACH_DISABLE=1`) |
 
 ## Important: careful-guard.js Limitations
 

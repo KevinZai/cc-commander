@@ -9,8 +9,8 @@
 // and suggests relevant skills, workflow improvements, and best practices.
 //
 // Environment variables:
-//   KZ_COACH_INTERVAL=5     Responses between coaching nudges (default: 5)
-//   KZ_COACH_DISABLE=1      Suppress all coaching output
+//   CC_COACH_INTERVAL= (or KZ_COACH_INTERVAL=)5     Responses between coaching nudges (default: 5)
+//   CC_COACH_DISABLE= (or KZ_COACH_DISABLE=)1      Suppress all coaching output
 // ============================================================================
 
 'use strict';
@@ -31,7 +31,7 @@ const C = {
 };
 
 async function main() {
-  if (process.env.KZ_COACH_DISABLE === '1') {
+  if ((process.env.CC_COACH_DISABLE || process.env.KZ_COACH_DISABLE) === '1') {
     process.stdin.pipe(process.stdout);
     return;
   }
@@ -44,7 +44,7 @@ async function main() {
 
   const sessionId = process.env.CLAUDE_SESSION_ID || process.env.SESSION_ID || 'default';
   const stateFile = path.join(os.tmpdir(), `kz-coach-${sessionId}.json`);
-  const interval = parseInt(process.env.KZ_COACH_INTERVAL || '5', 10);
+  const interval = parseInt(process.env.CC_COACH_INTERVAL || process.env.KZ_COACH_INTERVAL || '5', 10);
 
   // Load or initialize state
   let state = { count: 0, edits: 0, bashes: 0, reads: 0, errors: 0, files: [], startTime: Date.now(), lastTip: '' };
@@ -140,7 +140,7 @@ async function main() {
   // Render coaching nudge
   const header = `${C.line}━━━━━━${C.reset} ${C.green}${C.bold}KZ COACH${C.reset} ${C.dim}#${state.count} │ ${elapsed}min │ ${state.edits} edits │ ${state.errors} errors${C.reset}`;
   const body = `${C.cyan}>${C.reset} ${C.white}${tip}${C.reset}`;
-  const footer = `${C.dim}Disable: KZ_COACH_DISABLE=1 │ Interval: KZ_COACH_INTERVAL=${interval}${C.reset}`;
+  const footer = `${C.dim}Disable: CC_COACH_DISABLE=1 │ Interval: CC_COACH_INTERVAL=${interval}${C.reset}`;
 
   process.stderr.write(`\n${header}\n${body}\n${footer}\n`);
 }

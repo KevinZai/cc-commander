@@ -1735,7 +1735,7 @@ The session-coach hook fires every N responses (default: 10) with contextual sug
 
 | Env Var | Default | What it does |
 |---------|---------|-------------|
-| `KZ_COACH_INTERVAL` | `10` | Responses between coaching nudges |
+| `CC_COACH_INTERVAL` | `10` | Responses between coaching nudges |
 | `KZ_COACH_DISABLE` | `0` | Set to `1` to disable session coach entirely |
 
 ### Hook Totals

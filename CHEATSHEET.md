@@ -298,7 +298,7 @@ The kit ships 15 hooks that fire automatically — no prompting required. Disabl
 |------|-------------|-------------|
 | `status-checkin` | Session end status summary | `KZ_DISABLE_STATUS_CHECKIN=1` |
 | `session-end-verify` | Verifies modified files, checks for leftover console.log | `KZ_DISABLE_SESSION_END_VERIFY=1` |
-| `session-coach` | Periodic coaching nudges — skill tips, checkpoint reminders | `KZ_COACH_DISABLE=1` |
+| `session-coach` | Periodic coaching nudges — skill tips, checkpoint reminders | `CC_COACH_DISABLE=1` |
 
 **PreCompact (1 hook)**
 
@@ -312,7 +312,7 @@ The kit ships 15 hooks that fire automatically — no prompting required. Disabl
 |------|-------------|-------------|
 | `self-verify` | Auto-verifies file changes against stated intent, catches drift | `KZ_DISABLE_SELF_VERIFY=1` |
 
-**Session Coach** fires every N responses (default: 10). Customize interval with `KZ_COACH_INTERVAL=20` (number of responses between nudges). Disable entirely with `KZ_COACH_DISABLE=1`.
+**Session Coach** fires every N responses (default: 10). Customize interval with `CC_COACH_INTERVAL=20` (number of responses between nudges). Disable entirely with `CC_COACH_DISABLE=1`.
 
 With ECC installed, 19 additional hooks bring the total to 34. Without ECC, the 15 kit-native hooks work standalone via `hooks-standalone.json`.
 

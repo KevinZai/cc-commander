@@ -592,7 +592,7 @@ Hooks are JavaScript scripts that fire automatically at specific points in the C
 |------|-------------|---------|
 | `status-checkin.js` | Session end status summary | `KZ_DISABLE_STATUS_CHECKIN=1` |
 | `session-end-verify.js` | Verifies modified files, checks for leftover console.log | `KZ_DISABLE_SESSION_END_VERIFY=1` |
-| `session-coach.js` | Periodic coaching nudges -- skill tips, checkpoint reminders (interval: `KZ_COACH_INTERVAL`) | `KZ_COACH_DISABLE=1` |
+| `session-coach.js` | Periodic coaching nudges -- skill tips, checkpoint reminders (interval: `CC_COACH_INTERVAL`) | `CC_COACH_DISABLE=1` |
 
 #### PreCompact Hooks (fire before context compaction)
 
@@ -1070,10 +1070,10 @@ Central configuration file with kit-wide settings. Supports environment variable
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `KZ_NO_COLOR` | Disable ANSI color output | `0` |
-| `KZ_NO_ANIMATION` | Disable terminal animations | `0` |
+| `CC_NO_COLOR` | Disable ANSI color output | `0` |
+| `CC_NO_ANIMATION` | Disable terminal animations | `0` |
 | `KZ_COACH_DISABLE` | Disable session coach nudges | `0` |
-| `KZ_COACH_INTERVAL` | Responses between coaching nudges | `10` |
+| `CC_COACH_INTERVAL` | Responses between coaching nudges | `10` |
 | `KZ_DISABLE_*` | Disable individual hooks | `0` |
 
 ### settings.json Integration

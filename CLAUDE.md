@@ -115,7 +115,7 @@ ccc --status                  # Health check
 
 - Shell scripts source `lib/terminal-art.sh` for all visual output
 - Hooks use `lib/terminal-art.js` for consistent branding
-- All animations respect `KZ_NO_COLOR=1`, `KZ_NO_ANIMATION=1`, CI detection
+- All animations respect `CC_NO_COLOR=1`, `CC_NO_ANIMATION=1`, CI detection
 - OG image generated via `docs/assets/og-image.svg` → PNG conversion
 - Mega-skills use router pattern: one SKILL.md dispatches to sub-skill directories
 - Kevin's personal overlay lives in `kevin/` — not installed by the public installer
@@ -134,7 +134,7 @@ ccc --status                  # Health check
 - Real-time React dashboard at `dashboard/` — agent monitoring, spawn tree, cost tracker, live logs (no DB)
 - `lib/config-reader.js` — shared config utility for bible-config.json with env var overrides
 - VS Code snippets at `compatibility/vscode-snippets.json` (20+ snippets)
-- session-coach.js fires periodic coaching nudges (toggleable via `KZ_COACH_DISABLE=1`, interval via `KZ_COACH_INTERVAL`)
+- session-coach.js fires periodic coaching nudges (toggleable via `CC_COACH_DISABLE=1`, interval via `CC_COACH_INTERVAL`)
 - Status line (`lib/statusline.sh`) shows live context gauge, model, cost, tokens, account, rate limit countdown
 - `/init` checks `~/.claude/sessions/` and offers to resume prior sessions before the wizard
 - 4 iTerm2 color profiles at `compatibility/` (Claude Anthropic, OLED Black, Matrix); legacy `kz-matrix.itermcolors` preserved

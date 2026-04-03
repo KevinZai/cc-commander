@@ -181,7 +181,7 @@ Sub-choices:
 2. **Change experience level** — Choices: beginner / intermediate / expert. Write to state.
 3. **Set cost ceiling** — Ask for max $ per dispatch. Write to state.
 4. **Change theme** — CLI-only feature (see note under `t`). Mention this and offer to show theme names.
-5. **Toggle animations** — Note `KZ_NO_ANIMATION=1` env var to disable. Cannot toggle from inside Claude Code session.
+5. **Toggle animations** — Note `CC_NO_ANIMATION=1` env var to disable. Cannot toggle from inside Claude Code session.
 6. **Linear setup** — Ask for team name + project name, verify via `mcp__linear__list_teams`, write to state.
 7. **Change launch mode** — Choices: Simple / Advanced (split tmux). Write to state.
 8. **Reset all state** — Confirm first, then delete `~/.claude/commander/state.json` (skills are preserved).

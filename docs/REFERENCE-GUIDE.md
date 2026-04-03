@@ -169,7 +169,7 @@ PreCompact --> [save state before context compression]
 |------|-------------|---------|
 | `session-end-verify` | Checks modified files, leftover console.log | `KZ_DISABLE_SESSION_END_VERIFY=1` |
 | `status-checkin` | Session end status summary | `KZ_DISABLE_STATUS_CHECKIN=1` |
-| `session-coach` | Periodic coaching nudges (skill tips, reminders) | `KZ_COACH_DISABLE=1` |
+| `session-coach` | Periodic coaching nudges (skill tips, reminders) | `CC_COACH_DISABLE=1` |
 
 ### PreCompact (1 hook)
 
@@ -191,10 +191,10 @@ With ECC installed, 19 additional hooks bring the total to 35.
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `KZ_NO_COLOR` | (unset) | Disable ANSI colors in kit output |
-| `KZ_NO_ANIMATION` | (unset) | Disable intro animations |
+| `CC_NO_COLOR` | (unset) | Disable ANSI colors in kit output |
+| `CC_NO_ANIMATION` | (unset) | Disable intro animations |
 | `KZ_COACH_DISABLE` | (unset) | Disable session coach entirely |
-| `KZ_COACH_INTERVAL` | 10 | Coach nudge interval (# of responses between nudges) |
+| `CC_COACH_INTERVAL` | 10 | Coach nudge interval (# of responses between nudges) |
 | `KZ_DISABLE_CAREFUL_GUARD` | (unset) | Disable destructive command blocker |
 | `KZ_DISABLE_CONTEXT_GUARD` | (unset) | Disable context usage warnings |
 | `KZ_DISABLE_AUTO_CHECKPOINT` | (unset) | Disable auto git-stash checkpoints |

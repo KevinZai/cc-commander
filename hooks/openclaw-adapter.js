@@ -7,10 +7,10 @@
 // all network failures are silently swallowed, always exits 0.
 //
 // Env vars:
-//   KZ_OPENCLAW_ENABLED  — set to "1" to activate (default: disabled)
-//   KZ_OPENCLAW_DEBUG    — set to "1" to log to stderr
-//   KZ_OPENCLAW_URL      — gateway URL (default: http://localhost:18789)
-//   KZ_OPENCLAW_TIMEOUT  — request timeout in ms (default: 2000)
+//   CC_OPENCLAW_ENABLED (or KZ_OPENCLAW_ENABLED)  — set to "1" to activate (default: disabled)
+//   CC_OPENCLAW_DEBUG (or KZ_OPENCLAW_DEBUG)    — set to "1" to log to stderr
+//   CC_OPENCLAW_URL (or KZ_OPENCLAW_URL)      — gateway URL (default: http://localhost:18789)
+//   CC_OPENCLAW_TIMEOUT (or KZ_OPENCLAW_TIMEOUT)  — request timeout in ms (default: 2000)
 // ============================================================================
 
 'use strict';
@@ -18,10 +18,10 @@
 const http = require('http');
 const url = require('url');
 
-const ENABLED = process.env.KZ_OPENCLAW_ENABLED === '1';
-const DEBUG = process.env.KZ_OPENCLAW_DEBUG === '1';
-const GATEWAY_URL = process.env.KZ_OPENCLAW_URL || 'http://localhost:18789';
-const TIMEOUT_MS = parseInt(process.env.KZ_OPENCLAW_TIMEOUT, 10) || 2000;
+const ENABLED = (process.env.CC_OPENCLAW_ENABLED || process.env.KZ_OPENCLAW_ENABLED) === '1';
+const DEBUG = (process.env.CC_OPENCLAW_DEBUG || process.env.KZ_OPENCLAW_DEBUG) === '1';
+const GATEWAY_URL = process.env.CC_OPENCLAW_URL || process.env.KZ_OPENCLAW_URL || 'http://localhost:18789';
+const TIMEOUT_MS = parseInt(process.env.CC_OPENCLAW_TIMEOUT || process.env.KZ_OPENCLAW_TIMEOUT, 10) || 2000;
 const WEBHOOK_PATH = '/api/webhooks/bible';
 const SOURCE = 'cc-commander';
 const VERSION = '1.2';

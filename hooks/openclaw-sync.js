@@ -32,7 +32,7 @@ process.stdin.on('end', () => {
   // Gate: check if OpenClaw sync is enabled
   const enabled =
     process.env.CC_OPENCLAW_ENABLED === '1' ||
-    process.env.KZ_OPENCLAW_ENABLED === '1';
+    (process.env.CC_OPENCLAW_ENABLED || process.env.KZ_OPENCLAW_ENABLED) === '1';
   if (!enabled) return;
 
   run().catch(() => {

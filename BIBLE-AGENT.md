@@ -212,10 +212,10 @@ Level is configured in `~/.claude/commander/config.json`. Override per-dispatch 
 
 | Variable | Effect |
 |----------|--------|
-| `KZ_NO_COLOR=1` | Disable colors |
-| `KZ_NO_ANIMATION=1` | Disable animations |
-| `KZ_COACH_DISABLE=1` | Disable session coaching nudges |
-| `KZ_COACH_INTERVAL=<ms>` | Override coaching interval |
+| `CC_NO_COLOR=1` | Disable colors |
+| `CC_NO_ANIMATION=1` | Disable animations |
+| `CC_COACH_DISABLE=1` | Disable session coaching nudges |
+| `CC_COACH_INTERVAL=<ms>` | Override coaching interval |
 | `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` | Auto-compact at 70% context (dispatcher default) |
 
 ---

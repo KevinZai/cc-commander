@@ -85,4 +85,4 @@ grep -rl "Kevin Z" --include="*.md" | grep -v node_modules | xargs grep -l "Kevi
 |--------|-------|---------|
 | `KC_*` | Kit Commander (v1.5+) | `KC_NO_COLOR`, `KC_THEME` |
 | `CC_*` | Claude Code Kit (v1.0+) | `CC_NO_COLOR`, `CC_OPENCLAW_ENABLED` |
-| `KZ_*` | Legacy (deprecated) | `KZ_NO_COLOR` — still supported via backward compat |
+| `KZ_*` | Legacy (deprecated) | `CC_NO_COLOR` — still supported via backward compat |
