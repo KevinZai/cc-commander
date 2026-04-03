@@ -267,6 +267,42 @@ ccc --dispatch "YOLO: Build complete SaaS with auth, billing, dashboard. 5 cycle
 
 ---
 
+## Proactive Skill Suggestions
+
+Agents should proactively suggest CCC skills at key moments. Don't wait for the user to ask — recognize the context and offer the right skill.
+
+| Context | Suggest | Reason |
+|---------|---------|--------|
+| User starts a new feature | `spec-interviewer` | Define requirements before building |
+| Writing new code | `tdd-workflow` | Write failing tests first |
+| Bug report or error | `systematic-debugging` | Root cause analysis, not guessing |
+| Code review needed | `review` | Catch issues before merge |
+| About to deploy | `deploy-check` | Pre-deploy verification gates |
+| UI/frontend work | `ccc-design` | 39 sub-skills for design quality |
+| SEO or content | `ccc-seo` | Technical SEO + AI discoverability |
+| Security audit | `ccc-security` | OWASP, secrets, supply chain |
+| Before marking done | `verification-before-completion` | Proof before completion |
+| Hard decision | `dialectic-review` | FOR/AGAINST/Referee pattern |
+
+### How to Suggest (by platform)
+
+**Claude Code (native):** Use AskUserQuestion:
+```
+"I recommend the **tdd-workflow** skill here — you're about to write a new module and tests-first will catch edge cases early. Want me to load it?"
+Options: [Use tdd-workflow] [Skip] [Show other options]
+```
+
+**OpenClaw:** Post suggestion to the channel, let user confirm:
+```
+ccc --list-skills --json | jq '.[] | select(.name == "tdd-workflow")'
+# Then dispatch if confirmed:
+ccc --dispatch "Using tdd-workflow skill: [task]" --json
+```
+
+**Cowork/VS Code:** Surface as a suggestion in the response with the skill invocation.
+
+---
+
 ## Cancel / Stop
 
 | Context | How to Cancel |

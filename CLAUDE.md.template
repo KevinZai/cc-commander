@@ -64,6 +64,24 @@ Define success criteria BEFORE the spec: evals > spec > plan > implement > verif
 - Add to CLAUDE.md: "When compacting, always preserve: [list your critical context here]"
 - Use `@path/to/import` in CLAUDE.md to compose from multiple source files at load time.
 
+### Proactive Skill Suggestions
+At key moments, suggest the most relevant CCC skill with justification. Use AskUserQuestion.
+
+| Trigger | Suggest | Why |
+|---------|---------|-----|
+| Starting a feature | `spec-interviewer` or `evals-before-specs` | Define done before building |
+| Writing code | `tdd-workflow` | Tests first, then implement |
+| Bug found | `systematic-debugging` | Root cause, not guessing |
+| Code complete | `review` or `verification-before-completion` | Catch issues before shipping |
+| Deploying | `deploy-check` or `ccc-devops` | Pre-deploy gates |
+| UI work | `ccc-design` or `frontend-design` | Anti-slop design |
+| SEO needed | `ccc-seo` | Technical SEO + AI search |
+| Security concern | `ccc-security` | OWASP, secrets, hardening |
+| Before shipping | `qa` or `e2e` | Real browser testing |
+
+Format: "I recommend using the **[skill]** skill here because [reason]. Want me to load it?"
+Search skills: `ccc --list-skills --json` or read `~/.claude/SKILLS-INDEX.md`
+
 ### Dialectic Review (Important Decisions)
 For architecture choices or expensive-to-reverse decisions:
 spawn FOR agent + AGAINST agent + Referee.
