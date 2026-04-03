@@ -13,7 +13,8 @@ function tmuxStatus(msg) {
   try {
     var cp = require('child_process');
     var session = process.env.CCC_TMUX_SESSION;
-    cp.execSync('tmux display-message -t ' + session + ' -d 3000 " CCC: ' + msg.replace(/"/g, '\\"') + '"', { stdio: 'pipe' });
+    var safeMsg = String(msg).replace(/[`$\\]/g, '').slice(0, 120);
+    cp.execFileSync('tmux', ['display-message', '-t', session, '-d', '3000', ' CCC: ' + safeMsg], { stdio: 'pipe' });
   } catch(_e) {}
 }
 
@@ -32,9 +33,8 @@ function tmuxDispatch(claudeCmd) {
     var sessionName = process.env.CCC_TMUX_SESSION || 'ccc';
     dispatchCounter++;
     var windowName = 'claude-' + dispatchCounter;
-    // Create new empty window, then send the command via send-keys
-    cp.execSync('tmux new-window -t ' + sessionName + ' -n ' + windowName, { stdio: 'pipe' });
-    cp.execSync('tmux send-keys -t ' + sessionName + ':' + windowName + ' ' + JSON.stringify(claudeCmd) + ' Enter', { stdio: 'pipe' });
+    cp.execFileSync('tmux', ['new-window', '-t', sessionName, '-n', windowName], { stdio: 'pipe' });
+    cp.execFileSync('tmux', ['send-keys', '-t', sessionName + ':' + windowName, claudeCmd, 'Enter'], { stdio: 'pipe' });
     return true;
   } catch(_e) { return false; }
 }
@@ -703,9 +703,9 @@ class KitCommander {
       }
       case 'settings_animations': {
         try {
-          var current = process.env.KC_NO_ANIMATION === '1' ? 'OFF' : 'ON';
+          var current = (process.env.CC_NO_ANIMATION || process.env.KC_NO_ANIMATION) === '1' ? 'OFF' : 'ON';
           process.stdout.write('\n  Animations are currently ' + current + '\n');
-          process.stdout.write('  Set KC_NO_ANIMATION=1 in your shell to disable.\n');
+          process.stdout.write('  Set CC_NO_ANIMATION=1 in your shell to disable.\n');
           if (!this.rl) this.rl = readline.createInterface({ input: process.stdin, output: process.stdout });
           await this.ask('\n  Press Enter...');
         } catch(_e) {
@@ -1100,7 +1100,7 @@ class KitCommander {
         sp.stop(true);
         process.stdout.write("\x0a" + tui.divider("YOLO Cycle " + cycle + "/" + maxCycles + (cycle === 1 ? " \u2014 Building" : " \u2014 Improving")) + "\x0a\x0a");
         process.stdout.write("  " + tui.dimText("Live output below. Watch file: ~/.claude/commander/yolo-status.txt") + "\x0a\x0a");
-        var result = await d.dispatch(prompt, { stream: true, maxTurns: Math.round(100 / maxCycles), effort: cycle === 1 ? "high" : "medium", model: "opusplan", maxBudgetUsd: Math.round(10 / maxCycles), permissionMode: "plan", fallbackModel: "sonnet", bare: false, name: d.generateSessionName("yolo-" + cycle + "-" + task), systemPrompt: "YOLO Loop cycle " + cycle + "/" + maxCycles + ". " + (cycle === 1 ? "Build from scratch." : "Review previous work. Fix issues. Add tests. Ship quality.") + knowledgePrompt });
+        var result = await d.dispatch(prompt, { stream: true, maxTurns: Math.round(100 / maxCycles), effort: cycle === 1 ? "high" : "medium", model: "opus", maxBudgetUsd: Math.round(10 / maxCycles), permissionMode: "plan", fallbackModel: "sonnet", bare: false, name: d.generateSessionName("yolo-" + cycle + "-" + task), systemPrompt: "YOLO Loop cycle " + cycle + "/" + maxCycles + ". " + (cycle === 1 ? "Build from scratch." : "Review previous work. Fix issues. Add tests. Ship quality.") + knowledgePrompt });
         state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
         state.completeSession(session.id, "success");
         knowledge.extractAndStore(state.getSession(session.id) || session, result.result || "");

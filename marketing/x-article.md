@@ -52,7 +52,7 @@ I extracted the gold.
 
 The result: Kevin Z's CC Commander
 
-- 441+ production-tested skills
+- 280+ production-tested skills
 - 88+ slash commands
 - 37 lifecycle hooks
 - 3 starter templates

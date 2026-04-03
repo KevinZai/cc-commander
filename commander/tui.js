@@ -432,7 +432,7 @@ function renderLogoResponsive(text) {
 
 function wipeTransition(speed) {
   return new Promise(function(resolve) {
-    if (process.env.KC_NO_ANIMATION === '1' || !process.stdout.columns) {
+    if ((process.env.CC_NO_ANIMATION || process.env.KC_NO_ANIMATION) === '1' || !process.stdout.columns) {
       clearScreen();
       resolve();
       return;
@@ -458,7 +458,7 @@ function wipeTransition(speed) {
 
 function flashTransition() {
   return new Promise(function(resolve) {
-    if (process.env.KC_NO_ANIMATION === '1') { clearScreen(); resolve(); return; }
+    if ((process.env.CC_NO_ANIMATION || process.env.KC_NO_ANIMATION) === '1') { clearScreen(); resolve(); return; }
     var t = getTheme();
     process.stdout.write(ESC + '?25l');
     // Flash primary color then clear

@@ -2,8 +2,8 @@
 
 const BRAND = require('./branding');
 
-// ANSI color helpers — respect KC_NO_COLOR
-const noColor = process.env.KC_NO_COLOR === '1' || process.env.NO_COLOR === '1' || process.env.CC_NO_COLOR === '1';
+// ANSI color helpers — respect CC_NO_COLOR (or KC_NO_COLOR for backward compat)
+const noColor = (process.env.CC_NO_COLOR || process.env.KC_NO_COLOR || process.env.NO_COLOR) === '1';
 
 const c = {
   reset: noColor ? '' : '\x1b[0m',

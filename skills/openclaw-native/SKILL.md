@@ -131,7 +131,7 @@ See `/openclaw` command for:
 ```
 CC Commander                    OpenClaw Gateway
 ┌──────────────────┐              ┌──────────────────┐
-│  Skills (441+)   │──── sync ───→│  Skill Registry  │
+│  Skills (280+)   │──── sync ───→│  Skill Registry  │
 │  Hooks (18)      │←── events ──→│  Webhook System  │
 │  Modes (9)       │──── sync ───→│  Agent Profiles  │
 │  Sessions        │←── sync ───→│  Memory DBs      │

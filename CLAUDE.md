@@ -2,7 +2,7 @@
 
 ## What This Is
 
-CC Commander — by Kevin Z. 441 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 441 skills, 11 CCC domains, 78 commands, 25 hooks, 36+ prompt templates, 10 themes, 16 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+CC Commander — by Kevin Z. 280 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 280 skills, 11 CCC domains, 76 commands, 25 hooks, 36+ prompt templates, 10 themes, 16 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
 
 **Version:** 2.1.0 — The Aggregator Release
 
@@ -39,7 +39,7 @@ Tests: `node --test commander/tests/paths.test.js`
 │   ├── confidence-check/    # Pre-execution confidence assessment
 │   ├── four-question-validation/  # Post-implementation verification
 ���   └── */               # Individual skills (SKILL.md each)
-├── commands/            # 88+ slash commands (.md files)
+├── commands/            # 76 slash commands (.md files)
 │   └── cc.md            # /cc command center (interactive menu)
 ├── prompts/             # 36+ prompt templates across 6 categories
 ├── hooks/               # 18 kit-native hooks (JS) + hooks.json (37 total w/ ECC) + hooks-standalone.json
@@ -90,7 +90,7 @@ Auto-updates weekly via GitHub Actions.
 
 **Version:** 2.1.0
 
-**Stats:** 441 skills, 78 commands, 25 hooks, 16 vendors, 10 themes
+**Stats:** 280 skills, 76 commands, 25 hooks, 16 vendors, 10 themes
 
 **Live:**
 - GitHub repo: github.com/KevinZai/cc-commander

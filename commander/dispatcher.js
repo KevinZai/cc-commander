@@ -30,7 +30,6 @@ function dispatch(task, options) {
   var fallbackModel = options.fallbackModel !== undefined ? options.fallbackModel : 'sonnet';
   var worktree = options.worktree;
   var name = options.name;
-  var continueSession = options.continueSession;
   var stream = options.stream !== false;
 
   var args = [];
@@ -51,7 +50,6 @@ function dispatch(task, options) {
   args.push('--dangerously-skip-permissions');
   if (maxTurns) args.push('--max-turns', String(maxTurns));
   // resume handled above in args init
-  // continue handled above in args init
   if (model) args.push('--model', model);
   if (fallbackModel && fallbackModel !== model) args.push('--fallback-model', fallbackModel);
   if (effort) args.push('--effort', effort);
@@ -168,7 +166,7 @@ function dispatch(task, options) {
 
   // Silent mode (stream=false): batch JSON for background jobs
   try {
-    var stdout = childProcess.execSync(command + ' ' + args.join(' '), {
+    var stdout = childProcess.execFileSync(command, args, {
       encoding: 'utf8', maxBuffer: 50 * 1024 * 1024, timeout: 10 * 60 * 1000,
       cwd: cwd || process.cwd(), stdio: ['pipe', 'pipe', 'pipe'], env: env,
     });
