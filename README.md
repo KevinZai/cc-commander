@@ -104,12 +104,12 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 
 | Method | Command | For |
 |--------|---------|-----|
-| **Interactive** | `ccc` | Full guided experience |
+| **Interactive** | `ccc` | Tmux tabbed mode (default) |
 | **Quick stats** | `ccc --stats` | Sessions, streaks, level |
 | **Self-test** | `ccc --test` | Verify install |
 | **Check updates** | `ccc --update` | Vendor package updates |
 | **Fix issues** | `ccc --repair` | Reset corrupt state |
-| **Split mode** | `ccc --split` | Tmux tabs: menu + Claude sessions |
+| **Simple mode** | `ccc --simple` | Menu-only, no tmux |
 | **Dispatch** | `ccc --dispatch "task"` | Headless (for agents) |
 
 ---
@@ -120,13 +120,13 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 
 | Component | Count | What It Does |
 |-----------|-------|-------------|
-| Skills | 441+ | On-demand expertise |
+| Skills | 280+ | On-demand expertise (deduplicated) |
 | CCC Domains | 11 | Domain routers with sub-skills |
 | Commands | 80+ | Slash commands (/ccc: prefix) |
 | Hooks | 25 | Lifecycle automation |
 | Adventures | 13 | Guided interactive flows |
-| Vendor Packages | 11 | Best-in-class tools, auto-updated |
-| Themes | 4 | Cyberpunk, Fire, Graffiti, Futuristic |
+| Vendor Packages | 16 | Best-in-class tools, auto-updated |
+| Themes | 10 | Cyberpunk, Fire, Ocean, Aurora, Sunset, Monochrome, Rainbow, Dracula + more |
 | Prompts | 36+ | Battle-tested templates |
 | Modes | 9 | Workflow presets |
 | Split Mode | tmux | Tabbed sessions — each task gets a window |
@@ -136,10 +136,10 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 
 ## Split Mode
 
-**Tabbed tmux sessions. Each task gets its own window.**
+**The default mode.** Tabbed tmux sessions. Each task gets its own window.
 
 ```
-ccc --split
+ccc
 ```
 
 CCC menu runs in tab 0. Each dispatched task opens a new tmux window where Claude works with full output visible. Switch tabs with `Ctrl+A` then `n`(next) / `p`(prev) / `0-9`(by number). Mouse click works too.
@@ -165,15 +165,56 @@ CCC is built to be controlled by AI agents — OpenClaw, Claude Code, or any orc
 | `ccc --list-sessions --json` | JSON | Session history |
 | `ccc --status` | JSON | Health check |
 
-**Override flags:** `--model opusplan` · `--max-turns 50` · `--budget 5` · `--cwd /path`
+**Override flags:** `--model opus` · `--max-turns 50` · `--budget 5` · `--cwd /path`
 
 ```bash
 # OpenClaw agent dispatches a build
-result=$(ccc --dispatch "Build auth with JWT" --json --model opusplan --budget 5)
+result=$(ccc --dispatch "Build auth with JWT" --json --model opus --budget 5)
 
 # Claude Code agent checks available skills
 ccc --list-skills --json | jq '.[] | select(.name | contains("auth"))'
 ```
+
+---
+
+## Use Inside Claude Code
+
+No CLI needed. Type `/ccc` in any Claude Code session for the full interactive menu.
+
+```
+/ccc              → Main menu (14 options with sub-menus)
+/ccc xray         → Project health scan
+/ccc makeover     → Auto-apply top fixes
+/ccc refresh      → Update your CLAUDE.md from latest template
+/ccc domains      → Browse 11 CCC domains
+/ccc skills       → Browse 280+ skills
+/ccc grill        → 7-question Socratic planning probe
+```
+
+Every standalone menu works inside Claude Code — same choices, same sub-menus, same actions. Menus are derived from the same source of truth (`commander/adventures/*.json`). Cancel anytime by typing "back" or "cancel".
+
+Also works in **Claude Desktop Cowork** (via the cc-commander plugin) and **VS Code / Cursor** (via the extension).
+
+---
+
+## Agent Bible
+
+**[BIBLE-AGENT.md](BIBLE-AGENT.md)** — 268-line machine-readable reference. Any AI agent reads this and can manage CCC immediately.
+
+```bash
+# Tell any agent:
+"Read BIBLE-AGENT.md from the cc-commander repo, then use the CLI API to manage this project."
+```
+
+Covers: CLI API, dispatch patterns, JSON schemas, skill catalog, level/model defaults, integration points.
+
+---
+
+## Cancel Running Tasks
+
+- **During any build:** Press `Escape` or `q` to kill the Claude process and return to menu
+- **During YOLO loop:** `touch ~/.claude/commander/yolo-stop` to halt between cycles
+- **In split mode:** Switch to the Claude tab and `Ctrl+C`
 
 ---
 
@@ -282,7 +323,7 @@ CCC learns from every session. Knowledge compounds over time.
   ─────────────────────────────────────────────
   🧠 Opus 1M  │  $2.14  │  ↑42K↓8K  │  3m12s
   CTX [████████████░░░░░░░░] 62%  RATE [████░░░░░░░░░░░░░░░░] 23%
-  📋 CC-63 v2.1 Ingestion   │  🎯 441 skills  │  📦 16 vendors
+  📋 CC-63 v2.1 Ingestion   │  🎯 280 skills  │  📦 16 vendors
   ─────────────────────────────────────────
 ```
 
