@@ -68,12 +68,14 @@ function dispatch(task, options) {
   var env = Object.assign({}, process.env, { CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: '70' });
 
   if (stream) {
-    return new Promise(function(resolve, reject) {
-      var proc = childProcess.spawn(command, args, {
+    var childProc = null;
+    var promise = new Promise(function(resolve, reject) {
+      childProc = childProcess.spawn(command, args, {
         cwd: cwd || process.cwd(),
         env: env,
         stdio: ['inherit', 'pipe', 'pipe'],
       });
+      var proc = childProc;
 
       var output = '';
       var lastResult = null;
@@ -159,6 +161,9 @@ function dispatch(task, options) {
         reject(new Error('Claude Code dispatch failed: ' + err.message));
       });
     });
+    // Attach child process to promise so caller can kill it
+    promise.childProcess = childProc;
+    return promise;
   }
 
   // Silent mode (stream=false): batch JSON for background jobs

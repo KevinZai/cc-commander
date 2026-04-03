@@ -41,6 +41,59 @@ function tmuxDispatch(claudeCmd) {
 
 var cockpit = require('./cockpit');
 
+// Wrap a dispatch promise with cancel-on-keypress (Escape or 'q')
+function cancellableDispatch(dispatchPromise, label) {
+  return new Promise(function(resolve, reject) {
+    var cancelled = false;
+    var proc = dispatchPromise.childProcess;
+
+    // Show cancel hint
+    process.stdout.write('  \x1b[38;5;240mPress Escape or q to cancel\x1b[0m\n\n');
+
+    // Listen for cancel keys (raw mode)
+    var wasRaw = process.stdin.isRaw;
+    if (process.stdin.isTTY) {
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      var onKey = function(key) {
+        // Escape = \x1b, q = 0x71, Ctrl+C = \x03
+        if (key[0] === 0x1b || key[0] === 0x71 || key[0] === 0x03) {
+          cancelled = true;
+          process.stdin.removeListener('data', onKey);
+          if (process.stdin.isTTY) process.stdin.setRawMode(wasRaw || false);
+          process.stdin.pause();
+          if (proc) {
+            try { proc.kill('SIGTERM'); } catch(_) {}
+          }
+          process.stdout.write('\n\n  \x1b[38;5;208mCancelled: ' + (label || 'task') + '\x1b[0m\n');
+          resolve({ result: 'Cancelled by user', session_id: null, cost_usd: 0, cancelled: true });
+        }
+      };
+      process.stdin.on('data', onKey);
+
+      dispatchPromise.then(function(result) {
+        if (!cancelled) {
+          process.stdin.removeListener('data', onKey);
+          if (process.stdin.isTTY) process.stdin.setRawMode(wasRaw || false);
+          process.stdin.pause();
+          resolve(result);
+        }
+      }).catch(function(err) {
+        if (!cancelled) {
+          process.stdin.removeListener('data', onKey);
+          if (process.stdin.isTTY) process.stdin.setRawMode(wasRaw || false);
+          process.stdin.pause();
+          reject(err);
+        }
+      });
+    } else {
+      // Not a TTY, just pass through
+      dispatchPromise.then(resolve).catch(reject);
+    }
+  });
+}
+
+
 var dispatcher = null;
 function getDispatcher() { if (!dispatcher) dispatcher = require('./dispatcher'); return dispatcher; }
 
@@ -759,12 +812,14 @@ class KitCommander {
         // Simple mode: run headless with streaming output
         process.stdout.write('\x0a  ' + tui.dimText('Claude is working \u2014 live output below. Ctrl+C to cancel.') + '\x0a');
         process.stdout.write(tui.divider('Claude Output') + '\x0a\x0a');
-        var result = await d.dispatch(fullTask, {
+        var dispatchP = d.dispatch(fullTask, {
           stream: true, maxTurns: defaults.maxTurns, effort: defaults.effort,
           model: defaults.model, maxBudgetUsd: defaults.maxBudgetUsd,
           fallbackModel: "sonnet", bare: false,
           name: d.generateSessionName(fullTask), systemPrompt: sysPrompt
         });
+        var result = await cancellableDispatch(dispatchP, fullTask.slice(0, 60));
+        if (result.cancelled) { state.completeSession(session.id, 'cancelled'); }
         state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
         state.completeSession(session.id, 'success');
         try { var knowledge2 = require("./knowledge"); knowledge2.extractAndStore(state.getSession(session.id) || {task:fullTask,cost:0}, result.result || ""); } catch(_e) {}
@@ -836,12 +891,14 @@ class KitCommander {
         // Simple mode: run headless with streaming output
         process.stdout.write('\x0a  ' + tui.dimText('Claude is working \u2014 live output below. Ctrl+C to cancel.') + '\x0a');
         process.stdout.write(tui.divider('Claude Output') + '\x0a\x0a');
-        var result = await d.dispatch(fullTask, {
+        var dispatchP = d.dispatch(fullTask, {
           stream: true, maxTurns: defaults.maxTurns, effort: defaults.effort,
           model: defaults.model, maxBudgetUsd: defaults.maxBudgetUsd,
           fallbackModel: "sonnet", bare: false,
           name: d.generateSessionName(fullTask), systemPrompt: sysPrompt
         });
+        var result = await cancellableDispatch(dispatchP, fullTask.slice(0, 60));
+        if (result.cancelled) { state.completeSession(session.id, 'cancelled'); }
         state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
         state.completeSession(session.id, 'success');
         try { var knowledge2 = require("./knowledge"); knowledge2.extractAndStore(state.getSession(session.id) || {task:fullTask,cost:0}, result.result || ""); } catch(_e) {}
@@ -1020,7 +1077,10 @@ class KitCommander {
     var fs = require("fs");
     var path = require("path");
     var statusPath = path.join(require("os").homedir(), ".claude", "commander", "yolo-status.txt");
+    var stopPath = require('path').join(require('os').homedir(), '.claude', 'commander', 'yolo-stop');
     for (var cycle = 1; cycle <= maxCycles; cycle++) {
+      // Check for stop signal between cycles
+      try { if (require('fs').existsSync(stopPath)) { require('fs').unlinkSync(stopPath); process.stdout.write('\n  ' + tui.colorText('YOLO stopped by user (yolo-stop file detected)', tui.getTheme().accent) + '\n'); break; } } catch(_) {}
       var sp = tui.spinner("Cycle " + cycle + "/" + maxCycles + ": " + (cycle === 1 ? "Building" : "Improving") + "...");
       sp.start();
       var session = state.createSession({ task: "YOLO cycle " + cycle + ": " + task, project: null });
