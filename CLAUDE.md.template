@@ -75,6 +75,14 @@ spawn FOR agent + AGAINST agent + Referee.
 - [ ] Committed with conventional commit message
 - [ ] Lessons captured in `tasks/lessons.md`
 
+### Pulse & Activity Updates (MANDATORY)
+- **Session start:** Post pulse to Linear/task system — "Starting: [task description]"
+- **Every major milestone:** Post progress update — what shipped, what's next
+- **Session end:** Post summary — files changed, tests passing, issues closed, cost
+- **Weekly:** Post project update to Linear with health status (onTrack/atRisk/offTrack)
+- **After shipping:** Update project summary, close issues, capture lessons
+- Format: bullet points, stats, links. No prose.
+
 ### Operationalize Every Fix
 After fixing a bug: write class-level tests, sweep codebase for siblings, update CLAUDE.md.
 

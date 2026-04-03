@@ -124,7 +124,7 @@ cd cc-commander
 
 ## Feature Categories
 
-### 1. Skills (441+)
+### 1. Skills (280+)
 
 Skills are structured instruction sets that Claude Code loads on demand. Each skill lives in its own directory under `~/.claude/skills/` and contains a `SKILL.md` file with triggers, methodology, and domain knowledge. Load any skill by saying: _"use the `skill-name` skill"_.
 
@@ -1151,7 +1151,7 @@ Pre-configured skill combinations for common project types:
 
 | Feature | CC Commander | Stock Claude Code | SuperClaude | Other Kits |
 |---------|----------------|-------------------|-------------|------------|
-| Skills | 441+ | 0 | ~20 | 10-50 |
+| Skills | 280+ | 0 | ~20 | 10-50 |
 | Commands | 87 | Built-in only | ~15 | 5-20 |
 | Hooks | 35 | Manual only | 0 | 0-5 |
 | Prompt Templates | 41 | 0 | 0 | 0-10 |
