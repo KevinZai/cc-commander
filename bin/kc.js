@@ -10,7 +10,7 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --test       Validate all modules');
   console.log('  --stats      Quick stats');
   console.log('  --repair     Fix corrupt state');
-  console.log('  --split      Split mode: CCC menu + Claude Code side by side (tmux)');
+  console.log('  --simple     Menu-only mode (no tmux)');
   console.log('  --update     Check vendor package updates');
   console.log('  --dispatch   Headless: ccc --dispatch "task" [--json --model X --max-turns N --budget N --cwd PATH]');
   console.log('  --list-skills  List all skills (add --json for JSON)');
@@ -21,7 +21,7 @@ if (args.includes('--help') || args.includes('-h')) {
   process.exit(0);
 }
 if (args.includes('--version')) { var B = require(path.join(__dirname,'..','commander','branding')); console.log(B.product + ' v' + B.version); process.exit(0); }
-if (args.includes('--split')) { var cp = require('child_process'); var script = path.join(__dirname, 'ccc-split.sh'); try { cp.execSync('bash ' + script, { stdio: 'inherit' }); } catch(_e) {} process.exit(0); }
+if (args.includes('--simple')) { /* handled below — skip split, go to engine */ }
 if (args.includes('--repair')) { var st = require(path.join(__dirname,'..','commander','state')); console.log('CC Commander — State Repair\n'); var r = st.repairState(); console.log(r.repaired ? '  Repaired: ' + r.details.join(', ') : '  State healthy.'); process.exit(0); }
 if (args.includes('--stats')) {
   var st2 = require(path.join(__dirname,'..','commander','state')); var cs = st2.loadState();
@@ -122,6 +122,26 @@ if (args.includes('--dispatch')) {
     .catch(function(e) { if (jm) console.log(JSON.stringify({error:e.message})); else console.error('Error: '+e.message); process.exit(1); });
 }
 if (!dispatching) {
-  var KitCommander = require(path.join(__dirname,'..','commander','engine'));
-  new KitCommander().start().catch(function(err) { console.error('CC Commander error:', err.message); process.exit(1); });
+  if (args.includes('--simple') || process.env.CCC_TMUX_SESSION || process.env.CCC_SIMPLE) {
+    // Simple mode: menu only (also used when already inside tmux split)
+    var KitCommander = require(path.join(__dirname,'..','commander','engine'));
+    new KitCommander().start().catch(function(err) { console.error('CC Commander error:', err.message); process.exit(1); });
+  } else {
+    // Default: launch tmux split mode
+    var cp2 = require('child_process');
+    var splitScript = path.join(__dirname, 'ccc-split.sh');
+    try {
+      if (!process.stdout.isTTY) {
+        // Not a terminal (piped/scripted) — fall back to simple
+        var KitCommander2 = require(path.join(__dirname,'..','commander','engine'));
+        new KitCommander2().start().catch(function(err) { console.error('CC Commander error:', err.message); process.exit(1); });
+      } else {
+        cp2.execSync('bash ' + splitScript, { stdio: 'inherit' });
+      }
+    } catch(_e) {
+      // tmux not available — fall back to simple
+      var KitCommander3 = require(path.join(__dirname,'..','commander','engine'));
+      new KitCommander3().start().catch(function(err) { console.error('CC Commander error:', err.message); process.exit(1); });
+    }
+  }
 }

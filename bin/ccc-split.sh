@@ -26,7 +26,7 @@ tmux kill-session -t "$SESSION_NAME" 2>/dev/null
 
 # Create session — first window is CCC menu
 tmux new-session -d -s "$SESSION_NAME" -n "menu" -x "$(tput cols)" -y "$(tput lines)"
-tmux send-keys -t "$SESSION_NAME:menu" "CCC_TMUX_SESSION=$SESSION_NAME node $CCC_BIN" Enter
+tmux send-keys -t "$SESSION_NAME:menu" "export CCC_TMUX_SESSION=$SESSION_NAME CCC_SIMPLE=1 && node $CCC_BIN" Enter
 
 # Style
 tmux set-option -t "$SESSION_NAME" status-style "bg=#0d1117,fg=#666666"
