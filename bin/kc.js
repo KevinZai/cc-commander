@@ -17,6 +17,10 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --list-sessions  Session history (add --json for JSON)');
   console.log('  --status     Health check (JSON: version, skills, vendors)');
   console.log('  --template   Print the latest CLAUDE.md template (pipe to file)');
+  console.log('  --daemon     Start persistent background daemon');
+  console.log('  --queue "task"  Add task to daemon queue');
+  console.log('  --queue-list Show pending daemon tasks');
+  console.log('  --daemon-stop  Stop running daemon');
   console.log('  --help       This help\n');
   process.exit(0);
 }
@@ -102,6 +106,41 @@ if (args.includes('--template')) {
   } catch(_e) {
     console.error('Template not found at ' + templatePath);
   }
+  process.exit(0);
+}
+// Daemon mode
+if (args.includes('--daemon')) {
+  dispatching = true; // prevent interactive launch
+  var daemon = require(path.join(__dirname, '..', 'commander', 'daemon'));
+  var running = daemon.isRunning();
+  if (running) { console.log('Daemon already running (PID ' + running + '). Use --daemon-stop first.'); process.exit(1); }
+  daemon.start({
+    interval: args.includes('--interval') ? parseInt(args[args.indexOf('--interval') + 1]) * 1000 : 300000,
+    budget: args.includes('--tick-budget') ? parseInt(args[args.indexOf('--tick-budget') + 1]) * 1000 : 15000,
+    dreamInterval: args.includes('--dream') ? parseInt(args[args.indexOf('--dream') + 1]) * 60000 : 3600000,
+  });
+}
+if (args.includes('--daemon-stop')) {
+  var daemon2 = require(path.join(__dirname, '..', 'commander', 'daemon'));
+  if (daemon2.stop()) console.log('Daemon stopped.');
+  else console.log('No daemon running.');
+  process.exit(0);
+}
+if (args.includes('--queue') && !args.includes('--queue-list')) {
+  var qi = args.indexOf('--queue') + 1;
+  var qtask = args[qi];
+  if (!qtask || qtask.startsWith('--')) { console.error('Usage: ccc --queue "task description"'); process.exit(1); }
+  var qpri = args.includes('--priority') ? parseInt(args[args.indexOf('--priority') + 1]) : 3;
+  var q = require(path.join(__dirname, '..', 'commander', 'queue'));
+  var item = q.addTask(qtask, qpri);
+  console.log('Queued: ' + item.id + ' (priority ' + item.priority + ')');
+  process.exit(0);
+}
+if (args.includes('--queue-list')) {
+  var q2 = require(path.join(__dirname, '..', 'commander', 'queue'));
+  var tasks = q2.listTasks();
+  if (tasks.length === 0) { console.log('Queue empty.'); }
+  else { tasks.forEach(function(t) { console.log('[' + t.priority + '] ' + t.status.toUpperCase().padEnd(8) + ' ' + t.task.slice(0, 60) + ' (' + t.id + ')'); }); }
   process.exit(0);
 }
 // Agent API: --dispatch "task"
