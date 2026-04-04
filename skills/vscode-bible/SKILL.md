@@ -418,4 +418,4 @@ Debug Bible hooks during development. Add to `.vscode/launch.json`:
 
 9. **Problem panel** — After `/verify`, check the VS Code Problems panel (`Cmd+Shift+M`) for any TypeScript errors or lint warnings that the verification caught.
 
-10. **Terminal profiles** — Create a "CC Commander" terminal profile that sources `statusline.sh` and sets `KZ_NO_ANIMATION=0` for the full visual experience.
+10. **Terminal profiles** — Create a "CC Commander" terminal profile that sources `statusline.sh` and sets `CC_NO_ANIMATION=0` for the full visual experience.

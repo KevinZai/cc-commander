@@ -193,7 +193,7 @@ With ECC installed, 19 additional hooks bring the total to 35.
 |----------|---------|---------|
 | `CC_NO_COLOR` | (unset) | Disable ANSI colors in kit output |
 | `CC_NO_ANIMATION` | (unset) | Disable intro animations |
-| `KZ_COACH_DISABLE` | (unset) | Disable session coach entirely |
+| `CC_COACH_DISABLE` | (unset) | Disable session coach entirely |
 | `CC_COACH_INTERVAL` | 10 | Coach nudge interval (# of responses between nudges) |
 | `KZ_DISABLE_CAREFUL_GUARD` | (unset) | Disable destructive command blocker |
 | `KZ_DISABLE_CONTEXT_GUARD` | (unset) | Disable context usage warnings |

@@ -1072,7 +1072,7 @@ Central configuration file with kit-wide settings. Supports environment variable
 |----------|---------|---------|
 | `CC_NO_COLOR` | Disable ANSI color output | `0` |
 | `CC_NO_ANIMATION` | Disable terminal animations | `0` |
-| `KZ_COACH_DISABLE` | Disable session coach nudges | `0` |
+| `CC_COACH_DISABLE` | Disable session coach nudges | `0` |
 | `CC_COACH_INTERVAL` | Responses between coaching nudges | `10` |
 | `KZ_DISABLE_*` | Disable individual hooks | `0` |
 
