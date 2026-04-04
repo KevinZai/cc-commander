@@ -39,3 +39,8 @@ vendor/*/dist/
 vendor/*/.env
 vendor/*/coverage/
 *.plugin
+
+# Kevin's personal hooks (contain hardcoded paths)
+hooks/memory-archive.js
+hooks/openclaw-notify.js
+hooks/paperclip-bridge.js
