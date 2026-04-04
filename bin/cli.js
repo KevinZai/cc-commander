@@ -8,7 +8,7 @@ const installScript = path.join(__dirname, '..', 'install.sh');
 const args = process.argv.slice(2).join(' ');
 
 try {
-  execSync(`bash "${installScript}" ${args}`, {
+  execFileSync('bash', [installScript].concat(process.argv.slice(2)), {
     stdio: 'inherit',
     cwd: path.join(__dirname, '..'),
   });

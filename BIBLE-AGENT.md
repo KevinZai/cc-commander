@@ -363,6 +363,8 @@ Queue: `~/.claude/commander/queue/` · Log: `~/.claude/commander/daemon-log.txt`
 | `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` | Auto-compact at 70% context |
 | `CCC_TMUX_SESSION` | Set when inside tmux split |
 | `CCC_SIMPLE=1` | Force simple mode (no tmux) |
+| `KC_LINEAR_PROJECT` | Linear project name for session sync |
+| `KC_LINEAR_TEAM` | Linear team key for issue creation |
 
 ---
 

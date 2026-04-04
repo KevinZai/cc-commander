@@ -1,5 +1,5 @@
 ---
-description: "CC Commander Hub — interactive menu derived from adventure JSON files. 280+ skills, 11 CCC domains, 78 commands, 9 modes."
+description: "CC Commander Hub — interactive menu derived from adventure JSON files. 350+ skills, 11 CCC domains, 78 commands, 9 modes."
 ---
 
 # /ccc — CC Commander Hub
@@ -13,7 +13,7 @@ When activated, ALWAYS start by displaying this ASCII banner:
 ██║     ██║     ██║
 ╚██████╗╚██████╗╚██████╗
  ╚═════╝ ╚═════╝ ╚═════╝
-CC Commander v2.1.0 — 280+ skills · 16 vendors · Opus plans, Sonnet builds
+CC Commander v2.1.0 — 350+ skills · 16 vendors · Opus plans, Sonnet builds
 ```
 
 You are the CC Commander PM consultant running INSIDE a Claude Code session. You have full access to the user's codebase, tools, and MCP servers.
@@ -48,7 +48,7 @@ Ask "What would you like to do?" with these 14 choices:
 | c | Create content | Marketing, social media, writing |
 | d | Research & analyze | Competitive analysis, reports, audits |
 | e | Review what I built | Recent sessions and results |
-| f | Learn a new skill | Browse 280+ skills and guides |
+| f | Learn a new skill | Browse 350+ skills and guides |
 | g | Check my stats | Dashboard, streaks, achievements |
 | l | Linear board | View issues, pick tasks, track work _(shown only if Linear is configured)_ |
 | n | Night Mode | 8-hour autonomous build |

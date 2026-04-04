@@ -61,18 +61,44 @@ function listSkills(dirs = SKILL_DIRS) {
         seen.add(entry.name);
 
         const skillMd = path.join(dir, entry.name, 'SKILL.md');
-        if (!fs.existsSync(skillMd)) continue;
+        if (fs.existsSync(skillMd)) {
+          const summary = getSkillSummary(skillMd);
+          if (summary) {
+            skills.push({
+              name: summary.name,
+              description: summary.description,
+              dirName: entry.name,
+              path: skillMd,
+              isMega: entry.name.startsWith('ccc-'),
+            });
+          }
+        }
 
-        const summary = getSkillSummary(skillMd);
-        if (!summary) continue;
-
-        skills.push({
-          name: summary.name,
-          description: summary.description,
-          dirName: entry.name,
-          path: skillMd,
-          isMega: entry.name.startsWith('ccc-'),
-        });
+        // Recurse into mega-skill dirs (ccc-*) to count sub-skills
+        if (entry.name.startsWith('ccc-') || entry.name.startsWith('mega-')) {
+          const subDir = path.join(dir, entry.name);
+          try {
+            const subEntries = fs.readdirSync(subDir, { withFileTypes: true });
+            for (const sub of subEntries) {
+              if (!sub.isDirectory()) continue;
+              const subSkillMd = path.join(subDir, sub.name, 'SKILL.md');
+              if (!fs.existsSync(subSkillMd)) continue;
+              const subName = entry.name + '-' + sub.name;
+              if (seen.has(sub.name) || seen.has(subName)) continue;
+              seen.add(sub.name);
+              const subSummary = getSkillSummary(subSkillMd);
+              if (subSummary) {
+                skills.push({
+                  name: subSummary.name,
+                  description: subSummary.description,
+                  dirName: sub.name,
+                  path: subSkillMd,
+                  isMega: false,
+                });
+              }
+            }
+          } catch { /* skip */ }
+        }
       }
     } catch { /* permission or fs error — skip dir */ }
   }

@@ -1,6 +1,6 @@
 # CC Commander v2.1.0 — Complete Feature Overview
 
-> CC Commander — 280+ skills. One command. Your AI work, managed by AI. 280+ skills, 11 CCC domains, 78+ commands, 25 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 10 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
+> CC Commander — 350+ skills. One command. Your AI work, managed by AI. 350+ skills, 11 CCC domains, 78+ commands, 25 hooks (18 kit-native + 19 ECC), 36+ prompt templates, 9 workflow modes, 10 themes, 3 starter templates, real-time agent dashboard, modular installer. One install.
 
 ---
 
@@ -404,7 +404,7 @@ Commands are slash commands invoked directly in the Claude Code REPL. They live 
 | Command | Description |
 |---------|-------------|
 | `/cc` | Interactive command center -- main menu for all kit features |
-| `/cc skills` | Browse 280+ skills by category |
+| `/cc skills` | Browse 350+ skills by category |
 | `/cc mega [name]` | Drill into a CCC domain's sub-skills |
 | `/cc settings` | View current model, permissions, MCP, hooks |
 | `/cc grill` | 7 Socratic questions to stress-test your plan |
@@ -1216,7 +1216,7 @@ CCC exposes a headless CLI API designed for AI orchestrators — OpenClaw, Claud
 | Command | Output | Purpose |
 |---------|--------|---------|
 | `ccc --dispatch "task" --json` | JSON | Run task headlessly |
-| `ccc --list-skills --json` | JSON | All 280+ skills |
+| `ccc --list-skills --json` | JSON | All 350+ skills |
 | `ccc --list-sessions --json` | JSON | Session history |
 | `ccc --status` | JSON | Health check |
 
