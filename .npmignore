@@ -27,3 +27,4 @@ coverage/
 .gitmodules
 .eslintrc*
 .prettier*
+video/
