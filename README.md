@@ -233,6 +233,28 @@ Covers: CLI API, dispatch patterns, JSON schemas, skill catalog, level/model def
 
 ---
 
+## Daemon Mode
+
+**KAIROS-inspired persistent background agent.** Monitors your project, processes queued tasks, and consolidates knowledge — all hands-free.
+
+```bash
+ccc --daemon                    # Start (runs in background)
+ccc --queue "fix login bug"     # Add task to queue
+ccc --queue-list                # Show pending tasks
+ccc --daemon-stop               # Stop daemon
+```
+
+| Feature | What It Does |
+|---------|-------------|
+| Tick loop (5 min) | Checks queue, git status, dispatches work |
+| Dream mode (1 hr) | Consolidates knowledge, detects error patterns |
+| Task queue | Priority-based, file-backed, auto-dispatch |
+| Budget cap | 15-second limit per tick action |
+
+Customize: `--interval 120` (2 min ticks) · `--tick-budget 30` · `--dream 30` (30 min dreams)
+
+---
+
 <img src="docs/assets/section-domains.svg" alt="Domains" width="100%">
 
 Each domain is a router that dispatches to specialized sub-skills on demand.

@@ -237,3 +237,4 @@ When `/ccc` is called with arguments, skip the menu and route directly:
 | `/ccc theme` | Show theme note (CLI-only) |
 | `/ccc review` | Go to Review what I built |
 | `/ccc continue` | Go to Continue where I left off |
+| `/ccc daemon` | Show daemon status and queue |

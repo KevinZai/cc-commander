@@ -84,6 +84,15 @@ Switch your entire workflow persona with one command. Each mode adjusts behavior
 | `ccc --list-sessions --json` | Session history as JSON |
 | `ccc --status` | Health check JSON |
 
+### Daemon Mode
+
+| Command | What It Does |
+|---------|-------------|
+| `ccc --daemon` | Start background daemon |
+| `ccc --daemon-stop` | Stop running daemon |
+| `ccc --queue "task"` | Add task to queue |
+| `ccc --queue-list` | Show pending tasks |
+
 ### Intelligence Layer
 
 Automatic — no configuration needed:

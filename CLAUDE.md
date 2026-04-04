@@ -143,4 +143,5 @@ ccc --status                  # Health check
 - Status update requests for sending progress reports during long sessions
 - Continuous improvement pipeline with daily cron scan and proposal queue
 - Modular installer with 5 installation modes (full, essentials, scripts, dashboard, config-only)
+- Daemon Mode: commander/daemon.js (tick loop), commander/queue.js (task queue), commander/dream.js (knowledge consolidation)
 - Intelligence Layer v1: complexity scoring (dispatcher.js), stack detection (project-importer.js), session learning (knowledge.js), skill filtering (skill-browser.js), smart retry (dispatchWithRetry)

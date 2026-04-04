@@ -330,6 +330,26 @@ No configuration needed. Override per-dispatch with --max-turns, --budget, --mod
 
 ---
 
+## Daemon Mode (Background Agent)
+
+```bash
+ccc --daemon                    # Start persistent daemon
+ccc --queue "task" --priority 1 # Add high-priority task
+ccc --queue-list                # Show queue
+ccc --daemon-stop               # Stop
+tail -f ~/.claude/commander/daemon-log.txt  # Watch logs
+```
+
+| Config | Default | Flag |
+|--------|---------|------|
+| Tick interval | 5 min | `--interval N` (seconds) |
+| Tick budget | 15 sec | `--tick-budget N` (seconds) |
+| Dream interval | 1 hour | `--dream N` (minutes) |
+
+Queue: `~/.claude/commander/queue/` · Log: `~/.claude/commander/daemon-log.txt` · PID: `~/.claude/commander/daemon.pid`
+
+---
+
 ## Environment Variables
 
 | Variable | Effect |
