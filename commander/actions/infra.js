@@ -175,12 +175,18 @@ module.exports = {
       var cp = require('child_process');
       try {
         cp.execFileSync('curl', ['-s', '--max-time', '2', 'http://localhost:4681/'], { encoding: 'utf8' });
+<<<<<<< Updated upstream
         process.stdout.write('  ' + tui.colorText('CloudCLI running', tui.getTheme().success) + ' on port 4681
 ');
         process.stdout.write('  URL: ' + tui.boldText('https://your-cloudcli.example.com', tui.getTheme().primary) + '
 ');
         process.stdout.write('  ' + tui.dimText('Open on any device on your Tailnet for mobile access.') + '
 ');
+=======
+        process.stdout.write('  ' + tui.colorText('CloudCLI running', tui.getTheme().success) + ' on port 4681\n');
+        process.stdout.write('  URL: ' + tui.boldText('https://your-cloudcli.example.com', tui.getTheme().primary) + '\n');
+        process.stdout.write('  ' + tui.dimText('Open on any device on your Tailnet for mobile access.') + '\n');
+>>>>>>> Stashed changes
       } catch(_e) {
         process.stdout.write('  CloudCLI not responding on port 4681.
 ');

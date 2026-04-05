@@ -23,6 +23,12 @@ function log(error, context) {
   _write(entry);
 }
 
+/**
+ * Log an error with a unique ID, write to disk, and return the ID for user display.
+ * @param {Error|string} err
+ * @param {string} context - action or module name
+ * @returns {string} error ID like "CCC-ERR-1712345678901"
+ */
 function logError(err, context) {
   var ts = Date.now();
   var errId = 'CCC-ERR-' + ts;
