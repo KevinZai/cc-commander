@@ -19,6 +19,7 @@ var CLIS = [
   { name: 'claude', command: 'claude', skill: null },
   { name: 'fleet-commander', command: 'fleet-commander', skill: '/fleet' },
   { name: 'repomix', command: 'repomix', skill: null },
+  { name: 'task-master', command: 'task-master', skill: '/tm' },
 ];
 
 function probePort(port, path, timeoutMs) {

@@ -213,7 +213,8 @@ Sub-choices:
 4. **Composio AO** — Check if `ao` CLI is installed (`which ao`). If found, confirm it's ready. Instructions: use `/ao` in session.
 5. **CloudCLI** — Probe `http://localhost:4681/`. If running, show URL `https://cc.k3v80.com`. Instructions: use `/cloudcli` in session.
 6. **Paperclip Tasks** — Probe `http://localhost:3110/`. If running, confirm it's ready. Instructions: use `/paperclip` in session.
-7. Back to main menu.
+7. **TaskMaster** — Check if `task-master` CLI is installed. If found, run `task-master project-status` in cwd and show first 8 lines. If not, show install hint. Instructions: use `/tm` in session.
+8. Back to main menu.
 
 All probes use a 2-3 second timeout. If a service is offline, say so and show the install hint where applicable. After each action, return to the Infrastructure sub-menu.
 
@@ -310,6 +311,7 @@ When `/ccc` is called with arguments, skip the menu and route directly:
 | `/ccc cloudcli` | Invoke /cloudcli skill directly |
 | `/ccc paperclip` | Invoke /paperclip skill directly |
 | `/ccc detect` | Run service detection scan |
+| `/ccc tm` | Invoke /tm skill directly |
 
 ---
 

@@ -21,6 +21,7 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --queue "task"  Add task to daemon queue');
   console.log('  --queue-list Show pending daemon tasks');
   console.log('  --daemon-stop  Stop running daemon');
+  console.log('  --ingest <url> Evaluate a GitHub repo for inclusion as vendor package');
   console.log('  --help       This help\n');
   process.exit(0);
 }
@@ -68,6 +69,7 @@ if (args.includes('--test')) {
     ['linear', function(){ require(path.join(__dirname,'..','commander','integrations','linear')); }],
     ['infrastructure', function(){ require(path.join(__dirname,'..','commander','adventures','infrastructure.json')); }],
     ['service-detector', function(){ var m=require(path.join(__dirname,'..','commander','service-detector')); if(typeof m.detectServices!=='function') throw new Error('missing'); }],
+    ['evaluator', function(){ var m=require(path.join(__dirname,'..','commander','ingestion','evaluator')); if(typeof m.evaluatePackage!=='function') throw new Error('missing'); }],
   ];
   var passed = 0;
   for (var c of checks) { try { c[1](); console.log('  v ' + c[0]); passed++; } catch(e) { console.log('  x ' + c[0] + ': ' + e.message); } }
@@ -143,6 +145,24 @@ if (args.includes('--queue-list')) {
   var tasks = q2.listTasks();
   if (tasks.length === 0) { console.log('Queue empty.'); }
   else { tasks.forEach(function(t) { console.log('[' + t.priority + '] ' + t.status.toUpperCase().padEnd(8) + ' ' + t.task.slice(0, 60) + ' (' + t.id + ')'); }); }
+  process.exit(0);
+}
+// Agent API: --ingest <url>
+if (args.includes('--ingest')) {
+  var ingestUrl = args[args.indexOf('--ingest') + 1];
+  if (!ingestUrl || ingestUrl.startsWith('--')) { console.error('Usage: ccc --ingest <github-url>'); process.exit(1); }
+  var evaluator = require(path.join(__dirname, '..', 'commander', 'ingestion', 'evaluator'));
+  var result = evaluator.evaluatePackage(ingestUrl);
+  if (args.includes('--json')) {
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    var icon = result.recommendation === 'ADOPT' ? '✅' : result.recommendation === 'REFERENCE' ? '🔶' : '❌';
+    console.log('\n  ' + icon + ' ' + result.recommendation + ': ' + (result.name || ingestUrl));
+    console.log('  ' + (result.description || 'No description'));
+    console.log('  Stars: ' + result.stars + ' | License: ' + (result.license || '?') + ' (' + result.licenseRisk + ')');
+    if (result.overlap.length > 0) console.log('  Overlap: ' + result.overlap.join(', '));
+    console.log('  Reason: ' + result.reason + '\n');
+  }
   process.exit(0);
 }
 // Agent API: --dispatch "task"

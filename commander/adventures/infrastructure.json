@@ -44,13 +44,19 @@
       "action": "paperclip_pickup"
     },
     {
-      "key": "g",
+      "key": "h",
+      "label": "TaskMaster",
+      "description": "PRD parsing, task decomposition, complexity analysis",
+      "action": "taskmaster_status"
+    },
+    {
+      "key": "i",
       "label": "Detect services",
       "description": "Scan ports and CLIs \u2014 see what\u2019s running",
       "action": "detect_services"
     },
     {
-      "key": "q",
+      "key": "j",
       "label": "Back to main menu",
       "action": "back"
     }
