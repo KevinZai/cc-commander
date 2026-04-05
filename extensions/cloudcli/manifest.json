@@ -1,0 +1,11 @@
+{
+  "name": "cc-commander",
+  "displayName": "CC Commander",
+  "description": "358 skills, 16 vendors, interactive project manager. Status dashboard, skill browser, infrastructure monitoring.",
+  "version": "2.1.0",
+  "author": "Kevin Z",
+  "type": "module",
+  "slot": "tab",
+  "entry": "index.html",
+  "permissions": []
+}

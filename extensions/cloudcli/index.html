@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CC Commander</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d1117; color: #e6edf3; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; padding: 16px; }
+    .header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #21262d; }
+    .header h1 { font-size: 18px; background: linear-gradient(135deg, #00ffff, #b464ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header .version { color: #8b949e; font-size: 12px; }
+    .footer-bar { background: #161b22; border: 1px solid #21262d; border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; font-size: 11px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .footer-bar .sep { color: #30363d; }
+    .footer-bar .val { color: #e6edf3; font-weight: 600; }
+    .footer-bar .green { color: #3fb950; }
+    .footer-bar .yellow { color: #d29922; }
+    .footer-bar .red { color: #f85149; }
+    .footer-bar .dim { color: #8b949e; }
+    .meter { display: inline-flex; gap: 1px; }
+    .meter .bar { width: 6px; height: 10px; border-radius: 1px; }
+    .meter .bar.filled { background: currentColor; }
+    .meter .bar.empty { background: #21262d; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 12px; }
+    .card h3 { font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .card .status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+    .card .status.up { background: #3fb950; }
+    .card .status.down { background: #f85149; }
+    .card .detail { color: #8b949e; font-size: 11px; line-height: 1.6; }
+    .card .detail a { color: #58a6ff; text-decoration: none; }
+    .skills { margin-top: 16px; }
+    .skills h3 { font-size: 14px; margin-bottom: 8px; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag { background: #21262d; border: 1px solid #30363d; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #8b949e; cursor: pointer; }
+    .skill-tag:hover { border-color: #58a6ff; color: #58a6ff; }
+    .loading { color: #8b949e; text-align: center; padding: 40px; }
+    .error { color: #f85149; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>CC Commander</h1>
+    <span class="version">v2.1.0</span>
+    <span class="version">358 skills &middot; 16 vendors</span>
+  </div>
+
+  <div class="footer-bar" id="footer">
+    <span class="dim">Loading metrics...</span>
+  </div>
+
+  <div class="grid" id="services">
+    <div class="loading">Scanning services...</div>
+  </div>
+
+  <div class="skills">
+    <h3>Quick Commands</h3>
+    <div class="skill-list">
+      <span class="skill-tag" onclick="sendCmd('/ccc')">/ccc</span>
+      <span class="skill-tag" onclick="sendCmd('/fleet')">/fleet</span>
+      <span class="skill-tag" onclick="sendCmd('/syn')">/syn</span>
+      <span class="skill-tag" onclick="sendCmd('/cost')">/cost</span>
+      <span class="skill-tag" onclick="sendCmd('/tm')">/tm</span>
+      <span class="skill-tag" onclick="sendCmd('/ao')">/ao</span>
+      <span class="skill-tag" onclick="sendCmd('/plan')">/plan</span>
+      <span class="skill-tag" onclick="sendCmd('/tdd')">/tdd</span>
+      <span class="skill-tag" onclick="sendCmd('/review')">/review</span>
+      <span class="skill-tag" onclick="sendCmd('/ship')">/ship</span>
+      <span class="skill-tag" onclick="sendCmd('/ccc-xray')">/xray</span>
+      <span class="skill-tag" onclick="sendCmd('/ccc-design')">/design</span>
+      <span class="skill-tag" onclick="sendCmd('/ccc-testing')">/testing</span>
+      <span class="skill-tag" onclick="sendCmd('/ccc-security')">/security</span>
+    </div>
+  </div>
+
+  <script>
+    const SERVICES = [
+      { name: 'Fleet Commander', port: 4680, path: '/api/status', emoji: '🔥', url: 'fleet.k3v80.com' },
+      { name: 'Agent HQ', port: 3005, path: '/api/costs', emoji: '💰', url: 'hq.k3v80.com' },
+      { name: 'Synapse', port: 4682, path: '/api/health', emoji: '🧠', url: 'syn.k3v80.com' },
+      { name: 'CloudCLI', port: 4681, path: '/', emoji: '☁️', url: 'cc.k3v80.com' },
+      { name: 'Paperclip', port: 3110, path: '/', emoji: '📋', url: null },
+      { name: 'OpenClaw', port: 18789, path: '/', emoji: '🐾', url: 'gateway.k3v80.com' },
+    ];
+
+    function meterHTML(pct, thresholds) {
+      const bars = 6;
+      const filled = Math.round((pct / 100) * bars);
+      const cls = pct > 80 ? 'red' : pct > 50 ? 'yellow' : 'green';
+      let html = '<span class="meter">';
+      for (let i = 0; i < bars; i++) {
+        html += `<span class="bar ${i < filled ? 'filled ' + cls : 'empty'}"></span>`;
+      }
+      html += '</span>';
+      return html;
+    }
+
+    function fmtK(v) {
+      if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M';
+      if (v >= 1e3) return Math.round(v / 1e3) + 'K';
+      return v;
+    }
+
+    function sendCmd(cmd) {
+      // CloudCLI RPC to send command to active session
+      if (window.parent && window.parent.postMessage) {
+        window.parent.postMessage({ type: 'plugin:command', command: cmd }, '*');
+      }
+    }
+
+    async function probe(port, path) {
+      try {
+        const r = await fetch(`http://localhost:${port}${path}`, { signal: AbortSignal.timeout(3000) });
+        if (!r.ok) return { up: true, data: null };
+        try { return { up: true, data: await r.json() }; } catch { return { up: true, data: null }; }
+      } catch { return { up: false, data: null }; }
+    }
+
+    async function loadServices() {
+      const grid = document.getElementById('services');
+      const results = await Promise.all(SERVICES.map(s => probe(s.port, s.path)));
+
+      let html = '';
+      results.forEach((r, i) => {
+        const svc = SERVICES[i];
+        let detail = '';
+        if (r.up && r.data) {
+          if (svc.name === 'Fleet Commander') detail = `v${r.data.version || '?'} &middot; ${r.data.activeTeams || 0} teams &middot; ${r.data.uptime?.formatted || '?'}`;
+          else if (svc.name === 'Agent HQ') detail = `Today: $${(r.data.today || 0).toFixed(4)} &middot; Total: $${(r.data.total || 0).toFixed(4)} &middot; ${(r.data.byAgent || []).length} agents`;
+          else if (svc.name === 'Synapse') detail = `${r.data.clients || 0} clients &middot; ${r.data.mode || '?'} mode`;
+          else detail = 'Running';
+        }
+        html += `<div class="card">
+          <h3><span class="status ${r.up ? 'up' : 'down'}"></span> ${svc.emoji} ${svc.name}</h3>
+          <div class="detail">${r.up ? detail || 'Online' : '<span class="error">Offline</span>'}${svc.url ? ` &middot; <a href="https://${svc.url}" target="_blank">${svc.url}</a>` : ''}</div>
+        </div>`;
+      });
+      grid.innerHTML = html;
+    }
+
+    async function loadFooter() {
+      const footer = document.getElementById('footer');
+      try {
+        const costs = await probe(3005, '/api/costs');
+        const cost = costs.data || {};
+        footer.innerHTML = `
+          <span>━━ <span class="val">CCC2.1.0</span></span>
+          <span class="sep">│</span>
+          <span>🔥 <span class="val">Opus1M</span></span>
+          <span class="sep">│</span>
+          <span>💰 <span class="val ${(cost.today||0) > 5 ? 'red' : (cost.today||0) > 2 ? 'yellow' : 'green'}">$${(cost.today || 0).toFixed(4)}</span></span>
+          <span class="sep">│</span>
+          <span>↑<span class="val">${fmtK(cost.todayTokens || 0)}</span> ↓<span class="dim">${fmtK(cost.totalTokens || 0)}</span></span>
+          <span class="sep">│</span>
+          <span>🎯 <span class="val">358</span></span>
+          <span class="sep">│</span>
+          <span>📂 <span class="dim">${window.location.hostname || 'local'}</span></span>
+        `;
+      } catch {
+        footer.innerHTML = '<span class="dim">Metrics unavailable</span>';
+      }
+    }
+
+    loadServices();
+    loadFooter();
+    setInterval(loadServices, 30000);
+    setInterval(loadFooter, 15000);
+  </script>
+</body>
+</html>
