@@ -127,57 +127,11 @@ else
   STATUS_EMOJI="🧠"
 fi
 
-# ── Rate limit countdown ───────────────────────────────────────────────────
-RATE_STR=""
-calc_remaining() {
-  local reset_at="$1" label="$2"
-  if [ -n "$reset_at" ] && [ "$reset_at" != "null" ]; then
-    local now_epoch reset_epoch diff_sec
-    now_epoch=$(date +%s 2>/dev/null)
-    reset_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${reset_at%%.*}" +%s 2>/dev/null || \
-                  date -d "$reset_at" +%s 2>/dev/null)
-    if [ -n "$reset_epoch" ] && [ -n "$now_epoch" ]; then
-      diff_sec=$((reset_epoch - now_epoch))
-      if [ "$diff_sec" -le 0 ]; then
-        printf " ${H1}%s:ok${N}" "$label"
-      elif [ "$diff_sec" -lt 3600 ]; then
-        printf " ${H4}%s:%dm${N}" "$label" "$((diff_sec / 60))"
-      elif [ "$diff_sec" -lt 86400 ]; then
-        printf " ${D}%s:%dh%dm${N}" "$label" "$((diff_sec / 3600))" "$(((diff_sec % 3600) / 60))"
-      else
-        printf " ${D}%s:%dd${N}" "$label" "$((diff_sec / 86400))"
-      fi
-    fi
-  fi
-}
-if [ -n "$RATE_5H" ]; then
-  R5=${RATE_5H%.*}
-  if [ -n "$RATE_5H_RESET" ] && [ "$RATE_5H_RESET" != "null" ]; then
-    RATE_STR+="$(calc_remaining "$RATE_5H_RESET" "5h")"
-  elif [ "$R5" -ge 80 ]; then
-    RATE_STR+=" ${H5}5h:${R5}%${N}"
-  elif [ "$R5" -ge 50 ]; then
-    RATE_STR+=" ${H4}5h:${R5}%${N}"
-  else
-    RATE_STR+=" ${D}5h:${R5}%${N}"
-  fi
-fi
-if [ -n "$RATE_7D" ]; then
-  R7=${RATE_7D%.*}
-  if [ -n "$RATE_7D_RESET" ] && [ "$RATE_7D_RESET" != "null" ]; then
-    RATE_STR+="$(calc_remaining "$RATE_7D_RESET" "7d")"
-  elif [ "$R7" -ge 80 ]; then
-    RATE_STR+=" ${H5}7d:${R7}%${N}"
-  elif [ "$R7" -ge 50 ]; then
-    RATE_STR+=" ${H4}7d:${R7}%${N}"
-  else
-    RATE_STR+=" ${D}7d:${R7}%${N}"
-  fi
-fi
+# ── Rate limit text removed — replaced by visual bars in output section ────
 
 # ── Agent indicator ─────────────────────────────────────────────────────────
 AGENT_STR=""
-[ -n "$AGENT" ] && AGENT_STR=" ${MG}⚡${AGENT}${N}"
+[ -n "$AGENT" ] && AGENT_STR=" ${C}⚡${AGENT}${N}"
 
 # ── API key (compact: just icon + last 4 digits) ───────────────────────────
 KEY_STR=""
@@ -243,6 +197,44 @@ fi
 CC_LABEL="CC"
 [ -n "$CCC_VER" ] && CC_LABEL="CCC${CCC_VER}"
 
+# ── Rate limit bars (green/yellow/red, no text labels) ─────────────────────
+RATE_5H_BAR=""
+if [ -n "$RATE_5H" ]; then
+  R5=${RATE_5H%.*}; R5=${R5:-0}
+  R5_FILLED=$(( R5 * 6 / 100 )); [ $R5_FILLED -gt 6 ] && R5_FILLED=6
+  R5_EMPTY=$(( 6 - R5_FILLED ))
+  if [ "$R5" -ge 80 ]; then R5C="${H5}"
+  elif [ "$R5" -ge 50 ]; then R5C="${H4}"
+  else R5C='\033[38;5;77m'; fi
+  R5_BAR="${M}▐${R5C}"
+  for ((i=0; i<R5_FILLED; i++)); do R5_BAR+="█"; done
+  R5_BAR+="${D}"
+  for ((i=0; i<R5_EMPTY; i++)); do R5_BAR+="░"; done
+  R5_BAR+="${M}▌${N}"
+  RATE_5H_BAR=" ${D}│${N} ⏱️${R5_BAR}"
+fi
+RATE_7D_BAR=""
+if [ -n "$RATE_7D" ]; then
+  R7=${RATE_7D%.*}; R7=${R7:-0}
+  R7_FILLED=$(( R7 * 6 / 100 )); [ $R7_FILLED -gt 6 ] && R7_FILLED=6
+  R7_EMPTY=$(( 6 - R7_FILLED ))
+  if [ "$R7" -ge 80 ]; then R7C="${H5}"
+  elif [ "$R7" -ge 50 ]; then R7C="${H4}"
+  else R7C='\033[38;5;77m'; fi
+  R7_BAR="${M}▐${R7C}"
+  for ((i=0; i<R7_FILLED; i++)); do R7_BAR+="█"; done
+  R7_BAR+="${D}"
+  for ((i=0; i<R7_EMPTY; i++)); do R7_BAR+="░"; done
+  R7_BAR+="${M}▌${N}"
+  RATE_7D_BAR=" ${D}│${N} 📅${R7_BAR}"
+fi
+
+# ── Cost color (green/yellow/red) ──────────────────────────────────────────
+COST_NUM=${COST%.*}; COST_NUM=${COST_NUM:-0}
+if [ "$COST_NUM" -ge 5 ] 2>/dev/null; then COST_C="${H5}"
+elif [ "$COST_NUM" -ge 2 ] 2>/dev/null; then COST_C="${H4}"
+else COST_C="${W}"; fi
+
 # ── Output ──────────────────────────────────────────────────────────────────
-# ━━ CCC2.0 ▐██████░░░▌62% │ 🔥Opus1M │ $2.14 │ ↑42K↓8K │ 3m12s │ 📋CC-48 │ 🎯432 │ 📦11 │ 5h:23m │ key:..a4F2x │ cc-commander
-echo -e "${D}━━${N} ${C}${CC_LABEL}${N} ${BAR} ${ZC}${B}${CTX_INT}%${N} ${D}│${N} ${STATUS_EMOJI}${MG}${MODEL_SHORT}${N} ${D}│${N} ${W}${COST_FMT}${N} ${D}│${N} ${C}↑${N}${W}${IN_FMT}${N}${C}↓${N}${W}${OUT_FMT}${N} ${D}│${N} ${D}${DUR_FMT}${N}${RATE_STR}${AGENT_STR}${LINEAR_STR}${SKILL_STR}${VENDOR_STR}${KEY_STR} ${D}│${N} ${GR}${PROJ_SHORT}${N}"
+# ━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░▌│📅▐██░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂project
+echo -e "${D}━━${N} ${C}${CC_LABEL}${N} ${D}│${N} ${STATUS_EMOJI}${C}${MODEL_SHORT}${N}${KEY_STR} ${D}│${N} 🧠${BAR} ${D}│${N}${RATE_5H_BAR}${RATE_7D_BAR} ${D}│${N} 💰${COST_C}${COST_FMT}${N} ${D}│${N} ${C}↑${N}${W}${IN_FMT}${N}${C}↓${N}${W}${OUT_FMT}${N} ${D}│${N} ⏰${D}${DUR_FMT}${N}${LINEAR_STR}${SKILL_STR} ${D}│${N} 📂${GR}${PROJ_SHORT}${N}"
