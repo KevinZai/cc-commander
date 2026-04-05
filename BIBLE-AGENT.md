@@ -117,8 +117,34 @@ cd cc-commander/extension && code --install-extension .
 | `ccc --list-sessions --json` | JSON array | Check session history |
 | `ccc --status` | JSON | Health check (version, skills, vendors) |
 | `ccc --template` | text | Get latest CLAUDE.md template |
-| `ccc --test` | text | Validate installation (24 checks) |
+| `ccc --test` | text | Validate installation (26/26 checks) |
 | `ccc --stats` | text | Sessions, streaks, cost, level |
+
+### Infrastructure CLI Commands
+
+Six service-management commands available from within Claude Code sessions:
+
+| Command | Port | What It Does |
+|---------|------|-------------|
+| `/ccc fleet` | 4680 | Fleet Commander — dispatch and monitor multi-agent jobs |
+| `/ccc syn` | 4682 | Synapse — observability, traces, memory timeline |
+| `/ccc cost` | 3005 | Real-time cost dashboard (AO Dashboard) |
+| `/ccc ao` | — | Composio AO — spawn parallel background agents |
+| `/ccc cloudcli` | 4681 | Web session bridge — run Claude in browser, sync back |
+| `/ccc paperclip` | 3110 | Pick up next Paperclip issue (enhanced flow) |
+
+Access all via `/ccc infra` sub-menu. Use `ccc detect` to probe which services are currently running.
+
+### Service Detector
+
+`commander/service-detector.js` probes 8 services and 4 CLIs at startup:
+
+```bash
+ccc --detect   # JSON report of all service/CLI status
+```
+
+Services checked: Fleet (4680), CloudCLI (4681), Synapse (4682), AO Dashboard (3005), Paperclip (3110), n8n (5678), Ollama (11434), OpenClaw (18789).
+CLIs checked: `gh`, `openclaw`, `pm2`, `docker`.
 
 ### Dispatch Flags
 
@@ -217,8 +243,9 @@ ccc --dispatch "YOLO: Build complete SaaS with auth, billing, dashboard. 5 cycle
 | `c` | Create content | → blog / social / email / marketing / docs |
 | `d` | Research & analyze | → competitive / market / code / SEO |
 | `e` | Review what I built | Show recent sessions |
-| `f` | Learn a new skill | Browse 280 skills |
+| `f` | Learn a new skill | Browse 357 skills |
 | `g` | Check my stats | Dashboard, streaks, cost |
+| `i` | Infrastructure | Fleet, Synapse, Cost, AO, CloudCLI, Paperclip |
 | `l` | Linear board | Pick/create issues (requires Linear MCP) |
 | `n` | Night Mode | 10-question spec → Opus overnight build |
 | `s` | Settings | Name, level, cost, theme |

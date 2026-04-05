@@ -1204,6 +1204,21 @@ My tools: [list tools/APIs]."
 | `/permissions` | Manage approved commands | Security audit |
 | `/schedule` | Schedule a Cowork task | Cowork mode autopilot |
 
+### 🛠️ Infrastructure Commands (v2.1.0)
+
+Six new `/ccc` sub-commands for managing local services from within Claude Code:
+
+| Command | Port | What it does |
+|---------|------|-------------|
+| `/ccc fleet` | 4680 | Fleet Commander — multi-agent dispatch manager |
+| `/ccc syn` | 4682 | Synapse observability — trace, memory, event timeline |
+| `/ccc cost` | 3005 | Real-time cost tracking via AO Dashboard |
+| `/ccc ao` | — | Composio AO parallel agents — spawn/manage background workers |
+| `/ccc cloudcli` | 4681 | Web session bridge — run Claude in browser, sync results back |
+| `/ccc paperclip` | 3110 | Enhanced Paperclip — pick-up-next-issue flow |
+
+All commands auto-detect whether the service is running and show status indicators. Access the full sub-menu via `/ccc infra`.
+
 ### 💻 CLI Entry Points
 
 ```bash
@@ -2085,9 +2100,13 @@ node bin/kc.js --repair
 | **Level-based defaults** | Guided=$2/sonnet, Assisted=$3/opusplan, Power=$5/opusplan |
 | **Project import** | Reads local CLAUDE.md without modifying .claude/ |
 | **Session tracking** | Persistent history across days/weeks |
-| **Skill browser** | Browse all 350+ skills from within Commander |
+| **Skill browser** | Browse all 357+ skills from within Commander |
 | **Stats dashboard** | Sparklines, activity heatmap, streak tracking |
 | **Progressive disclosure** | Guided → Assisted (5 sessions) → Power (20 sessions) |
+| **Rich footer bar** | 12-segment status line with color-coded limits |
+| **Infrastructure menu** | `/ccc infra` → 8 service management actions |
+| **Service detector** | `commander/service-detector.js` — probes 8 services + 4 CLIs at startup |
+| **Proactive intelligence** | After every action, suggests 3-4 contextual next steps |
 
 ### Adventure Flows
 
@@ -2100,6 +2119,62 @@ node bin/kc.js --repair
 | **Learn a skill** | Browse skills, CCC domains, cheatsheet, recommendations |
 | **Check stats** | Dashboard with sparklines, achievements, cost tracking |
 | **Settings** | Name, level, cost ceiling, theme, animations, reset |
+
+### Rich Footer Bar
+
+The rich footer bar displays 12 live segments at the bottom of every session:
+
+```
+━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+```
+
+| Segment | What It Shows |
+|---------|--------------|
+| `CCC2.1.0` | Version |
+| `🔥Opus1M` | Active model |
+| `🔑gAA` | Auth status |
+| `🧠▐██45%░░▌` | Context usage — green <60%, yellow <80%, red ≥80% |
+| `⏱️▐██░░░░░▌` | Rate limit usage |
+| `📅▐██░░░░░▌` | Daily budget usage |
+| `💰$2.34` | Session cost |
+| `↑640K↓694K` | Token counts (in/out) |
+| `⏰8h0m` | Session duration |
+| `🎯357` | Total skills installed |
+| `📋CC-150` | Active Linear ticket |
+| `📂~/project` | Current working directory |
+
+### Infrastructure Sub-Menu
+
+`/ccc infra` opens an 8-action sub-menu for managing local services:
+
+| Sub-command | Action |
+|------------|--------|
+| `/ccc fleet` | Fleet Commander (port 4680) |
+| `/ccc syn` | Synapse observability (port 4682) |
+| `/ccc cost` | Real-time cost dashboard (port 3005) |
+| `/ccc ao` | Composio AO parallel agents |
+| `/ccc cloudcli` | Web session bridge (port 4681) |
+| `/ccc paperclip` | Pick up next Paperclip issue (port 3110) |
+| `/ccc detect` | Probe all 8 services + 4 CLIs |
+| `/ccc infra` | Show this sub-menu |
+
+### Proactive Intelligence Protocol
+
+After every action, CCC suggests 3-4 contextual next steps via `AskUserQuestion`. The recommendations are context-aware — based on what was just completed.
+
+**Override modes:**
+- Say `"skip"` — skip all proactive suggestions this session
+- Say `"just do it"` — execute the top suggestion without confirming
+- Say `"auto"` — auto-execute top suggestion for all subsequent actions
+
+### Service Detector
+
+`commander/service-detector.js` runs at startup and probes:
+
+- **8 services:** Fleet (4680), CloudCLI (4681), Synapse (4682), AO Dashboard (3005), Paperclip (3110), n8n (5678), Ollama (11434), OpenClaw (18789)
+- **4 CLIs:** `gh`, `openclaw`, `pm2`, `docker`
+
+Results feed into `/ccc detect` output and smart `/init` auto-detection.
 
 ### Backwards Compatibility
 
