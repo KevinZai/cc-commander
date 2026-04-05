@@ -120,7 +120,7 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 
 | Component | Count | What It Does |
 |-----------|-------|-------------|
-| Skills | 280+ | On-demand expertise (deduplicated) |
+| Skills | 357+ | On-demand expertise (deduplicated) |
 | CCC Domains | 11 | Domain routers with sub-skills |
 | Commands | 80+ | Slash commands (/ccc: prefix) |
 | Hooks | 25 | Lifecycle automation |
@@ -131,6 +131,8 @@ It dispatches to the best available tool (from 16 vendor packages), tracks the s
 | Modes | 9 | Workflow presets |
 | Split Mode | tmux | Tabbed sessions — each task gets a window |
 | Agent API | CLI | Headless dispatch for AI orchestrators |
+| Infrastructure | 6 | Fleet, Synapse, Cost, AO, CloudCLI, Paperclip commands |
+| Service Detector | auto | Probes 8 services + 4 CLIs on startup |
 
 ---
 
@@ -197,13 +199,15 @@ CCC auto-adjusts every dispatch based on context. No configuration needed.
 No CLI needed. Type `/ccc` in any Claude Code session for the full interactive menu.
 
 ```
-/ccc              → Main menu (14 options with sub-menus)
+/ccc              → Main menu (15 options with sub-menus)
 /ccc xray         → Project health scan
 /ccc makeover     → Auto-apply top fixes
 /ccc refresh      → Update your CLAUDE.md from latest template
 /ccc domains      → Browse 11 CCC domains
-/ccc skills       → Browse 350+ skills
+/ccc skills       → Browse 357+ skills
 /ccc grill        → 7-question Socratic planning probe
+/ccc infra        → Infrastructure sub-menu (Fleet, Synapse, Cost, AO, CloudCLI, Paperclip)
+/ccc detect       → Probe all services and CLIs
 ```
 
 Every standalone menu works inside Claude Code — same choices, same sub-menus, same actions. Menus are derived from the same source of truth (`commander/adventures/*.json`). Cancel anytime by typing "back" or "cancel". Press `Escape` or `q` during builds to stop.
@@ -360,11 +364,19 @@ CCC learns from every session. Knowledge compounds over time.
   ─────────────────────────────────────────────
   🧠 Opus 1M  │  $2.14  │  ↑42K↓8K  │  3m12s
   CTX [████████████░░░░░░░░] 62%  RATE [████░░░░░░░░░░░░░░░░] 23%
-  📋 CC-63 v2.1 Ingestion   │  🎯 280 skills  │  📦 16 vendors
+  📋 CC-63 v2.1 Ingestion   │  🎯 357 skills  │  📦 16 vendors
   ─────────────────────────────────────────
 ```
 
 ASCII meters for context usage + rate limits. Emoji status indicators. Active Linear ticket. Skill and vendor counts. All in your terminal.
+
+**Rich footer bar** — 12-segment live status line at the bottom of every session:
+
+```
+━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+```
+
+Context/rate/budget meters color-code green → yellow → red as you approach limits.
 
 ---
 

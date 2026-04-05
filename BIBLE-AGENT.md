@@ -303,6 +303,32 @@ ccc --dispatch "Using tdd-workflow skill: [task]" --json
 
 ---
 
+## Rich Footer Bar
+
+Every CCC session displays a 12-segment status line:
+
+```
+━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+```
+
+Segments: version · model · auth · context% · rate-limit% · daily-budget% · cost · tokens-in/out · duration · skills-count · Linear-ticket · cwd.
+
+Color coding: green <60%, yellow <80%, red ≥80% for context/rate/budget meters.
+
+---
+
+## Proactive Intelligence Protocol
+
+After every action, CCC suggests 3-4 next steps via `AskUserQuestion`. Agents can control this behavior:
+
+| User says | Effect |
+|-----------|--------|
+| `"skip"` | Suppress suggestions for this session |
+| `"just do it"` | Execute top suggestion without confirmation |
+| `"auto"` | Auto-execute top suggestion for all subsequent actions |
+
+---
+
 ## Intelligence Layer (Automatic)
 
 CCC auto-adjusts every dispatch based on context:

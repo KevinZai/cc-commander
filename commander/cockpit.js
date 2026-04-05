@@ -129,20 +129,23 @@ function renderCockpitFooter(data) {
   // Context meter
   parts.push('\u{1F9E0}' + miniMeter(data.contextPct || 0, t.primary));
 
-  // 5h session meter (% of 5 hours used)
+  // 5h session meter — green/yellow/red, no text label
   var sessionMinutes = data.sessionMinutes || 0;
   var sessionPct5h = Math.min(100, Math.round((sessionMinutes / 300) * 100));
-  parts.push('\u23F1\uFE0F' + miniMeter(sessionPct5h, sessionPct5h > 80 ? [255, 80, 80] : t.secondary) + dim('5h'));
+  var sessionColor = sessionPct5h > 80 ? [255, 60, 60] : sessionPct5h > 50 ? [255, 200, 50] : [80, 220, 80];
+  parts.push('\u23F1\uFE0F' + miniMeter(sessionPct5h, sessionColor));
 
-  // 7d rolling meter (% of 7-day budget used)
+  // 7d rolling meter — green/yellow/red, no text label
   var weekPct = Math.min(100, Math.round(((data.weekCost || 0) / (data.weekBudget || 50)) * 100));
-  parts.push('\u{1F4C5}' + miniMeter(weekPct, weekPct > 80 ? [255, 80, 80] : t.secondary) + dim('7d'));
+  var weekColor = weekPct > 80 ? [255, 60, 60] : weekPct > 50 ? [255, 200, 50] : [80, 220, 80];
+  parts.push('\u{1F4C5}' + miniMeter(weekPct, weekColor));
 
-  // Cost
-  parts.push('\u{1F4B0}' + bold('$' + (data.cost || 0).toFixed(2), data.cost > 2 ? [255, 150, 50] : t.text));
+  // Cost — green/yellow/red
+  var costColor = (data.cost || 0) > 5 ? [255, 60, 60] : (data.cost || 0) > 2 ? [255, 200, 50] : t.text;
+  parts.push('\u{1F4B0}' + bold('$' + (data.cost || 0).toFixed(2), costColor));
 
-  // Tokens
-  parts.push('\u2B06\uFE0F' + col(fmtK(data.inputTokens || 0), t.primary) + '\u2B07\uFE0F' + col(fmtK(data.outputTokens || 0), t.secondary));
+  // Tokens — original arrows
+  parts.push('\u2191' + col(fmtK(data.inputTokens || 0), t.primary) + '\u2193' + col(fmtK(data.outputTokens || 0), t.text));
 
   // Time spent
   var totalMinutes = data.totalMinutes || 0;
