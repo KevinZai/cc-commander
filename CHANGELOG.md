@@ -2,6 +2,43 @@
 
 All notable changes to CC Commander will be documented in this file.
 
+## [2.2.0] — 2026-04-06
+
+### The Context Budget Release — "Your AI work costs less. Every meter works. Skills load smart."
+
+### Added
+- **Tiered Skill Loading (CC-180):** `install.sh --skills=essential|recommended|full|custom` — install only what you need. Default changed from 454 skills to 30 essential, saving ~10k tokens/session
+- **`skills/_tiers.json`:** Skill tier definitions — essential (30), recommended (62), domain (11), full (all). Installer reads this to filter skill installation
+- **ClaudeSwap Failover:** Status line reads `~/.config/claudeswap-state.json` for real-time 5h/7d rate limit data when Claude Code doesn't provide it
+- **% Numbers on Meters:** Context, 5h, and 7d meters now show percentage numbers with heat-map coloring
+- **Model Version Display:** Status line recognizes Opus 4.6, Sonnet 4.6, Haiku models with version-specific labels (e.g., "Opus4.6-1M" not just "Opus")
+- **Version Fallback:** Status line reads version from `package.json` when `ccc` command not in PATH
+- **Update Checker:** CCC checks for new versions on session start, notifies if update available
+- **Developer Icons Skill:** Standard tech icon library via `developer-icons` npm package
+- **Caveman Mode:** ~75% output token savings for terse interactions
+- **Session Defaults:** Opus 4.6 (1M context) + Plan mode as project defaults
+- **Proactive Intelligence Triggers:** Developer icons integrated across agent bible and skill suggestions
+
+### Changed
+- Default skill installation: 454 → 30 (essential tier). Full catalog at `SKILLS-INDEX.md`
+- Default plugins: 18 → 2 (engineering + claude-mem). Others available via re-enable
+- Model config: `opus[1m]` alias → `claude-opus-4-6[1m]` full ID for reliable 1M activation
+- `ANTHROPIC_MODEL` env var removed (conflicted with `model` setting)
+- `defaultMode`: `acceptEdits` → `plan` (plan-first workflow)
+- SessionStart hook schema fixed (was missing matcher/hooks nesting)
+- Status line model matching expanded: 5 patterns → 8 patterns
+
+### Fixed
+- 5h/7d rate limit meters were always empty — ClaudeSwap failover provides data
+- Version display showed "CC" without version when `ccc` not in PATH
+- Model display showed bare "Opus" instead of "Opus4.6-1M"
+- Settings.json SessionStart hook schema validation error
+- Stale marketing counts (454→actual, corrected in full audit)
+
+### Linear Issues
+- CC-180 (tiered skills), CC-182 (plugin defaults), CC-179 (Nightwatch — future)
+- CC-178 (channels evaluation — done), CC-181 (cancelled — redundant)
+
 ## [2.1.0] — 2026-04-01
 
 ### The Mass Ingestion Release — "5 new vendors. 1,500+ vendor skills. Optimization directives from source."

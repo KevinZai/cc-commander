@@ -24,6 +24,7 @@ VERIFY_ONLY=false
 FORCE=false
 BACKUP_DIR=""
 INSTALL_MODE="full"
+SKILLS_TIER=""
 
 # Source the terminal art library
 source "${SCRIPT_DIR}/lib/terminal-art.sh"
@@ -36,6 +37,7 @@ while [[ $# -gt 0 ]]; do
     --verify)   VERIFY_ONLY=true; shift ;;
     --force)    FORCE=true; shift ;;
     --mode=*)   INSTALL_MODE="${1#*=}"; shift ;;
+    --skills=*) SKILLS_TIER="${1#*=}"; shift ;;
     --help|-h)
       cc_mini_banner
       echo "Usage: ./install.sh [flags]"
@@ -44,6 +46,7 @@ while [[ $# -gt 0 ]]; do
       echo "  --verify           Validate an existing installation"
       echo "  --force            Skip confirmation prompts"
       echo "  --mode=MODE        Install mode: full|essentials|scripts|dashboard|config"
+      echo "  --skills=TIER      Skill tier: essential (default), recommended, full, custom"
       echo "  --help             Show this help"
       exit 0
       ;;
@@ -335,11 +338,60 @@ mkdir -p "$CLAUDE_DIR"
 if should_install "skills"; then
   ((install_step++)) || true
   cc_progress_bar "$install_step" "$install_total" "Skills"
+
+  # Determine skill tier
+  local tier="${SKILLS_TIER:-essential}"
+  local tiers_file="$SCRIPT_DIR/skills/_tiers.json"
+
   rm -rf "$CLAUDE_DIR/skills"
-  cp -r "$SCRIPT_DIR/skills/" "$CLAUDE_DIR/skills/"
-  skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
+  mkdir -p "$CLAUDE_DIR/skills"
+
+  if [[ "$tier" == "full" ]] || [[ ! -f "$tiers_file" ]]; then
+    # Full install or no tiers file — copy everything (legacy behavior)
+    cp -r "$SCRIPT_DIR/skills/"* "$CLAUDE_DIR/skills/" 2>/dev/null || true
+  elif [[ "$tier" == "custom" ]]; then
+    # Custom mode — interactive picker (future: for now fall back to essential)
+    cc_status_line "!" "Custom skill picker not yet implemented — using essential tier"
+    tier="essential"
+  fi
+
+  if [[ "$tier" != "full" ]] && [[ -f "$tiers_file" ]]; then
+    # Collect skills from the selected tier and all included tiers
+    local all_skills=""
+
+    # Get skills for the selected tier
+    local tier_skills=$(jq -r ".tiers[\"$tier\"].skills[]?" "$tiers_file" 2>/dev/null)
+    all_skills="$tier_skills"
+
+    # Get included tiers and their skills
+    local includes=$(jq -r ".tiers[\"$tier\"].includes[]?" "$tiers_file" 2>/dev/null)
+    for inc in $includes; do
+      local inc_skills=$(jq -r ".tiers[\"$inc\"].skills[]?" "$tiers_file" 2>/dev/null)
+      all_skills="$all_skills"$'\n'"$inc_skills"
+    done
+
+    # Also add domain skills if tier is recommended or higher
+    if [[ "$tier" == "recommended" ]]; then
+      local domain_skills=$(jq -r '.tiers["domain"].skills[]?' "$tiers_file" 2>/dev/null)
+      all_skills="$all_skills"$'\n'"$domain_skills"
+    fi
+
+    # Deduplicate and create symlinks
+    local unique_skills=$(echo "$all_skills" | sort -u | grep -v '^$')
+    while IFS= read -r skill; do
+      if [[ -d "$SCRIPT_DIR/skills/$skill" ]]; then
+        ln -sf "$SCRIPT_DIR/skills/$skill" "$CLAUDE_DIR/skills/$skill"
+      fi
+    done <<< "$unique_skills"
+
+    # Copy _catalog.md and _tiers.json for reference
+    [[ -f "$SCRIPT_DIR/skills/_catalog.md" ]] && cp "$SCRIPT_DIR/skills/_catalog.md" "$CLAUDE_DIR/skills/"
+    [[ -f "$tiers_file" ]] && cp "$tiers_file" "$CLAUDE_DIR/skills/"
+  fi
+
+  local skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
   skill_count=$((skill_count - 1))
-  cc_status_line "✓" "$skill_count skills installed"
+  cc_status_line "✓" "$skill_count skills installed (tier: $tier)"
 fi
 
 # 2. Commands

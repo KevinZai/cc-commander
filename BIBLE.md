@@ -1070,6 +1070,25 @@ Write a complete SKILL.md that:
 - Awesome Claude Skills: [github.com/ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills)
 - Anthropic Complete Guide: [resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf](https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf)
 
+### Tiered Skill Loading
+
+Skills are installed in tiers — smaller tiers load faster and save ~10k tokens per session:
+
+| Tier | Flag | Count | Best for |
+|------|------|-------|---------|
+| Essential | `--skills=essential` (default) | ~30 | Most developers — core workflows |
+| Recommended | `--skills=recommended` | ~100 | Active builders who use many domains |
+| Domain | `--skills=domain` | 11 routers | Load one mega-skill per domain as needed |
+| Full | `--skills=full` | 454 | Legacy behavior — everything installed |
+
+```bash
+./install.sh --skills=essential   # Default — saves ~10k tokens per session
+./install.sh --skills=recommended # Good balance for full-time users
+./install.sh --skills=full        # All 454 skills (original behavior)
+```
+
+Tiers are defined in `skills/_tiers.json`. You can always load an on-demand skill mid-session with: `"use the skill-name skill"`.
+
 ### 🎯 Essential Skills by Category
 
 #### Planning & Execution
@@ -1655,6 +1674,15 @@ Then we'll write the spec.
 | 44 | Install dx plugin | `/dx:gha`, `/dx:handoff`, `/dx:clone`, `/dx:reddit-fetch` |
 | 45 | Quick setup script | `bash <(curl -s .../setup.sh)` — sets up all tips |
 
+### CCC-Specific Tips (v2.2.0)
+
+| # | Tip | Key Action |
+|---|-----|-----------|
+| A | Caveman mode | `"use caveman skill"` — strips markdown/emojis/prose, ~75% token savings for iteration |
+| B | Update checker | Runs silently on session start (4h cache) — notifies when a new CCC version is available |
+| C | Tiered skill install | `./install.sh --skills=essential` (default) — installs 30 core skills, saves ~10k tokens |
+| D | ClaudeSwap rate meters | Footer shows rate + budget as `%` numbers — ClaudeSwap failover keeps sessions alive |
+
 ---
 
 ## Power Combos
@@ -2148,17 +2176,17 @@ node bin/kc.js --repair
 The rich footer bar displays 12 live segments at the bottom of every session:
 
 ```
-━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+━━ CCC2.2.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
 ```
 
 | Segment | What It Shows |
 |---------|--------------|
-| `CCC2.1.0` | Version |
+| `CCC2.2.0` | Version |
 | `🔥Opus1M` | Active model |
 | `🔑gAA` | Auth status |
 | `🧠▐██45%░░▌` | Context usage — green <60%, yellow <80%, red ≥80% |
-| `⏱️▐██░░░░░▌` | Rate limit usage |
-| `📅▐██░░░░░▌` | Daily budget usage |
+| `⏱️▐██░░▌6%` | Rate limit usage % (sourced from ClaudeSwap failover data) |
+| `📅▐██░░▌34%` | Daily budget usage % |
 | `💰$2.34` | Session cost |
 | `↑640K↓694K` | Token counts (in/out) |
 | `⏰8h0m` | Session duration |

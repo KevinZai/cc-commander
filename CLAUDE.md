@@ -31,6 +31,7 @@ Key components:
 - `commander/plugins.js` — Auto-detects gstack, CE, Superpowers, sequences them
 - `commander/adventures/*.json` — 14 JSON decision tree flows
 - `commander/cowork-plugin/` — Claude Desktop Cowork plugin (4 skills)
+- `commander/update-check.js` — Update checker (4h cache, silent on failure, runs at session start)
 - `commander/tests/paths.test.js` — 18 E2E path tests
 
 State: `~/.claude/commander/` (never modifies `.claude/`)
@@ -87,7 +88,7 @@ claude-code-prompts (142).
 CCC renders a rich status footer on every menu screen and recommends it for `/ccc` mid-session:
 
 ```
-━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌5h│📅▐██░░░░░▌7d│💰$2.34│⬆️640K⬇️694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+━━ CCC2.2.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│⬆️640K⬇️694K│⏰8h0m│🎯357│📋CC-150│📂~/project
 ```
 
 Render this at session start and after major actions. Source: `commander/cockpit.js`.
@@ -183,6 +184,9 @@ ccc --status                  # Health check
 - Modular installer with 5 installation modes (full, essentials, scripts, dashboard, config-only)
 - Daemon Mode: commander/daemon.js (tick loop), commander/queue.js (task queue), commander/dream.js (knowledge consolidation)
 - Intelligence Layer v1: complexity scoring (dispatcher.js), stack detection (project-importer.js), session learning (knowledge.js), skill filtering (skill-browser.js), smart retry (dispatchWithRetry)
+- Tiered skill loading via `skills/_tiers.json` — essential (~30), recommended (~100), domain (11 routers), full (all 454)
+- Update checker at `commander/update-check.js` — 4h cache, silent on failure, fires on session start
+- Caveman mode (`caveman` skill) — strips markdown/emojis/prose for ~75% output token savings during iteration
 
 ## UI Components
 Check `~/clawd/shared/refs/shadcn-ecosystem.md` before building custom. Key: tremor (charts), auto-form (Zod→forms), magicui (animations).
