@@ -1,6 +1,6 @@
 ---
 name: mode-switcher
-description: Switch between optimized workflow modes — design, saas, marketing, research, writing, night, yolo, unhinged, normal
+description: Switch between optimized workflow modes — design, saas, marketing, research, writing, night, yolo, unhinged, caveman, normal
 tags: [mode, workflow, configuration]
 ---
 
@@ -44,6 +44,7 @@ Or reference naturally in conversation: "switch to design mode", "go yolo", "ent
 | 7 | **night** | all relevant CCC domains | autoAccept | Fully autonomous overnight. Auto-checkpoints. Self-verify. Detailed logs. |
 | 8 | **yolo** | user's choice | autoAccept | Max speed. Skip confirmations. Hooks as safety net. Minimal explanation. |
 | 9 | **unhinged** | all CCC domains | autoAccept | YOLO + max creativity. Bold architecture. Aggressive refactoring. Comprehensive testing. |
+| 10 | **caveman** | — | acceptEdits | Token-saving mode. ~75% less output tokens. Three levels: lite/full/ultra. Code stays normal. |
 
 ---
 
@@ -93,6 +94,11 @@ Full auto-accept with whatever skills you choose. Claude skips explanations, min
 Everything YOLO offers plus maximum creative freedom. All CCC domains loaded. Claude makes bold architectural choices, aggressively refactors, and pushes boundaries — but backs it up with comprehensive testing.
 
 **When to use:** Greenfield projects, major refactors, creative exploration where you trust Claude to make big moves.
+
+### caveman (token-saving communication)
+Ultra-compressed output mode. Strips articles, filler, pleasantries, and hedging from all prose responses. Technical content — code blocks, error messages, exact terms — is untouched. Three intensity levels: lite (no fluff, grammar intact), full (fragments, no articles), ultra (telegraphic, abbreviations, arrow notation). Stacks with any other mode.
+
+**When to use:** Long debugging sessions, architecture discussions, any work where explanation volume is high and you want to cut output costs by ~65-75%. Deactivate with `/caveman off`.
 
 ---
 
