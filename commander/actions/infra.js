@@ -133,6 +133,27 @@ module.exports = {
     return { next: 'infrastructure' };
   },
 
+
+  async taskmaster_status(engine, tui, state, choice) {
+    try {
+      process.stdout.write('\n' + tui.divider('TaskMaster') + '\n');
+      var cp = require('child_process');
+      try {
+        var version = cp.execFileSync('task-master', ['--version'], { encoding: 'utf8', stdio: 'pipe' }).trim();
+        process.stdout.write('  ' + tui.colorText('TaskMaster ' + version, tui.getTheme().success) + '\n\n');
+      } catch(_e) {
+        process.stdout.write('  TaskMaster CLI not found. Install: npm i -g task-master-ai\n');
+      }
+      process.stdout.write('  ' + tui.dimText('Use /tm in your session for PRD parsing and task management.') + '\n');
+      if (!engine.rl) { var readline = require('readline'); engine.rl = readline.createInterface({ input: process.stdin, output: process.stdout }); }
+      await engine.ask('\n  Press Enter...');
+    } catch(_e) {
+      process.stdout.write('\n  Error: ' + (_e.message || _e) + '\n');
+      try { require('../error-logger').logError(_e, 'taskmaster_status'); } catch(_) {}
+    }
+    return { next: 'infrastructure' };
+  },
+
   async back(engine, tui, state, choice) {
     return { next: 'main-menu' };
   },

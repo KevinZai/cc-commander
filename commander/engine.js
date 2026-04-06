@@ -374,7 +374,7 @@ class KitCommander {
       default:
         process.stdout.write('\n  Unknown action: ' + actionName + '\n');
         await this.pause(1000);
-        return null;
+        return { next: 'main-menu' };
     }
   }
 
@@ -829,7 +829,7 @@ class KitCommander {
     if (this.rl) this.rl.close();
   }
 
-  ask(prompt) { return new Promise(function(resolve) { this.rl.question(prompt, function(answer) { resolve(answer); }); }.bind(this)); }
+  ask(prompt) { var self = this; if (!self.rl) { var rl2 = require('readline'); self.rl = rl2.createInterface({ input: process.stdin, output: process.stdout }); } return new Promise(function(resolve) { self.rl.question(prompt, function(answer) { resolve(answer); }); }); }
   pause(ms) { return new Promise(function(resolve) { setTimeout(resolve, ms); }); }
 }
 
