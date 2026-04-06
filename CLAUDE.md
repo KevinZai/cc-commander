@@ -2,7 +2,7 @@
 
 ## What This Is
 
-CC Commander — by Kevin Z. 280 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 280 skills, 11 CCC domains, 76 commands, 25 hooks, 36+ prompt templates, 10 themes, 16 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+CC Commander — by Kevin Z. 358 skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 358 skills, 11 CCC domains, 87 commands, 25 hooks, 36+ prompt templates, 10 themes, 16 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
 
 **Version:** 2.1.0 — The Aggregator Release
 
@@ -12,7 +12,7 @@ Interactive CLI that sits ABOVE Claude Code sessions. Manages, dispatches, and t
 
 ```bash
 ccc          # Launch interactive mode
-ccc --test   # 22-point self-test (107 tests total)
+ccc --test   # 166 tests across 4 suites
 ccc --stats  # Quick stats
 ```
 
@@ -22,7 +22,7 @@ Key components:
 - `commander/dispatcher.js` — 14-flag Claude Code dispatch with plan-mode-first
 - `commander/knowledge.js` — Knowledge compounding (learns from every session)
 - `commander/plugins.js` — Auto-detects gstack, CE, Superpowers, sequences them
-- `commander/adventures/*.json` — 11 JSON decision tree flows
+- `commander/adventures/*.json` — 14 JSON decision tree flows
 - `commander/cowork-plugin/` — Claude Desktop Cowork plugin (4 skills)
 - `commander/tests/paths.test.js` — 18 E2E path tests
 
@@ -94,7 +94,7 @@ All `/ccc` sub-commands open rich menus with recommendations:
 | `/ccc build` | Build wizard | Website, API, CLI, custom — with spec questions |
 | `/ccc infra` | Infrastructure | Fleet, Cost, Synapse, AO, CloudCLI, Paperclip |
 | `/ccc linear` | Linear board | View issues, pick to build, create new |
-| `/ccc skills` | Skill browser | 357 skills by category, preview, try |
+| `/ccc skills` | Skill browser | 358 skills by category, preview, try |
 | `/ccc domains` | CCC domains | 11 mega-skill domains |
 | `/ccc night` | Night/YOLO mode | Autonomous overnight builds |
 | `/ccc settings` | Settings | Name, level, cost, theme, Linear setup |
@@ -121,7 +121,7 @@ Every menu recommends the best next action based on context.
 
 **Version:** 2.1.0
 
-**Stats:** 280 skills, 76 commands, 25 hooks, 16 vendors, 10 themes
+**Stats:** 358 skills, 87 commands, 25 hooks, 16 vendors, 10 themes
 
 **Live:**
 - GitHub repo: github.com/KevinZai/cc-commander

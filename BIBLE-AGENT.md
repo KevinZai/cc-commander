@@ -1,7 +1,7 @@
 # CC Commander — Agent Reference (BIBLE-AGENT)
 
 > **Read this file to control CC Commander from any AI agent platform.**
-> 280 skills. 16 vendors. Headless CLI API. Works with Claude Code, OpenClaw, Cursor, Codex, any LLM agent.
+> 358 skills. 16 vendors. Headless CLI API. Works with Claude Code, OpenClaw, Cursor, Codex, any LLM agent.
 
 ---
 
@@ -17,13 +17,13 @@ git clone --recursive https://github.com/KevinZai/cc-commander.git
 cd cc-commander && ./install.sh --force
 
 # 2. Verify
-ccc --test     # 24/24 checks
-ccc --status   # {"version":"2.1.0","skills":280,"vendors":16,"health":"ok"}
+ccc --test     # 166 tests across 4 suites
+ccc --status   # {"version":"2.1.0","skills":358,"vendors":16,"health":"ok"}
 
 # 3. Use inside Claude Code sessions
-/ccc           # Full interactive menu (14 options, sub-menus, cancel support)
+/ccc           # Full interactive menu (15 options, sub-menus, cancel support)
 /ccc xray      # Project health scan
-/ccc skills    # Browse 280 skills
+/ccc skills    # Browse 358 skills
 /ccc refresh   # Update CLAUDE.md from latest template
 
 # 4. Headless dispatch (from within Claude Code)
@@ -84,7 +84,7 @@ ccc --status
 /plugin marketplace add KevinZai/cc-commander
 
 # 2. Skills available in Cowork:
-#    /cc-commander  — full 14-item menu
+#    /cc-commander  — full 15-item menu
 #    /cc-night-mode — 10-question spec → overnight build
 #    /cc-knowledge  — search past lessons
 #    /cc-plugins    — detect installed packages
@@ -117,12 +117,12 @@ cd cc-commander/extension && code --install-extension .
 | `ccc --list-sessions --json` | JSON array | Check session history |
 | `ccc --status` | JSON | Health check (version, skills, vendors) |
 | `ccc --template` | text | Get latest CLAUDE.md template |
-| `ccc --test` | text | Validate installation (26/26 checks) |
+| `ccc --test` | text | Validate installation (166 tests across 4 suites) |
 | `ccc --stats` | text | Sessions, streaks, cost, level |
 
 ### Infrastructure CLI Commands
 
-Six service-management commands available from within Claude Code sessions:
+Nine service-management commands available from within Claude Code sessions:
 
 | Command | Port | What It Does |
 |---------|------|-------------|
@@ -132,6 +132,7 @@ Six service-management commands available from within Claude Code sessions:
 | `/ccc ao` | — | Composio AO — spawn parallel background agents |
 | `/ccc cloudcli` | 4681 | Web session bridge — run Claude in browser, sync back |
 | `/ccc paperclip` | 3110 | Pick up next Paperclip issue (enhanced flow) |
+| `/ccc taskmaster` | — | TaskMaster task queue — next task, status, expand |
 
 Access all via `/ccc infra` sub-menu. Use `ccc detect` to probe which services are currently running.
 
@@ -243,9 +244,9 @@ ccc --dispatch "YOLO: Build complete SaaS with auth, billing, dashboard. 5 cycle
 | `c` | Create content | → blog / social / email / marketing / docs |
 | `d` | Research & analyze | → competitive / market / code / SEO |
 | `e` | Review what I built | Show recent sessions |
-| `f` | Learn a new skill | Browse 357 skills |
+| `f` | Learn a new skill | Browse 358 skills |
 | `g` | Check my stats | Dashboard, streaks, cost |
-| `i` | Infrastructure | Fleet, Synapse, Cost, AO, CloudCLI, Paperclip |
+| `i` | Infrastructure | Fleet, Synapse, Cost, AO, CloudCLI, Paperclip, TaskMaster |
 | `l` | Linear board | Pick/create issues (requires Linear MCP) |
 | `n` | Night Mode | 10-question spec → Opus overnight build |
 | `s` | Settings | Name, level, cost, theme |
@@ -255,7 +256,22 @@ ccc --dispatch "YOLO: Build complete SaaS with auth, billing, dashboard. 5 cycle
 
 ---
 
-## Skill Catalog — 280 Skills in 11 Domains
+## Component Counts
+
+| Component | Count |
+|-----------|-------|
+| Skills | 358 |
+| Commands | 87 |
+| Hooks | 25 |
+| Adventures | 14 |
+| Vendors | 16 |
+| Themes | 10 |
+| Tests | 166 |
+| Modes | 9 |
+
+---
+
+## Skill Catalog — 358 Skills in 11 Domains
 
 ### CCC Domain Routers (load ONE domain = all sub-skills)
 
@@ -335,7 +351,7 @@ ccc --dispatch "Using tdd-workflow skill: [task]" --json
 Every CCC session displays a 12-segment status line:
 
 ```
-━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯358│📋CC-150│📂~/project
 ```
 
 Segments: version · model · auth · context% · rate-limit% · daily-budget% · cost · tokens-in/out · duration · skills-count · Linear-ticket · cwd.
@@ -356,19 +372,58 @@ After every action, CCC suggests 3-4 next steps via `AskUserQuestion`. Agents ca
 
 ---
 
-## Intelligence Layer (Automatic)
+## Intelligence Layer
 
-CCC auto-adjusts every dispatch based on context:
+CCC auto-adjusts every dispatch. No configuration needed.
 
-| Feature | What It Does | Where |
-|---------|-------------|-------|
-| Complexity scoring | "fix typo"→15 turns/$2, "build SaaS"→50 turns/$10 | dispatcher.js |
-| Stack detection | Reads package.json→detects nextjs/react/vue/etc | project-importer.js |
-| Skill filtering | Sorts 280 skills by project relevance | skill-browser.js |
-| Session learning | Tracks success rate per task category | knowledge.js |
-| Smart retry | Context overflow→fewer turns, rate limit→wait 60s | dispatcher.js |
+### Complexity Scoring
+```
+scoreComplexity("fix typo")         → {score: 0,   turns: 10, budget: 1,  effort: "low"}
+scoreComplexity("add feature")      → {score: 30,  turns: 20, budget: 3,  effort: "low"}
+scoreComplexity("build SaaS")       → {score: 100, turns: 50, budget: 10, effort: "high"}
+```
+47 keyword signals, fuzzy regex matching, word count analysis.
 
-No configuration needed. Override per-dispatch with --max-turns, --budget, --model.
+### Stack Detection
+Reads: package.json, Dockerfile, go.mod, Cargo.toml, pyproject.toml, .github/workflows
+Detects: nextjs, react, vue, docker, python, rust, go, github-actions, orm, billing, testing
+Also: monorepo detection, git branch, recent commit themes
+
+### Skill Recommendations
+`recommendSkills(task, techStack, limit)` — combines stack matching + keyword matching + usage history
+Returns ranked, deduplicated list. Skills used successfully rank higher.
+
+### Knowledge Compounding
+Every session → lesson extracted (keywords, category, tech, errors, successes)
+Time decay: <7 days = 2x, <30 days = 1.5x, older = 1x
+Fuzzy matching + cross-category boost (web↔react, api↔backend)
+
+### Smart Retry
+Rate limit → wait 60s + retry. Context overflow → reduce turns 40% + retry. Budget exceeded → clear error.
+
+Override per-dispatch with --max-turns, --budget, --model.
+
+---
+
+## Testing
+
+166 tests across 4 suites:
+- paths.test.js (18) — adventure files, navigation, module exports
+- hooks.test.js (61) — lifecycle hooks
+- intelligence.test.js (57) — scoring, knowledge, skills, project import
+- error-handling.test.js (30) — error logger, action module structure
+
+Plus: smoke.sh (6 CLI flag tests), prepublishOnly gate. Run: `node --test tests/*.test.js`
+
+---
+
+## Security
+
+- All shell calls use execFileSync with array args (no injection)
+- Default: --permission-mode auto (not --dangerously-skip-permissions)
+- YOLO mode only: skipPermissions enabled (intentional)
+- CI: PII scan, npm audit, secret detection on every push
+- Errors: friendly message + error ID, never raw stack traces
 
 ---
 
@@ -425,12 +480,19 @@ Queue: `~/.claude/commander/queue/` · Log: `~/.claude/commander/daemon-log.txt`
 
 | Path | What |
 |------|------|
-| `commander/adventures/*.json` | Menu definitions (source of truth) |
-| `commander/dispatcher.js` | Claude Code dispatch logic |
+| `commander/adventures/*.json` | Menu definitions (14 adventures, source of truth) |
+| `commander/dispatcher.js` | Claude Code dispatch logic + Intelligence Layer |
 | `commander/engine.js` | Interactive menu engine |
-| `skills/` | 280 skill definitions (SKILL.md each) |
+| `skills/` | 358 skill definitions (SKILL.md each) |
 | `commands/ccc.md` | /ccc command for Claude Code sessions |
 | `BIBLE.md` | Full methodology (2000+ lines, human-readable) |
 | `BIBLE-AGENT.md` | This file (agent-optimized) |
 | `CLAUDE.md.template` | CLAUDE.md template for new projects |
 | `SKILLS-INDEX.md` | Searchable skill directory |
+
+---
+
+## License
+
+MIT License. Intelligence Layer (4 files) has additional Commons Clause — free to use, not to sell.
+See LICENSE-INTELLIGENCE.md.
