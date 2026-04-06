@@ -2454,6 +2454,37 @@ CC Commander is designed to take advantage of the latest Claude Code features au
 
 > These features require Claude Code v2.189+. Run `claude --version` to check.
 
+## Token Optimization — Save 30-60%
+
+### The Hidden Multiplier
+A single Claude Code command = 8-12 internal API calls. Each carries full conversation context.
+One hour of active use can exhaust a Pro daily allocation.
+
+### The Optimization Stack (cumulative)
+
+| Optimization | Token Savings | How |
+|-------------|--------------|-----|
+| `ENABLE_TOOL_SEARCH` | 14K/turn | Deferred tool loading. Add to settings.json env. |
+| CLAUDE.md caching | 5-20K/turn | Keep static, stable content first. Cache hits don't count toward limits. |
+| `--include` scoping | 50-80% input | Restrict file context to relevant dirs. CCC auto-infers patterns. |
+| Session resets | Prevents bloat | Start fresh after completing logical tasks. Context grows exponentially. |
+| Subagent delegation | Fresh context | Each subagent starts clean. No accumulated history. |
+| Batch dispatch | 50% cost | Use `--stream false` for non-urgent tasks (future: Batch API). |
+| Model routing | 3-10x savings | Haiku for simple tasks, Sonnet for standard, Opus for complex. CCC auto-selects. |
+
+### Cache-Friendly CLAUDE.md Structure
+1. Static rules and standards (top) — cached across sessions
+2. Project-specific context (middle) — cached within session
+3. Dynamic/changing instructions (bottom) — not cached
+
+### Rate Limit Recovery
+- Smart retry: CCC waits 60s on 429, reduces turns on context overflow
+- Pro plan resets: UTC midnight daily
+- Max plan resets: rolling weekly window
+- Kill orphan processes: `ps aux | grep claude | grep -v grep`
+
+---
+
 ## About the Author
 
 **Kevin Zicherman** is the CEO of [MyWiFi Networks](https://mywifi.io), a WiFi marketing platform used by thousands of venues worldwide. He built this kit by scanning 200+ Claude Code articles, plugins, and community resources — testing everything and keeping what worked. Not a researcher. Not a pundit. An operator who ships.
