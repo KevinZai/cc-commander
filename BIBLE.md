@@ -1330,6 +1330,16 @@ claude() {
 
 **Workflow:** Describe UI → v0 generates component → paste into Claude Code for customization
 
+### developer-icons (Tech Stack Icons & Logos)
+
+**Purpose:** 500+ optimized SVG icons for tech stacks, frameworks, tools, and languages. React-ready, tree-shakeable.
+
+**When to use:** Any time you need tech icons, framework logos, language badges, or stack visualization. Never build custom SVG icons when this library covers it.
+
+**Install:** `npm install developer-icons`
+
+**Browse:** [xandemon.github.io/developer-icons/icons/All](https://xandemon.github.io/developer-icons/icons/All)
+
 ### agentplace.io (No-Code Agents)
 
 **Purpose:** No-code agent creation and deployment platform.

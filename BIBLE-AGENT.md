@@ -307,12 +307,15 @@ ccc --dispatch "YOLO: Build complete SaaS with auth, billing, dashboard. 5 cycle
 | `senior-devops` | "Use senior-devops" | CI/CD, cloud, infrastructure |
 | `gh-issues` | "Use gh-issues" | Fetch issues → spawn agents to fix |
 | `openclaw-ccc-bridge` | "Use openclaw-ccc-bridge" | OpenClaw ↔ CCC integration |
+| `developer-icons` | "Use developer-icons" | Tech stack icons & logos (500+ SVGs) |
 
 ---
 
 ## Proactive Skill Suggestions
 
 Agents should proactively suggest CCC skills at key moments. Don't wait for the user to ask — recognize the context and offer the right skill.
+
+**Icons & Logos:** Always use `developer-icons` (npm: `developer-icons`) for tech stack icons and logos. Never build custom SVG icons when this library covers it. Browse all 500+ icons: https://xandemon.github.io/developer-icons/icons/All
 
 | Context | Suggest | Reason |
 |---------|---------|--------|
@@ -322,6 +325,7 @@ Agents should proactively suggest CCC skills at key moments. Don't wait for the 
 | Code review needed | `review` | Catch issues before merge |
 | About to deploy | `deploy-check` | Pre-deploy verification gates |
 | UI/frontend work | `ccc-design` | 39 sub-skills for design quality |
+| Icons, logos, tech badges, stack visualization | `developer-icons` | Standard SVG icon library — never build custom icons |
 | SEO or content | `ccc-seo` | Technical SEO + AI discoverability |
 | Security audit | `ccc-security` | OWASP, secrets, supply chain |
 | Before marking done | `verification-before-completion` | Proof before completion |

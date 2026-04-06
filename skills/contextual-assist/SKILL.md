@@ -227,6 +227,18 @@ Deploying? Safety checks:
   ccc-devops          — Full CI/CD, monitoring, rollback patterns
 ```
 
+**Icons / Logos Pattern** (mentions of "icon", "icons", "logo", "logos", "tech stack", "badge", "badges", "svg icon", "tech icon")
+```
+Looking for tech icons or logos? Use developer-icons:
+
+  developer-icons     — 500+ optimized SVGs, React-ready, tree-shakeable
+  npm install developer-icons
+  Browse: https://xandemon.github.io/developer-icons/icons/All
+
+Tip: Never build custom SVG icons when developer-icons covers it.
+Load the skill: /developer-icons
+```
+
 **Documentation Pattern** (editing .md files, README, docs/)
 ```
 Writing docs? Available tools:
@@ -354,3 +366,4 @@ Environment override: `KZ_ASSIST_LEVEL=mentored` (takes precedence over config f
 | Refactoring | refactor-clean, code-review | `/refactor-clean` |
 | Complex multi-step | task-commander, orchestrate | `/orchestrate` |
 | Going to sleep | overnight-runner, night mode | `/cc mode night` |
+| Icons, logos, tech badges | developer-icons | `npm install developer-icons` |

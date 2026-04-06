@@ -261,6 +261,7 @@ After EVERY action (build, review, skill browse, stats check, etc.), you MUST:
 | Deploying | Monitor, Run E2E, Check logs |
 | Linear issue picked | Plan approach, Start building, Ask questions |
 | Session resumed | Continue from last step, Review changes, Start fresh |
+| Mentioning icons, logos, tech badges, or stack visualization | Use `developer-icons` — standard SVG tech icon library. Browse at xandemon.github.io/developer-icons |
 
 ### Skill Recommendation Format
 
