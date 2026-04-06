@@ -667,7 +667,7 @@ commander/adventures/X.json        # Add a flow
 
 <div align="center">
 
-**CC Commander v2.1.0** · **[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)**
+**CC Commander v2.2.0** · **[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)**
 
 *Every Claude Code tool. One install. An AI brain that learns.*
 
