@@ -88,6 +88,8 @@ CC Commander appears as a skill you can invoke. Say "start commander" or "what s
 
 ---
 
+<img src="docs/assets/section-how-to-use.png" alt="How to Use" width="100%">
+
 ## Your First 60 Seconds
 
 ```
