@@ -67,5 +67,10 @@
     "listr2": "^10.0.0",
     "ora": "^8.2.0"
   },
-  "main": "./bin/kc.js"
+  "main": "./bin/kc.js",
+  "scripts": {
+    "test": "node --test commander/tests/paths.test.js tests/hooks.test.js commander/tests/intelligence.test.js commander/tests/error-handling.test.js",
+    "test:coverage": "./node_modules/.bin/c8 node --test commander/tests/paths.test.js tests/hooks.test.js commander/tests/intelligence.test.js commander/tests/error-handling.test.js",
+    "prepublishOnly": "node --test commander/tests/paths.test.js tests/hooks.test.js commander/tests/intelligence.test.js commander/tests/error-handling.test.js && npx eslint . --max-warnings 120"
+  }
 }

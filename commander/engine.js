@@ -489,7 +489,7 @@ class KitCommander {
 
       if (inSplitMode()) {
         // Split mode: send command to the visible Claude pane
-        var claudeArgs = 'CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 claude -p ' + JSON.stringify(fullTask) + ' --dangerously-skip-permissions --max-turns ' + defaults.maxTurns + ' --output-format text';
+        var claudeArgs = 'CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 claude -p ' + JSON.stringify(fullTask) + ' --permission-mode auto --max-turns ' + defaults.maxTurns + ' --output-format text';
         if (defaults.model) claudeArgs += ' --model ' + defaults.model;
         tmuxDispatch(claudeArgs);
         process.stdout.write('\x0a  ' + tui.boldText('Dispatched to Claude pane \u2192', tui.getTheme().primary) + '\x0a');
@@ -569,7 +569,7 @@ class KitCommander {
 
       if (inSplitMode()) {
         // Split mode: send command to the visible Claude pane
-        var claudeArgs = 'CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 claude -p ' + JSON.stringify(fullTask) + ' --dangerously-skip-permissions --max-turns ' + defaults.maxTurns + ' --output-format text';
+        var claudeArgs = 'CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 claude -p ' + JSON.stringify(fullTask) + ' --permission-mode auto --max-turns ' + defaults.maxTurns + ' --output-format text';
         if (defaults.model) claudeArgs += ' --model ' + defaults.model;
         tmuxDispatch(claudeArgs);
         process.stdout.write('\x0a  ' + tui.boldText('Dispatched to Claude pane \u2192', tui.getTheme().primary) + '\x0a');
@@ -800,7 +800,7 @@ class KitCommander {
         sp.stop(true);
         process.stdout.write("\x0a" + tui.divider("YOLO Cycle " + cycle + "/" + maxCycles + (cycle === 1 ? " \u2014 Building" : " \u2014 Improving")) + "\x0a\x0a");
         process.stdout.write("  " + tui.dimText("Live output below. Watch file: ~/.claude/commander/yolo-status.txt") + "\x0a\x0a");
-        var result = await d.dispatch(prompt, { stream: true, maxTurns: Math.round(100 / maxCycles), effort: cycle === 1 ? "high" : "medium", model: "opus", maxBudgetUsd: Math.round(10 / maxCycles), permissionMode: "plan", fallbackModel: "sonnet", bare: false, name: d.generateSessionName("yolo-" + cycle + "-" + task), systemPrompt: "YOLO Loop cycle " + cycle + "/" + maxCycles + ". " + (cycle === 1 ? "Build from scratch." : "Review previous work. Fix issues. Add tests. Ship quality.") + knowledgePrompt });
+        var result = await d.dispatch(prompt, { stream: true, maxTurns: Math.round(100 / maxCycles), effort: cycle === 1 ? "high" : "medium", model: "opus", maxBudgetUsd: Math.round(10 / maxCycles), permissionMode: "plan", fallbackModel: "sonnet", bare: false, skipPermissions: true, name: d.generateSessionName("yolo-" + cycle + "-" + task), systemPrompt: "YOLO Loop cycle " + cycle + "/" + maxCycles + ". " + (cycle === 1 ? "Build from scratch." : "Review previous work. Fix issues. Add tests. Ship quality.") + knowledgePrompt });
         state.updateSession(session.id, { claudeSessionId: result.session_id || null, cost: result.cost_usd || 0 });
         state.completeSession(session.id, "success");
         knowledge.extractAndStore(state.getSession(session.id) || session, result.result || "");

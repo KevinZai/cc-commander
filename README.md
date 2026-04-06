@@ -8,7 +8,7 @@
 
 **[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)** · Built from 200+ community sources · Aggregates 16 vendor packages
 
-**[Install](#quick-start--pick-your-path)** · **[Browse Skills](SKILLS-INDEX.md)** · **[Agent Bible](BIBLE-AGENT.md)** · **[Ecosystem](docs/ECOSYSTEM.md)** · **[BIBLE](BIBLE.md)** · **[Changelog](CHANGELOG.md)**
+**[Install](#quick-start--pick-your-path)** · **[Browse Skills](SKILLS-INDEX.md)** · **[Agent Bible](BIBLE-AGENT.md)** · **[Ecosystem](docs/ECOSYSTEM.md)** · **[BIBLE](BIBLE.md)** · **[Changelog](CHANGELOG.md)** · **[Why CCC?](docs/WHY-CCC.md)** · **[Evaluation](docs/EVALUATION.md)**
 
 ---
 
@@ -401,6 +401,18 @@ Every completed session extracts a lesson (keywords, category, stack, error patt
 
 ---
 
+## Security
+
+- **No command injection** — all shell calls use `execFileSync` with array arguments
+- **Auto-mode by default** — dispatches use `--permission-mode auto`, not `--dangerously-skip-permissions`
+- **YOLO only skips** — only YOLO/night mode uses skip-permissions (intentional, documented)
+- **Zero npm vulnerabilities** — verified on every CI run
+- **PII scanning** — CI blocks commits containing personal data patterns
+- **Error containment** — every error returns to menu with error ID, never raw stack traces
+- **Pre-publish checks** — `npm run prepublishOnly` runs all tests + lint before publish
+
+---
+
 ## Use Inside Claude Code
 
 No CLI needed. Type `/ccc` in any Claude Code session for the full interactive menu.
@@ -488,24 +500,24 @@ Each domain is a router that dispatches to specialized sub-skills on demand.
 
 CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly. 16 packages, 1,500+ vendor skills.
 
-| Package | Stars | What CCC Orchestrates |
-|---------|-------|----------------------|
-| [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) | 120K+ | Lifecycle hooks, agents, security |
-| [gstack](https://github.com/garrytan/gstack) | 58K+ | Decision layer, office hours, QA |
-| [Superpowers](https://github.com/obra/superpowers) | 29K+ | TDD, code review, verification |
-| [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) | 26K+ | Reference architecture, patterns |
-| [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | 17K+ | Team orchestration, multi-agent |
+| Package | Stars | What You Get |
+|---------|-------|-------------|
+| [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) | 120K+ | 161 skills, AgentShield security, 38 agents, lifecycle hooks |
+| [gstack](https://github.com/garrytan/gstack) | 58K+ | CEO/eng plan review, office hours, QA — decision layer |
+| [Superpowers](https://github.com/obra/superpowers) | 29K+ | Forces structured thinking — /plan, /tdd, /verify |
+| [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) | 32K+ | Reference architecture, Channels, Auto Mode |
+| [repomix](https://github.com/yamadashy/repomix) | 22.8K+ | Pack codebases for AI (tree-sitter compression = 60% smaller) |
+| [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | 17K+ | Team orchestration, multi-agent patterns |
 | [Claude HUD](https://github.com/jarrodwatts/claude-hud) | 15K+ | Real-time status display |
 | [RTK](https://github.com/rtk-ai/rtk) | 14.6K+ | Token optimization (60-90% savings) |
-| [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) | 11.5K+ | Knowledge compounding |
-| [acpx](https://github.com/openclaw/acpx) | 1.8K+ | ACP protocol, structured agents |
-| [claude-reflect](https://github.com/BayramAnnakov/claude-reflect) | 860+ | Self-improving skills |
-| [Caliber](https://github.com/caliber-ai-org/ai-setup) | 300+ | Config scoring, drift detection |
-| [repomix](https://github.com/yamadashy/repomix) | 22.8K+ | Context packing for AI-friendly codebase analysis |
-| [claude-skills](https://github.com/alirezarezvani/claude-skills) | 8.6K+ | 507 skills, Python CLI tools, finance and C-level |
-| [notebooklm-py](https://github.com/teng-lin/notebooklm-py) | 8.6K+ | NotebookLM integration, podcast generation |
-| [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) | 2.7K+ | 219 CC0 templates, threat database, MCP server |
+| [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) | 11.5K+ | Knowledge compounding — every session makes the next smarter |
+| [claude-skills](https://github.com/alirezarezvani/claude-skills) | 9.6K+ | 248 skills, prompt A/B testing, CI/CD builder |
+| [notebooklm-py](https://github.com/teng-lin/notebooklm-py) | 9.2K+ | Podcast generation, PPTX export, quiz/flashcards |
+| [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) | 2.7K+ | 219 templates, 271 quizzes, threat database |
+| [acpx](https://github.com/openclaw/acpx) | 1.8K+ | ACP protocol, structured agent communication |
+| [claude-reflect](https://github.com/BayramAnnakov/claude-reflect) | 860+ | Self-improving skills with reflection loops |
 | [claude-code-prompts](https://github.com/repowise-dev/claude-code-prompts) | 142+ | Defensive prompt patterns, verification specialist |
+| [Caliber](https://github.com/caliber-ai-org/ai-setup) | 300+ | Config scoring, drift detection |
 
 The **smart orchestrator** scores each tool: capability match (50%) + popularity (15%) + recency (15%) + your preference (20%) — then picks the best one for each phase.
 
@@ -629,6 +641,12 @@ CC Commander aggregates 16 open-source packages. Full credits: **[ACKNOWLEDGMENT
 
 ---
 
+## License
+
+MIT License for the full project. The Intelligence Layer (4 files) has an additional [Commons Clause](LICENSE-INTELLIGENCE.md) — free to use, not to sell. See [LICENSE](LICENSE) and [LICENSE-INTELLIGENCE.md](LICENSE-INTELLIGENCE.md).
+
+---
+
 ## Contributing
 
 ```bash
@@ -637,8 +655,6 @@ commands/your-command.md           # Add a command
 hooks/your-hook.js                 # Add a hook
 commander/adventures/X.json        # Add a flow
 ```
-
-MIT License.
 
 ---
 

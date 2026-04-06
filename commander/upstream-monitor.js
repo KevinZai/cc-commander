@@ -1,6 +1,6 @@
 'use strict';
 
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -63,7 +63,10 @@ function checkForUpdates() {
 
   for (const sub of submodules) {
     const subPath = sub.name;
-    const remoteSha = exec(`git -C ${subPath} ls-remote origin HEAD`).split(/\s/)[0] || '';
+    let remoteSha = '';
+    try {
+      remoteSha = execFileSync('git', ['-C', subPath, 'ls-remote', 'origin', 'HEAD'], { encoding: 'utf8', stdio: 'pipe' }).trim().split(/\s/)[0] || '';
+    } catch { remoteSha = ''; }
     const localSha = sub.sha;
     const hasUpdate = remoteSha && remoteSha !== localSha;
 
@@ -91,9 +94,17 @@ function checkForUpdates() {
 }
 
 function updateSubmodule(name) {
-  const before = exec(`git -C ${name} rev-parse HEAD`);
-  exec(`git submodule update --remote ${name}`);
-  const after = exec(`git -C ${name} rev-parse HEAD`);
+  let before = '';
+  let after = '';
+  try {
+    before = execFileSync('git', ['-C', name, 'rev-parse', 'HEAD'], { encoding: 'utf8', stdio: 'pipe' }).trim();
+  } catch { before = ''; }
+  try {
+    execFileSync('git', ['submodule', 'update', '--remote', name], { encoding: 'utf8', stdio: 'pipe' });
+  } catch { /* ignore */ }
+  try {
+    after = execFileSync('git', ['-C', name, 'rev-parse', 'HEAD'], { encoding: 'utf8', stdio: 'pipe' }).trim();
+  } catch { after = ''; }
   return { name, before, after, updated: before !== after };
 }
 
@@ -106,7 +117,10 @@ function generateChangelog(name, oldSha, newSha) {
   if (!oldSha || !newSha || oldSha === newSha) {
     return `No changes for ${name}`;
   }
-  const log = exec(`git -C ${name} log --oneline ${oldSha}..${newSha}`);
+  let log = '';
+  try {
+    log = execFileSync('git', ['-C', name, 'log', '--oneline', oldSha + '..' + newSha], { encoding: 'utf8', stdio: 'pipe' }).trim();
+  } catch { log = ''; }
   if (!log) return `No commits between ${oldSha.slice(0, 7)} and ${newSha.slice(0, 7)}`;
 
   const lines = log.split('\n').filter(Boolean);

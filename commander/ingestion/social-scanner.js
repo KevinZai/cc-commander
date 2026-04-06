@@ -1,6 +1,6 @@
 'use strict';
 
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -20,21 +20,16 @@ function ensureInboxDir() {
   }
 }
 
-function exec(cmd) {
-  try {
-    return execSync(cmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], timeout: 30000 }).trim();
-  } catch {
-    return '';
-  }
-}
-
 function extractGitHubUrls(text) {
   const pattern = /https?:\/\/github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_.-]+/g;
   return [...new Set(text.match(pattern) || [])];
 }
 
 function searchX(query) {
-  const raw = exec(`x search "${query}" --count 20 2>/dev/null`);
+  let raw = '';
+  try {
+    raw = execFileSync('x', ['search', query, '--count', '20'], { encoding: 'utf8', stdio: 'pipe', timeout: 30000 }).trim();
+  } catch { raw = ''; }
   if (!raw) return [];
 
   const results = [];

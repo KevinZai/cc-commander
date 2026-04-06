@@ -1,4 +1,6 @@
 'use strict';
+// CC Commander Intelligence Layer — Licensed under MIT + Commons Clause.
+// See LICENSE-INTELLIGENCE.md for details. Free to use, not to sell.
 
 var childProcess = require('child_process');
 
@@ -220,7 +222,11 @@ function dispatch(task, options) {
   }
 
   if (bare) args.push('--bare');
-  args.push('--dangerously-skip-permissions');
+  if (options.skipPermissions) {
+    args.push('--dangerously-skip-permissions');
+  } else {
+    args.push('--permission-mode', 'auto');
+  }
   if (maxTurns) args.push('--max-turns', String(maxTurns));
   // resume handled above in args init
   if (model) args.push('--model', model);

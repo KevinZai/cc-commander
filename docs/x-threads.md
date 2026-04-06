@@ -280,3 +280,148 @@ github.com/KevinZai/cc-commander
 ---
 
 *CC Commander v2.1.0 by Kevin Z -- 350+ skills | 11 CCC domains | 78+ commands | 25 hooks | 10 themes | 9 modes*
+
+---
+
+## Thread 4: Intelligence Layer Deep Dive (10 tweets)
+
+### Tweet 1 (Hook)
+Stock Claude Code treats every task the same.
+Same model. Same turns. Same budget.
+CC Commander scores each task 0-100 and auto-tunes everything.
+Here's how the Intelligence Layer works 🧵
+
+### Tweet 2
+"Fix a typo" → Score: 0 (trivial)
+10 turns. $1 budget. Done in seconds.
+
+"Build SaaS with auth & billing" → Score: 100 (complex)
+50 turns. $10 budget. Opus model.
+
+47 keyword signals. Fuzzy matching. Auto-calibrated.
+
+### Tweet 3
+It remembers.
+
+After every session, CCC extracts:
+- What worked ✅
+- What failed ❌
+- Error patterns
+- Tech stack used
+
+Session 50 is genuinely smarter than session 1.
+
+### Tweet 4
+Time-decayed relevance.
+
+Lessons from yesterday score 2x.
+Last week: 1.5x.
+Last month: 1x.
+
+Your AI forgets less than you do.
+And it cross-references: web↔react, api↔backend, testing↔bugfix.
+
+### Tweet 5
+It reads your project.
+
+package.json → detects Next.js, React, Tailwind, Prisma
+Dockerfile → knows you use Docker
+git branch → knows what you're working on
+Last 5 commits → understands the theme
+
+Then ranks 358 skills by relevance.
+
+### Tweet 6
+It gets smarter the more you use it.
+
+Skills you use successfully rank higher.
+Skills that failed get demoted.
+Trending skills surface automatically.
+
+This isn't a static tool list. It's a learning recommendation engine.
+
+### Tweet 7
+Stock Claude Code:
+```
+claude -p "build auth"
+(same settings every time)
+```
+
+CC Commander:
+```
+Task: "build auth" → Score: 72/100
+Model: opus | Turns: 35 | Budget: $6
+Skills: nextjs-app-router, ccc-saas, auth-patterns
+Knowledge: 2 past lessons injected
+```
+
+### Tweet 8
+Works everywhere:
+- Terminal: `ccc`
+- Claude Code: `/ccc`
+- Claude Desktop: Cowork plugin
+- VS Code: Extension
+- Agents: `ccc --dispatch "task" --json`
+
+Same intelligence. Every platform.
+
+### Tweet 9
+Never crashes.
+
+Global exception handlers.
+Every error → friendly message + error ID.
+Always returns to menu.
+Error log at ~/.claude/commander/errors.log
+
+Report bugs with your error ID → instant fix.
+
+### Tweet 10
+CC Commander v2.1.0
+
+358 skills. 16 vendors. Intelligence Layer.
+MIT license (Commons Clause on intelligence).
+
+npm install -g cc-commander
+Three letters: ccc
+
+github.com/KevinZai/cc-commander ⭐
+
+---
+
+## Thread 5: "45 Reasons CCC is Different" (5 tweets linking to WHY-CCC.md)
+
+### Tweet 1 (Hook)
+I wrote down every single reason CC Commander is different from stock Claude Code.
+
+45 specific, provable differentiators.
+
+Here are the top 10 🧵
+
+### Tweet 2
+1. Zero typing — arrow keys + Enter, never memorize commands
+2. Scores every task 0-100 before dispatch
+3. Learns from every session (knowledge compounding)
+4. Reads your package.json and ranks skills by relevance
+5. Never crashes — always returns to menu
+
+### Tweet 3
+6. 358 deduplicated skills from 16 vendor packages
+7. Night/YOLO mode — start before bed, wake up to code
+8. ASCII dashboard with green→yellow→red meters
+9. Works in CLI, slash commands, Cowork, VS Code, and headless
+10. Smart retry — rate limits, context overflow, budget all handled
+
+### Tweet 4
+The full list has 45 reasons, each with:
+- What it does
+- How to verify (run this command)
+- A shareable one-liner
+
+Plus a comparison table, paid upgrade roadmap, and launch checklist.
+
+### Tweet 5
+Read the full doc:
+github.com/KevinZai/cc-commander/blob/main/docs/WHY-CCC.md
+
+Star the repo if this resonates ⭐
+github.com/KevinZai/cc-commander

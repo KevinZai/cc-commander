@@ -1,6 +1,6 @@
 'use strict';
 
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -21,17 +21,11 @@ function ensureInboxDir() {
   }
 }
 
-function exec(cmd) {
-  try {
-    return execSync(cmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], timeout: 30000 }).trim();
-  } catch {
-    return '';
-  }
-}
-
 function searchGitHub(query) {
-  const escaped = query.replace(/"/g, '\\"');
-  const raw = exec(`gh api "search/repositories?q=${encodeURIComponent(escaped)}&sort=stars&per_page=20" 2>/dev/null`);
+  let raw = '';
+  try {
+    raw = execFileSync('gh', ['api', 'search/repositories?q=' + encodeURIComponent(query) + '&sort=stars&per_page=20'], { encoding: 'utf8', stdio: 'pipe', timeout: 30000 }).trim();
+  } catch { raw = ''; }
   if (!raw) return [];
 
   try {

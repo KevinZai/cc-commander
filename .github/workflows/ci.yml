@@ -48,6 +48,15 @@ jobs:
             node -e "JSON.parse(require('fs').readFileSync('$f', 'utf8'))" || exit 1
           done
 
+      - name: Lint
+        run: npx eslint . --max-warnings 120
+
+      - name: Run Intelligence tests
+        run: node --test commander/tests/intelligence.test.js
+
+      - name: Run error handling tests
+        run: node --test commander/tests/error-handling.test.js
+
       - name: Run self-test
         run: node bin/kc.js --test
 
@@ -64,6 +73,16 @@ jobs:
         run: |
           if grep -rn 'sk-[a-zA-Z0-9]\{20\}\|ghp_[a-zA-Z0-9]\{36\}' --include='*.js' --include='*.json' --include='*.md' --exclude-dir=vendor --exclude-dir=node_modules .; then
             echo "ERROR: Possible secrets found"
+            exit 1
+          fi
+
+      - name: PII scan
+        run: |
+          if grep -rn '6418588155\|1477872497599840369\|1480676421457416306\|d852cff2\|k3v80\|/Users/ai/' \
+            --include='*.md' --include='*.js' --include='*.html' \
+            --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=.git \
+            --exclude-dir=coverage --exclude-dir=kevin .; then
+            echo "PII DETECTED IN PUBLIC FILES"
             exit 1
           fi
 
