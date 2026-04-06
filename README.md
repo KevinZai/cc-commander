@@ -1,4 +1,4 @@
-<img src="docs/assets/ccc-hero.png" alt="CC Commander" width="100%">
+<img src="docs/assets/ccc-hero.svg" alt="CC Commander" width="100%">
 
 > **Every Claude Code tool. One install. An AI brain that learns.**
 
@@ -12,7 +12,7 @@
 
 ---
 
-<img src="docs/assets/section-why.png" alt="Why" width="100%">
+<img src="docs/assets/section-why.svg" alt="Why" width="100%">
 
 Stock Claude Code is a blank terminal with amnesia. No skills. No guidance. No memory. Every session starts from zero.
 
@@ -24,11 +24,11 @@ You get:  A guided AI project manager with 357+ skills,
           16 vendor packages, real learning, and zero setup.
 ```
 
-<img src="docs/assets/ccc-flow.png" alt="How CCC Works" width="100%">
+<img src="docs/assets/ccc-flow.svg" alt="How CCC Works" width="100%">
 
 ---
 
-<img src="docs/assets/section-install.png" alt="Install" width="100%">
+<img src="docs/assets/section-install.svg" alt="Install" width="100%">
 
 ## Quick Start — Pick Your Path
 
@@ -88,7 +88,7 @@ CC Commander appears as a skill you can invoke. Say "start commander" or "what s
 
 ---
 
-<img src="docs/assets/section-how-to-use.png" alt="How to Use" width="100%">
+<img src="docs/assets/section-how-to-use.svg" alt="How to Use" width="100%">
 
 ## Your First 60 Seconds
 
@@ -282,9 +282,9 @@ CCC reads your project before every dispatch. No setup needed.
 
 ---
 
-<img src="docs/assets/section-features.png" alt="Features" width="100%">
+<img src="docs/assets/section-features.svg" alt="Features" width="100%">
 
-<img src="docs/assets/ccc-components.png" alt="Components" width="100%">
+<img src="docs/assets/ccc-components.svg" alt="Components" width="100%">
 
 | Component | Count | What It Does |
 |-----------|-------|-------------|
@@ -478,7 +478,7 @@ Customize: `--interval 120` (2 min ticks) · `--tick-budget 30` · `--dream 30` 
 
 ---
 
-<img src="docs/assets/section-domains.png" alt="Domains" width="100%">
+<img src="docs/assets/section-domains.svg" alt="Domains" width="100%">
 
 Each domain is a router that dispatches to specialized sub-skills on demand.
 
@@ -498,7 +498,7 @@ Each domain is a router that dispatches to specialized sub-skills on demand.
 
 ---
 
-<img src="docs/assets/section-vendors.png" alt="Vendors" width="100%">
+<img src="docs/assets/section-vendors.svg" alt="Vendors" width="100%">
 
 CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly. 16 packages, 1,500+ vendor skills.
 
@@ -525,7 +525,7 @@ The **smart orchestrator** scores each tool: capability match (50%) + popularity
 
 ---
 
-<img src="docs/assets/section-orchestrator.png" alt="Orchestrator" width="100%">
+<img src="docs/assets/section-orchestrator.svg" alt="Orchestrator" width="100%">
 
 ```
   PHASE          BEST TOOL              FALLBACK
@@ -544,7 +544,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-<img src="docs/assets/section-xray.png" alt="XRay" width="100%">
+<img src="docs/assets/section-xray.svg" alt="XRay" width="100%">
 
 **Audit any project. Fix it automatically.**
 
@@ -564,17 +564,17 @@ CCC learns from every session. Knowledge compounds over time.
 
 ---
 
-<img src="docs/assets/section-yolo.png" alt="YOLO" width="100%">
+<img src="docs/assets/section-yolo.svg" alt="YOLO" width="100%">
 
 **Start before bed. Wake up to shipped code.**
 
-<img src="docs/assets/ccc-yolo.png" alt="YOLO Mode" width="100%">
+<img src="docs/assets/ccc-yolo.svg" alt="YOLO Mode" width="100%">
 
 10 questions → Opus with max effort → $10 budget → 100 turns → self-testing loop.
 
 ---
 
-<img src="docs/assets/section-cockpit.png" alt="Cockpit" width="100%">
+<img src="docs/assets/section-cockpit.svg" alt="Cockpit" width="100%">
 
 ```
   ══════════════════════════════════════════────────
@@ -601,11 +601,11 @@ Context/rate/budget meters color-code green → yellow → red as you approach l
 
 ## Stats Dashboard & Before/After
 
-<img src="docs/assets/ccc-stats.png" alt="Stats" width="100%">
+<img src="docs/assets/ccc-stats.svg" alt="Stats" width="100%">
 
 Sessions, streaks, badges, cost tracking, activity heatmap, level progression.
 
-<img src="docs/assets/ccc-comparison.png" alt="Comparison" width="100%">
+<img src="docs/assets/ccc-comparison.svg" alt="Comparison" width="100%">
 
 ---
 
@@ -629,7 +629,7 @@ For AI agents: **[BIBLE-AGENT.md](BIBLE-AGENT.md)** — 268-line machine-readabl
 
 ## 10 Themes
 
-<img src="docs/assets/ccc-themes.png" alt="10 Themes" width="100%">
+<img src="docs/assets/ccc-themes.svg" alt="10 Themes" width="100%">
 
 **Cyberpunk, Fire, Ocean, Aurora, Sunset, Monochrome, Rainbow, Dracula, Graffiti, Futuristic.** Live preview as you navigate. Switch anytime in Settings or type `/ccc theme`.
 
