@@ -28,6 +28,7 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --update     Check vendor package updates');
   console.log('  --dispatch   Headless: ccc --dispatch "task" [--json --model X --max-turns N --budget N --cwd PATH]');
   console.log('  --list-skills  List all skills (add --json for JSON)');
+  console.log('  --skills       Manage installed skills (list, available, install, remove, tier)');
   console.log('  --list-sessions  Session history (add --json for JSON)');
   console.log('  --status     Health check (JSON: version, skills, vendors)');
   console.log('  --template   Print the latest CLAUDE.md template (pipe to file)');
@@ -105,6 +106,210 @@ if (args.includes('--list-skills')) {
   if (args.includes('--json')) console.log(JSON.stringify(skills));
   else skills.forEach(function(s) { console.log(s.name + (s.description ? ' — ' + s.description.slice(0, 80) : '')); });
   process.exit(0);
+}
+// Agent API: --skills
+if (args.includes('--skills')) {
+  var os = require('os');
+  var skillsInstallDir = path.join(os.homedir(), '.claude', 'skills');
+  var skillsSourceDir = path.join(__dirname, '..', 'skills');
+  var tiersFilePath = path.join(skillsSourceDir, '_tiers.json');
+  var tiers = {};
+  try { tiers = JSON.parse(fs.readFileSync(tiersFilePath, 'utf8')); } catch (_e) {}
+
+  function resolveSkills(tiersObj, tierName) {
+    var tier = tiersObj.tiers && tiersObj.tiers[tierName];
+    if (!tier) return [];
+    var resolved = (tier.skills || []).slice();
+    (tier.includes || []).forEach(function(inc) {
+      resolved = resolved.concat(resolveSkills(tiersObj, inc));
+    });
+    return resolved.filter(function(s, i, a) { return a.indexOf(s) === i; });
+  }
+
+  function getInstalledSkills() {
+    try {
+      return fs.readdirSync(skillsInstallDir).filter(function(name) {
+        try {
+          var stat = fs.lstatSync(path.join(skillsInstallDir, name));
+          return stat.isSymbolicLink() || stat.isDirectory();
+        } catch (_e) { return false; }
+      });
+    } catch (_e) { return []; }
+  }
+
+  function getAllAvailableSkills() {
+    try {
+      return fs.readdirSync(skillsSourceDir).filter(function(name) {
+        if (name.startsWith('_') || name.startsWith('.')) return false;
+        try {
+          return fs.statSync(path.join(skillsSourceDir, name)).isDirectory();
+        } catch (_e) { return false; }
+      });
+    } catch (_e) { return []; }
+  }
+
+  var skillsIdx = args.indexOf('--skills');
+  var subCmd = args[skillsIdx + 1] || '';
+  // Skip sub-command args that start with '--' (treat as missing sub-command)
+  if (subCmd.startsWith('--')) subCmd = '';
+
+  if (!subCmd) {
+    var B2 = require(path.join(__dirname, '..', 'commander', 'branding'));
+    var installed = getInstalledSkills();
+    var allAvailable = getAllAvailableSkills();
+    var tierNames = tiers.tiers ? Object.keys(tiers.tiers) : [];
+    console.log('\nCC Commander Skills (v' + B2.version + ')');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    console.log('Installed: ' + installed.length + ' skills (manage with subcommands below)');
+    console.log('Available: ' + allAvailable.length + ' total across all tiers\n');
+    if (tierNames.length > 0) {
+      console.log('Tiers:');
+      tierNames.forEach(function(name) {
+        var t = tiers.tiers[name];
+        var count = name === 'full' ? allAvailable.length : resolveSkills(tiers, name).length;
+        var padName = name.padEnd(14);
+        console.log('  ' + padName + count + ' skills   ' + (t.description || ''));
+      });
+    }
+    console.log('\nManage:');
+    console.log('  ccc --skills list              List installed skills');
+    console.log('  ccc --skills available         List skills NOT installed');
+    console.log('  ccc --skills install <name>    Add a skill symlink');
+    console.log('  ccc --skills remove <name>     Remove a skill symlink');
+    console.log('  ccc --skills tier <tier>       Switch to a different tier');
+    console.log('');
+    process.exit(0);
+  }
+
+  if (subCmd === 'list') {
+    var installedList = getInstalledSkills();
+    if (installedList.length === 0) {
+      console.log('No skills installed in ' + skillsInstallDir);
+    } else {
+      console.log('\nInstalled skills (' + installedList.length + '):');
+      installedList.sort().forEach(function(s) { console.log('  ' + s); });
+      console.log('');
+    }
+    process.exit(0);
+  }
+
+  if (subCmd === 'available') {
+    var installedSet = getInstalledSkills();
+    var allSkills = getAllAvailableSkills();
+    var notInstalled = allSkills.filter(function(s) { return installedSet.indexOf(s) === -1; });
+    if (notInstalled.length === 0) {
+      console.log('All available skills are already installed.');
+    } else {
+      console.log('\nAvailable but not installed (' + notInstalled.length + '):');
+      notInstalled.sort().forEach(function(s) { console.log('  ' + s); });
+      console.log('');
+    }
+    process.exit(0);
+  }
+
+  if (subCmd === 'install') {
+    var installName = args[skillsIdx + 2];
+    if (!installName || installName.startsWith('--')) {
+      console.error('Usage: ccc --skills install <name>');
+      process.exit(1);
+    }
+    var installSrc = path.join(skillsSourceDir, installName);
+    var installDst = path.join(skillsInstallDir, installName);
+    if (!fs.existsSync(installSrc)) {
+      console.error('Skill not found: ' + installName);
+      process.exit(1);
+    }
+    if (fs.existsSync(installDst)) {
+      console.log('Already installed: ' + installName);
+      process.exit(0);
+    }
+    try {
+      if (!fs.existsSync(skillsInstallDir)) fs.mkdirSync(skillsInstallDir, { recursive: true });
+      fs.symlinkSync(installSrc, installDst);
+      console.log('Installed: ' + installName);
+    } catch (e) {
+      console.error('Failed to install ' + installName + ': ' + e.message);
+      process.exit(1);
+    }
+    process.exit(0);
+  }
+
+  if (subCmd === 'remove') {
+    var removeName = args[skillsIdx + 2];
+    if (!removeName || removeName.startsWith('--')) {
+      console.error('Usage: ccc --skills remove <name>');
+      process.exit(1);
+    }
+    var removeDst = path.join(skillsInstallDir, removeName);
+    if (!fs.existsSync(removeDst) && !fs.existsSync(removeDst + '/')) {
+      // lstat to catch broken symlinks too
+      var removExists = false;
+      try { fs.lstatSync(removeDst); removExists = true; } catch (_e) {}
+      if (!removExists) { console.log('Not installed: ' + removeName); process.exit(0); }
+    }
+    try {
+      var removeStat = fs.lstatSync(removeDst);
+      if (removeStat.isSymbolicLink()) {
+        fs.unlinkSync(removeDst);
+      } else {
+        console.error(removeName + ' is not a symlink — refusing to remove. Delete manually if intended.');
+        process.exit(1);
+      }
+      console.log('Removed: ' + removeName);
+    } catch (e) {
+      console.error('Failed to remove ' + removeName + ': ' + e.message);
+      process.exit(1);
+    }
+    process.exit(0);
+  }
+
+  if (subCmd === 'tier') {
+    var tierName = args[skillsIdx + 2];
+    if (!tierName || tierName.startsWith('--')) {
+      console.error('Usage: ccc --skills tier <tier>');
+      if (tiers.tiers) console.error('Available tiers: ' + Object.keys(tiers.tiers).join(', '));
+      process.exit(1);
+    }
+    var tierSkills;
+    if (tierName === 'full') {
+      tierSkills = getAllAvailableSkills();
+    } else {
+      tierSkills = resolveSkills(tiers, tierName);
+    }
+    if (!tiers.tiers || !tiers.tiers[tierName]) {
+      console.error('Unknown tier: ' + tierName);
+      if (tiers.tiers) console.error('Available tiers: ' + Object.keys(tiers.tiers).join(', '));
+      process.exit(1);
+    }
+    // Remove existing skill symlinks
+    var currentInstalled = getInstalledSkills();
+    var removed = 0;
+    currentInstalled.forEach(function(s) {
+      var dst = path.join(skillsInstallDir, s);
+      try {
+        var st = fs.lstatSync(dst);
+        if (st.isSymbolicLink()) { fs.unlinkSync(dst); removed++; }
+      } catch (_e) {}
+    });
+    // Install tier skills
+    if (!fs.existsSync(skillsInstallDir)) fs.mkdirSync(skillsInstallDir, { recursive: true });
+    var added = 0;
+    var skipped = 0;
+    tierSkills.forEach(function(s) {
+      var src = path.join(skillsSourceDir, s);
+      var dst = path.join(skillsInstallDir, s);
+      if (!fs.existsSync(src)) { skipped++; return; }
+      try { fs.symlinkSync(src, dst); added++; } catch (_e) { skipped++; }
+    });
+    console.log('Switched to tier: ' + tierName);
+    console.log('  Removed: ' + removed + ' skill(s)');
+    console.log('  Installed: ' + added + ' skill(s)' + (skipped > 0 ? ' (' + skipped + ' skipped/missing)' : ''));
+    process.exit(0);
+  }
+
+  console.error('Unknown subcommand: ' + subCmd);
+  console.error('Usage: ccc --skills [list|available|install <name>|remove <name>|tier <tier>]');
+  process.exit(1);
 }
 // Agent API: --list-sessions
 if (args.includes('--list-sessions')) {

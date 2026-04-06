@@ -107,6 +107,10 @@ Format: "I recommend the **[skill]** skill here because [reason]."
 Override: user can say "skip", "just do it", or "auto" to bypass.
 Search skills: `ccc --list-skills --json` or read `~/.claude/SKILLS-INDEX.md`
 
+## Skill Loading
+Only ~30 essential skills are auto-loaded. Full catalog: `ccc --skills` or `SKILLS-INDEX.md`.
+To add a skill: `ccc --skills install <name>`. To switch tier: `ccc --skills tier recommended`.
+
 ### Intelligence Layer (Automatic)
 CCC auto-adjusts dispatch parameters based on:
 - **Task complexity:** "fix typo" → 15 turns/$2, "build SaaS" → 50 turns/$10
