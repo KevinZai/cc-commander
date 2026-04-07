@@ -108,8 +108,33 @@ No configuration. No YAML. No API keys. The Intelligence Layer handles everythin
 
 ## See It In Action
 
-<!-- Terminal mockups below. Real screenshots coming — see CC-202 -->
-<!-- When bumping version: search "update version on bump" in code blocks -->
+<!-- Real terminal recordings via vhs (Catppuccin Mocha theme) -->
+<!-- Re-generate: vhs /tmp/ccc-*.tape from project root -->
+<!-- When bumping version: re-run tape scripts to capture new output -->
+
+### Skills Management — `ccc --skills`
+
+<img src="docs/assets/screenshots/skills-overview.gif" alt="CCC Skills Overview" width="100%">
+
+### Installed Skills — 37 Essential
+
+<img src="docs/assets/screenshots/skills-list.gif" alt="CCC Installed Skills" width="100%">
+
+### Available Skills — 455 Total
+
+<img src="docs/assets/screenshots/skills-available.gif" alt="CCC Available Skills" width="100%">
+
+### Rainbow Status Line — Live Session Meters
+
+<img src="docs/assets/screenshots/statusline.gif" alt="CCC Status Line with ClaudeSwap" width="100%">
+
+### CLI Reference
+
+<img src="docs/assets/screenshots/help.gif" alt="CCC Help" width="100%">
+
+### Full Demo — Version + Skills + Status
+
+<img src="docs/assets/screenshots/install-demo.gif" alt="CCC Demo" width="100%">
 
 > These are actual terminal outputs. CC Commander uses rich ASCII rendering — no browser required.
 
@@ -608,11 +633,11 @@ CCC learns from every session. Knowledge compounds over time.
 
 ASCII meters for context usage + rate limits. Emoji status indicators. Active Linear ticket. Skill and vendor counts. All in your terminal.
 
-**Rich footer bar** — 12-segment live status line at the bottom of every session:
+**Rich footer bar** — rainbow status line with live ClaudeSwap meters:
 
-```
-━━ 🌈CCC2.2│🔥Opus4.6-1M│🔑gAA│🧠▐██45%▌│⏱️▐██6%▌│📅▐██34%▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯37│📂~/project
-```
+<img src="docs/assets/screenshots/statusline.gif" alt="CCC Status Line" width="100%">
+
+<img src="docs/assets/screenshots/status-line-js.gif" alt="CCC JS Status Line" width="100%">
 
 Context/rate/budget meters color-code green → yellow → red as you approach limits.
 
