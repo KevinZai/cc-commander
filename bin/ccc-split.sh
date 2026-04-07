@@ -53,14 +53,15 @@ tmux set-option -t "$SESSION_NAME" pane-border-format " #{pane_title} "
 tmux set-option -t "$SESSION_NAME" pane-border-style "fg=#333333"
 tmux set-option -t "$SESSION_NAME" pane-active-border-style "fg=#ff6600"
 
-# Keybindings — Ctrl+A prefix
+# Keybindings — Ctrl+A prefix (set-option -t = target session, bind/unbind = global)
 tmux set-option -t "$SESSION_NAME" prefix C-a
-tmux unbind-key -t "$SESSION_NAME" C-b 2>/dev/null
-tmux bind-key -T prefix C-a send-prefix
-tmux bind-key -T prefix q kill-session
+tmux set-option -t "$SESSION_NAME" prefix2 None
+tmux unbind-key C-b 2>/dev/null
+tmux bind-key C-a send-prefix
+tmux bind-key q confirm-before -p "Kill CCC session? (y/n)" kill-session
 
 # Bind 0 to jump back to the menu pane (pane 0)
-tmux bind-key -T prefix 0 select-pane -t "$SESSION_NAME:.0"
+tmux bind-key 0 select-pane -t "$SESSION_NAME:.0"
 
 # Mouse support
 tmux set-option -t "$SESSION_NAME" mouse on
