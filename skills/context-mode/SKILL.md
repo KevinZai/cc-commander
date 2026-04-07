@@ -9,6 +9,10 @@ auto-load: false
 
 Intercepts tool results (Read, Grep, WebFetch, Bash) and stores them in SQLite with FTS5 full-text search. Instead of dumping full output into context, returns only BM25-ranked relevant snippets.
 
+## License & Attribution
+
+context-mode is by [Murat Kemal Soylu](https://github.com/mksglu), licensed under **Elastic License 2.0 (ELv2)**. CC Commander installs it as an external npm package — we do not bundle, modify, or redistribute its source code. See the [context-mode repo](https://github.com/mksglu/context-mode) for full license terms.
+
 ## When to Use
 - File-heavy exploration (reading many files)
 - Large grep/search results

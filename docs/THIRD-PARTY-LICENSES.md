@@ -22,6 +22,20 @@ CC Commander is an original implementation. No code was copied from
 any third-party project. The following projects provided architectural inspiration and
 their patterns influenced our design:
 
+## External Tools (installed via npm, not bundled)
+
+### context-mode (mksglu/context-mode)
+- **License:** Elastic License 2.0 (ELv2)
+- **What:** Tool output sandboxing via SQLite + FTS5. 98% context reduction.
+- **How CCC uses it:** `install.sh` runs `npm install -g context-mode` and adds MCP server config to `.claude.json`. We do not bundle, modify, or redistribute its source code.
+- **URL:** https://github.com/mksglu/context-mode
+
+### RTK (rtk-ai/rtk)
+- **License:** MIT
+- **What:** Rust Token Killer — CLI output filtering for 60-90% token savings.
+- **How CCC uses it:** Referenced in statusline.sh and documentation. Installed separately by user.
+- **URL:** https://github.com/rtk-ai/rtk
+
 ## Pattern Inspirations
 
 ### CCPM (automazeio/ccpm)
