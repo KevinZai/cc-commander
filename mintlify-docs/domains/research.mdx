@@ -1,0 +1,59 @@
+---
+title: "ccc-research"
+description: "8 skills for deep research, spec interviews, competitive analysis, cross-model validation, and literature review."
+---
+
+## Overview
+
+Load one skill. Get the entire research domain.
+
+```
+/ccc-research
+```
+
+From multi-source deep dives to spec interviews to cross-model validation — structured research output every time.
+
+## Sub-Skills
+
+| # | Skill | Command | What It Does |
+|---|-------|---------|-------------|
+| 1 | deep-research | `/deep-research` | Multi-source research with parallel agents, citation tracking, synthesis |
+| 2 | spec-interview | `/spec-interview` | 5-7 question interview to create detailed specs before coding |
+| 3 | cross-model-review | `/cross-model-review` | Review code/decisions using multiple AI models for diverse perspectives |
+| 4 | literature-review | `/literature-review` | Academic/technical literature review with source evaluation |
+| 5 | competitive-analysis | `/competitive-analysis` | Analyze competing products/tools/libraries for feature comparison |
+| 6 | data-ingestion | `/data-ingestion` | Ingest and summarize large documents, codebases, or datasets |
+| 7 | trend-analysis | `/trend-analysis` | Analyze trends in technology, markets, or usage patterns |
+| 8 | gemini-fallback | `/gemini-fallback` | Use Gemini's 1M context window for tasks that exceed Claude's context |
+
+## Routing Matrix
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Research this topic deeply" | `deep-research` |
+| "Interview me to write a spec" | `spec-interview` |
+| "Get a second opinion from another model" | `cross-model-review` |
+| "Review the academic literature on X" | `literature-review` |
+| "Compare these tools / what's the competition doing?" | `competitive-analysis` |
+| "Summarize this codebase" | `data-ingestion` |
+| "What's trending in X?" | `trend-analysis` |
+| "This is too big for Claude's context" | `gemini-fallback` |
+
+## New Project Research Flow
+
+```
+spec-interview        → gather requirements through structured questions
+competitive-analysis  → evaluate existing solutions in the space
+deep-research         → fill knowledge gaps from spec and analysis
+literature-review     → find academic/technical foundations
+```
+
+**Output:** Comprehensive spec document with competitive landscape and research backing.
+
+## Technology Evaluation Flow
+
+```
+deep-research         → understand the technology landscape
+competitive-analysis  → compare specific tools/libraries
+trend-analysis        → identify adoption trajectories
+```

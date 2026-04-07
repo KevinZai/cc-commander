@@ -1,0 +1,105 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "CC Commander",
+  "colors": {
+    "primary": "#ff0080",
+    "light": "#00ffff",
+    "dark": "#ff0080"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "why-ccc"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/token-optimization",
+              "features/intelligence-layer",
+              "features/skill-tiers",
+              "features/context-mode",
+              "features/claudeswap-meters",
+              "features/rainbow-branding"
+            ]
+          },
+          {
+            "group": "CCC Domains",
+            "pages": [
+              "domains/overview",
+              "domains/marketing",
+              "domains/design",
+              "domains/devops",
+              "domains/saas",
+              "domains/seo",
+              "domains/testing",
+              "domains/security",
+              "domains/data",
+              "domains/research",
+              "domains/mobile",
+              "domains/makeover"
+            ]
+          },
+          {
+            "group": "Methodology",
+            "pages": [
+              "methodology/the-kevin-z-method",
+              "methodology/cheatsheet"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/KevinZai/cc-commander",
+          "icon": "github"
+        },
+        {
+          "anchor": "Kevin Z",
+          "href": "https://kevinz.ai",
+          "icon": "user"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/KevinZai/cc-commander"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Install",
+      "href": "https://github.com/KevinZai/cc-commander#quick-start"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/kzic",
+      "github": "https://github.com/KevinZai/cc-commander"
+    }
+  },
+  "integrations": {
+    "plausible": {
+      "domain": "docs.cc-commander.dev"
+    }
+  }
+}

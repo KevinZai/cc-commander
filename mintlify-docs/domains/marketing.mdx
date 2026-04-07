@@ -1,0 +1,108 @@
+---
+title: "ccc-marketing"
+description: "46 production-ready marketing skills in 7 specialist pods. Content, SEO, CRO, channels, growth, intelligence, and sales."
+---
+
+## Overview
+
+Load one skill. Get the entire marketing domain.
+
+```
+/ccc-marketing
+```
+
+46 skills organized into 7 specialist pods with a context foundation and orchestration layer.
+
+## Architecture
+
+```
+ccc-marketing/
+├── marketing-context/     ← Brand voice, audience, goals
+├── marketing-ops/         ← Router: dispatches to the right pod
+│
+├── Content Pod (8)        ← Strategy → Production → Editing → Social
+├── SEO Pod (5)            ← Traditional + AI SEO + Schema + Architecture
+├── CRO Pod (6)            ← Pages, Forms, Signup, Onboarding, Popups, Paywall
+├── Channels Pod (5)       ← Email, Ads, Cold Email, Ad Creative, Social Mgmt
+├── Growth Pod (4)         ← A/B Testing, Referrals, Free Tools, Churn
+├── Intelligence Pod (4)   ← Competitors, Psychology, Analytics, Campaigns
+└── Sales & GTM Pod (2)    ← Pricing, Launch Strategy
+```
+
+## Sub-Skills by Pod
+
+<AccordionGroup>
+  <Accordion title="Content Pod (8 skills)">
+    | Skill | Focus |
+    |-------|-------|
+    | content-strategy | Editorial calendar, content pillars, distribution |
+    | content-production | AI-assisted long-form and short-form content |
+    | content-editing | Tone, clarity, SEO alignment |
+    | social-posts | Platform-specific social content |
+    | blog-engine | SEO blog setup with MDX, RSS, structured data |
+    | seo-content-brief | Keyword targeting, search intent, content briefs |
+    | guest-blogger | Outreach templates, pitch optimization |
+    | product-hunt-launch | Product Hunt launch strategy and execution |
+  </Accordion>
+
+  <Accordion title="SEO Pod (5 skills)">
+    | Skill | Focus |
+    |-------|-------|
+    | ai-seo | LLM citations, AI crawler optimization |
+    | seo-optimizer | Technical SEO, meta, sitemaps, Core Web Vitals |
+    | serp-analyzer | Competitor ranking, featured snippet opportunities |
+    | site-architecture | URL structure, internal linking, breadcrumbs |
+    | bulk-page-generator | Programmatic SEO at scale |
+  </Accordion>
+
+  <Accordion title="CRO Pod (6 skills)">
+    | Skill | Focus |
+    |-------|-------|
+    | landing-page-builder | High-converting layouts with hero, features, pricing |
+    | form-cro | Multi-step forms, validation UX, abandonment recovery |
+    | signup-flow-cro | Friction reduction, social proof, onboarding |
+    | onboarding-cro | User activation, time-to-value optimization |
+    | popup-cro | Exit intent, scroll triggers, timing optimization |
+    | paywall-upgrade-cro | Trial-to-paid conversion, upsell triggers |
+  </Accordion>
+
+  <Accordion title="Channels Pod (5 skills)">
+    | Skill | Focus |
+    |-------|-------|
+    | email-marketing | Drip campaigns, segmentation, deliverability |
+    | ad-campaigns | Google Ads, Meta Ads copy and structure |
+    | cold-email | Personalized outreach sequences |
+    | ad-creative | Visual ad creative direction and copy |
+    | social-management | Content calendar, scheduling, engagement |
+  </Accordion>
+
+  <Accordion title="Growth + Intelligence + Sales (10 skills)">
+    | Skill | Focus |
+    |-------|-------|
+    | ab-testing | Hypothesis design, statistical significance |
+    | referral-program | Viral loop mechanics, incentive structures |
+    | free-tools | Lead magnet tool design and distribution |
+    | churn-reduction | Retention flows, cancellation saves |
+    | competitor-intel | Competitor feature and positioning analysis |
+    | psychology-marketing | Cognitive bias application in copy/UX |
+    | campaign-analytics | UTM tracking, attribution, funnel analysis |
+    | trend-analysis | Market and technology trend mapping |
+    | pricing-strategy | Pricing page design, anchoring, value communication |
+    | gtm-launch | Go-to-market launch orchestration |
+  </Accordion>
+</AccordionGroup>
+
+## Routing Examples
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Write a blog post about X" | `content-production` + `seo-content-brief` |
+| "Improve my landing page conversion" | `landing-page-builder` + `signup-flow-cro` |
+| "Optimize for AI search" | `ai-seo` |
+| "Plan Product Hunt launch" | `product-hunt-launch` + `gtm-launch` |
+| "Write email sequence" | `email-marketing` |
+| "Analyze competitors" | `competitor-intel` + `serp-analyzer` |
+
+## Compatible With
+
+Works with Claude Code, Codex CLI, and OpenClaw agents. The marketing-context foundation captures brand voice and audience profile once, injecting it into every subsequent marketing skill session.

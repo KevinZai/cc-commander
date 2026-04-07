@@ -1,0 +1,59 @@
+---
+title: "ccc-data"
+description: "8 skills covering ETL pipelines, SQL optimization, data visualization, ML models, analytics, and vector search."
+---
+
+## Overview
+
+Load one skill. Get the entire data domain.
+
+```
+/ccc-data
+```
+
+From pipeline design to ML models to dashboards and vector search — in one router.
+
+## Sub-Skills
+
+| # | Skill | Command | What It Does |
+|---|-------|---------|-------------|
+| 1 | data-pipeline | `/data-pipeline` | ETL/ELT pipelines with Airflow, dbt, Dagster |
+| 2 | sql-optimization | `/sql-optimization` | Optimize SQL queries, indexes, and execution plans |
+| 3 | data-visualization | `/data-visualization` | Charts and dashboards with D3, Chart.js, Tremor, Recharts |
+| 4 | machine-learning | `/machine-learning` | ML model development with scikit-learn, PyTorch, TensorFlow |
+| 5 | data-quality | `/data-quality` | Data validation, schema enforcement, quality monitoring |
+| 6 | analytics-setup | `/analytics-setup` | Analytics implementation with PostHog, Mixpanel, GA4 |
+| 7 | reporting | `/reporting` | Automated report generation and scheduling |
+| 8 | vector-search | `/vector-search` | Vector database setup with Pinecone, pgvector, Qdrant |
+
+## Routing Matrix
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Build an ETL pipeline / dbt" | `data-pipeline` |
+| "This query is slow / optimize SQL" | `sql-optimization` |
+| "Build a dashboard / chart this data" | `data-visualization` |
+| "Train a model / ML prediction" | `machine-learning` |
+| "Validate my data / schema enforcement" | `data-quality` |
+| "Set up PostHog / track events / GA4" | `analytics-setup` |
+| "Weekly automated report" | `reporting` |
+| "Semantic search / vector embeddings" | `vector-search` |
+
+## Campaign Templates
+
+**Analytics Platform:**
+```
+analytics-setup     → implement event tracking
+data-pipeline       → ETL to data warehouse
+data-quality        → validate incoming events
+data-visualization  → build metric dashboards
+reporting           → schedule automated reports
+```
+
+**Data Warehouse Build:**
+```
+data-pipeline       → ETL/ELT with dbt transformations
+sql-optimization    → optimize warehouse queries
+data-quality        → enforce schema contracts
+data-visualization  → executive dashboard
+```

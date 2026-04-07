@@ -1,0 +1,104 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "CC Commander",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#ff0080",
+    "light": "#00ffff",
+    "dark": "#ff0080",
+    "anchors": {
+      "from": "#ff0080",
+      "to": "#00ffff"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/KevinZai/cc-commander"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Install",
+    "url": "https://github.com/KevinZai/cc-commander#quick-start"
+  },
+  "tabs": [
+    {
+      "name": "Skills",
+      "url": "skills"
+    },
+    {
+      "name": "CLI Reference",
+      "url": "cli"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/KevinZai/cc-commander"
+    },
+    {
+      "name": "Kevin Z",
+      "icon": "user",
+      "url": "https://kevinz.ai"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "why-ccc"
+      ]
+    },
+    {
+      "group": "Core Features",
+      "pages": [
+        "features/token-optimization",
+        "features/intelligence-layer",
+        "features/skill-tiers",
+        "features/context-mode",
+        "features/claudeswap-meters",
+        "features/rainbow-branding"
+      ]
+    },
+    {
+      "group": "CCC Domains",
+      "pages": [
+        "domains/overview",
+        "domains/marketing",
+        "domains/design",
+        "domains/devops",
+        "domains/saas",
+        "domains/seo",
+        "domains/testing",
+        "domains/security",
+        "domains/data",
+        "domains/research",
+        "domains/mobile",
+        "domains/makeover"
+      ]
+    },
+    {
+      "group": "Methodology",
+      "pages": [
+        "methodology/the-kevin-z-method",
+        "methodology/cheatsheet"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/kzic",
+    "github": "https://github.com/KevinZai/cc-commander"
+  },
+  "analytics": {
+    "plausible": {
+      "domain": "docs.cc-commander.dev"
+    }
+  }
+}

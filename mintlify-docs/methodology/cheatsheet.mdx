@@ -1,0 +1,101 @@
+---
+title: "Cheatsheet"
+description: "The most useful commands. Not all 83 — just the ones you'll reach for every day."
+---
+
+## CCC CLI Commands
+
+| Command | What It Does |
+|---------|-------------|
+| `ccc` | Interactive mode — 14-option menu, arrow-key navigation |
+| `ccc --stats` | Sessions, streaks, level, cost summary |
+| `ccc --test` | 22-point self-verification of your install |
+| `ccc --update` | Pull latest vendor package updates |
+| `ccc --repair` | Reset corrupt state files |
+| `ccc --simple` | Menu-only mode, no tmux |
+| `ccc --dispatch "task"` | Headless dispatch (for AI agents / scripts) |
+| `ccc --dispatch "task" --json` | JSON output: session_id, cost, result |
+| `ccc --skills` | Manage skill tiers (list/install/remove/tier) |
+| `ccc --list-skills --json` | Full skill catalog as JSON array |
+| `ccc --status` | Health check JSON |
+
+## Most-Used Slash Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/init` | Start a new project — wizard selects build type, domains, plan |
+| `/plan` | Spec interview → planning doc → ready to implement |
+| `/ccc` | Open the main CCC menu in any session |
+| `/verify` | Multi-step verification before marking done |
+| `/checkpoint` | Git checkpoint — commit current state |
+| `/build-fix` | Auto-resolve build errors |
+
+## Domain Commands
+
+| Command | Loads |
+|---------|-------|
+| `/ccc-saas` | Auth + billing + DB + API + frontend (20 skills) |
+| `/ccc-design` | Animations + UI + Impeccable suite (39 skills) |
+| `/ccc-marketing` | Content + SEO + CRO + channels (46 skills) |
+| `/ccc-testing` | TDD + E2E + verification + QA (15 skills) |
+| `/ccc-devops` | CI/CD + Docker + AWS + monitoring (20 skills) |
+| `/ccc-seo` | Technical SEO + AI search + analytics (19 skills) |
+| `/ccc-security` | Audit + OWASP + secrets + incident response (8 skills) |
+| `/ccc-data` | ETL + SQL + visualization + ML + vector search (8 skills) |
+| `/ccc-research` | Deep research + spec + competitive analysis (8 skills) |
+| `/ccc-mobile` | React Native + Flutter + SwiftUI + ASO (8 skills) |
+| `/ccc-makeover` | X-Ray audit + makeover swarm + report card (3 skills) |
+
+## Split Mode (tmux)
+
+```bash
+ccc --split        # Launch tabbed tmux mode
+Ctrl+A n           # Next tab
+Ctrl+A p           # Previous tab
+Ctrl+A 0           # Back to CCC menu tab
+Ctrl+A q           # Quit session
+```
+
+## Workflow Modes
+
+Switch your entire workflow persona:
+
+| Mode | Use When |
+|------|---------|
+| `normal` | Default for most work |
+| `design` | Building UIs, landing pages |
+| `saas` | Building a SaaS product |
+| `marketing` | Marketing campaigns, content |
+| `research` | Competitive analysis, learning |
+| `writing` | Blog posts, docs, reports |
+| `night` | Batch jobs, migrations |
+| `yolo` | Quick prototypes, demos |
+
+```
+/cc mode design
+```
+
+## Token Optimization Commands
+
+```bash
+rtk gain              # Show token savings analytics
+rtk gain --history    # Command usage history with savings
+rtk discover          # Find missed savings opportunities
+ctx_stats             # context-mode sandbox size and hit rates
+ctx_doctor            # Diagnose sandbox health
+ctx_purge             # Clear sandbox before new task
+```
+
+## Skill Triggers (Proactive Intelligence)
+
+| When This Happens | Use This Skill |
+|------------------|---------------|
+| Starting a feature | `spec-interviewer` or `evals-before-specs` |
+| Writing code | `tdd-workflow` |
+| Bug found | `systematic-debugging` |
+| Code complete | `review` or `verification-before-completion` |
+| Deploying | `deploy-check` or `ccc-devops` |
+| UI work | `ccc-design` or `frontend-design` |
+| Security concern | `ccc-security` |
+| Before shipping | `qa` or `e2e` |
+| Cost spike | `cache-monitor` |

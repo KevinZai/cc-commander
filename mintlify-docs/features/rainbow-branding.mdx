@@ -1,0 +1,81 @@
+---
+title: "Rainbow Branding & Themes"
+description: "Animated rainbow in the CLI. CSS rainbow on the landing page. 10 switchable themes. Version format CCC2.2."
+---
+
+## The Rainbow
+
+CC Commander's signature visual is the animated rainbow gradient — used in the CLI header, status footer prefix, and landing page hero.
+
+```
+🌈 CCC2.2
+```
+
+The rainbow prefix in the footer uses ANSI escape sequences cycling through the full spectrum. In the landing page CSS, it uses a keyframe animation across the HSL color wheel.
+
+## CLI Themes
+
+10 themes control the entire visual personality of the CLI — colors, borders, gradients, and spinner styles.
+
+| Theme | Palette | Vibe |
+|-------|---------|------|
+| **Claude Anthropic** | Copper + warm white | Official Claude aesthetic |
+| **Rainbow** (default) | Full spectrum gradient | CC Commander signature |
+| **Cyberpunk** | Cyan + magenta + neon | The original CCC look |
+| **OLED Black** | Pure black + white | Battery-efficient, maximum contrast |
+| **Matrix** | Green on black | Classic terminal |
+| **Fire** | Red + orange + yellow | High energy |
+| **Ocean** | Blues + teals | Calm focus mode |
+| **Aurora** | Purple + green + blue | Northern lights |
+| **Sunset** | Pink + orange + purple | Evening sessions |
+| **Monochrome** | Gray scale | Distraction-free |
+
+**Switch themes:**
+
+```bash
+/ccc settings
+# → Theme → Pick one → Enter
+```
+
+Or directly:
+
+```bash
+/cc theme cyberpunk
+```
+
+## Version Format
+
+CC Commander uses a distinctive version format: `CCC2.2` (not `v2.2.0`).
+
+The `CCC` prefix makes it immediately recognizable in logs, footers, and screenshots. The version is always pulled from `package.json` at runtime — there's a single source of truth, no hardcoded strings.
+
+```javascript
+// branding.js reads from package.json:
+const { version } = require('../package.json');
+const brand = `CCC${version.split('.').slice(0, 2).join('.')}`;
+```
+
+## iTerm2 Color Profiles
+
+Four iTerm2 color profiles are included in `compatibility/`:
+
+| Profile | File |
+|---------|------|
+| Claude Anthropic | `claude-anthropic.itermcolors` |
+| OLED Black | `oled-black.itermcolors` |
+| Matrix | `matrix.itermcolors` |
+| Legacy | `kz-matrix.itermcolors` |
+
+Import via iTerm2 → Preferences → Profiles → Colors → Import.
+
+## Animation Controls
+
+All animations respect environment flags and CI detection:
+
+```bash
+CC_NO_COLOR=1        # Disable all color output
+CC_NO_ANIMATION=1    # Disable animations (keep color)
+CI=true              # Auto-detected — disables animation in CI
+```
+
+Shell scripts source `lib/terminal-art.sh`. Hooks use `lib/terminal-art.js`. Both respect the same flags for consistent behavior across all output points.

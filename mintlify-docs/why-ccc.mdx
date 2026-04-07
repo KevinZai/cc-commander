@@ -1,0 +1,132 @@
+---
+title: "Why CC Commander?"
+description: "Stock Claude Code is a blank terminal with amnesia. Here's what CC Commander adds — and why it matters."
+---
+
+## The Problem
+
+Stock Claude Code is a blank terminal with amnesia.
+
+No skills. No guidance. No memory. Every session starts from zero.
+
+It also wastes 98% of your context window on tool output you'll never re-read — every `git log`, `grep`, and file read dumps raw output directly into context.
+
+**CC Commander fixes both.**
+
+## The Core Contrast
+
+| Capability | Stock Claude Code | CC Commander |
+|------------|------------------|--------------|
+| Memory | Forgets everything after session ends | Knowledge compounds — fuzzy search, time decay, outcome weighting |
+| Context | Dumps all tool output raw | 98% sandboxed via context-mode (SQLite + BM25) |
+| Task complexity | You decide turns/budget/model | 0-100 complexity scoring auto-configures everything |
+| Stack awareness | Reads what you tell it | Reads package.json, Dockerfile, git history before dispatch |
+| Skills | None included | 455+ deduplicated, tiered, managed |
+| Interface | Type commands from memory | Arrow-key menus, guided flows, no syntax needed |
+| Learning | Every session is isolated | Sessions compound — 2x weight on last-7-day lessons |
+| Tooling | Single integration | 17 vendor packages, auto-updated weekly |
+
+## Top 10 Differentiators
+
+<AccordionGroup>
+  <Accordion title="1. 98% Context Savings (context-mode)" icon="bolt">
+    **The problem:** Stock Claude Code dumps every `git log`, grep, and file read directly into context. A single grep can consume 315KB.
+
+    **The fix:** context-mode intercepts 6 tool types (Bash, Read, Grep, Glob, WebFetch, WebSearch) via PreToolUse hooks. Results go to SQLite with FTS5 full-text search. Claude gets only BM25-ranked relevant snippets.
+
+    **Measured:** 315KB grep result → 3KB relevant snippet. 98% reduction.
+
+    No other Claude Code toolkit has this.
+  </Accordion>
+
+  <Accordion title="2. Zero-Typing Interface" icon="arrow-up">
+    Every interaction is arrow-key menus. No commands to memorize, no syntax to get wrong.
+
+    Run `ccc` — the entire session is navigable with arrow keys and Enter. Cancel/Back is available at every screen. No dead ends, no accidental runaway dispatches.
+  </Accordion>
+
+  <Accordion title="3. 0-100 Complexity Scoring" icon="chart-bar">
+    Every task is scored before dispatch. The score maps to turns, budget, and model:
+
+    | Score | Tier | Turns | Budget | Model |
+    |-------|------|-------|--------|-------|
+    | 0-25 | Trivial | 10 | $1 | Haiku |
+    | 26-50 | Simple | 20 | $3 | Sonnet |
+    | 51-75 | Moderate | 35 | $6 | Sonnet |
+    | 76-100 | Complex | 50 | $10 | Opus |
+
+    "Fix typo" gets 10 turns and $1. "Build SaaS" gets 50 turns and $10. CCC scores before spending.
+  </Accordion>
+
+  <Accordion title="4. Knowledge Compounding" icon="brain">
+    After every session, CCC extracts keywords, categories, tech stack mentions, and success/error patterns. Future sessions search this knowledge base using fuzzy matching + time decay.
+
+    - Last 7 days: 2x weight
+    - Last 30 days: 1.5x weight
+    - Older: 1x weight
+    - Successful outcomes: 1.5x relevance boost
+
+    Stock Claude Code forgets everything. CCC compounds knowledge like interest.
+  </Accordion>
+
+  <Accordion title="5. Stack Detection" icon="code">
+    Before dispatching, CCC reads your `package.json`, `Dockerfile`, `docker-compose.yml`, `pyproject.toml`, `Cargo.toml`, `go.mod`, and `.github/workflows/`.
+
+    Detects: nextjs, react, vue, node-api, billing (stripe), orm (drizzle/prisma/typeorm), tailwind, testing (playwright/vitest/jest), docker, github-actions, python, rust, go.
+
+    Also reads your current git branch and last 5 commit messages. Your AI already knows what you're building.
+  </Accordion>
+
+  <Accordion title="6. 11 CCC Domains — Load One, Get Everything" icon="grid">
+    Each domain router absorbs 7-46 specialist skills into a single entry point with intelligent routing.
+
+    ```
+    /ccc-saas    → auth + billing + DB + API + frontend (20 skills)
+    /ccc-design  → animations + UI + Impeccable suite (39 skills)
+    /ccc-marketing → content + SEO + CRO + channels (46 skills)
+    ```
+
+    No hunting for the right skill. Describe your goal. The router dispatches the specialist.
+  </Accordion>
+
+  <Accordion title="7. Smart Retry" icon="rotate">
+    On rate limit (HTTP 429): waits 60 seconds, retries automatically.
+
+    On context overflow: reduces max turns by 40%, retries.
+
+    On budget overrun: surfaces a clear error, not a cryptic stack trace.
+
+    You stay in the flow.
+  </Accordion>
+
+  <Accordion title="8. 17 Vendor Packages, Auto-Updated Weekly" icon="package">
+    17 git submodules covering everything-claude-code (120K stars), gstack (58K), Superpowers (29K), oh-my-claudecode (17K), claude-code-best-practice (26K), RTK (14.6K), Compound Engineering (11.5K), and more.
+
+    GitHub Actions auto-pulls upstream weekly. You never fall behind the ecosystem.
+  </Accordion>
+
+  <Accordion title="9. Real-Time Rate Limit Meters" icon="gauge">
+    The status footer shows ASCII fill meters for context usage, 5-hour rate limit, 7-day rate limit, and budget — heat-mapped cyan → magenta → orange → red as limits approach.
+
+    When Claude Code doesn't provide rate limit data, CCC falls back to the ClaudeSwap state file.
+  </Accordion>
+
+  <Accordion title="10. Night Mode / YOLO — Autonomous Overnight Build" icon="moon">
+    Configure once, run while you sleep. CCC checkpoints every 10 edits and self-tests after each phase.
+
+    ```
+    Model: Opus | Budget: $10 | Max turns: 100
+    Self-test: Enabled | Checkpoint: Every 10 edits
+    ```
+
+    Ready to run for up to 8 hours unattended. Stop file: `~/.claude/commander/yolo-stop`.
+  </Accordion>
+</AccordionGroup>
+
+## The Bottom Line
+
+CC Commander turns Claude Code from a blank terminal into a guided AI project manager that learns your codebase, manages your budget, and gets smarter every session.
+
+```bash
+npm install -g cc-commander && ccc
+```

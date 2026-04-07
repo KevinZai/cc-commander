@@ -1,0 +1,117 @@
+---
+title: "The Kevin Z Method"
+description: "7 golden rules for Claude Code. Distilled from 200+ community sources and real sessions. Opinionated. Proven."
+---
+
+## The 7 Golden Rules
+
+These are non-negotiable. They apply to every session, every project, every build type.
+
+<AccordionGroup>
+  <Accordion title="1. Plan before coding" icon="clipboard-list">
+    Run `/plan` on every multi-step task before writing a line of code.
+
+    Skipping planning is the #1 source of wasted tokens and context bloat. A 5-minute spec saves 50 minutes of back-and-forth mid-session.
+
+    CCC's `/init` wizard runs this automatically — it asks what you're building, selects the right domains, and generates a plan before dispatching.
+
+    **When to invoke:** Any task with 3+ steps, architecture decisions, or unknown scope.
+  </Accordion>
+
+  <Accordion title="2. Context is milk — fresh + condensed = best output" icon="droplet">
+    Context degrades. A session that's been running for 2 hours has worse output quality than a fresh session on the same task.
+
+    **Keep context fresh:**
+    - Use subagents for independent work — each gets a clean context
+    - Use context-mode to prevent tool output from polluting context
+    - When quality drops, start a fresh session with a clean spec
+    - Compact aggressively — `/session-compress` when approaching the context limit
+
+    **Keep context condensed:**
+    - caveman mode for iteration — strips markdown/emojis/prose for ~75% output token savings
+    - RTK for CLI output — 99.5% reduction before it hits context
+  </Accordion>
+
+  <Accordion title="3. Verify, don't trust" icon="circle-check">
+    Always run `/verify` before marking anything done. Never assume a tool call succeeded without checking the output.
+
+    **The verification checklist:**
+    - Feature works end-to-end
+    - No TypeScript errors (`npx tsc --noEmit`)
+    - No console errors
+    - Tests pass
+    - Committed with conventional commit message
+
+    CCC's `verification-before-completion` skill enforces this as a structured proof-of-work step.
+  </Accordion>
+
+  <Accordion title="4. Subagents = fresh context" icon="users">
+    Parallel work belongs in parallel agents — not a single bloated session.
+
+    **When to spawn a subagent:**
+    - Any independent work stream
+    - Tasks that need a different model
+    - Work that would fill more than 20% of the current context
+
+    Subagents keep the orchestrator's context clean. The orchestrator plans and reviews. Subagents implement.
+
+    CCC automates this via the dispatcher — complex tasks (score 76-100) automatically get dispatched with higher turn budgets and the Opus model.
+  </Accordion>
+
+  <Accordion title="5. CLAUDE.md = investment" icon="file-text">
+    Your CLAUDE.md compounds over time. Every correction, lesson, and project-specific rule you add pays dividends in every future session.
+
+    **What belongs in CLAUDE.md:**
+    - Stack-specific preferences and constraints
+    - Architectural decisions with rationale
+    - Anti-patterns you've discovered
+    - Model and budget preferences for this project
+
+    **What doesn't belong:**
+    - Line-by-line instructions (trust the model with discretion)
+    - One-off permissions (use project-level settings.json)
+
+    CCC's `ccc-refresh` skill audits your CLAUDE.md for stale references, missing context, and token waste.
+  </Accordion>
+
+  <Accordion title="6. Boring solutions win" icon="check">
+    AI has a bias toward complexity. It will propose abstractions, frameworks, and patterns when a flat function would work better.
+
+    Push back. 100 lines when 100 lines suffice. The simplest solution that passes the eval is the correct solution.
+
+    **Anti-patterns to watch for:**
+    - Unnecessary abstraction layers
+    - Over-engineered error handling
+    - Generic frameworks when a specific solution works
+    - Premature optimization
+
+    When CCC's complexity scorer rates a task low, it dispatches with a smaller turn budget. This is intentional — it forces simple solutions for simple problems.
+  </Accordion>
+
+  <Accordion title="7. Operationalize fixes" icon="wrench">
+    Every bug fix should produce three things: a reproduction test, a fix, and a rule.
+
+    **The operationalize workflow:**
+    1. Write a failing test that reproduces the bug (RED)
+    2. Fix the bug (GREEN)
+    3. Sweep the codebase for sibling bugs (same class, different location)
+    4. Update CLAUDE.md or lessons.md with the class-level rule
+
+    CCC's `operationalize-fixes` skill guides this process.
+
+    A bug fixed in isolation will recur. A bug operationalized becomes a rule that prevents the whole class.
+  </Accordion>
+</AccordionGroup>
+
+## Build Type Matrix
+
+Before touching any code, answer: **What kind of build is this?**
+
+| Build Type | Time | Approach | Model | Domains |
+|-----------|------|----------|-------|---------|
+| **QUICK** | &lt;4 hours | Direct execute, ship fast | Sonnet | Stack-specific only |
+| **DEEP** | 1-5 days | Spec-first, TDD, subagents | Opus | `mega-{domain}` + `ccc-testing` |
+| **SAAS** | 1-4 weeks | Full lifecycle: scaffold→auth→billing→ship | Opus | `ccc-saas` + `ccc-seo` + `ccc-testing` + `ccc-devops` |
+| **OVERNIGHT** | 6-12h autonomous | Checkpoints, error recovery | Opus | `overnight-runner` + domain skills |
+
+Run `/init` to answer this question interactively and have CCC configure everything automatically.

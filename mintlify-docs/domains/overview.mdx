@@ -1,0 +1,76 @@
+---
+title: "CCC Domains"
+description: "11 specialty domain routers. Load one skill, get an entire domain. Each router dispatches to the right specialist based on your intent."
+---
+
+## What Are CCC Domains?
+
+A CCC domain is a **router skill** — one entry point that absorbs many specialist skills and dispatches to the right one based on your intent.
+
+```
+/ccc-saas  →  "Add billing" → stripe-subscriptions + billing-automation
+           →  "Set up auth" → better-auth
+           →  "Design my DB" → database-designer + drizzle-neon
+```
+
+You don't need to know which specialist handles your task. Describe your goal. The router figures it out.
+
+## All 11 Domains
+
+| Domain | Load With | Skills | What It Covers |
+|--------|-----------|--------|---------------|
+| [Marketing](/domains/marketing) | `/ccc-marketing` | 46 | Content, SEO, CRO, channels, growth, intelligence, sales |
+| [Design](/domains/design) | `/ccc-design` | 39 | Animations, visual effects, design systems, Impeccable suite |
+| [DevOps](/domains/devops) | `/ccc-devops` | 20 | CI/CD, Docker, AWS, monitoring, Terraform, zero-downtime |
+| [SaaS](/domains/saas) | `/ccc-saas` | 20 | Auth, billing, DB, API, frontend, metrics, CRO |
+| [SEO](/domains/seo) | `/ccc-seo` | 19 | Technical SEO, AI search, content strategy, analytics, programmatic |
+| [Testing](/domains/testing) | `/ccc-testing` | 15 | TDD, E2E, verification, QA, regression, visual, load |
+| [Security](/domains/security) | `/ccc-security` | 8 | Audit, prompt injection, OWASP, secrets, CodeQL, incident response |
+| [Data](/domains/data) | `/ccc-data` | 8 | ETL pipelines, SQL, visualization, ML, analytics, vector search |
+| [Research](/domains/research) | `/ccc-research` | 8 | Deep research, spec interviews, competitive analysis, cross-model review |
+| [Mobile](/domains/mobile) | `/ccc-mobile` | 8 | React Native, Flutter, SwiftUI, testing, ASO, push notifications |
+| [Makeover](/domains/makeover) | `/ccc-makeover` | 3 | X-Ray audit, makeover swarm, health report card |
+
+## How to Use Any Domain
+
+**Step 1:** Load the domain router.
+
+```
+/ccc-saas
+```
+
+**Step 2:** Describe your intent. The router identifies the specialist.
+
+```
+"Add Stripe subscriptions with annual billing"
+→ Routes to: stripe-subscriptions + billing-automation
+```
+
+**Step 3:** The specialist handles the work with domain expertise.
+
+No hunting for the right skill. No loading multiple specialists manually. One description, one dispatch.
+
+## Build Type + Domain Matrix
+
+The [Kevin Z Method](/methodology/the-kevin-z-method) recommends specific domain combinations by build type:
+
+| Build Type | Recommended Domains |
+|-----------|-------------------|
+| Quick (&lt;4h) | Stack-specific only (e.g., nextjs-app-router) |
+| Deep (1-5 days) | `mega-{domain}` + `ccc-testing` |
+| SaaS (1-4 weeks) | `ccc-saas` + `ccc-seo` + `ccc-testing` + `ccc-devops` |
+| Overnight (autonomous) | `overnight-runner` + relevant domain |
+
+## Domain Loading via `/init`
+
+When you run `/init`, CCC asks what you're building and auto-selects the right domains:
+
+```
+What are you building?
+❯ SaaS product          → ccc-saas + ccc-testing + ccc-devops
+  Marketing site        → ccc-design + ccc-seo + ccc-marketing
+  API / Backend         → ccc-saas + ccc-devops + ccc-security
+  Mobile app            → ccc-mobile + ccc-testing
+  Data pipeline         → ccc-data + ccc-devops
+  Something else        → Browse all 455+ skills
+```

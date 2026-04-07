@@ -1,0 +1,90 @@
+---
+title: "ClaudeSwap Meters"
+description: "Real-time rate limit meters in your terminal. Green means go. Red means slow down. ClaudeSwap state file as failover."
+---
+
+## Overview
+
+The CC Commander status line shows live heat-mapped meters for three critical limits — context usage, 5-hour rate limit, and 7-day rate limit. Color shifts from cyan to red as you approach each limit.
+
+```
+━━ 🌈CCC2.2│🔥Opus4.6-1M│🔑gAA│🧠▐██45%▌│⏱️▐██6%▌│📅▐██34%▌│💰$2.34│🎯37│📂~/project
+```
+
+## Heat-Map Color Scale
+
+| Usage % | Color | Meaning |
+|---------|-------|---------|
+| 0-30% | Cyan | All clear |
+| 30-50% | Cyan-blue | Building up |
+| 50-70% | Magenta | Getting there |
+| 70-85% | Orange | Watch it |
+| 85%+ | Red | Slow down |
+
+The color transitions are defined in `lib/statusline.sh`:
+
+```bash
+H1='\033[38;5;51m'   # cyan (0-30%)
+H2='\033[38;5;39m'   # cyan-blue (30-50%)
+H3='\033[38;5;198m'  # magenta (50-70%)
+H4='\033[38;5;208m'  # orange (70-85%)
+H5='\033[38;5;196m'  # red (85%+)
+```
+
+## The Three Meters
+
+**Context (CTX)** — How much of the current context window is filled. At 85%+ Claude's quality starts to degrade.
+
+**5-hour rate limit** — Anthropic's rolling 5-hour token consumption limit for your account.
+
+**7-day rate limit** — Anthropic's rolling 7-day token consumption limit.
+
+## ClaudeSwap Failover
+
+Claude Code's API doesn't always expose rate limit percentages directly. When that data is missing, the status line reads from the ClaudeSwap state file:
+
+```bash
+SWAP_STATE="$HOME/.config/claudeswap-state.json"
+
+if [ -f "$SWAP_STATE" ]; then
+  ACTIVE_ACCT=$(jq -r '.accounts | to_entries | sort_by(.value.last_used) | last | .key' "$SWAP_STATE")
+  RATE_5H=$(jq -r ".accounts[\"$ACTIVE_ACCT\"].five_hour_utilization * 100" "$SWAP_STATE")
+  RATE_7D=$(jq -r ".accounts[\"$ACTIVE_ACCT\"].seven_day_utilization * 100" "$SWAP_STATE")
+fi
+```
+
+This means: if you're running ClaudeSwap with 2 MAX accounts, the meters always show accurate utilization for whichever account is currently active — even mid-rotation.
+
+## Full Footer Format
+
+The footer packs 12 live data segments into one line:
+
+```
+🌈CCC2.2  │  🔥 Model  │  🔑 Account  │  🧠 Context  │  ⏱️ 5h limit  │
+📅 7d limit  │  💰 Cost  │  ↑ Input tokens  │  ↓ Output tokens  │
+⏰ Duration  │  🎯 Skill count  │  📋 Linear issue  │  📂 Project dir
+```
+
+## Installing the Status Line
+
+Add to `~/.claude/settings.json`:
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/lib/statusline.sh",
+    "padding": 1
+  }
+}
+```
+
+The status line reads JSON from Claude Code's session API on stdin and renders the formatted footer.
+
+## Requirements
+
+- `jq` must be installed (`brew install jq`)
+- For ClaudeSwap failover: `~/.config/claudeswap-state.json` must exist
+- For rate limit data: requires a Claude Code version that exposes `rate_limits` in session JSON
+
+The status line degrades gracefully — if any data is missing, it omits that segment rather than erroring.

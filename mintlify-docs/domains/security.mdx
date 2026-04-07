@@ -1,0 +1,63 @@
+---
+title: "ccc-security"
+description: "8 skills covering security audits, prompt injection defense, OWASP Top 10, secrets scanning, CodeQL, and incident response."
+---
+
+## Overview
+
+Load one skill. Get the entire application security domain.
+
+```
+/ccc-security
+```
+
+From proactive auditing to reactive incident response, with AI-specific defenses included.
+
+## Sub-Skills
+
+| # | Skill | Command | What It Does |
+|---|-------|---------|-------------|
+| 1 | security-audit | `/security-audit` | Comprehensive security audit — SAST, DAST, manual review |
+| 2 | prompt-injection-defense | `/prompt-injection-defense` | Defend AI-powered apps against prompt injection attacks |
+| 3 | dependency-audit | `/dependency-audit` | Audit npm/pip/cargo dependencies for known CVEs |
+| 4 | secrets-scanner | `/secrets-scanner` | Scan codebase for hardcoded secrets, API keys, tokens |
+| 5 | owasp-top-10 | `/owasp-top-10` | Check application against OWASP Top 10 vulnerabilities |
+| 6 | codeql-integration | `/codeql-integration` | Set up CodeQL for automated security analysis in CI |
+| 7 | variant-analysis | `/variant-analysis` | Find variants of known vulnerabilities across codebase |
+| 8 | incident-response | `/incident-response` | Security incident response playbook and remediation |
+
+## Routing Matrix
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Security audit / review" | `security-audit` |
+| "Protect against prompt injection" | `prompt-injection-defense` |
+| "Check my dependencies" | `dependency-audit` |
+| "Find hardcoded secrets" | `secrets-scanner` |
+| "OWASP compliance" | `owasp-top-10` |
+| "Automated security scanning in CI" | `codeql-integration` |
+| "This vulnerability might exist elsewhere" | `variant-analysis` |
+| "Security incident" | `incident-response` |
+
+## Pre-Launch Security Review
+
+The recommended flow before any production deployment:
+
+```
+secrets-scanner      → find and remove hardcoded credentials
+dependency-audit     → check all dependencies for known CVEs
+owasp-top-10         → verify against OWASP Top 10 checklist
+security-audit       → comprehensive manual review
+codeql-integration   → set up automated scanning in CI
+```
+
+## AI Application Security
+
+For apps that call LLMs or expose AI features:
+
+```
+prompt-injection-defense  → harden all LLM-facing inputs and outputs
+secrets-scanner           → verify AI service API keys are not exposed
+```
+
+Prompt injection is the most common vulnerability in AI apps — and the one most often skipped in standard security reviews.

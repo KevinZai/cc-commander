@@ -1,0 +1,110 @@
+---
+title: "context-mode"
+description: "98% context reduction via SQLite + FTS5. Tool output goes into a sandbox. Claude gets only the relevant 2%."
+---
+
+## The Problem It Solves
+
+Every time Claude Code runs a tool — `Bash`, `Read`, `Grep`, `WebFetch` — the full output lands in your context window.
+
+```
+grep -r "authentication" ./src
+→ 315KB of matches dumped into context
+→ You needed 5KB of relevant lines
+→ 310KB wasted, never re-read
+```
+
+context-mode intercepts this. Output goes to SQLite. Claude gets BM25-ranked snippets.
+
+**Measured result:** 315KB grep → 3KB relevant snippet. **98% reduction.**
+
+## How It Works
+
+```
+Tool call → PreToolUse hook intercepts
+         → Tool executes normally
+         → Output stored in SQLite with FTS5 indexing
+         → BM25-ranked relevant snippet returned to context
+         → Full output available for search, never in context
+```
+
+**Intercepted tool types:**
+- `Bash` — shell command output
+- `Read` — file contents
+- `Grep` — search results
+- `Glob` — file listings
+- `WebFetch` — web page content
+- `WebSearch` — search results
+
+## Available Tools
+
+| Tool | What It Does |
+|------|-------------|
+| `ctx_execute` | Run a command, store result in sandbox, return relevant snippet |
+| `ctx_batch_execute` | Run multiple commands, all indexed together |
+| `ctx_search` | BM25 search over all sandboxed results |
+| `ctx_fetch_and_index` | Fetch a URL and index its content |
+| `ctx_execute_file` | Execute a file, index the output |
+| `ctx_index` | Manually index any content string |
+| `ctx_stats` | Show sandbox size, index count, hit rates |
+| `ctx_doctor` | Diagnose sandbox health, check FTS5 integrity |
+| `ctx_purge` | Clear the sandbox (useful before a new task) |
+
+## Installation
+
+context-mode is installed as an external npm package:
+
+```bash
+npm install -g context-mode
+```
+
+Then register it as an MCP server in `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "context-mode": {
+      "type": "stdio",
+      "command": "context-mode"
+    }
+  }
+}
+```
+
+Verify it's working:
+
+```bash
+ctx_execute "ls -la"
+```
+
+If sandboxing is active, you'll see a snippet instead of the full listing.
+
+## Relationship to Other Optimization Layers
+
+context-mode is one layer in the [5-layer token optimization stack](/features/token-optimization). Each layer is complementary:
+
+| Layer | Tool | Where It Acts |
+|-------|------|--------------|
+| Input side | RTK | Filters CLI output before context |
+| Output side | context-mode | Filters tool results after execution |
+| API layer | Headroom | Cache alignment + compression |
+| Rotation | ClaudeSwap | Rate limit failover |
+| Server cache | Prompt caching | Repeated context blocks |
+
+RTK and context-mode together cover the full pipeline — RTK handles what goes in, context-mode handles what comes out.
+
+## License
+
+context-mode is by [Murat Kemal Soylu](https://github.com/mksglu), licensed under **Elastic License 2.0 (ELv2)**.
+
+CC Commander installs it as an external npm package — we do not bundle, modify, or redistribute its source code. See the [context-mode repository](https://github.com/mksglu/context-mode) for full license terms.
+
+## When to Use
+
+context-mode is most impactful when:
+- Exploring an unfamiliar codebase (many file reads)
+- Running broad grep/search operations
+- Fetching large web pages for research
+- Any task where you know tool output will be large
+
+It's always-on by default once installed. No per-task configuration needed.

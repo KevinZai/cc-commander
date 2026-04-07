@@ -1,0 +1,66 @@
+---
+title: "ccc-devops"
+description: "20 skills covering CI/CD, Docker, AWS, monitoring, Terraform, zero-downtime deployments, and incident runbooks."
+---
+
+## Overview
+
+Load one skill. Get the entire DevOps domain.
+
+```
+/ccc-devops
+```
+
+20 skills built from 15 proven tools plus 5 new specialists.
+
+## Sub-Skills
+
+| # | Skill | What It Does |
+|---|-------|-------------|
+| 1 | `docker-development` | Dockerfile multi-stage builds, compose orchestration, layer caching |
+| 2 | `senior-devops` | Pipeline generation, Terraform scaffolding, deployment management |
+| 3 | `github-actions-security` | Secrets management, OIDC, permissions hardening, supply chain defense |
+| 4 | `github-actions-reusable-workflows` | Composite actions, workflow_call, org-wide CI templates |
+| 5 | `aws-solution-architect` | Well-Architected Framework, service selection, cost optimization |
+| 6 | `aws-lambda-best-practices` | Cold starts, layers, VPC config, concurrency, event source mappings |
+| 7 | `aws-s3-patterns` | Bucket policies, lifecycle rules, replication, presigned URLs |
+| 8 | `aws-cloudfront-optimization` | Cache behaviors, origin shields, Lambda@Edge, invalidation strategies |
+| 9 | `aws-iam-security` | Least-privilege policies, role assumption, permission boundaries, SCPs |
+| 10 | `container-security` | Image hardening, vulnerability scanning, runtime policies |
+| 11 | `prometheus-configuration` | Scrape configs, recording rules, metric collection, service discovery |
+| 12 | `grafana-dashboards` | Dashboard JSON, panel queries, variables, alerting, provisioning |
+| 13 | `promql-alerting` | Alert rules, expression evaluation, recording rules, silencing |
+| 14 | `infra-runbook` | Incident response procedures, escalation paths, recovery playbooks |
+| 15 | `network-engineer` | Cloud networking, VPCs, service mesh, DNS, load balancing, zero-trust |
+| 16 | `devops-router` | Routes DevOps tasks to the right specialist |
+| 17 | `zero-downtime-deploy` | Blue-green, canary, rolling updates, automated rollback |
+| 18 | `cicd-pipeline-generator` | GitHub Actions, GitLab CI, caching, parallel execution |
+| 19 | `performance-monitoring` | APM, RUM, Core Web Vitals, profiling, error tracking |
+| 20 | `terraform-patterns` | Modules, remote state, workspaces, drift detection, cost estimation |
+
+## Routing Matrix
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Deploy with zero downtime" | `senior-devops` + `zero-downtime-deploy` |
+| "Set up CI/CD pipeline" | `github-actions-security` + `cicd-pipeline-generator` |
+| "Reusable GitHub Actions workflow" | `github-actions-reusable-workflows` |
+| "Containerize my app" | `docker-development` + `container-security` |
+| "AWS architecture review" | `aws-solution-architect` |
+| "Set up monitoring" | `prometheus-configuration` + `grafana-dashboards` |
+| "Terraform setup" | `terraform-patterns` + `senior-devops` |
+| "Incident response" | `infra-runbook` |
+
+## Campaign Templates
+
+**Production Deployment Pipeline:**
+1. `cicd-pipeline-generator` → build pipeline with tests and staging
+2. `zero-downtime-deploy` → blue-green or canary deploy strategy
+3. `performance-monitoring` → APM and alerting setup
+4. `infra-runbook` → incident response playbook
+
+**Container Security Hardening:**
+1. `docker-development` → optimized, minimal base images
+2. `container-security` → vulnerability scanning, runtime policies
+3. `aws-iam-security` → least-privilege container roles
+4. `github-actions-security` → supply chain defense in CI

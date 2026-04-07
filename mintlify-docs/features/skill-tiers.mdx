@@ -1,0 +1,123 @@
+---
+title: "Skill Tiers"
+description: "455 skills, three tiers. Start lean, add depth on demand. Essential loads in seconds — full takes minutes."
+---
+
+## Why Tiers?
+
+Loading all 455 skills at once would bloat every session's context. Tiers solve this: start with what you always need, add depth when a project demands it.
+
+The tier system is defined in `skills/_tiers.json`.
+
+## The Three Tiers
+
+<Tabs>
+  <Tab title="Essential (~37 skills)">
+    **Loads automatically on every session start.**
+
+    These are the skills you reach for on every project — quality gates, session management, core workflows.
+
+    | Category | Skills |
+    |---------|--------|
+    | Session | save-session, resume-session, checkpoint |
+    | Quality | code-review, verify, quality-gate |
+    | Planning | plan, spec, evals-before-specs |
+    | Core workflow | tdd, build, deploy, debug |
+    | CCC meta | ccc, init, caveman, context-budget |
+
+    **Why ~37 and not exactly 37?** The essential tier is tuned to stay under 10K tokens of context overhead. The exact count varies by version.
+
+    ```bash
+    ccc --skills tier essential
+    ```
+  </Tab>
+
+  <Tab title="Recommended (~100 skills)">
+    **Install once, load per-project.**
+
+    Covers the most common project types — SaaS, APIs, frontend, DevOps, testing.
+
+    Includes everything in essential, plus:
+    - All 11 CCC domain routers
+    - Stack-specific skills (nextjs-app-router, shadcn-ui, tailwind-v4, drizzle-neon)
+    - Infrastructure skills (docker-development, senior-devops, aws-solution-architect)
+    - Security (security-audit, secrets-scanner, owasp-top-10)
+
+    ```bash
+    ccc --skills tier recommended
+    ```
+  </Tab>
+
+  <Tab title="Full (455 skills)">
+    **Install everything. Load per-domain.**
+
+    All 455 skills available, managed on-demand. You don't load all 455 at once — you browse, search, and load what a specific session needs.
+
+    ```bash
+    ccc --skills tier full
+    ```
+
+    Then browse and load as needed:
+
+    ```bash
+    ccc --skills browse
+    ccc --skills search "animation"
+    ```
+  </Tab>
+</Tabs>
+
+## Skill Management Commands
+
+```bash
+ccc --skills                    # Open skill management menu
+ccc --skills list               # Show installed skills with tier
+ccc --skills install <name>     # Add a skill by name
+ccc --skills remove <name>      # Remove a skill
+ccc --skills tier <tier>        # Switch to a tier
+ccc --skills search <keyword>   # Find skills by keyword
+ccc --skills browse             # Interactive browser (arrow keys)
+ccc --list-skills --json        # Output full catalog as JSON (for agents)
+```
+
+## Domain Skills vs. Individual Skills
+
+CCC domains are **router skills** — one entry point that dispatches to many specialists.
+
+When you load `ccc-saas`, you're not loading 20 skill files. The router reads your intent and loads only the relevant specialist. This keeps context lean even on the recommended tier.
+
+```
+ccc-saas (router)
+├── saas-scaffolder      ← new project setup
+├── better-auth          ← authentication
+├── stripe-subscriptions ← billing
+├── drizzle-neon         ← database
+├── nextjs-app-router    ← frontend
+└── ... 15 more specialists
+```
+
+## Skill Health Check
+
+After any CCC update, verify your skills are in sync:
+
+```bash
+/ccc-skill-health
+```
+
+Reports: missing SKILL.md files, broken symlinks, tier mismatches, and orphaned entries.
+
+## Adding Custom Skills
+
+Custom skills live in `~/.claude/skills/` and follow the same SKILL.md format:
+
+```markdown
+---
+name: my-skill
+description: "What this skill does"
+---
+
+# my-skill
+
+Instructions for Claude when this skill is active.
+```
+
+They appear in `ccc --skills browse` automatically.

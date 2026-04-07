@@ -1,0 +1,68 @@
+---
+title: "ccc-makeover"
+description: "3 skills for project health: X-Ray audit, automated makeover swarm, and health report card. Scan, score, fix."
+---
+
+## Overview
+
+Load one skill. Get the full project makeover pipeline.
+
+```
+/ccc-makeover
+```
+
+Audit → score → fix — in one pass. Works on any project, familiar or unfamiliar.
+
+## Sub-Skills
+
+| Skill | Focus |
+|-------|-------|
+| `xray` | Full project health scan — 6 dimensions, 0-100 score, maturity level (1-5), prioritized recommendations |
+| `makeover` | Auto-apply top xray recommendations — runs skills in order, tracks before/after score delta |
+| `report-card` | Health reporting — formatted score card with per-dimension bars, maturity level, improvement history |
+
+## Standard Flow
+
+```
+xray → review top 5 recommendations → makeover → report-card
+```
+
+1. `xray` — scan current project state, get health score and ranked recommendations
+2. `makeover` — apply top N fixes (default: 5, or `--auto` for unattended)
+3. `report-card` — show before/after score delta and remaining gaps
+
+## Scan Dimensions (xray)
+
+| Dimension | What It Checks |
+|-----------|---------------|
+| Security | Secrets exposure, lockfiles, dependency age |
+| Testing | Coverage, E2E presence, test file count |
+| DevOps | CI/CD pipeline, Docker config, deploy setup |
+| Quality | Linting, formatting, file size limits |
+| Documentation | README, CLAUDE.md, API docs |
+| Architecture | Error handling, input validation, modularity |
+
+Each dimension scores 0-100. Overall maturity: Level 1 (bare) → Level 5 (production-ready).
+
+## Routing Matrix
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Audit my project / health check" | `xray` |
+| "Fix the top issues automatically" | `makeover` (runs xray first) |
+| "Show me my score / report card" | `report-card` |
+
+## Quick Start Options
+
+```bash
+/ccc-makeover           # Interactive — describe your goal
+/ccc-makeover --auto    # Full automated overhaul
+/ccc-makeover --dry-run # Recommendations only, no changes
+```
+
+## When to Use
+
+- Starting work on an unfamiliar codebase
+- Before a release — catch gaps in security, testing, DevOps, docs
+- After a sprint — measure improvement over time
+- When a project "feels" messy but you can't pinpoint why

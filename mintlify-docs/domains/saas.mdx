@@ -1,0 +1,66 @@
+---
+title: "ccc-saas"
+description: "20 skills to scaffold, authenticate, bill, ship, and grow a production SaaS from zero to revenue."
+---
+
+## Overview
+
+Load one skill. Get the entire SaaS stack.
+
+```
+/ccc-saas
+```
+
+20 skills covering the complete SaaS lifecycle — scaffold, auth, billing, frontend, database, API, metrics, and conversion.
+
+## Sub-Skills
+
+| # | Skill | What It Does |
+|---|-------|-------------|
+| 1 | `nextjs-app-router` | Next.js 15+ App Router — route groups, server components, server actions, streaming |
+| 2 | `shadcn-ui` | shadcn/ui v4 — theming, composition, custom components, dark mode |
+| 3 | `tailwind-v4` | Tailwind CSS v4 — CSS-first config, @theme, container queries |
+| 4 | `drizzle-neon` | Drizzle ORM + Neon Postgres — schema, migrations, relations, serverless pooling |
+| 5 | `better-auth` | Email/password, OAuth, organizations, RBAC, magic links, two-factor |
+| 6 | `stripe-subscriptions` | Checkout, webhooks (raw body gotcha), portal, usage-based billing |
+| 7 | `billing-automation` | Invoice generation, dunning, grace periods, usage metering |
+| 8 | `api-design` | REST conventions, versioning, pagination, error envelopes, rate limiting |
+| 9 | `backend-patterns` | Service layer, repository pattern, dependency injection, job queues |
+| 10 | `fastify-api` | Schema validation, plugins, hooks, decorators, TypeBox |
+| 11 | `database-designer` | Normalization, indexing strategy, query optimization, schema evolution |
+| 12 | `saas-metrics-coach` | MRR, churn, LTV, CAC, cohort analysis, investor-ready dashboards |
+| 13 | `signup-flow-cro` | Friction reduction, social proof, progressive profiling, onboarding |
+| 14 | `paywall-upgrade-cro` | Pricing page design, trial-to-paid conversion, upsell triggers |
+| 15 | `form-cro` | Multi-step forms, validation UX, abandonment recovery |
+| 16 | `saas-router` | Routes SaaS tasks to the right specialist |
+| 17 | `saas-scaffolder` | End-to-end project scaffolder — DB, auth, billing wired up |
+| 18 | `multi-tenant` | Schema-per-tenant, RLS, subdomain routing, tenant-aware queries |
+| 19 | `webhook-patterns` | Receiving, sending, signature verification, retries, dead letter queues |
+| 20 | `feature-flags` | PostHog, LaunchDarkly, custom flags, gradual rollouts, A/B testing |
+
+## Routing Matrix
+
+| Your Intent | Routes To |
+|------------|----------|
+| "Scaffold a new SaaS" | `saas-scaffolder` |
+| "Set up auth / add login" | `better-auth` |
+| "Add billing / Stripe" | `stripe-subscriptions` + `billing-automation` |
+| "Design the database schema" | `database-designer` + `drizzle-neon` |
+| "Build the frontend" | `nextjs-app-router` + `shadcn-ui` + `tailwind-v4` |
+| "Multi-tenancy" | `multi-tenant` |
+| "Set up webhooks" | `webhook-patterns` |
+| "Feature flags" | `feature-flags` |
+| "Improve trial-to-paid" | `paywall-upgrade-cro` + `signup-flow-cro` |
+
+## The Full SaaS Build Flow
+
+```
+saas-scaffolder    → project foundation
+better-auth        → authentication
+stripe-subscriptions → billing
+drizzle-neon       → database schema
+nextjs-app-router  → frontend
+webhook-patterns   → integrations
+multi-tenant       → org/team support
+saas-metrics-coach → analytics dashboard
+```

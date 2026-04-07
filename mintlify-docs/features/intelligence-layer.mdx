@@ -1,0 +1,151 @@
+---
+title: "Intelligence Layer"
+description: "Four modules that make CCC think before it acts: complexity scoring, stack detection, skill recommendations, and knowledge compounding."
+---
+
+## Overview
+
+The Intelligence Layer runs automatically before every dispatch. No configuration needed — it reads your task, your project, and your history to auto-configure the session.
+
+```
+Task: "Add authentication with JWT and OAuth"
+
+Intelligence Analysis:
+├─ Complexity Score: 72/100 (complex)
+├─ Keyword signals:  +15 (auth) +15 (implement) +20 (production)
+├─ Word count:       +10 (detailed description)
+├─ Stack detected:   nextjs, react, tailwind
+└─ Related lessons:  2 found (JWT auth succeeded, OAuth2 pattern)
+
+Auto-configured dispatch:
+   Model: opus  |  Turns: 35  |  Budget: $6
+   Skills: nextjs-app-router, ccc-saas, auth-patterns
+   Knowledge: 2 past lessons injected
+```
+
+## Module 1: Complexity Scoring
+
+Every task description is scored 0-100 before dispatch. The score maps directly to turns, budget, and model selection.
+
+**Scoring uses 47 weighted keyword signals:**
+
+| Signal Type | Examples | Points |
+|------------|---------|--------|
+| Trivial (negative) | "fix typo" (-30), "rename" (-20), "update" (-15) | −15 to −30 |
+| Architecture | "build SaaS" (+40), "multi-tenant" (+35), "from scratch" (+25) | +25 to +40 |
+| Scale | "production" (+20), "migrate" (+20), "refactor entire" (+20) | +15 to +20 |
+| Features | "auth" (+15), "implement" (+15), "integrate" (+15) | +10 to +15 |
+| Scope | word count: >50 words (+10), >100 words (+15) | +10 to +15 |
+
+**Score → Dispatch mapping:**
+
+| Score | Tier | Turns | Budget | Model |
+|-------|------|-------|--------|-------|
+| 0-25 | Trivial | 10 | $1 | Haiku |
+| 26-50 | Simple | 20 | $3 | Sonnet |
+| 51-75 | Moderate | 35 | $6 | Sonnet |
+| 76-100 | Complex | 50 | $10 | Opus |
+
+Source: `commander/dispatcher.js` → `scoreComplexity()` and `COMPLEXITY_SIGNALS` array.
+
+## Module 2: Stack Detection
+
+Before dispatching, CCC reads your project files to detect your exact tech stack:
+
+**Files read:**
+- `package.json` — JS dependencies and scripts
+- `Dockerfile` + `docker-compose.yml` — container setup
+- `pyproject.toml` / `requirements.txt` — Python stack
+- `Cargo.toml` — Rust stack
+- `go.mod` — Go stack
+- `.github/workflows/` — CI/CD platform
+
+**Detects:** nextjs, react, vue, node-api, billing (stripe), ORM (drizzle/prisma/typeorm), tailwind, testing (playwright/vitest/jest), docker, github-actions, python, rust, go, monorepo patterns.
+
+**Also reads:**
+- Current git branch name
+- Last 5 commit messages (stop-word filtered for themes)
+- Monorepo indicators: `packages/`, `apps/`, `pnpm-workspace.yaml`, `turbo.json`
+
+The detected stack injects into every dispatch automatically.
+
+Source: `commander/project-importer.js` → `scanProject()`.
+
+## Module 3: Skill Recommendations
+
+After stack detection, CCC ranks skills by weighted relevance:
+
+```
+Recommended skills for your project:
+
+SCORE  SKILL                 WHY
+─────────────────────────────────────────────
+ 20    nextjs-app-router     Stack match + keyword
+ 16    frontend-design       Stack match
+ 16    shadcn-ui             Stack match
+ 14    saas-scaffolder       Keyword: auth, billing
+ 12    tailwind-v4           Stack match
+  8    ccc-testing           Always recommended
+```
+
+**Ranking factors:**
+- Stack keyword match → up to +8 per match
+- Task keyword relevance → up to +6 per signal
+- Personal usage count → tracked in `~/.claude/commander/skill-usage.json`
+- Last-used recency → recent skills score higher
+
+The more you use a skill, the higher it ranks. CCC learns your workflow.
+
+Source: `commander/skill-browser.js`.
+
+## Module 4: Knowledge Compounding
+
+After every session, CCC extracts and stores lessons:
+
+```
+Session Complete — Knowledge Extracted
+
+Task:     "Add JWT authentication"
+Outcome:  Success
+Cost:     $4.12  |  Duration: 12m
+Category: api
+
+Patterns learned:
+├─ bcrypt + JWT combo works well with Next.js
+├─ httpOnly cookies for token storage
+├─ middleware.ts matcher needs exact paths
+└─ next-auth conflicts with custom Prisma adapter
+
+Knowledge base: 47 lessons  |  12 categories
+Next dispatch will be 23% more informed.
+```
+
+**Retrieval uses time-decayed fuzzy matching:**
+
+| Lesson Age | Weight |
+|-----------|--------|
+| Last 7 days | 2.0× |
+| Last 30 days | 1.5× |
+| Older | 1.0× |
+
+**Outcome weighting:**
+- Successful sessions: 1.5× relevance boost
+- Error sessions: 1.2× relevance boost (failures teach too)
+
+**Fuzzy matching:** Exact keyword match scores 1.0. Substring containment scores 0.5. Related category pairs get partial credit (e.g., "react" and "web" are related at 0.5).
+
+Source: `commander/knowledge.js` — `extractAndStore()` and `searchRelevant()`.
+
+## Smart Retry
+
+When dispatches fail, the Intelligence Layer handles recovery:
+
+| Error Type | Action |
+|-----------|--------|
+| Rate limit (HTTP 429) | Wait exactly 60 seconds, retry |
+| Context overflow | Reduce max turns by 40%, retry |
+| Budget overrun | Surface clear error with explanation |
+
+You stay in the flow. No manual intervention needed.
+
+Source: `commander/dispatcher.js` → `dispatchWithRetry()`.

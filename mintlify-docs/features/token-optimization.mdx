@@ -1,0 +1,116 @@
+---
+title: "Token Optimization"
+description: "A 5-layer stack that achieves 98% context savings. Each layer attacks waste at a different point in the pipeline."
+---
+
+## The Problem
+
+Stock Claude Code dumps everything into context. Every `grep`, file read, shell command, and web fetch lands raw in your context window.
+
+A single `grep` across a large codebase: 315KB of output. You needed 5KB.
+
+At 100K tokens per session, waste accumulates fast — and when context fills, Claude's quality degrades.
+
+## The 5-Layer Stack
+
+| # | Layer | Tool | Where It Applies | Savings |
+|---|-------|------|-----------------|---------|
+| 1 | CLI output filtering | RTK (Rust Token Killer) | Shell commands before context | 99.5% of raw shell output |
+| 2 | Tool output sandboxing | context-mode | Read/Grep/Bash/WebFetch after execution | 98% of tool results |
+| 3 | API proxy compression | Headroom | Request/response at API layer | Cache alignment + deduplication |
+| 4 | Account rotation | ClaudeSwap | Rate limit failover | 2× MAX accounts, uninterrupted sessions |
+| 5 | Server-side cache | Prompt caching + extended TTL | Repeated context blocks | 90% discount, 1-hour TTL |
+
+These layers are **complementary, not competing.** Each attacks a different type of waste.
+
+## Layer Details
+
+<AccordionGroup>
+  <Accordion title="Layer 1: RTK — CLI Output Filtering" icon="terminal">
+    RTK intercepts shell commands at the hook level and filters their output before it reaches context.
+
+    **How:** Claude Code's PreToolUse hook rewrites `git status`, `ls`, `npm install`, and similar commands to pipe through RTK's filter engine.
+
+    **Result:** Only semantically relevant lines reach context. A 500-line `git log` becomes the 5 lines that matter.
+
+    ```bash
+    rtk gain              # Show token savings analytics
+    rtk gain --history    # Command usage history with savings
+    rtk discover          # Analyze Claude Code history for missed opportunities
+    ```
+
+    RTK operates transparently — you run `git status`, RTK rewrites it. Zero overhead.
+  </Accordion>
+
+  <Accordion title="Layer 2: context-mode — Tool Output Sandboxing" icon="box">
+    context-mode is the highest-impact layer. It intercepts 6 tool types and stores their output in SQLite with FTS5 full-text search instead of dumping it raw into context.
+
+    **How it works:**
+    1. PreToolUse hook intercepts: Read, Grep, Bash, Glob, WebFetch, WebSearch
+    2. Tool executes normally, but output goes to SQLite FTS5
+    3. BM25-ranked snippets returned instead of full output
+
+    **Measured result:** 315KB grep → 3KB relevant snippet (98% reduction)
+
+    Available MCP tools:
+    - `ctx_execute` — run command, result stored in sandbox
+    - `ctx_batch_execute` — run multiple commands, all indexed
+    - `ctx_search` — BM25 search over sandboxed results
+    - `ctx_stats` — show sandbox size, hit rates
+    - `ctx_doctor` — diagnose sandbox health
+
+    **License note:** context-mode is licensed under Elastic License 2.0 (ELv2) by [Murat Kemal Soylu](https://github.com/mksglu). CC Commander installs it as an external npm package — not bundled or redistributed.
+  </Accordion>
+
+  <Accordion title="Layer 3: Headroom — API Proxy" icon="server">
+    Headroom operates at the API proxy layer, between your Claude Code session and Anthropic's API.
+
+    **What it does:**
+    - Cache alignment — structures requests to maximize cache hits
+    - Request deduplication — identical request blocks share cached responses
+    - Compression — reduces token overhead in repeated context blocks
+
+    Headroom is transparent — no configuration changes to your workflow.
+  </Accordion>
+
+  <Accordion title="Layer 4: ClaudeSwap — Account Rotation" icon="rotate">
+    ClaudeSwap manages multiple MAX accounts and rotates between them as rate limits approach.
+
+    **How it integrates with the status line:**
+    When Claude Code doesn't provide rate limit data directly, the status line reads from `~/.config/claudeswap-state.json` to populate the 5-hour and 7-day meters.
+
+    ```bash
+    # Status line failover (from statusline.sh):
+    SWAP_STATE="$HOME/.config/claudeswap-state.json"
+    ACTIVE_ACCT=$(jq -r '.accounts | ... | last | .key' "$SWAP_STATE")
+    RATE_5H=$(jq -r ".accounts[\"$ACTIVE_ACCT\"].five_hour_utilization * 100" "$SWAP_STATE")
+    ```
+
+    Result: Uninterrupted sessions even when one account hits limits.
+  </Accordion>
+
+  <Accordion title="Layer 5: Prompt Caching" icon="database">
+    Anthropic's prompt caching discounts repeated context blocks by 90% and keeps them warm for 1 hour.
+
+    **How CCC structures for caching:**
+    - Static content (CLAUDE.md, skill definitions) placed first — most stable, highest cache hit rate
+    - Dynamic content (conversation, tool output) placed last
+    - Session startup hooks pre-warm the cache
+
+    CCC's CLAUDE.md template is structured specifically to maximize cache efficiency:
+    > "Static content first, dynamic last (this file is structured for caching)"
+  </Accordion>
+</AccordionGroup>
+
+## Combined Effect
+
+Running all 5 layers together:
+
+```
+Without CCC:  100K context → 5K of useful signal → 95K wasted
+With CCC:     100K context → 95K of useful signal → 5K wasted
+```
+
+More context available means Claude can see more of your project. More context means better code. Better code means fewer iterations. Fewer iterations means lower cost.
+
+The 98% savings is not a marketing number — it's measured from real sessions. Run `rtk gain` and `ctx_stats` in your own sessions to verify.
