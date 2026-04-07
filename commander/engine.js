@@ -24,7 +24,7 @@ function inSplitMode() {
 }
 
 // Send a claude command to the right tmux pane instead of running headless
-// Dispatch counter for naming tmux windows
+// Dispatch counter for naming panes
 var dispatchCounter = 0;
 
 function tmuxDispatch(claudeCmd) {
@@ -32,9 +32,37 @@ function tmuxDispatch(claudeCmd) {
     var cp = require('child_process');
     var sessionName = process.env.CCC_TMUX_SESSION || 'ccc';
     dispatchCounter++;
-    var windowName = 'claude-' + dispatchCounter;
-    cp.execFileSync('tmux', ['new-window', '-t', sessionName, '-n', windowName], { stdio: 'pipe' });
-    cp.execFileSync('tmux', ['send-keys', '-t', sessionName + ':' + windowName, claudeCmd, 'Enter'], { stdio: 'pipe' });
+    var paneTitle = 'claude-' + dispatchCounter;
+
+    // Count current panes
+    var paneCount = 0;
+    try {
+      paneCount = parseInt(cp.execFileSync('tmux', ['display-message', '-p', '-t', sessionName, '#{window_panes}'], { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim(), 10) || 1;
+    } catch(_e) { paneCount = 1; }
+
+    if (paneCount === 1) {
+      // First dispatch: split horizontally from menu pane, give Claude 75%
+      cp.execFileSync('tmux', ['split-window', '-h', '-t', sessionName, '-l', '75%'], { stdio: 'pipe' });
+    } else {
+      // Subsequent dispatches: split the rightmost pane horizontally to add another column
+      var lastPane = paneCount - 1;
+      cp.execFileSync('tmux', ['select-pane', '-t', sessionName + ':.' + lastPane], { stdio: 'pipe' });
+      cp.execFileSync('tmux', ['split-window', '-h', '-t', sessionName], { stdio: 'pipe' });
+    }
+
+    // Set the new pane's title and send the command
+    cp.execFileSync('tmux', ['select-pane', '-T', paneTitle], { stdio: 'pipe' });
+    cp.execFileSync('tmux', ['send-keys', claudeCmd, 'Enter'], { stdio: 'pipe' });
+
+    // Re-select the menu pane so the user stays in control
+    cp.execFileSync('tmux', ['select-pane', '-t', sessionName + ':.0'], { stdio: 'pipe' });
+
+    // Apply main-vertical layout: menu gets fixed width, rest split evenly
+    try {
+      cp.execFileSync('tmux', ['select-layout', '-t', sessionName, 'main-vertical'], { stdio: 'pipe' });
+      cp.execFileSync('tmux', ['resize-pane', '-t', sessionName + ':.0', '-x', '35'], { stdio: 'pipe' });
+    } catch(_e) { /* layout adjustment failed, that's ok */ }
+
     return true;
   } catch(_e) { return false; }
 }
@@ -493,7 +521,7 @@ class KitCommander {
         if (defaults.model) claudeArgs += ' --model ' + defaults.model;
         tmuxDispatch(claudeArgs);
         process.stdout.write('\x0a  ' + tui.boldText('Dispatched to Claude pane \u2192', tui.getTheme().primary) + '\x0a');
-        process.stdout.write('  ' + tui.dimText('Watch the right pane. Click it or Ctrl+A then 2.') + '\x0a');
+        process.stdout.write('  ' + tui.dimText('Dispatched to pane ' + dispatchCounter + '. Ctrl+A \u2192 to switch.') + '\x0a');
         state.completeSession(session.id, 'dispatched');
       } else {
         // Simple mode: run headless with streaming output
@@ -573,7 +601,7 @@ class KitCommander {
         if (defaults.model) claudeArgs += ' --model ' + defaults.model;
         tmuxDispatch(claudeArgs);
         process.stdout.write('\x0a  ' + tui.boldText('Dispatched to Claude pane \u2192', tui.getTheme().primary) + '\x0a');
-        process.stdout.write('  ' + tui.dimText('Watch the right pane. Click it or Ctrl+A then 2.') + '\x0a');
+        process.stdout.write('  ' + tui.dimText('Dispatched to pane ' + dispatchCounter + '. Ctrl+A \u2192 to switch.') + '\x0a');
         state.completeSession(session.id, 'dispatched');
       } else {
         // Simple mode: run headless with streaming output

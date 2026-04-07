@@ -24,7 +24,7 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('  --test       Validate all modules');
   console.log('  --stats      Quick stats');
   console.log('  --repair     Fix corrupt state');
-  console.log('  --simple     Menu-only mode (no tmux)');
+  console.log('  --simple     Menu-only mode (no tmux split)');
   console.log('  --update     Check vendor package updates');
   console.log('  --dispatch   Headless: ccc --dispatch "task" [--json --model X --max-turns N --budget N --cwd PATH]');
   console.log('  --list-skills  List all skills (add --json for JSON)');
