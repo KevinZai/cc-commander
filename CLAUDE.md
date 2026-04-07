@@ -10,8 +10,14 @@ CC Commander — by Kevin Z. 450+ skills. One command. Your AI work, managed by 
 
 - **Model:** Opus 4.6 (1M context) — enforced via `.claude/settings.json`
 - **Mode:** Plan mode by default — SessionStart hook reminds to enter plan mode
+- **Effort:** High (`effortLevel: "high"` in settings.json)
+- **Thinking:** Summaries visible (`showThinkingSummaries: true`)
 - **Footer:** Run `node commander/status-line.js` for live session status bar
 - **Version:** Single source of truth is `package.json` — `branding.js` reads it at runtime
+
+## Critical Rule
+
+**Research the codebase before editing. Never change code you haven't read.** Read files before modifying them. Understand the surrounding context. If you're about to edit a function, read the whole file first.
 
 ## CC Commander
 

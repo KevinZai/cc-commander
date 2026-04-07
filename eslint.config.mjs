@@ -1,6 +1,10 @@
 // ESLint flat config — CC Commander
 // ESM format, ecmaVersion latest, sourceType module
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const testQualityPlugin = require('./eslint-rules/test-quality.cjs');
+
 export default [
   {
     ignores: [
@@ -53,6 +57,27 @@ export default [
       'eqeqeq': ['warn', 'always', { null: 'ignore' }],
       'no-throw-literal': 'error',
       'prefer-const': ['warn', { destructuring: 'all' }],
+    },
+  },
+  // ── Test-quality rules (test files only) ───────────────────────────────────
+  {
+    files: [
+      '**/*.test.js',
+      '**/*.test.ts',
+      '**/*.test.mjs',
+      '**/*.spec.js',
+      '**/*.spec.ts',
+      '**/tests/**/*.js',
+      '**/tests/**/*.ts',
+      '**/tests/**/*.mjs',
+    ],
+    plugins: {
+      'test-quality': testQualityPlugin,
+    },
+    rules: {
+      'test-quality/no-unscoped-service-test': 'error',
+      'test-quality/require-error-code-assertion': 'warn',
+      'test-quality/no-mock-echo': 'warn',
     },
   },
 ];
