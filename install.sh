@@ -330,7 +330,7 @@ fi
 cc_section_header "INSTALLING"
 
 install_step=0
-install_total=8
+install_total=9
 
 mkdir -p "$CLAUDE_DIR"
 
@@ -392,6 +392,41 @@ if should_install "skills"; then
   local skill_count=$(find "$CLAUDE_DIR/skills" -maxdepth 1 -type d | wc -l | tr -d ' ')
   skill_count=$((skill_count - 1))
   cc_status_line "✓" "$skill_count skills installed (tier: $tier)"
+fi
+
+# 1b. context-mode MCP server (tool output sandboxing)
+if should_install "skills"; then
+  ((install_step++)) || true
+  cc_progress_bar "$install_step" "$install_total" "context-mode"
+
+  if command -v context-mode &>/dev/null; then
+    cc_status_line "✓" "context-mode already installed"
+  else
+    if command -v npm &>/dev/null; then
+      npm install -g context-mode >/dev/null 2>&1 && cc_status_line "✓" "context-mode installed (tool output sandboxing)" || cc_status_line "!" "context-mode install failed (optional — install manually: npm i -g context-mode)"
+    else
+      cc_status_line "!" "context-mode skipped (npm not found)"
+    fi
+  fi
+
+  # Add MCP server to .claude.json if not present
+  local claude_json="$HOME/.claude.json"
+  if [[ -f "$claude_json" ]]; then
+    if ! grep -q '"context-mode"' "$claude_json" 2>/dev/null; then
+      node -e "
+        var fs = require('fs');
+        var p = '$claude_json';
+        try {
+          var d = JSON.parse(fs.readFileSync(p, 'utf8'));
+          if (!d.mcpServers) d.mcpServers = {};
+          if (!d.mcpServers['context-mode']) {
+            d.mcpServers['context-mode'] = { type: 'stdio', command: 'context-mode' };
+            fs.writeFileSync(p, JSON.stringify(d, null, 2));
+          }
+        } catch(e) {}
+      " 2>/dev/null && cc_status_line "✓" "context-mode MCP server configured" || true
+    fi
+  fi
 fi
 
 # 2. Commands

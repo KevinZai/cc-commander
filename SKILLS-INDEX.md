@@ -1,7 +1,7 @@
 # Skills Index — Quick Reference
 > CC Commander — by Kevin Z
 > Search: `grep -i "keyword" SKILLS-INDEX.md`
-> Last verified: 2026-04-06 | 454 skill directories | 11 CCC Domains | 28 kit-native hooks | 3 starter templates | 37 prompt templates | 9 workflow modes | Real-time dashboard | 10 themes
+> Last verified: 2026-04-06 | 455 skill directories | 11 CCC Domains | 28 kit-native hooks | 3 starter templates | 37 prompt templates | 9 workflow modes | Real-time dashboard | 10 themes
 > Audit: `./bin/generate-index.sh --check` to find missing or broken skills
 
 > **Which document?** BIBLE.md = learning guide (read once). CHEATSHEET.md = daily reference (quick lookup). **SKILLS-INDEX.md = skill discovery (you are here).**
@@ -24,6 +24,17 @@
 | `ccc-data` | 8 | ETL pipelines, data warehousing, analytics engineering, visualization, ML ops |
 
 Each CCC domain has a router that dispatches to the right specialist. Individual skills inside CCC domains are still accessible by their original names via symlinks.
+
+---
+
+## Token Optimization
+
+| Skill | What it does | Category | Tier |
+|-------|-------------|----------|------|
+| `context-mode` | Tool output sandboxing via SQLite + FTS5. 98% context reduction. Stores tool results in sandbox, returns BM25 snippets. | optimization | recommended |
+| `context-budget` | Visual context window budget analyzer — gauge, zone indicators, bloat sources, session-save nudges | optimization | recommended |
+| `cache-monitor` | Analyze Claude Code session costs and cache efficiency from JSONL session files | optimization | recommended |
+| `caveman` | Strips markdown/emojis/prose for ~75% output token savings during iteration | optimization | recommended |
 
 ---
 

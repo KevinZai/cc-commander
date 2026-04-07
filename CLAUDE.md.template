@@ -239,6 +239,15 @@ Run `/ccc:refresh` periodically to pull latest best practices.
 - Check `tasks/todo.md` for progress state
 - Re-read any files you were actively editing — don't trust cached memories
 
+## Token Optimization Stack
+| Layer | Tool | Savings |
+|-------|------|---------|
+| CLI filtering | RTK | 99.5% of shell output |
+| Tool sandboxing | context-mode | 98% of tool results |
+| Skill tiering | _tiers.json | ~10k tokens (30 vs 454 skills) |
+| API proxy | ClaudeSwap | Rate limit rotation |
+| Server cache | Prompt caching | 90% discount, 1hr TTL |
+
 ## Performance — Deferred Tool Loading
 
 Add this to your `.claude/settings.json` to save ~14,000 tokens per turn:
