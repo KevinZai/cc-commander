@@ -118,7 +118,7 @@ function main() {
   }
 
   var line = [
-    '\u2501\u2501 ' + miniRainbow('CCC' + version),
+    '\u2501\u2501 \x1b[1m\x1b[38;2;255;102;0mCCC' + version + '\x1b[0m',
     '\uD83D\uDD25' + model,
     '\uD83D\uDD11' + apiKeyLast3,
     '\uD83E\uDDE0' + contextPct + '%',

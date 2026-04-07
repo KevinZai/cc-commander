@@ -203,9 +203,35 @@ function renderLogo(text) {
   } catch (_e) {
     art = figlet.textSync(text || 'CC COMMANDER', { font: 'Standard' });
   }
+  // Rainbow-colored logo using HSL cycling (static frame — animated version via animateLogo)
   var lines = art.split('\n');
-  var colored = gradientLines(lines, t.logo.gradient[0], t.logo.gradient[t.logo.gradient.length - 1]);
-  return '\n' + colored.join('\n') + '\n';
+  var out = '\n';
+  for (var li = 0; li < lines.length; li++) {
+    var line = lines[li];
+    var colored = BOLD;
+    var charIdx = 0;
+    for (var ci = 0; ci < line.length; ci++) {
+      if (line[ci] === ' ') { colored += ' '; continue; }
+      var hue = ((charIdx * 8 + li * 25) % 360);
+      var c = hslToRgb(hue / 360, 0.9, 0.6);
+      colored += rgb(c[0], c[1], c[2]) + line[ci];
+      charIdx++;
+    }
+    out += colored + RESET + '\n';
+  }
+  return out;
+}
+
+// Animated rainbow logo — call start() to begin cycling, stop() when done
+function animateLogo(text) {
+  var art;
+  var t = getTheme();
+  try {
+    art = figlet.textSync(text || 'CC COMMANDER', { font: t.logo.font, horizontalLayout: 'fitted' });
+  } catch (_e) {
+    art = figlet.textSync(text || 'CC COMMANDER', { font: 'Standard' });
+  }
+  return animatedRainbow(art, { speed: 60, duration: 3000 });
 }
 
 // ─── Box Drawing ──────────────────────────────────────────────────
@@ -288,8 +314,17 @@ function select(items, prompt, options) {
 
         stdout.write(ESC + '2K');
         if (active) {
-          // Theme-colored gradient on selected item (matches active color scheme)
-          stdout.write('  ' + colorText('\u276f ', t.primary) + BOLD + gradient(label, t.logo.gradient) + RESET);
+          // Rainbow-colored selected item — HSL cycling per character
+          var rainbowLabel = '';
+          var ci = 0;
+          for (var rc = 0; rc < label.length; rc++) {
+            if (label[rc] === ' ') { rainbowLabel += ' '; continue; }
+            var hue = ((ci * 25 + Date.now() / 20) % 360);
+            var c = hslToRgb(hue / 360, 0.9, 0.65);
+            rainbowLabel += rgb(c[0], c[1], c[2]) + label[rc];
+            ci++;
+          }
+          stdout.write('  ' + colorText('\u276f ', t.primary) + BOLD + rainbowLabel + RESET);
         } else {
           // Bright white — clearly readable on dark bg
           stdout.write('    \x1b[38;5;253m' + label + RESET);
@@ -553,6 +588,7 @@ function themePickerItems() {
 }
 
 module.exports.renderLogoResponsive = renderLogoResponsive;
+module.exports.animateLogo = animateLogo;
 module.exports.wipeTransition = wipeTransition;
 module.exports.flashTransition = flashTransition;
 module.exports.themePickerItems = themePickerItems;
