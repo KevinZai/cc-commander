@@ -108,6 +108,9 @@ No configuration. No YAML. No API keys. The Intelligence Layer handles everythin
 
 ## See It In Action
 
+<!-- Terminal mockups below. Real screenshots coming — see CC-202 -->
+<!-- When bumping version: search "update version on bump" in code blocks -->
+
 > These are actual terminal outputs. CC Commander uses rich ASCII rendering — no browser required.
 
 ### Main Menu — Multiple Choice Navigation
@@ -117,7 +120,7 @@ The first thing you see. Arrow keys only — no commands to memorize.
 <!-- Version is tracked in package.json — update all references when bumping -->
 ```
 ╔══════════════════════════════════════════╗
-║  CC COMMANDER v2.1.0                     ║
+║  CC COMMANDER v2.2                       ║
 ║  Your AI Project Manager                 ║
 ╚══════════════════════════════════════════╝
 
@@ -128,7 +131,7 @@ The first thing you see. Arrow keys only — no commands to memorize.
     Create content               ← blogs, social, email
     Research & analyze           ← competitors, markets
     Linear board                 ← pick issues to build
-    Browse 450+ skills           ← search by keyword
+    Browse 455+ skills           ← search by keyword
     Check my stats               ← sessions, streaks
     Night Mode / YOLO            ← overnight autonomous
     Infrastructure               ← Fleet, Synapse, Cost
@@ -177,7 +180,7 @@ CCC ranks skills using your stack + task keywords + past usage. The right tools 
     8    ccc-testing           Always recommended
 
   ❯ Use top recommendation
-    Browse all 450+ skills
+    Browse all 455+ skills
     Search by keyword
     Back to main menu
 ```
@@ -188,16 +191,16 @@ Context, rate limits, and budget meters in your terminal. Color-codes green → 
 
 ```
   ══════════════════════════════════════════
-  CC COMMANDER  v2.1.0
+  CC COMMANDER  v2.2                    <!-- update version on bump -->
   ─────────────────────────────────────────
-  Opus 1M  |  $2.14  |  42K/8K  |  3m12s
-  CTX  [████████████░░░░░░░░] 62%  ← green
-  RATE [████░░░░░░░░░░░░░░░░] 23%  ← green
-  COST [$██░░░░░░░░░░░░░░░░░] $2/$10 ← green
+  🔥 Opus4.6-1M  |  $2.14  |  ↑42K↓8K  |  3m12s
+  CTX  [████████████░░░░░░░░] 62%   ← green
+  5h   [████░░░░░░░░░░░░░░░░] 23%   ← green (ClaudeSwap)
+  7d   [██████░░░░░░░░░░░░░░] 34%   ← green (ClaudeSwap)
   ─────────────────────────────────────────
-  CC-63 Auth System  |  450+ skills  |  17 vendors
+  📋 CC-150  |  🎯 455+ skills  |  📦 17 vendors
 
-  Footer: ━━ CCC2.1|Opus|CTX▐██45%░▌|$2.14|42K|454|CC-63
+  Footer: ━━ 🌈CCC2.2│🔥Opus4.6-1M│🔑gAA│🧠▐██45%▌│⏱️▐██6%▌│📅▐██34%▌│💰$2.34│🎯37│📂~/project
 ```
 
 ### Night Mode / YOLO — Autonomous Overnight Build
@@ -282,6 +285,7 @@ CCC reads your project before every dispatch. No setup needed.
 | `ccc --repair` | Reset corrupt state |
 | `ccc --simple` | Menu-only, no tmux |
 | `ccc --dispatch "task"` | Headless dispatch (for AI agents) |
+| `ccc --skills` | Manage skill tiers (list, install, remove, tier) |
 
 ---
 
@@ -291,10 +295,10 @@ CCC reads your project before every dispatch. No setup needed.
 
 | Component | Count | What It Does |
 |-----------|-------|-------------|
-| Skills | 450+ | On-demand expertise (deduplicated) |
+| Skills | 455+ | On-demand expertise (deduplicated) |
 | CCC Domains | 11 | Domain routers with sub-skills |
 | Commands | 80+ | Slash commands (/ccc: prefix) |
-| Hooks | 25 | Lifecycle automation |
+| Hooks | 28 | Lifecycle automation |
 | Adventures | 13 | Guided interactive flows |
 | Vendor Packages | 16 | Best-in-class tools, auto-updated |
 | Themes | 10 | Cyberpunk, Fire, Ocean, Aurora, Sunset, Monochrome, Rainbow, Dracula + more |
@@ -593,12 +597,12 @@ CCC learns from every session. Knowledge compounds over time.
 
 ```
   ══════════════════════════════════════════────────
-  CC COMMANDER  v2.1.0
+  🌈 CC COMMANDER  v2.2               <!-- update version on bump -->
   Every Claude Code tool. One install. An AI brain that learns.
   ─────────────────────────────────────────────
-  🧠 Opus 1M  │  $2.14  │  ↑42K↓8K  │  3m12s
-  CTX [████████████░░░░░░░░] 62%  RATE [████░░░░░░░░░░░░░░░░] 23%
-  📋 CC-63 v2.1 Ingestion   │  🎯 450+ skills  │  📦 17 vendors
+  🔥 Opus4.6-1M  │  $2.14  │  ↑42K↓8K  │  3m12s
+  CTX [████████████░░░░░░░░] 62%  5h [████░░░░░░░░░░░░] 23%  7d [██████░░░░░░░░] 34%
+  📋 CC-150   │  🎯 455+ skills  │  📦 17 vendors  │  🔋 98% ctx savings
   ─────────────────────────────────────────
 ```
 
@@ -607,7 +611,7 @@ ASCII meters for context usage + rate limits. Emoji status indicators. Active Li
 **Rich footer bar** — 12-segment live status line at the bottom of every session:
 
 ```
-━━ CCC2.1.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░░░░▌│📅▐██░░░░░▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+━━ 🌈CCC2.2│🔥Opus4.6-1M│🔑gAA│🧠▐██45%▌│⏱️▐██6%▌│📅▐██34%▌│💰$2.34│↑640K↓694K│⏰8h0m│🎯37│📂~/project
 ```
 
 Context/rate/budget meters color-code green → yellow → red as you approach limits.
