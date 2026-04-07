@@ -116,7 +116,7 @@ function renderCockpitFooter(data) {
   var parts = [];
 
   // Version
-  parts.push(dim('\u2501\u2501 ') + bold('CCC' + B.version, t.primary));
+  parts.push(dim('\u2501\u2501 ') + getTui().rainbow('CCC' + B.version));
 
   // Model
   parts.push('\u{1F525}' + col(data.model || 'Opus1M', t.primary));
@@ -175,11 +175,10 @@ function renderCockpitFooter(data) {
 function renderBanner(subtitle, projectName) {
   var t = getTui().getTheme();
   var BRAND = require('./branding');
-  var gr = getTui().gradient;
   var cols = Math.min(process.stdout.columns || 80, 72);
   var out = '';
   out += '  ' + fadeBorder('\u2550', cols - 4, t.primary) + '\n';
-  var titleLine = '  ' + gr('CC COMMANDER', t.logo.gradient) + '  ' + dim('v' + BRAND.version);
+  var titleLine = '  ' + getTui().rainbow('CC COMMANDER') + '  ' + dim('v' + BRAND.version);
   if (projectName) titleLine += '  ' + bold('\u{1F4C2} ' + projectName, t.secondary);
   out += titleLine + '\n';
   out += '  ' + dim(subtitle || BRAND.tagline) + '\n';

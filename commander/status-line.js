@@ -76,10 +76,27 @@ function getApiKeyLast3() {
   return key.length >= 3 ? key.slice(-3) : (key.length > 0 ? key : 'n/a');
 }
 
+function miniRainbow(text) {
+  var colors = [
+    '\x1b[38;2;255;0;128m',   // magenta-red
+    '\x1b[38;2;255;165;0m',   // orange
+    '\x1b[38;2;255;255;0m',   // yellow
+    '\x1b[38;2;0;255;128m',   // green
+    '\x1b[38;2;0;200;255m',   // cyan
+    '\x1b[38;2;128;0;255m',   // purple
+  ];
+  var out = '\x1b[1m';
+  for (var i = 0; i < text.length; i++) {
+    if (text[i] === ' ') { out += ' '; continue; }
+    out += colors[i % colors.length] + text[i];
+  }
+  return out + '\x1b[0m';
+}
+
 function main() {
   var args = parseArgs(process.argv);
 
-  var version = pkg.version;
+  var version = pkg.version.replace(/\.0$/, '');
   var model = formatModel(process.env.ANTHROPIC_MODEL);
   var apiKeyLast3 = getApiKeyLast3();
   var skillCount = countSkills();
@@ -101,7 +118,7 @@ function main() {
   }
 
   var line = [
-    '\u2501\u2501 CCC' + version,
+    '\u2501\u2501 ' + miniRainbow('CCC' + version),
     '\uD83D\uDD25' + model,
     '\uD83D\uDD11' + apiKeyLast3,
     '\uD83E\uDDE0' + contextPct + '%',

@@ -219,6 +219,8 @@ if [ -z "$CCC_VER" ]; then
 fi
 CC_LABEL="CC"
 [ -n "$CCC_VER" ] && CC_LABEL="CCC${CCC_VER}"
+# Drop trailing .0 from version
+CC_LABEL="${CC_LABEL%.0}"
 
 # ── Rate limit bars (green/yellow/red, no text labels) ─────────────────────
 RATE_5H_BAR=""
@@ -258,6 +260,21 @@ if [ "$COST_NUM" -ge 5 ] 2>/dev/null; then COST_C="${H5}"
 elif [ "$COST_NUM" -ge 2 ] 2>/dev/null; then COST_C="${H4}"
 else COST_C="${W}"; fi
 
+# ── Rainbow gradient for CCC label ──────────────────────────────────────────
+rainbow_text() {
+  local text="$1"
+  local ESC=$'\033'
+  local colors=("${ESC}[38;2;255;0;128m" "${ESC}[38;2;255;165;0m" "${ESC}[38;2;255;255;0m" "${ESC}[38;2;0;255;128m" "${ESC}[38;2;0;200;255m" "${ESC}[38;2;128;0;255m")
+  local out="${ESC}[1m"
+  local len=${#text}
+  for ((i=0; i<len; i++)); do
+    local ci=$((i % ${#colors[@]}))
+    out+="${colors[$ci]}${text:$i:1}"
+  done
+  out+="${ESC}[0m"
+  printf '%s' "$out"
+}
+
 # ── Output ──────────────────────────────────────────────────────────────────
-# ━━ CCC2.1.0│🔥Opus4.6-1M│🔑gAA│🧠▐██░░▌45%│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂project
-echo -e "${D}━━${N} ${C}${CC_LABEL}${N} ${D}│${N} ${STATUS_EMOJI}${C}${MODEL_SHORT}${N}${KEY_STR} ${D}│${N} 🧠${BAR} ${D}│${N}${RATE_5H_BAR}${RATE_7D_BAR} ${D}│${N} 💰${COST_C}${COST_FMT}${N} ${D}│${N} ${C}↑${N}${W}${IN_FMT}${N}${C}↓${N}${W}${OUT_FMT}${N} ${D}│${N} ⏰${D}${DUR_FMT}${N}${LINEAR_STR}${SKILL_STR} ${D}│${N} 📂${GR}${PROJ_SHORT}${N}"
+# ━━ CCC2.2│🔥Opus4.6-1M│🔑gAA│🧠▐██░░▌45%│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂project
+echo -e "${D}━━${N} $(rainbow_text "$CC_LABEL") ${D}│${N} ${STATUS_EMOJI}${C}${MODEL_SHORT}${N}${KEY_STR} ${D}│${N} 🧠${BAR} ${D}│${N}${RATE_5H_BAR}${RATE_7D_BAR} ${D}│${N} 💰${COST_C}${COST_FMT}${N} ${D}│${N} ${C}↑${N}${W}${IN_FMT}${N}${C}↓${N}${W}${OUT_FMT}${N} ${D}│${N} ⏰${D}${DUR_FMT}${N}${LINEAR_STR}${SKILL_STR} ${D}│${N} 📂${GR}${PROJ_SHORT}${N}"
