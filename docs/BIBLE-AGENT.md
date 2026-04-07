@@ -1,7 +1,7 @@
 # CC Commander — Agent Reference (BIBLE-AGENT)
 
 > **Read this file to control CC Commander from any AI agent platform.**
-> 450+ skills. 17 vendors. Headless CLI API. Works with Claude Code, OpenClaw, Cursor, Codex, any LLM agent.
+> 450+ skills. 19 vendors. Headless CLI API. Works with Claude Code, OpenClaw, Cursor, Codex, any LLM agent.
 
 ---
 

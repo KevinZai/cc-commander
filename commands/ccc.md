@@ -13,7 +13,7 @@ When activated, ALWAYS start by displaying this ASCII banner:
 ██║     ██║     ██║
 ╚██████╗╚██████╗╚██████╗
  ╚═════╝ ╚═════╝ ╚═════╝
-CC Commander v{version} — {skillCount} skills · 17 vendors · Opus plans, Sonnet builds
+CC Commander v{version} — {skillCount} skills · 19 vendors · Opus plans, Sonnet builds
 ```
 
 Before displaying the banner, run `node commander/status-line.js --json` to get the current version and skill count. Use those values in the banner. If the script fails, fall back to reading version from `package.json` in the project root.

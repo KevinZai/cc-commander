@@ -33,6 +33,8 @@ git submodule add --depth 1 https://github.com/owner/repo vendor/repo-name
 | [RTK](https://github.com/rtk-ai/rtk) | 14.6K+ | MIT | Token optimization, 60-90% cost reduction on CLI output | Vendor submodule |
 | [acpx](https://github.com/openclaw/acpx) | 1.8K+ | MIT | ACP protocol client, structured agent communication, queue management | Vendor submodule |
 | [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) | 26K+ | MIT | Reference architecture, orchestration patterns, tutorial | Vendor submodule |
+| [graphify](https://github.com/safishamsi/graphify) | 5.9K+ | MIT | Codebase knowledge graph — 71.5x token reduction per query via NetworkX + Claude subagents | Vendor submodule |
+| [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 60K+ | MIT | AI-powered design intelligence — 161 reasoning rules, 67 UI styles, 57 font pairings | Vendor submodule |
 
 ## Tier 2: High-Value Features (Reference)
 

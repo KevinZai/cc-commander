@@ -2,7 +2,7 @@
 
 ## What This Is
 
-CC Commander — by Kevin Z. 450+ skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 450+ skills, 11 CCC domains, 80+ commands, 28 hooks, 37 prompt templates, 10 themes, 17 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
+CC Commander — by Kevin Z. 450+ skills. One command. Your AI work, managed by AI. A comprehensive Claude Code configuration toolkit + interactive CLI project manager: 450+ skills, 11 CCC domains, 80+ commands, 28 hooks, 37 prompt templates, 10 themes, 19 vendor packages, 3 starter templates, real-time agent dashboard, OpenClaw native integration, agent-friendly CLI API, tabbed tmux split mode, status updates, continuous improvement pipeline, modular installer. Built by scanning 200+ articles from the Claude Code community and distilling into one install.
 
 **Current Release:** The Aggregator Release (version tracked in `package.json`)
 
@@ -80,7 +80,7 @@ Tests: `node --test commander/tests/paths.test.js`
 ```
 
 ## Aggregator Ecosystem
-17 vendor submodules in `vendor/`. Smart orchestrator scores tools: capability 50% + stars 15% + recency 15% + user pref 20%.
+19 vendor submodules in `vendor/`. Smart orchestrator scores tools: capability 50% + stars 15% + recency 15% + user pref 20%.
 Vendor scanner builds capability index across 8-phase pipeline.
 Auto-updates weekly via GitHub Actions.
 
@@ -135,7 +135,7 @@ Every menu recommends the best next action based on context.
 
 **Version:** See `package.json`
 
-**Stats:** 451 skills (CLI-visible), 83 commands, 28 hooks, 17 vendors, 10 themes
+**Stats:** 451 skills (CLI-visible), 83 commands, 28 hooks, 19 vendors, 10 themes
 
 **Live:**
 - GitHub repo: github.com/KevinZai/cc-commander

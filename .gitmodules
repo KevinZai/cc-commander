@@ -49,3 +49,9 @@
 [submodule "vendor/claude-mem"]
 	path = vendor/claude-mem
 	url = https://github.com/thedotmack/claude-mem
+[submodule "vendor/graphify"]
+	path = vendor/graphify
+	url = https://github.com/safishamsi/graphify.git
+[submodule "vendor/ui-ux-pro-max-skill"]
+	path = vendor/ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git

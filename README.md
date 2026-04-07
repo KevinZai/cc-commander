@@ -2,13 +2,13 @@
 
 > **Every Claude Code tool. One install. An AI brain that learns.**
 
-**Not a skill pack. An AI project manager that thinks before it acts.** 450+ skills, 98% context savings, 17 vendor packages, and an Intelligence Layer that scores complexity, reads your stack, and gets smarter every session.
+**Not a skill pack. An AI project manager that thinks before it acts.** 450+ skills, 98% context savings, 19 vendor packages, and an Intelligence Layer that scores complexity, reads your stack, and gets smarter every session.
 
 <img src="docs/assets/screenshots/hero-dashboard.gif" alt="CC Commander Dashboard" width="100%">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) [![Skills](https://img.shields.io/badge/450%2B_Skills-4F46E5?style=for-the-badge)](./SKILLS-INDEX.md) [![Vendors](https://img.shields.io/badge/17_Vendors-D946EF?style=for-the-badge)](./docs/ACKNOWLEDGMENTS.md) [![Tests](https://img.shields.io/badge/166_Tests_Passing-059669?style=for-the-badge)](./commander/tests/) [![v2.2.1](https://img.shields.io/badge/v2.2.1-D97706?style=for-the-badge)](./CHANGELOG.md)
 
-**[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)** · Built from 200+ community sources · Aggregates 17 vendor packages
+**[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)** · Built from 200+ community sources · Aggregates 19 vendor packages
 
 **[Install](#quick-start--pick-your-path)** · **[Browse Skills](SKILLS-INDEX.md)** · **[Agent Bible](docs/BIBLE-AGENT.md)** · **[Ecosystem](docs/ECOSYSTEM.md)** · **[BIBLE](BIBLE.md)** · **[Changelog](CHANGELOG.md)** · **[Why CCC?](docs/WHY-CCC.md)** · **[Evaluation](docs/EVALUATION.md)**
 
@@ -25,7 +25,7 @@ And it wastes 98% of your context window on tool output you'll never re-read. CC
 ```
 You type: ccc
 You get:  A guided AI project manager with 450+ skills,
-          17 vendor packages, real learning, and zero setup.
+          19 vendor packages, real learning, and zero setup.
 ```
 
 <img src="docs/assets/ccc-flow.svg" alt="How CCC Works" width="100%">
@@ -228,7 +228,7 @@ Context, rate limits, and budget meters in your terminal. Color-codes green → 
   5h   [████░░░░░░░░░░░░░░░░] 23%   ← green (ClaudeSwap)
   7d   [██████░░░░░░░░░░░░░░] 34%   ← green (ClaudeSwap)
   ─────────────────────────────────────────
-  📋 CC-150  |  🎯 450+ skills  |  📦 17 vendors
+  📋 CC-150  |  🎯 450+ skills  |  📦 19 vendors
 
   Footer: ━━ 🌈CCC2.2│🔥Opus4.6-1M│🔑gAA│🧠▐██45%▌│⏱️▐██6%▌│📅▐██34%▌│💰$2.34│🎯37│📂~/project
 ```
@@ -549,7 +549,7 @@ Each domain is a router that dispatches to specialized sub-skills on demand.
 
 <img src="docs/assets/section-vendors.svg" alt="Vendors" width="100%">
 
-CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly. 17 packages, 1,500+ vendor skills.
+CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly. 19 packages, 1,500+ vendor skills.
 
 | Package | Stars | What You Get |
 |---------|-------|-------------|
@@ -632,7 +632,7 @@ CCC learns from every session. Knowledge compounds over time.
   ─────────────────────────────────────────────
   🔥 Opus4.6-1M  │  $2.14  │  ↑42K↓8K  │  3m12s
   CTX [████████████░░░░░░░░] 62%  5h [████░░░░░░░░░░░░] 23%  7d [██████░░░░░░░░] 34%
-  📋 CC-150   │  🎯 450+ skills  │  📦 17 vendors  │  🔋 98% ctx savings
+  📋 CC-150   │  🎯 450+ skills  │  📦 19 vendors  │  🔋 98% ctx savings
   ─────────────────────────────────────────
 ```
 
@@ -694,7 +694,7 @@ CC Commander aggregates 17 open-source packages. Full credits: **[ACKNOWLEDGMENT
 
 MIT License for the full project. The Intelligence Layer (4 files) has an additional [Commons Clause](docs/LICENSE-INTELLIGENCE.md) — free to use, not to sell.
 
-All 17 vendor packages are permissive open-source: 14 MIT, 1 Apache-2.0, 1 CC-BY-SA-4.0. Full details: **[LICENSES-VENDORS.md](docs/LICENSES-VENDORS.md)**
+All 19 vendor packages are permissive open-source: 14 MIT, 1 Apache-2.0, 1 CC-BY-SA-4.0. Full details: **[LICENSES-VENDORS.md](docs/LICENSES-VENDORS.md)**
 
 > **Note:** GitHub may show "Unknown" in the sidebar because some vendor submodules don't ship a LICENSE file in their repo root. Every vendor's license has been verified — see the table above.
 
