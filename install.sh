@@ -332,6 +332,14 @@ if ! command -v claude &>/dev/null; then
   cc_status_line "✓" "Claude Code CLI installed"
 fi
 
+# ── Install npm dependencies (if running from git clone) ────────────────────
+
+if [ -f "$SCRIPT_DIR/package.json" ] && [ ! -d "$SCRIPT_DIR/node_modules" ]; then
+  cc_section_header "DEPENDENCIES"
+  cc_status_line "►" "Installing npm dependencies..."
+  (cd "$SCRIPT_DIR" && npm install --production 2>/dev/null) && cc_status_line "✓" "Dependencies installed" || cc_status_line "!" "npm install failed (ccc may not work — run: cd $SCRIPT_DIR && npm install)"
+fi
+
 # ── Install Components ───────────────────────────────────────────────────────
 
 cc_section_header "INSTALLING"
