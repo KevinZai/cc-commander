@@ -84,7 +84,7 @@
 
   <!-- Built-in Skills -->
   <rect x="530" y="385" width="260" height="36" rx="6" fill="#161b22" stroke="#ff00ff" stroke-width="1.5"/>
-  <text x="660" y="408" text-anchor="middle" fill="#c9d1d9" font-family="monospace" font-size="11">Built-in (280+ Skills)</text>
+  <text x="660" y="408" text-anchor="middle" fill="#c9d1d9" font-family="monospace" font-size="11">Built-in (450+ Skills)</text>
 
   <!-- Converge -->
   <line x1="260" y1="421" x2="400" y2="455" stroke="#484f58" stroke-width="1.5"/>

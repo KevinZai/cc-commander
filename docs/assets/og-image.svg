@@ -109,10 +109,10 @@
 
   <!-- Tagline -->
   <text x="640" y="295" text-anchor="middle" fill="#ffffff" font-family="SF Mono,Monaco,Menlo,Consolas,monospace" font-size="20" font-weight="bold" filter="url(#softGlow)">
-    Claude Code Commander  v1.6.0
+    Claude Code Commander  v2.3.0
   </text>
   <text x="640" y="322" text-anchor="middle" fill="#00d4ff" font-family="SF Mono,Monaco,Menlo,Consolas,monospace" font-size="15" opacity="0.9">
-    by Kevin Z  //  280+ Skills. One Command.
+    by Kevin Z  //  450+ Skills. One Command.
   </text>
 
   <!-- Divider -->
@@ -121,19 +121,19 @@
   <!-- Stats row -->
   <g font-family="SF Mono,Monaco,Menlo,Consolas,monospace" text-anchor="middle">
     <!-- Skills -->
-    <text x="350" y="390" fill="#00ff41" font-size="28" font-weight="bold" filter="url(#softGlow)">280+</text>
+    <text x="350" y="390" fill="#00ff41" font-size="28" font-weight="bold" filter="url(#softGlow)">450+</text>
     <text x="350" y="412" fill="#888" font-size="13">SKILLS</text>
 
     <!-- Mega Skills -->
-    <text x="500" y="390" fill="#ff6b35" font-size="28" font-weight="bold" filter="url(#softGlow)">10</text>
+    <text x="500" y="390" fill="#ff6b35" font-size="28" font-weight="bold" filter="url(#softGlow)">11</text>
     <text x="500" y="412" fill="#888" font-size="13">MEGA-SKILLS</text>
 
     <!-- Commands -->
-    <text x="640" y="390" fill="#00d4ff" font-size="28" font-weight="bold" filter="url(#softGlow)">88+</text>
+    <text x="640" y="390" fill="#00d4ff" font-size="28" font-weight="bold" filter="url(#softGlow)">83</text>
     <text x="640" y="412" fill="#888" font-size="13">COMMANDS</text>
 
     <!-- Hooks -->
-    <text x="780" y="390" fill="#00ff41" font-size="28" font-weight="bold" filter="url(#softGlow)">37</text>
+    <text x="780" y="390" fill="#00ff41" font-size="28" font-weight="bold" filter="url(#softGlow)">25</text>
     <text x="780" y="412" fill="#888" font-size="13">HOOKS</text>
 
     <!-- Articles -->

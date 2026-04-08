@@ -60,14 +60,14 @@
 <text x="340" y="376" fill="#27c93f" font-family="'SF Mono',monospace" font-size="11" font-weight="bold">8 Ship</text>
 <text x="420" y="376" fill="#888" font-family="'SF Mono',monospace" font-size="11">/git commit</text>
 
-<text x="640" y="222" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">432+ skills</text>
+<text x="640" y="222" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">450+ skills</text>
 <text x="640" y="244" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">11 CCC domains</text>
-<text x="640" y="266" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">78+ commands</text>
+<text x="640" y="266" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">83 commands</text>
 <text x="640" y="288" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">25 hooks</text>
 <text x="640" y="310" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">10 themes</text>
 <text x="640" y="332" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">YOLO + Autonomous</text>
 <text x="640" y="354" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">Linear integration</text>
-<text x="640" y="376" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">11 vendor packages</text>
+<text x="640" y="376" fill="#ccc" font-family="'SF Mono',monospace" font-size="11">19 vendor packages</text>
 
 <line x1="460" y1="460" x2="460" y2="480" stroke="#00ffff" stroke-width="1.5"/>
 
@@ -94,7 +94,7 @@
 <text x="870" y="444" fill="#ff0080" font-family="'SF Mono',monospace" font-size="9" font-weight="bold">G</text>
 <text x="870" y="456" fill="#ff0080" font-family="'SF Mono',monospace" font-size="9" font-weight="bold">E</text>
 
-<text x="460" text-anchor="middle" y="610" fill="#444" font-family="'SF Mono',monospace" font-size="11">Your .claude/ directory is NEVER modified</text>
+<text x="460" text-anchor="middle" y="610" fill="#444" font-family="'SF Mono',monospace" font-size="11">Your existing CLAUDE.md is preserved</text>
 <text x="460" text-anchor="middle" y="630" fill="url(#fire)" font-family="'SF Mono',monospace" font-size="12" font-weight="bold">ccc -- three letters to manage your AI workflow</text>
 <text x="460" text-anchor="middle" y="648" fill="#555" font-family="'SF Mono',monospace" font-size="10">CC Commander — Kevin Z -- kevinz.ai</text>
 </svg>
