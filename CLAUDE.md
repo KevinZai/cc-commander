@@ -94,7 +94,7 @@ claude-code-prompts (142).
 CCC renders a rich status footer on every menu screen and recommends it for `/ccc` mid-session:
 
 ```
-━━ CCC2.2.1│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│⬆️640K⬇️694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+━━ CCC2.3.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│⬆️640K⬇️694K│⏰8h0m│🎯357│📋CC-150│📂~/project
 ```
 
 Render this at session start and after major actions. Source: `commander/cockpit.js`.
@@ -135,7 +135,7 @@ Every menu recommends the best next action based on context.
 
 **Version:** See `package.json`
 
-**Stats:** 453 skills (CLI-visible), 83 commands, 28 hooks, 19 vendors, 10 themes
+**Stats:** 454 skills (CLI-visible), 83 commands, 25 hooks (JS), 19 vendors, 10 themes
 
 **Live:**
 - GitHub repo: github.com/KevinZai/cc-commander

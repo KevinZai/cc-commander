@@ -2,6 +2,25 @@
 
 All notable changes to CC Commander will be documented in this file.
 
+## [2.3.0] — 2026-04-07
+
+### Pre-Launch Polish Release
+
+- feat: Native Claude Code launch with --session-id (interactive sessions, resume)
+- feat: claude-finder.js — 5-priority binary resolution chain
+- feat: Clack-tier TUI — pipe-rail (┌│└), ●○ radios, ◆ active prompts
+- feat: Session bookends (┌ start, └ complete)
+- feat: Rounded cockpit panels (╭╮╰╯)
+- feat: Hotkey bar + q-to-quit in all menus
+- feat: Mouse click support in menus (SGR reporting)
+- feat: ? help popup with keyboard + tmux shortcuts
+- feat: scripts/audit-counts.js — single source of truth for component counts
+- fix: YOLO mode requires explicit "yes" confirmation
+- fix: Task text sanitized before tmux send-keys (shell injection prevention)
+- chore: CI audit-counts --check step added
+
+---
+
 ## [2.2.1] — 2026-04-07
 
 ### Audit Remediation

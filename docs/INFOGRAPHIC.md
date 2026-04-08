@@ -1,4 +1,4 @@
-# CC Commander v2.1.0 -- Visual Overview
+# CC Commander v2.3.0 -- Visual Overview
 ### by Kevin Z
 
 ```
@@ -95,7 +95,7 @@
     │           │  agents | cost | context │                        │
     │           └─────────────────────────┘                        │
     │                                                               │
-    │                  CC COMMANDER v2.1.0                         │
+    │                  CC COMMANDER v2.3.0                         │
     └───────────────────────────────────────────────────────────────┘
                                     │
                     ┌───────────────┴───────────────────┐
@@ -226,7 +226,7 @@
 
 ```
     ┌──────────────────────────────────────────────────────────────┐
-    │                    CC COMMANDER v2.1.0                       │
+    │                    CC COMMANDER v2.3.0                       │
     │                                                              │
     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
     │  │  Claude   │  │  Cowork  │  │ Dispatch │  │  Spawn   │    │
@@ -360,5 +360,5 @@
 
 ---
 
-*CC Commander v2.1.0 by Kevin Z -- 450+ skills | 11 CCC domains | 80+ commands | 28 hooks | 10 themes | 9 modes*
+*CC Commander v2.3.0 by Kevin Z -- 450+ skills | 11 CCC domains | 80+ commands | 28 hooks | 10 themes | 9 modes*
 *Distilled from 200+ community sources. One install. Under 60 seconds.*

@@ -288,9 +288,9 @@ Override: `ccc --dispatch "task" --max-turns 50 --budget 10`
 | `Stop` | When agent stops | Cost tracking, session persistence, sound |
 | `PreCompact` | Before context compaction | Save state snapshot |
 
-### Proactive Hooks (15 Kit-Native)
+### Proactive Hooks (25 Kit-Native)
 
-The kit ships 15 hooks that fire automatically — no prompting required. Disable any hook with its env var.
+The kit ships 25 hooks that fire automatically — no prompting required. Disable any hook with its env var.
 
 **PreToolUse (3 hooks)**
 
@@ -334,7 +334,7 @@ The kit ships 15 hooks that fire automatically — no prompting required. Disabl
 
 **Session Coach** fires every N responses (default: 10). Customize interval with `CC_COACH_INTERVAL=20` (number of responses between nudges). Disable entirely with `CC_COACH_DISABLE=1`.
 
-With ECC installed, 19 additional hooks bring the total to 34. Without ECC, the 15 kit-native hooks work standalone via `hooks-standalone.json`.
+With ECC installed, additional hooks bring the total above 37. Without ECC, the 25 kit-native hooks work standalone via `hooks-standalone.json`.
 
 ---
 

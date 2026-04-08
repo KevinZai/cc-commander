@@ -134,8 +134,8 @@
 ---
 
 ### 18. 450+ Skills (Verified by SKILL.md Count)
-**What:** 456 individual SKILL.md files across the `skills/` directory — deduplicated from 1,500+ vendor skills across 19 packages.
-**Proof:** `find skills/ -name "SKILL.md" | wc -l` → 456.
+**What:** 458 individual SKILL.md files across the `skills/` directory — deduplicated from 1,500+ vendor skills across 19 packages.
+**Proof:** `find skills/ -name "SKILL.md" | wc -l` → 458.
 **Share-friendly:** 450+ skills. Not a number someone estimated. Run `find skills/ -name "SKILL.md" | wc -l` and count yourself.
 
 ---
@@ -351,7 +351,7 @@ The biggest lever by far is context-mode (differentiator #46 above). The rest ar
 |--------|------------------|--------------|
 | Tool Output | Full dump into context (wastes 98% of window) | **98% reduction** — context-mode sandboxes into SQLite, returns BM25 snippets |
 | Getting started | Blank terminal, type commands | Arrow-key menus, guided setup |
-| Skills | 0 built-in | 450+ (451 CLI-visible, 456 on disk) |
+| Skills | 0 built-in | 450+ (453 CLI-visible, 458 on disk) |
 | Commands | 0 installed | 83 slash commands |
 | Memory | None across sessions | AI knowledge compounding — every session builds on the last |
 | Project awareness | Reads CLAUDE.md | Reads CLAUDE.md + package.json + Dockerfile + docker-compose.yml + go.mod + Cargo.toml + pyproject.toml + git branch + last 5 commits + monorepo detection |
@@ -500,4 +500,4 @@ The biggest lever by far is context-mode (differentiator #46 above). The rest ar
 
 ---
 
-*Built with CC Commander v2.1.0. Every claim in this document is verifiable from the source code at `github.com/KevinZai/cc-commander`.*
+*Built with CC Commander v2.3.0. Every claim in this document is verifiable from the source code at `github.com/KevinZai/cc-commander`.*
