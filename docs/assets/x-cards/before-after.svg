@@ -4,7 +4,7 @@
   <text x="900" y="60" text-anchor="middle" fill="#00ff80" font-family="'SF Mono',monospace" font-size="28" font-weight="bold">CC Commander</text>
   <line x1="600" y1="30" x2="600" y2="620" stroke="#333" stroke-width="2"/>
   <text x="300" y="120" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">0 skills</text>
-  <text x="900" y="120" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">455 skills, 11 domains</text>
+  <text x="900" y="120" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">453 skills, 11 domains</text>
   <text x="300" y="170" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">0 memory</text>
   <text x="900" y="170" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">Knowledge compounding</text>
   <text x="300" y="220" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">Full context dump</text>
@@ -12,7 +12,7 @@
   <text x="300" y="270" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">No guidance</text>
   <text x="900" y="270" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">Intelligence Layer</text>
   <text x="300" y="320" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">No hooks</text>
-  <text x="900" y="320" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">28 lifecycle hooks</text>
+  <text x="900" y="320" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">25 lifecycle hooks</text>
   <text x="300" y="370" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">No rate visibility</text>
   <text x="900" y="370" text-anchor="middle" fill="#00ffff" font-family="'SF Mono',monospace" font-size="18">Live ClaudeSwap meters</text>
   <text x="300" y="420" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">Manual everything</text>

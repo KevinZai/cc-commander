@@ -16,6 +16,6 @@
   <text x="650" y="415" fill="#888" font-family="'SF Mono',monospace" font-size="18">Ranked by stack match + usage history</text>
   <line x1="200" y1="470" x2="1000" y2="470" stroke="#333" stroke-width="1"/>
   <text x="600" y="540" text-anchor="middle" fill="#ff0080" font-family="'SF Mono',monospace" font-size="28" font-weight="bold">CC COMMANDER</text>
-  <text x="600" y="580" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">455 skills. 11 domains. An AI brain that learns.</text>
+  <text x="600" y="580" text-anchor="middle" fill="#888" font-family="'SF Mono',monospace" font-size="18">450+ skills. 11 domains. An AI brain that learns.</text>
   <text x="600" y="620" text-anchor="middle" fill="#555" font-family="'SF Mono',monospace" font-size="16">github.com/KevinZai/cc-commander</text>
 </svg>

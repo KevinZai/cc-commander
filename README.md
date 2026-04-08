@@ -1,4 +1,7 @@
-<img src="docs/assets/ccc-hero.svg" alt="CC Commander" width="100%">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ccc-hero.svg">
+  <img src="docs/assets/ccc-hero.svg" alt="CC Commander" width="100%">
+</picture>
 
 > **Every Claude Code tool. One install. An AI brain that learns.**
 
@@ -35,6 +38,14 @@ You get:  A guided AI project manager with 450+ skills,
 <img src="docs/assets/section-install.svg" alt="Install" width="100%">
 
 ## Quick Start — Pick Your Path
+
+### Get Started in 60 Seconds
+
+```
+1. Install    curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
+2. Launch     ccc
+3. Build      Pick from the menu. Claude Code does the rest.
+```
 
 One question: **How are you using Claude?**
 
@@ -320,6 +331,15 @@ CCC reads your project before every dispatch. No setup needed.
 ---
 
 <img src="docs/assets/section-features.svg" alt="Features" width="100%">
+
+### New in v2.3.0 — Professional TUI
+
+- **Pipe-rail visual language** — `┌│└` guides, `●○` radio buttons, `◆` prompts
+- **Native Claude Code launch** — `--session-id` for persistent, interactive sessions
+- **Mouse click support** — Click menu items directly
+- **`?` help popup** — Keyboard + tmux shortcuts at a glance
+- **Security hardened** — Session ID allowlist, task sanitization, YOLO confirmation gate
+- **187 tests** — 91/100 audit score across 4 Codex audit rounds
 
 <img src="docs/assets/ccc-components.svg" alt="Components" width="100%">
 
@@ -687,6 +707,12 @@ For AI agents: **[BIBLE-AGENT.md](docs/BIBLE-AGENT.md)** — 268-line machine-re
 CC Commander aggregates 17 open-source packages. Full credits: **[ACKNOWLEDGMENTS.md](docs/ACKNOWLEDGMENTS.md)**
 
 45+ ecosystem repos tracked: **[ECOSYSTEM.md](docs/ECOSYSTEM.md)**
+
+---
+
+## Who Built This
+
+CC Commander is built by [Kevin Z](https://kevinz.ai) ([@kzic](https://x.com/kzic)) — an engineer who got tired of configuring Claude Code from scratch every time. What started as a personal dotfiles collection grew into a 450+ skill aggregator used by developers worldwide. Every feature was built with Claude Code itself. The best way to build AI tools is with AI tools.
 
 ---
 
