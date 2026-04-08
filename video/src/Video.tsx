@@ -2,35 +2,23 @@ import React from "react";
 import { Series, AbsoluteFill } from "remotion";
 import { Intro } from "./scenes/Intro";
 import { Problem } from "./scenes/Problem";
-import { Install } from "./scenes/Install";
 import { Menu } from "./scenes/Menu";
-import { Domains } from "./scenes/Domains";
 import { Skills } from "./scenes/Skills";
-import { Orchestrator } from "./scenes/Orchestrator";
-import { Intelligence } from "./scenes/Intelligence";
-import { DaemonMode } from "./scenes/DaemonMode";
+import { Install } from "./scenes/Install";
 import { CTA } from "./scenes/CTA";
 
-// Scene durations in frames at 30fps
-// Total: ~2310 frames = ~77 seconds
+// 6-scene premium product launch video
+// Total: 1320 frames = 44 seconds at 30fps
 const SCENES = [
-  { component: Intro, frames: 120 },        // 4s
-  { component: Problem, frames: 120 },       // 4s
-  { component: Install, frames: 90 },        // 3s
-  { component: Menu, frames: 150 },          // 5s
-  { component: Domains, frames: 150 },       // 5s
-  { component: Skills, frames: 120 },        // 4s
-  { component: Orchestrator, frames: 150 },  // 5s
-  { component: Intelligence, frames: 150 },  // 5s
-  { component: DaemonMode, frames: 120 },    // 4s
-  { component: CTA, frames: 150 },           // 5s
+  { component: Intro, frames: 180 },    // Scene 1: Title Card          6s
+  { component: Problem, frames: 180 },  // Scene 2: Problem → Solution  6s
+  { component: Menu, frames: 300 },     // Scene 3: Terminal Demo       10s
+  { component: Skills, frames: 240 },   // Scene 4: Stats Grid          8s
+  { component: Install, frames: 240 },  // Scene 5: Install CTA         8s
+  { component: CTA, frames: 180 },      // Scene 6: End Card            6s
 ] as const;
 
-export const TOTAL_FRAMES = SCENES.reduce((sum, s) => sum + s.frames, 0);
-
-const SceneTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <AbsoluteFill>{children}</AbsoluteFill>
-);
+export const TOTAL_FRAMES = SCENES.reduce((sum, s) => sum + s.frames, 0); // 1320
 
 export const Hero: React.FC = () => {
   return (
@@ -38,9 +26,9 @@ export const Hero: React.FC = () => {
       <Series>
         {SCENES.map(({ component: SceneComponent, frames }, i) => (
           <Series.Sequence key={i} durationInFrames={frames}>
-            <SceneTransition>
+            <AbsoluteFill>
               <SceneComponent />
-            </SceneTransition>
+            </AbsoluteFill>
           </Series.Sequence>
         ))}
       </Series>

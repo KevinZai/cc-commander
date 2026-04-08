@@ -1,48 +1,43 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, useVideoConfig } from "remotion";
-import { FadeIn } from "../components/FadeIn";
-import { GradientText } from "../components/GradientText";
+import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { STATS } from "../data/stats";
 
-const ASCII_LOGO_SMALL = [
-  " ██████╗ ██████╗ ██████╗",
-  "██╔════╝██╔════╝██╔════╝",
-  "██║     ██║     ██║     ",
-  "╚██████╗╚██████╗╚██████╗",
-  " ╚═════╝ ╚═════╝ ╚═════╝",
-].join("\n");
+// Scene 6: End Card — frames 0-180 (6s)
+// CC Commander in orange fades in
+// Byline with site + social fades in
+// Whole scene fades out over last 30 frames
 
 export const CTA: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
-  const logoOpacity = interpolate(frame, [0, 30], [0, 1], {
+  const titleOpacity = interpolate(frame, [0, 25], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const logoScale = interpolate(frame, [0, 30], [0.9, 1], {
+  const bylineOpacity = interpolate(frame, [30, 50], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const cmdOpacity = interpolate(frame, [25, 45], [0, 1], {
+  const githubOpacity = interpolate(frame, [50, 70], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const statsOpacity = interpolate(frame, [45, 65], [0, 1], {
+  const badgeOpacity = interpolate(frame, [70, 85], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const bylineOpacity = interpolate(frame, [65, 85], [0, 1], {
+  // Fade out over last 30 frames (frames 150-180)
+  const fadeOutOpacity = interpolate(frame, [150, 180], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Subtle glow pulse on install command
-  const glowIntensity = 0.5 + 0.5 * Math.sin(frame / 20);
+  // Subtle pulse on the title glow
+  const glowPulse = 0.5 + 0.5 * Math.sin(frame / 25);
 
   return (
     <AbsoluteFill
@@ -52,109 +47,104 @@ export const CTA: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 36,
+        gap: 20,
+        opacity: fadeOutOpacity,
       }}
     >
-      {/* Logo */}
+      {/* Very subtle warm glow from center */}
       <div
         style={{
-          opacity: logoOpacity,
-          transform: `scale(${logoScale})`,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 600,
+          height: 300,
+          background: `radial-gradient(ellipse, rgba(255,102,0,${0.06 + glowPulse * 0.04}) 0%, transparent 70%)`,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Main title — orange */}
+      <div
+        style={{
+          opacity: titleOpacity,
+          fontFamily: '"SF Mono", "Fira Code", monospace',
+          fontSize: 88,
+          fontWeight: 700,
+          color: "#ff6600",
+          letterSpacing: -1,
           textAlign: "center",
+          position: "relative",
+          zIndex: 1,
         }}
       >
-        <pre
-          style={{
-            fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-            fontSize: 28,
-            lineHeight: 1.2,
-            margin: 0,
-            background: "linear-gradient(180deg, #50FF78, #00C8FF)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          {ASCII_LOGO_SMALL}
-        </pre>
+        CC Commander
       </div>
 
-      {/* Install command */}
+      {/* Accent rule */}
       <div
         style={{
-          opacity: cmdOpacity,
-          background: "rgba(80,255,120,0.08)",
-          border: "1px solid #50FF78",
-          borderRadius: 10,
-          padding: "20px 48px",
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 32,
-          color: "#50FF78",
-          boxShadow: `0 0 ${30 * glowIntensity}px rgba(80,255,120,${0.2 * glowIntensity})`,
-          letterSpacing: 1,
+          opacity: titleOpacity,
+          height: 2,
+          width: 320,
+          background: "linear-gradient(90deg, transparent, #ff6600, transparent)",
+          borderRadius: 1,
         }}
-      >
-        $ npm install -g cc-commander
-      </div>
+      />
 
-      {/* Stats line */}
+      {/* Version badge */}
       <div
         style={{
-          opacity: statsOpacity,
-          display: "flex",
-          gap: 20,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 20,
-          flexWrap: "wrap",
-          justifyContent: "center",
-          maxWidth: 900,
-          textAlign: "center",
-        }}
-      >
-        <span style={{ color: "#50FF78" }}>{STATS.skills}+ skills</span>
-        <span style={{ color: "#30363d" }}>·</span>
-        <span style={{ color: "#00C8FF" }}>{STATS.vendors} vendors</span>
-        <span style={{ color: "#30363d" }}>·</span>
-        <span style={{ color: "#FF6600" }}>Intelligence Layer</span>
-        <span style={{ color: "#30363d" }}>·</span>
-        <span style={{ color: "#FFD700" }}>Daemon Mode</span>
-        <span style={{ color: "#30363d" }}>·</span>
-        <span style={{ color: "#c9d1d9" }}>{STATS.domains} domains</span>
-      </div>
-
-      {/* GitHub link */}
-      <FadeIn startFrame={75} durationFrames={15}>
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 18,
-            color: "#8b949e",
-            textAlign: "center",
-            lineHeight: 1.8,
-          }}
-        >
-          <div>{STATS.github}</div>
-          <div style={{ color: "#50FF78", marginTop: 4 }}>
-            by {STATS.author} · {STATS.site}
-          </div>
-        </div>
-      </FadeIn>
-
-      {/* Version */}
-      <div
-        style={{
-          opacity: bylineOpacity,
-          background: "rgba(80,255,120,0.1)",
-          border: "1px solid rgba(80,255,120,0.3)",
+          opacity: badgeOpacity,
+          background: "rgba(255,102,0,0.1)",
+          border: "1px solid rgba(255,102,0,0.4)",
           borderRadius: 6,
           padding: "6px 20px",
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 18,
-          color: "#50FF78",
+          fontFamily: '"SF Mono", monospace',
+          fontSize: 16,
+          color: "#ff6600",
           letterSpacing: 2,
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {STATS.version}
+      </div>
+
+      {/* Byline */}
+      <div
+        style={{
+          opacity: bylineOpacity,
+          fontFamily: '"SF Mono", monospace',
+          fontSize: 20,
+          color: "#8b949e",
+          textAlign: "center",
+          lineHeight: 1.6,
+          position: "relative",
+          zIndex: 1,
+          marginTop: 8,
+        }}
+      >
+        by {STATS.author}
+      </div>
+
+      {/* GitHub / site */}
+      <div
+        style={{
+          opacity: githubOpacity,
+          display: "flex",
+          gap: 20,
+          fontFamily: '"SF Mono", monospace',
+          fontSize: 16,
+          color: "#484f58",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <span>{STATS.site}</span>
+        <span style={{ color: "#2d333b" }}>·</span>
+        <span style={{ color: "#58a6ff" }}>{STATS.github}</span>
       </div>
     </AbsoluteFill>
   );

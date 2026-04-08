@@ -1,136 +1,160 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate } from "remotion";
-import { SKILL_NAMES, STATS } from "../data/stats";
+import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
+import { STATS } from "../data/stats";
 
-const CATEGORY_LABELS = [
-  "TDD", "Auth", "Billing", "SEO", "Docker",
-  "React", "NextJS", "PostgreSQL", "Redis", "Stripe",
-  "CI/CD", "Playwright", "Vitest", "Tailwind", "OpenAPI",
+// Scene 4: Stats Grid — frames 0-240 (8s)
+// Animated counters count up from 0 to final value
+// Grid rendered with monospace box-drawing chars
+
+interface StatCell {
+  label: string;
+  value: number;
+  suffix?: string;
+  color: string;
+  startFrame: number;
+}
+
+const STAT_CELLS: StatCell[] = [
+  { label: "Skills", value: STATS.skills, suffix: "+", color: "#ff6600", startFrame: 20 },
+  { label: "Vendors", value: STATS.vendors, suffix: "", color: "#58a6ff", startFrame: 35 },
+  { label: "Domains", value: STATS.domains, suffix: "", color: "#3fb950", startFrame: 50 },
+  { label: "Tests", value: STATS.tests, suffix: "", color: "#e6edf3", startFrame: 65 },
+  { label: "Audit Score", value: STATS.auditScore, suffix: "/100", color: "#ff6600", startFrame: 80 },
+  { label: "Themes", value: STATS.themes, suffix: "", color: "#58a6ff", startFrame: 95 },
 ];
 
-export const Skills: React.FC = () => {
+const AnimatedCounter: React.FC<StatCell> = ({
+  label,
+  value,
+  suffix = "",
+  color,
+  startFrame,
+}) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const elapsed = Math.max(0, frame - startFrame);
+  const duration = 45; // frames to count up
 
-  const counter = Math.floor(
-    interpolate(frame, [0, 90], [0, STATS.skills], {
+  const current = Math.floor(
+    interpolate(elapsed, [0, duration], [0, value], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     })
   );
 
-  // Scroll offset for the matrix effect
-  const scrollOffset = frame * 2.5;
+  const cellOpacity = interpolate(frame, [startFrame - 5, startFrame + 10], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
-  // Repeat skills array to fill vertical space
-  const allSkills = [
-    ...SKILL_NAMES,
-    ...SKILL_NAMES,
-    ...SKILL_NAMES,
-    ...SKILL_NAMES,
-  ];
-
-  const categoryIndex = Math.floor(frame / 15) % CATEGORY_LABELS.length;
-  const catOpacity = interpolate(
-    (frame % 15),
-    [0, 4, 11, 15],
-    [0, 1, 1, 0],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  return (
+    <div
+      style={{
+        opacity: cellOpacity,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "32px 24px",
+        border: "1px solid #21262d",
+        background: "rgba(22,27,34,0.6)",
+        borderRadius: 8,
+        minWidth: 220,
+        gap: 8,
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      <div
+        style={{
+          fontFamily: '"SF Mono", "Fira Code", monospace',
+          fontSize: 54,
+          fontWeight: 700,
+          color,
+          lineHeight: 1,
+          letterSpacing: -1,
+        }}
+      >
+        {current}
+        <span style={{ fontSize: 28 }}>{suffix}</span>
+      </div>
+      <div
+        style={{
+          fontFamily: '"SF Mono", monospace',
+          fontSize: 14,
+          color: "#484f58",
+          letterSpacing: 2,
+          textTransform: "uppercase",
+        }}
+      >
+        {label}
+      </div>
+    </div>
   );
+};
+
+export const Skills: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  const titleOpacity = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill
       style={{
         background: "#0d1117",
-        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        gap: 48,
       }}
     >
-      {/* Background skill matrix */}
+      {/* Dot grid */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          display: "flex",
-          flexWrap: "wrap",
-          alignContent: "flex-start",
-          gap: 10,
-          padding: 40,
-          transform: `translateY(-${scrollOffset % 400}px)`,
-          opacity: 0.25,
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,102,0,0.05) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          pointerEvents: "none",
         }}
-      >
-        {allSkills.map((skill, i) => (
-          <div
-            key={`${skill}-${i}`}
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 14,
-              color: i % 3 === 0 ? "#50FF78" : i % 3 === 1 ? "#00C8FF" : "#8b949e",
-              padding: "4px 10px",
-              border: "1px solid rgba(80,255,120,0.15)",
-              borderRadius: 4,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {skill}
-          </div>
-        ))}
-      </div>
+      />
 
-      {/* Central counter */}
+      {/* Section label */}
       <div
         style={{
+          opacity: titleOpacity,
+          fontFamily: '"SF Mono", monospace',
+          fontSize: 13,
+          color: "#ff6600",
+          letterSpacing: 3,
+          textTransform: "uppercase",
           position: "relative",
-          zIndex: 2,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 16,
-          background: "rgba(13,17,23,0.85)",
-          padding: "48px 80px",
-          borderRadius: 16,
-          border: "1px solid rgba(80,255,120,0.3)",
+          zIndex: 1,
         }}
       >
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 96,
-            fontWeight: "bold",
-            background: "linear-gradient(90deg, #50FF78, #00C8FF)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            lineHeight: 1,
-          }}
-        >
-          {counter}+
-        </div>
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 24,
-            color: "#8b949e",
-            letterSpacing: 3,
-          }}
-        >
-          SKILLS
-        </div>
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 28,
-            opacity: catOpacity,
-            color: "#FF6600",
-            letterSpacing: 1,
-          }}
-        >
-          {CATEGORY_LABELS[categoryIndex]}
-        </div>
+        By the numbers
+      </div>
+
+      {/* 3-column × 2-row grid */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: 2,
+          position: "relative",
+          zIndex: 1,
+          borderRadius: 10,
+          overflow: "hidden",
+          border: "1px solid #21262d",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+        }}
+      >
+        {STAT_CELLS.map((cell) => (
+          <AnimatedCounter key={cell.label} {...cell} />
+        ))}
       </div>
     </AbsoluteFill>
   );

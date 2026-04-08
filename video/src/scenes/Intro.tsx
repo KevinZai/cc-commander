@@ -1,126 +1,135 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
-import { TypeWriter } from "../components/TypeWriter";
-import { FadeIn } from "../components/FadeIn";
+import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
+import { TypewriterText } from "../components/TypewriterText";
 import { STATS } from "../data/stats";
+
+// Scene 1: Title Card — frames 0-180 (6s)
+// Line 1 "CC Commander" types from frame 15
+// Line 2 "Every Claude Code tool. One install." types from frame ~85
+// Version badge appears at frame 150
 
 export const Intro: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
-  // Title animation — slides up + fades in
-  const titleProgress = spring({ frame, fps, config: { damping: 12, mass: 0.5 } });
-  const titleY = interpolate(titleProgress, [0, 1], [60, 0]);
-  const titleOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
+  // Fade in the whole scene
+  const sceneOpacity = interpolate(frame, [0, 15], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
-  // Subtitle stagger
-  const subOpacity = interpolate(frame, [15, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const subY = interpolate(frame, [15, 30], [20, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  // Line 1: "CC Commander" — 12 chars at 0.8 ch/f = ~15 frames to type
+  const line1Start = 15;
+  const line1Chars = 12; // "CC Commander"
+  const line1Duration = Math.ceil(line1Chars / 0.8); // ~15 frames
 
-  // Glow pulse
-  const glowIntensity = interpolate(Math.sin(frame * 0.08), [-1, 1], [20, 40]);
+  // Line 2 starts after line1 finishes + 15 frame pause
+  const line2Start = line1Start + line1Duration + 15;
+  const line2Text = "Every Claude Code tool. One install.";
 
-  const taglineStart = 40;
-  const badgeStart = 80;
-  const statsStart = 95;
+  // Version badge fades in near the end
+  const badgeOpacity = interpolate(frame, [150, 165], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // Subtle horizontal rule under title
+  const ruleWidth = interpolate(frame, [line1Start, line1Start + 40], [0, 320], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
-    <AbsoluteFill style={{ background: "#0d1117", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+    <AbsoluteFill
+      style={{
+        background: "#0d1117",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: sceneOpacity,
+      }}
+    >
+      {/* Subtle dot grid — very quiet */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,102,0,0.07) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* Subtle grid background */}
-      <div style={{
-        position: "absolute", inset: 0, opacity: 0.03,
-        backgroundImage: "linear-gradient(rgba(80,255,120,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(80,255,120,0.3) 1px, transparent 1px)",
-        backgroundSize: "40px 40px",
-      }} />
+      {/* Center stack */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 0,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {/* Line 1: CC Commander */}
+        <div style={{ minHeight: 90, display: "flex", alignItems: "center" }}>
+          <TypewriterText
+            text="CC Commander"
+            startFrame={line1Start}
+            fontSize={80}
+            fontWeight={700}
+            color="#e6edf3"
+            showCursor={frame < line2Start}
+          />
+        </div>
 
-      {/* Main title — CCC */}
-      <div style={{
-        opacity: titleOpacity,
-        transform: `translateY(${titleY}px)`,
-        textAlign: "center",
-        marginBottom: 8,
-      }}>
-        <div style={{
-          fontSize: 180,
-          fontWeight: 900,
-          fontFamily: "'JetBrains Mono', monospace",
-          letterSpacing: 24,
-          color: "#50FF78",
-          textShadow: `0 0 ${glowIntensity}px rgba(80,255,120,0.6), 0 0 ${glowIntensity * 2}px rgba(80,255,120,0.3)`,
-        }}>
-          CCC
+        {/* Accent rule */}
+        <div
+          style={{
+            height: 2,
+            width: ruleWidth,
+            background: "linear-gradient(90deg, #ff6600, #58a6ff)",
+            borderRadius: 1,
+            marginBottom: 20,
+            marginTop: -4,
+          }}
+        />
+
+        {/* Line 2: tagline */}
+        <div style={{ minHeight: 44, display: "flex", alignItems: "center" }}>
+          {frame >= line2Start && (
+            <TypewriterText
+              text={line2Text}
+              startFrame={line2Start}
+              fontSize={32}
+              fontWeight={400}
+              color="#8b949e"
+              showCursor
+            />
+          )}
         </div>
       </div>
 
-      {/* Product name */}
-      <div style={{
-        opacity: subOpacity,
-        transform: `translateY(${subY}px)`,
-        fontSize: 32,
-        fontFamily: "'JetBrains Mono', monospace",
-        fontWeight: 600,
-        color: "#c9d1d9",
-        letterSpacing: 8,
-        textTransform: "uppercase",
-        marginBottom: 24,
-      }}>
-        CC Commander
+      {/* Version badge — bottom right */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 60,
+          right: 80,
+          opacity: badgeOpacity,
+          background: "rgba(255,102,0,0.12)",
+          border: "1px solid rgba(255,102,0,0.5)",
+          borderRadius: 6,
+          padding: "6px 18px",
+          fontFamily: '"SF Mono", monospace',
+          fontSize: 16,
+          color: "#ff6600",
+          letterSpacing: 1,
+        }}
+      >
+        {STATS.version}
       </div>
-
-      {/* Tagline — types out */}
-      <div style={{
-        fontFamily: "'JetBrains Mono', monospace",
-        fontSize: 22,
-        color: "#8b949e",
-        textAlign: "center",
-        minHeight: 32,
-      }}>
-        {frame >= taglineStart && (
-          <TypeWriter
-            text="Every Claude Code tool. One install. Guided access."
-            startFrame={taglineStart}
-            durationFrames={50}
-            color="#8b949e"
-          />
-        )}
-      </div>
-
-      {/* Version + stats */}
-      {frame >= badgeStart && (
-        <FadeIn startFrame={badgeStart} durationFrames={15}>
-          <div style={{
-            display: "flex", gap: 16, marginTop: 24, alignItems: "center",
-          }}>
-            <div style={{
-              background: "rgba(80,255,120,0.1)", border: "1px solid rgba(80,255,120,0.4)",
-              borderRadius: 6, padding: "6px 16px",
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 16, color: "#50FF78",
-            }}>
-              {STATS.version}
-            </div>
-            {frame >= statsStart && (
-              <>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#484f58" }}>
-                  {STATS.skills} skills
-                </span>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#484f58" }}>
-                  ·
-                </span>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#484f58" }}>
-                  {STATS.vendors} vendors
-                </span>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#484f58" }}>
-                  ·
-                </span>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#484f58" }}>
-                  Opus plans · Sonnet builds
-                </span>
-              </>
-            )}
-          </div>
-        </FadeIn>
-      )}
     </AbsoluteFill>
   );
 };

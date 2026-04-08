@@ -1,15 +1,28 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
-import { Terminal, TerminalLine } from "../components/Terminal";
-import { FadeIn } from "../components/FadeIn";
-import { TypeWriter } from "../components/TypeWriter";
+import { TypewriterText } from "../components/TypewriterText";
+
+// Scene 2: Problem → Solution — frames 0-180 (6s)
+// Line 1 "450+ skills. 19 vendors. Zero setup." types first
+// Line 2 "An AI brain that learns every session." types second
+
+const LINE1 = "450+ skills. 19 vendors. Zero setup.";
+const LINE2 = "An AI brain that learns every session.";
 
 export const Problem: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const cursorBlink = Math.floor(frame / 15) % 2 === 0;
+  const sceneOpacity = interpolate(frame, [0, 15], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
-  const labelOpacity = interpolate(frame, [50, 70], [0, 1], {
+  const line1Start = 15;
+  const line1Duration = Math.ceil(LINE1.length / 0.8); // ~46 frames
+  const line2Start = line1Start + line1Duration + 15; // pause between lines
+
+  // Subtle fade-in for the decorative label
+  const labelOpacity = interpolate(frame, [line2Start + 20, line2Start + 35], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -22,56 +35,90 @@ export const Problem: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 40,
+        opacity: sceneOpacity,
       }}
     >
-      <FadeIn startFrame={0} durationFrames={20} translateY={20}>
-        <Terminal
-          title="claude — bash"
-          style={{ width: 780 }}
-        >
-          <TerminalLine prompt color="#50FF78">
-            <TypeWriter
-              text="claude"
-              startFrame={5}
-              durationFrames={20}
-              color="#c9d1d9"
-              showCursor={false}
-            />
-          </TerminalLine>
-
-          {frame >= 30 && (
-            <div
-              style={{
-                marginTop: 12,
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 20,
-                color: "#8b949e",
-                paddingLeft: 4,
-              }}
-            >
-              <div style={{ marginBottom: 8 }}>
-                {cursorBlink ? "█" : " "}
-              </div>
-              <div style={{ color: "#6e7681", fontSize: 18, marginTop: 8 }}>
-                No skills. No guidance. No memory.
-              </div>
-            </div>
-          )}
-        </Terminal>
-      </FadeIn>
+      {/* Dot grid */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "radial-gradient(circle, rgba(88,166,255,0.06) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          pointerEvents: "none",
+        }}
+      />
 
       <div
         style={{
-          opacity: labelOpacity,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 28,
-          color: "#ff5f57",
-          letterSpacing: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 28,
+          position: "relative",
+          zIndex: 1,
+          maxWidth: 1200,
           textAlign: "center",
         }}
       >
-        Stock Claude Code = blank slate
+        {/* Small category label */}
+        <div
+          style={{
+            fontFamily: '"SF Mono", monospace',
+            fontSize: 13,
+            color: "#ff6600",
+            letterSpacing: 3,
+            textTransform: "uppercase",
+          }}
+        >
+          What you get
+        </div>
+
+        {/* Line 1 */}
+        <div style={{ minHeight: 70 }}>
+          <TypewriterText
+            text={LINE1}
+            startFrame={line1Start}
+            fontSize={56}
+            fontWeight={700}
+            color="#e6edf3"
+            showCursor={frame < line2Start}
+          />
+        </div>
+
+        {/* Line 2 */}
+        <div style={{ minHeight: 50 }}>
+          {frame >= line2Start && (
+            <TypewriterText
+              text={LINE2}
+              startFrame={line2Start}
+              fontSize={40}
+              fontWeight={400}
+              color="#58a6ff"
+              showCursor
+            />
+          )}
+        </div>
+
+        {/* Bottom accent row */}
+        <div
+          style={{
+            opacity: labelOpacity,
+            display: "flex",
+            gap: 32,
+            fontFamily: '"SF Mono", monospace',
+            fontSize: 15,
+            color: "#484f58",
+            marginTop: 8,
+          }}
+        >
+          <span>Opus plans</span>
+          <span style={{ color: "#2d333b" }}>·</span>
+          <span>Sonnet builds</span>
+          <span style={{ color: "#2d333b" }}>·</span>
+          <span>Haiku workers</span>
+        </div>
       </div>
     </AbsoluteFill>
   );
