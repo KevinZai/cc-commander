@@ -1674,7 +1674,7 @@ Then we'll write the spec.
 | 44 | Install dx plugin | `/dx:gha`, `/dx:handoff`, `/dx:clone`, `/dx:reddit-fetch` |
 | 45 | Quick setup script | `bash <(curl -s .../setup.sh)` — sets up all tips |
 
-### CCC-Specific Tips (v2.2.0)
+### CCC-Specific Tips (v2.3.0)
 
 | # | Tip | Key Action |
 |---|-----|-----------|
@@ -2176,12 +2176,12 @@ node bin/kc.js --repair
 The rich footer bar displays 12 live segments at the bottom of every session:
 
 ```
-━━ CCC2.2.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
+━━ CCC2.3.0│🔥Opus1M│🔑gAA│🧠▐██45%░░▌│⏱️▐██░░▌6%│📅▐██░░▌34%│💰$2.34│↑640K↓694K│⏰8h0m│🎯357│📋CC-150│📂~/project
 ```
 
 | Segment | What It Shows |
 |---------|--------------|
-| `CCC2.2.0` | Version |
+| `CCC2.3.0` | Version |
 | `🔥Opus1M` | Active model |
 | `🔑gAA` | Auth status |
 | `🧠▐██45%░░▌` | Context usage — green <60%, yellow <80%, red ≥80% |

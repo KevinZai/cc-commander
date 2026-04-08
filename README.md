@@ -161,7 +161,7 @@ The first thing you see. Arrow keys only — no commands to memorize.
 <!-- Version is tracked in package.json — update all references when bumping -->
 ```
 ╔══════════════════════════════════════════╗
-║  CC COMMANDER v2.2                       ║
+║  CC COMMANDER v2.3                       ║
 ║  Your AI Project Manager                 ║
 ╚══════════════════════════════════════════╝
 
@@ -232,7 +232,7 @@ Context, rate limits, and budget meters in your terminal. Color-codes green → 
 
 ```
   ══════════════════════════════════════════
-  CC COMMANDER  v2.2                    <!-- update version on bump -->
+  CC COMMANDER  v2.3                    <!-- update version on bump -->
   ─────────────────────────────────────────
   🔥 Opus4.6-1M  |  $2.14  |  ↑42K↓8K  |  3m12s
   CTX  [████████████░░░░░░░░] 62%   ← green
@@ -647,7 +647,7 @@ CCC learns from every session. Knowledge compounds over time.
 
 ```
   ══════════════════════════════════════════────────
-  🌈 CC COMMANDER  v2.2               <!-- update version on bump -->
+  🌈 CC COMMANDER  v2.3               <!-- update version on bump -->
   Every Claude Code tool. One install. An AI brain that learns.
   ─────────────────────────────────────────────
   🔥 Opus4.6-1M  │  $2.14  │  ↑42K↓8K  │  3m12s
@@ -739,7 +739,7 @@ commander/adventures/X.json        # Add a flow
 
 <div align="center">
 
-**CC Commander v2.2.1** · **[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)**
+**CC Commander v2.3.1** · **[Kevin Z](https://kevinz.ai)** · **[@kzic](https://x.com/kzic)**
 
 *Every Claude Code tool. One install. An AI brain that learns.*
 
