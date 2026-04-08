@@ -141,7 +141,7 @@ fmt_remaining() {
     [ -z "$epoch" ] && return
     local diff=$(( epoch - now ))
   fi
-  [ "$diff" -le 0 ] && printf 'now' && return
+  [ "$diff" -le 0 ] && return
   local h=$(( diff / 3600 ))
   local m=$(( (diff % 3600) / 60 ))
   if [ "$h" -ge 24 ]; then
