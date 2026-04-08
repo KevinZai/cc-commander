@@ -45,14 +45,51 @@ function asciiMeter(value, max, width, label, color) {
 }
 
 // Mini 6-char meter for compact footer
-function miniMeter(pct, color) {
+function miniMeter(pct, color, remaining) {
   var t = getTui().getTheme();
-  var filled = Math.round((pct / 100) * 6);
-  var empty = 6 - filled;
+  var filled = Math.round((pct / 100) * 4);
+  var empty = 4 - filled;
   var bar = rgb(t.dim[0], t.dim[1], t.dim[2]) + '\u258C' + RESET;
   for (var i = 0; i < filled; i++) bar += rgb(color[0], color[1], color[2]) + '\u2588';
   bar += rgb(t.dim[0], t.dim[1], t.dim[2]) + '\u2591'.repeat(empty) + '\u2590' + RESET;
-  return bar + BOLD + rgb(color[0], color[1], color[2]) + pct + '%' + RESET;
+  var label = BOLD + rgb(color[0], color[1], color[2]) + pct + '%' + RESET;
+  if (remaining) label += dim('[' + remaining + ']');
+  return bar + label;
+}
+
+function detectAuthSource() {
+  // ClaudeSwap: look for swap state file
+  try {
+    var os = require('os');
+    var path = require('path');
+    var fs = require('fs');
+    var swapState = path.join(os.homedir(), '.claude', 'claudeswap-state.json');
+    if (fs.existsSync(swapState)) {
+      var state = JSON.parse(fs.readFileSync(swapState, 'utf8'));
+      if (state.active) return 'swap';
+    }
+  } catch(_) {}
+  // Native OAuth: check for OAuth token file
+  try {
+    var oauthPath = path.join(os.homedir(), '.claude', '.credentials');
+    if (fs.existsSync(oauthPath)) return 'oauth';
+  } catch(_) {}
+  // API key
+  if (process.env.ANTHROPIC_API_KEY) return 'key';
+  return '?';
+}
+
+function fmtTimeRemaining(minutesLeft) {
+  if (minutesLeft <= 0) return '0m';
+  if (minutesLeft < 60) return Math.round(minutesLeft) + 'm';
+  var h = Math.floor(minutesLeft / 60);
+  var m = Math.round(minutesLeft % 60);
+  if (h >= 24) {
+    var d = Math.floor(h / 24);
+    h = h % 24;
+    return d + 'd' + (h > 0 ? h + 'h' : '');
+  }
+  return h + 'h' + (m > 0 ? m + 'm' : '');
 }
 
 function dim(text) { var t = getTui().getTheme(); return rgb(t.dim[0], t.dim[1], t.dim[2]) + text + RESET; }
@@ -121,24 +158,30 @@ function renderCockpitFooter(data) {
   // Model
   parts.push('\u{1F525}' + col(data.model || 'Opus1M', t.primary));
 
-  // Auth key (last 3 chars of API key or 'n/a')
+  // Auth source + key hint
+  var authSrc = detectAuthSource();
   var authKey = 'n/a';
   try { var k = process.env.ANTHROPIC_API_KEY || ''; if (k.length > 6) authKey = k.slice(-3); } catch(_) {}
-  parts.push('\u{1F511}' + col(authKey, t.text));
+  var authLabel = authSrc === 'swap' ? 'SW:' + authKey : authSrc === 'oauth' ? 'OA' : authKey;
+  parts.push('\u{1F511}' + col(authLabel, t.text));
 
   // Context meter
   parts.push('\u{1F9E0}' + miniMeter(data.contextPct || 0, t.primary));
 
-  // 5h session meter — green/yellow/red, no text label
+  // 5h session meter with time remaining
   var sessionMinutes = data.sessionMinutes || 0;
   var sessionPct5h = Math.min(100, Math.round((sessionMinutes / 300) * 100));
   var sessionColor = sessionPct5h > 80 ? [255, 60, 60] : sessionPct5h > 50 ? [255, 200, 50] : [80, 220, 80];
-  parts.push('\u23F1\uFE0F' + miniMeter(sessionPct5h, sessionColor));
+  var sessionRemaining = fmtTimeRemaining(Math.max(0, 300 - sessionMinutes));
+  parts.push('\u23F1\uFE0F' + miniMeter(sessionPct5h, sessionColor, sessionRemaining));
 
-  // 7d rolling meter — green/yellow/red, no text label
+  // 7d rolling meter with time remaining
   var weekPct = Math.min(100, Math.round(((data.weekCost || 0) / (data.weekBudget || 50)) * 100));
   var weekColor = weekPct > 80 ? [255, 60, 60] : weekPct > 50 ? [255, 200, 50] : [80, 220, 80];
-  parts.push('\u{1F4C5}' + miniMeter(weekPct, weekColor));
+  var dayOfWeek = new Date().getDay();
+  var daysLeft = (7 - dayOfWeek) % 7 || 7;
+  var weekRemaining = fmtTimeRemaining(daysLeft * 24 * 60);
+  parts.push('\u{1F4C5}' + miniMeter(weekPct, weekColor, weekRemaining));
 
   // Cost — green/yellow/red
   var costColor = (data.cost || 0) > 5 ? [255, 60, 60] : (data.cost || 0) > 2 ? [255, 200, 50] : t.text;

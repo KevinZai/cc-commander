@@ -117,10 +117,25 @@ function main() {
     return;
   }
 
+  // Detect auth source (ClaudeSwap vs OAuth vs API key)
+  var authSrc = 'key';
+  try {
+    var swapPath = require('path').join(require('os').homedir(), '.claude', 'claudeswap-state.json');
+    if (require('fs').existsSync(swapPath)) {
+      var st = JSON.parse(require('fs').readFileSync(swapPath, 'utf8'));
+      if (st.active) authSrc = 'swap';
+    }
+  } catch(_e) {}
+  try {
+    var credPath = require('path').join(require('os').homedir(), '.claude', '.credentials');
+    if (authSrc === 'key' && require('fs').existsSync(credPath)) authSrc = 'oauth';
+  } catch(_e) {}
+  var authLabel = authSrc === 'swap' ? 'SW:' + apiKeyLast3 : authSrc === 'oauth' ? 'OA' : apiKeyLast3;
+
   var line = [
     '\u2501\u2501 \x1b[1m\x1b[38;2;255;102;0mCCC' + version + '\x1b[0m',
     '\uD83D\uDD25' + model,
-    '\uD83D\uDD11' + apiKeyLast3,
+    '\uD83D\uDD11' + authLabel,
     '\uD83E\uDDE0' + contextPct + '%',
     '\uD83D\uDCB0$' + cost,
     '\uD83C\uDFAF' + skillCount,
