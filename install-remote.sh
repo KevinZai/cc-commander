@@ -94,5 +94,5 @@ chmod +x install.sh
 echo ""
 echo -e "  ${GREEN}✓${NC} CC Commander installed to ${WHITE}~/.cc-commander${NC}"
 echo -e "  ${DIM}To update: curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash${NC}"
-echo -e "  ${DIM}       or: cd ~/.cc-commander && git pull && ./install.sh --force${NC}"
+echo -e "  ${DIM}       or: cd ~/.cc-commander && git pull && git submodule update --init && ./install.sh --force${NC}"
 echo ""

@@ -464,8 +464,15 @@ if should_install "hooks"; then
   cc_progress_bar "$install_step" "$install_total" "Hooks"
   rm -rf "$CLAUDE_DIR/hooks"
   mkdir -p "$CLAUDE_DIR/hooks"
-  cp -r "$SCRIPT_DIR/hooks/"* "$CLAUDE_DIR/hooks/" 2>/dev/null || true
-  cc_status_line "✓" "Hooks installed"
+  # Copy hook scripts
+  find "$SCRIPT_DIR/hooks/" -name '*.js' -o -name '*.sh' | while read f; do
+    cp "$f" "$CLAUDE_DIR/hooks/" 2>/dev/null || true
+  done
+  # Use standalone hooks config (doesn't require oh-my-claudecode plugin)
+  if [ -f "$SCRIPT_DIR/hooks/hooks-standalone.json" ]; then
+    cp "$SCRIPT_DIR/hooks/hooks-standalone.json" "$CLAUDE_DIR/hooks/hooks.json"
+  fi
+  cc_status_line "✓" "Hooks installed (standalone mode)"
 fi
 
 # 4. Lib (terminal art)
@@ -508,12 +515,21 @@ if should_install "claude-md" || should_install "settings"; then
   cc_progress_bar "$install_step" "$install_total" "Configuration"
 
   if should_install "claude-md" && [ -f "$SCRIPT_DIR/CLAUDE.md.template" ]; then
-    # Sanitize user name for sed (escape sed special chars)
-    SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
-    sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.template" > "$CLAUDE_DIR/CLAUDE.md"
+    if [ ! -f "$CLAUDE_DIR/CLAUDE.md" ]; then
+      SAFE_NAME=$(printf '%s\n' "$USER_NAME" | sed 's/[&/\]/\\&/g')
+      sed "s/\[Your Name\]/$SAFE_NAME/g" "$SCRIPT_DIR/CLAUDE.md.template" > "$CLAUDE_DIR/CLAUDE.md"
+      cc_status_line "✓" "CLAUDE.md created"
+    else
+      cc_status_line "·" "CLAUDE.md preserved (existing config kept)"
+    fi
   fi
   if should_install "settings"; then
-    [ -f "$SCRIPT_DIR/settings.json.template" ] && cp "$SCRIPT_DIR/settings.json.template" "$CLAUDE_DIR/settings.json"
+    if [ ! -f "$CLAUDE_DIR/settings.json" ] && [ -f "$SCRIPT_DIR/settings.json.template" ]; then
+      cp "$SCRIPT_DIR/settings.json.template" "$CLAUDE_DIR/settings.json"
+      cc_status_line "✓" "settings.json created (new install)"
+    else
+      cc_status_line "·" "settings.json preserved (existing config kept)"
+    fi
   fi
   cc_status_line "✓" "Config applied for $USER_NAME"
 

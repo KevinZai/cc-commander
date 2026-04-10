@@ -67,7 +67,19 @@ function tmuxDispatch(task, resumeSessionId) {
       // Start interactive Claude, then send task as user input after a brief pause
       cp.execFileSync('tmux', ['send-keys', '-t', sessionName, '-l', claudeBin + ' --session-id ' + sessionId], { stdio: 'pipe' });
       cp.execFileSync('tmux', ['send-keys', '-t', sessionName, 'Enter'], { stdio: 'pipe' });
-      cp.execSync('sleep 0.3', { stdio: 'pipe' });
+      // Wait for Claude Code to be ready (poll for prompt, up to 8s)
+      var ready = false;
+      for (var attempt = 0; attempt < 16; attempt++) {
+        cp.execSync('sleep 0.5', { stdio: 'pipe' });
+        try {
+          var paneContent = cp.execFileSync('tmux', ['capture-pane', '-t', sessionName, '-p'], { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+          if (paneContent.indexOf('>') !== -1 || paneContent.indexOf('╭') !== -1) {
+            ready = true;
+            break;
+          }
+        } catch(_e) {}
+      }
+      if (!ready) { cp.execSync('sleep 2', { stdio: 'pipe' }); }
       // Sanitize task: strip control chars, limit length
       var safeTask = String(task || '').replace(/[\x00-\x1f\x7f]/g, ' ').slice(0, 4000);
       cp.execFileSync('tmux', ['send-keys', '-t', sessionName, '-l', safeTask], { stdio: 'pipe' });
