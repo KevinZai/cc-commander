@@ -19,9 +19,9 @@
 
 <img src="docs/assets/section-why.svg" alt="Why" width="100%">
 
-Stock Claude Code is a blank terminal with amnesia. No skills. No guidance. No memory. Every session starts from zero.
+## Why CC Commander
 
-And it wastes 98% of your context window on tool output you'll never re-read. CC Commander sandboxes it automatically.
+Stock Claude Code is a blank terminal with amnesia. No skills. No guidance. No memory. Every session starts from zero. And it wastes 98% of your context window on tool output you'll never re-read.
 
 **CC Commander remembers everything, learns from every session, and gets smarter the more you use it.** It wraps every major Claude Code tool into one install — with a smart orchestrator, guided menus, and an Intelligence Layer that auto-adjusts every dispatch based on your project.
 
@@ -35,135 +35,29 @@ You get:  A guided AI project manager with 450+ skills,
 
 ---
 
-<img src="docs/assets/section-install.svg" alt="Install" width="100%">
-
-## Quick Start — Pick Your Path
-
-### Get Started in 60 Seconds
-
-```
-1. Install    curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
-2. Launch     ccc
-3. Build      Pick from the menu. Claude Code does the rest.
-```
-
-One question: **How are you using Claude?**
-
-### Path A: Claude Code CLI (Terminal)
-
-> You use `claude` in your terminal. This is the most common way.
-
-**Option 1 — One-liner install:**
-```bash
-curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
-```
-
-**Option 2 — npm:**
-```bash
-npm install -g cc-commander
-```
-
-Then:
-```bash
-ccc
-```
-
-Arrow keys to navigate. Enter to select. That's it.
-
-**Update anytime:**
-```bash
-ccc --update
-```
-
-**Where files live:**
-- Source: `~/.cc-commander/` (auto-created by installer)
-- Config: `~/.claude/` (skills, commands, hooks, CLAUDE.md)
-- Binary: `ccc` → symlinked to source
-
-> ⚠️ Don't delete `~/.cc-commander/` — the `ccc` command needs it.
-
-**What you get:** Full CLI with tmux split mode, daemon, theme switching, and the cockpit dashboard.
-
----
-
-### Path B: Claude Code (Slash Commands Only)
-
-> You don't want the full CLI. Just want skills + commands inside Claude Code.
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
-```
-
-Then in any Claude Code session:
-
-```
-/ccc
-```
-
-Full interactive menu appears. Same features, no separate CLI needed.
-
-**What you get:** All 450+ skills and commands, no extra CLI binary required.
-
----
-
-### Path C: Claude Desktop (Cowork Plugin)
-
-> You use Claude Desktop and want CC Commander as a Cowork plugin.
-
-```
-/plugin marketplace add KevinZai/cc-commander
-```
-
-CC Commander appears as a skill you can invoke. Say "start commander" or "what should I work on" to begin.
-
-**What you get:** 7 Cowork skills — project management, infrastructure, knowledge base, and night mode.
-
----
-
-<img src="docs/assets/section-how-to-use.svg" alt="How to Use" width="100%">
-
-## Your First 60 Seconds
-
-```
-1. ccc → Main menu (14 options)
-2. Pick "Build something new" → Choose project type
-3. Answer 3 multiple-choice questions → CCC generates a plan
-4. CCC dispatches Claude with the right model, budget, and skills
-5. Session ends → CCC extracts lessons → gets smarter next time
-```
-
-No configuration. No YAML. No API keys. The Intelligence Layer handles everything.
-
----
-
 ## See It In Action
 
-<!-- Real terminal recordings via vhs (Catppuccin Mocha theme) -->
-<!-- Re-generate: vhs /tmp/ccc-*.tape from project root -->
+### Main Menu — Arrow Keys, No Commands to Memorize
 
-### The Main Menu — Arrow Keys, No Commands to Memorize
+<img src="screenshots/png/main-menu.png" alt="CC Commander Main Menu" width="100%">
 
-<img src="docs/assets/screenshots/mainmenu.gif" alt="CC Commander Main Menu" width="100%">
+### Cockpit Dashboard — Live Session Status
 
-### The Dashboard — Mission Control for Every Session
+Context, rate limits, and budget meters in your terminal. Color-codes green → yellow → red as limits approach.
 
-<img src="docs/assets/hero.gif" alt="CC Commander v2.3.0" width="100%">
+<img src="screenshots/png/cockpit-status.png" alt="Cockpit Status Panel" width="100%">
+
+<img src="screenshots/png/cockpit-footer.png" alt="Cockpit Footer" width="100%">
+
+### Stats Dashboard
+
+<img src="screenshots/png/dashboard.png" alt="Stats Dashboard" width="100%">
+
+Sessions, streaks, badges, cost tracking, activity heatmap, level progression.
 
 ### 11 CCC Domains — One Skill Loads an Entire Specialty
 
 <img src="docs/assets/screenshots/domains.gif" alt="CCC Domains" width="100%">
-
-### Intelligence Layer — CCC Thinks Before It Acts
-
-<img src="docs/assets/screenshots/intelligence.gif" alt="Intelligence Layer" width="100%">
-
-### 5-Layer Token Optimization — 98% Context Savings
-
-<img src="docs/assets/screenshots/optimization.gif" alt="Token Optimization Stack" width="100%">
-
-### Live ASCII Meters — Green → Yellow → Red
-
-<img src="docs/assets/screenshots/live-meters.gif" alt="Live ASCII Meters" width="100%">
 
 ### 450+ Skills — Install Only What You Need
 
@@ -171,13 +65,54 @@ No configuration. No YAML. No API keys. The Intelligence Layer handles everythin
 
 > All recordings are real terminal output captured with [vhs](https://github.com/charmbracelet/vhs). No mockups.
 
-### Main Menu — Multiple Choice Navigation
+---
 
-The first thing you see. Arrow keys only — no commands to memorize.
+## Intelligence Layer
 
-<img src="screenshots/png/main-menu.png" alt="CC Commander Main Menu" width="100%">
+> Stock Claude Code is a blank terminal with amnesia. CC Commander remembers everything, learns from every session, and gets smarter the more you use it.
 
-### Intelligence Analysis — Smart Dispatch
+**An AI project manager that thinks before it acts.** Before dispatching a single token, CCC scores your task, reads your stack, pulls relevant lessons from past sessions, and selects the right model and budget automatically. No configuration. No flags. It just works.
+
+### How It Works
+
+**Four modules. Always running.**
+
+#### 1. Weighted Complexity Scoring (`dispatcher.js`)
+
+Every task scored 0–100 using 47 keyword signals, word count, and fuzzy regex matching:
+
+```
+"fix typo"             → score  0  → 10 turns, $1 budget, Haiku
+"add dark mode"        → score 25  → 20 turns, $3 budget, Sonnet
+"refactor auth module" → score 60  → 35 turns, $6 budget, Sonnet
+"build SaaS platform"  → score 100 → 50 turns, $10 budget, Opus
+```
+
+File scope estimation adds 0–20 bonus points by scanning how many project files the task is likely to touch. Budget and turns auto-adjust — no manual flags needed.
+
+#### 2. Stack Detection (`project-importer.js`)
+
+CCC reads your project before every dispatch: `package.json`, `Dockerfile`, `go.mod`, `requirements.txt`. Detects nextjs, react, vue, docker, python, rust, go, github-actions, orm, billing, testing. Reads current git branch + last 5 commit themes. Adds monorepo detection (workspaces, lerna, turbo, nx).
+
+#### 3. Skill Recommendations (`skill-browser.js`)
+
+`recommendSkills(task, techStack)` combines three signals:
+
+| Signal | Weight | What It Does |
+|--------|--------|-------------|
+| Stack match | 10 pts | Next.js project → nextjs-app-router ranks first |
+| Keyword match | 2 pts/hit | "auth" task → auth, jwt, better-auth bubble up |
+| Usage history | boost | Skills that worked for you rank higher over time |
+
+Trending skills (7-day window) surface automatically. Skills that led to successful sessions compound their ranking advantage.
+
+#### 4. Knowledge Compounding (`knowledge.js`)
+
+Every completed session extracts a lesson (keywords, category, stack, error patterns, success patterns) stored in `~/.claude/commander/`. Searched before the next dispatch with time-decay relevance: < 7 days = 2x, < 30 days = 1.5x, older = 1x. Fuzzy keyword matching and cross-domain boosts (web↔react, api↔backend, testing↔bugfix) catch related concepts.
+
+**Smart retry** handles failures automatically: rate limit → wait 60s + retry; context overflow → reduce turns to 60% + retry; budget exceeded → clear error with next steps.
+
+### Intelligence Analysis — Smart Dispatch in Action
 
 Before dispatching a single token, CCC scores your task, reads your stack, and auto-configures the session.
 
@@ -219,39 +154,6 @@ CCC ranks skills using your stack + task keywords + past usage. The right tools 
     Browse all 450+ skills
     Search by keyword
     Back to main menu
-```
-
-### Cockpit Dashboard — Live Session Status
-
-Context, rate limits, and budget meters in your terminal. Color-codes green → yellow → red as limits approach.
-
-<img src="screenshots/png/cockpit-status.png" alt="Cockpit Status Panel" width="100%">
-
-<img src="screenshots/png/cockpit-footer.png" alt="Cockpit Footer" width="100%">
-
-### Night Mode / YOLO — Autonomous Overnight Build
-
-Configure once, run while you sleep. CCC checkpoints every 10 edits and self-tests after each phase.
-
-```
-  YOLO Mode — Autonomous Overnight Build
-
-  What are we building tonight?
-  > "Full e-commerce checkout with Stripe integration"
-
-  Configuration:
-  ├─ Model:       Opus (max reasoning)
-  ├─ Budget:      $10 (hard cap)
-  ├─ Max turns:   100
-  ├─ Self-test:   Enabled (tests after each phase)
-  ├─ Checkpoint:  Every 10 edits
-  └─ Stop file:   ~/.claude/commander/yolo-stop
-
-  Ready to run for up to 8 hours unattended.
-
-  ❯ Start YOLO build
-    Adjust settings
-    Cancel
 ```
 
 ### Knowledge Compounding — Learning After Every Session
@@ -298,30 +200,29 @@ CCC reads your project before every dispatch. No setup needed.
     Back to main menu
 ```
 
----
+### The Net Effect
 
-## CLI Reference
-
-| Command | What It Does |
+| Session | What Changed |
 |---------|-------------|
-| `ccc` | Interactive mode (default — tmux tabbed) |
-| `ccc --stats` | Sessions, streaks, level, cost |
-| `ccc --test` | 22-point self-test (verify install) |
-| `ccc --update` | Pull latest + reinstall |
-| `ccc --repair` | Reset corrupt state |
-| `ccc --simple` | Menu-only, no tmux |
-| `ccc --dispatch "task"` | Headless dispatch (for AI agents) |
-| `ccc --skills` | Manage skill tiers (list, install, remove, tier) |
+| 1 | Dispatches based on complexity score alone |
+| 5 | Knows your stack, recommends proven skills |
+| 20 | Has learned your patterns — feels like a PM who knows your codebase |
+
+### Token Optimization Stack — 5 Layers of Savings
+
+| Layer | Tool | Savings |
+|-------|------|---------|
+| Tool output sandboxing | context-mode | **98%** — SQLite + FTS5, BM25 snippets only |
+| CLI output filtering | RTK | 99.5% — strips verbose shell output |
+| Skill tiering | `_tiers.json` | ~10k tokens — 30 essential vs 458 full |
+| Rate limit rotation | ClaudeSwap | 2 MAX accounts, drain-first strategy |
+| Prompt caching | Extended TTL | 90% discount, 1hr cache window |
 
 ---
+
+## Features
 
 <img src="docs/assets/section-features.svg" alt="Features" width="100%">
-
-### Every Path, Visualized
-
-<img src="docs/assets/ccc-flowchart.svg" alt="CC Commander Complete Flow Map" width="100%">
-
-> Every menu option, every sub-flow, every path to Claude Code — one diagram. [View full size](docs/assets/ccc-flowchart.svg)
 
 ### New in v2.3.0 — Professional TUI
 
@@ -350,17 +251,257 @@ CCC reads your project before every dispatch. No setup needed.
 | Infrastructure | 6 | Fleet, Synapse, Cost, AO, CloudCLI, Paperclip commands |
 | Service Detector | auto | Probes 8 services + 4 CLIs on startup |
 
----
+### Every Path, Visualized
 
-## Split Mode
+<img src="docs/assets/ccc-flowchart.svg" alt="CC Commander Complete Flow Map" width="100%">
 
-**The default mode.** Tabbed tmux sessions. Each task gets its own window.
+> Every menu option, every sub-flow, every path to Claude Code — one diagram. [View full size](docs/assets/ccc-flowchart.svg)
+
+### Night Mode / YOLO — Autonomous Overnight Build
+
+<img src="docs/assets/section-yolo.svg" alt="YOLO" width="100%">
+
+**Start before bed. Wake up to shipped code.**
+
+<img src="docs/assets/ccc-yolo.svg" alt="YOLO Mode" width="100%">
+
+10 questions → Opus with max effort → $10 budget → 100 turns → self-testing loop.
 
 ```
+  YOLO Mode — Autonomous Overnight Build
+
+  What are we building tonight?
+  > "Full e-commerce checkout with Stripe integration"
+
+  Configuration:
+  ├─ Model:       Opus (max reasoning)
+  ├─ Budget:      $10 (hard cap)
+  ├─ Max turns:   100
+  ├─ Self-test:   Enabled (tests after each phase)
+  ├─ Checkpoint:  Every 10 edits
+  └─ Stop file:   ~/.claude/commander/yolo-stop
+
+  Ready to run for up to 8 hours unattended.
+
+  ❯ Start YOLO build
+    Adjust settings
+    Cancel
+```
+
+---
+
+<img src="docs/assets/section-domains.svg" alt="Domains" width="100%">
+
+## 11 CCC Domains
+
+Each domain is a router that dispatches to specialized sub-skills on demand.
+
+| Domain | Skills | What's Inside |
+|--------|--------|---------------|
+| **ccc-design** | 39 | landing pages, UI audit, animation, responsive layout, color systems, typography, canvas design, wireframes, component library, accessibility, dark mode, micro-interactions, illustration, icon sets, design tokens |
+| **ccc-marketing** | 45 | CRO, email campaigns, ad copy, social media, SEO content, blog posts, landing page copy, A/B testing, funnel optimization, lead magnets, newsletter, brand voice, press releases, case studies, video scripts |
+| **ccc-saas** | 20 | auth systems, billing/Stripe, API design, database schema, multi-tenancy, onboarding flows, admin dashboards, role-based access, webhooks, rate limiting, usage tracking, feature flags |
+| **ccc-devops** | 20 | GitHub Actions, Docker, AWS deploy, Terraform, monitoring, logging, CI/CD pipelines, Kubernetes, Nginx, SSL certs, environment management, health checks, rollback strategies |
+| **ccc-seo** | 19 | meta tags, JSON-LD schema, sitemap, robots.txt, Core Web Vitals, internal linking, keyword research, content optimization, image SEO, page speed, structured data, canonical URLs |
+| **ccc-testing** | 15 | Vitest, Playwright E2E, TDD workflow, snapshot testing, API testing, load testing, coverage reports, test fixtures, mock strategies, visual regression, accessibility testing |
+| **ccc-makeover** | 3 | /xray project audit (health score 0-100, maturity 1-5), /makeover agent swarm execution, before/after report card |
+| **ccc-data** | 8 | SQL optimization, data pipelines, analytics setup, data visualization, machine learning, reporting, data quality, vector search |
+| **ccc-security** | 8 | OWASP top 10, secrets scanning, dependency audit, container security, penetration testing, CSP headers, rate limiting, auth hardening |
+| **ccc-research** | 8 | competitive analysis, market research, user research, technology evaluation, trend analysis, SWOT, stakeholder interviews, data synthesis |
+| **ccc-mobile** | 8 | React Native, Expo, mobile UI, push notifications, deep linking, app store optimization, offline-first, gesture handling |
+
+---
+
+<img src="docs/assets/section-vendors.svg" alt="Vendors" width="100%">
+
+## 19 Vendor Packages
+
+CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly. 19 packages, 1,500+ vendor skills.
+
+| Package | Stars | What You Get |
+|---------|-------|-------------|
+| [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) | 120K+ | 156 skills, 72 commands, 38 agents, lifecycle hooks |
+| [gstack](https://github.com/garrytan/gstack) | 58K+ | CEO/eng plan review, office hours, QA — OpenClaw integration v2 |
+| [Superpowers](https://github.com/obra/superpowers) | 29K+ | Forces structured thinking — /plan, /tdd, /verify |
+| [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) | 26K+ | Reference architecture, Channels, Auto Mode |
+| [repomix](https://github.com/yamadashy/repomix) | 22.8K+ | Pack codebases for AI (tree-sitter compression = 60% smaller) |
+| [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | 17K+ | HUD with worktree support, quota tracking, hyperlinks |
+| [Claude HUD](https://github.com/jarrodwatts/claude-hud) | 15K+ | Real-time status display, offline cost tracking, git diffs |
+| [RTK](https://github.com/rtk-ai/rtk) | 14.6K+ | Token optimization (60-90% savings), 25 AWS subcommands |
+| [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) | 11.5K+ | Knowledge compounding, mandatory code review enforcement |
+| [claude-skills](https://github.com/alirezarezvani/claude-skills) | 8.6K+ | 223+ skills, 23 agents, prompt A/B testing |
+| [notebooklm-py](https://github.com/teng-lin/notebooklm-py) | 8.6K+ | Podcast generation, PPTX export, quiz/flashcards |
+| [claude-mem](https://github.com/thedotmack/claude-mem) | 46.7K+ | Knowledge Agents, persistent cross-session memory |
+| [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) | 2.7K+ | 219 templates, 271 quizzes, threat database |
+| [acpx](https://github.com/openclaw/acpx) | 1.8K+ | ACP protocol, Flows system, structured agent communication |
+| [claude-reflect](https://github.com/BayramAnnakov/claude-reflect) | 860+ | Self-improving skills with reflection loops |
+| [Caliber](https://github.com/caliber-ai-org/ai-setup) | 300+ | Config scoring, drift detection |
+| [graphify](https://github.com/safishamsi/graphify) | 17.5K+ | Any input → knowledge graph, clustered communities, HTML + JSON |
+| [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 62K+ | Design intelligence for professional UI/UX across platforms |
+| [claude-code-prompts](https://github.com/repowise-dev/claude-code-prompts) | 142+ | Defensive prompt patterns, verification specialist |
+
+---
+
+<img src="docs/assets/section-orchestrator.svg" alt="Orchestrator" width="100%">
+
+## Smart Orchestrator
+
+The **smart orchestrator** scores each tool: capability match (50%) + popularity (15%) + recency (15%) + your preference (20%) — then picks the best one for each phase.
+
+```
+  PHASE          BEST TOOL              FALLBACK
+  ──────────────────────────────────────────────
+  ▸ Clarify      /office-hours          Spec flow
+  ▸ Decide       /plan-ceo-review       Plan mode
+  ▸ Plan         /ce:plan               Claude plan
+  ▸ Execute      /ce:work               Dispatch
+  ▸ Review       /ce:review (6+ agents) /simplify
+  ▸ Test         /qa (real browser)     /verify
+  ▸ Learn        Knowledge engine       Always on
+  ▸ Ship         /ship                  git commit
+```
+
+CCC learns from every session. Knowledge compounds over time.
+
+---
+
+<img src="docs/assets/section-xray.svg" alt="XRay" width="100%">
+
+## XRay + Makeover
+
+**Audit any project. Fix it automatically.**
+
+```bash
+/ccc:xray                    # Scan → health score 0-100
+/ccc:makeover                # Agent swarm applies top fixes
+```
+
+| Dimension | Weight | What It Checks |
+|-----------|--------|---------------|
+| Security | 25% | CVEs, secrets, .env tracking |
+| Testing | 20% | Config, coverage, frameworks |
+| Maintainability | 20% | Complexity, linting, duplication |
+| Dependencies | 15% | Outdated, vulnerable |
+| DevOps | 10% | CI presence, quality gates |
+| Documentation | 10% | README, CLAUDE.md, inline docs |
+
+<img src="docs/assets/ccc-comparison.svg" alt="Comparison" width="100%">
+
+---
+
+<img src="docs/assets/section-install.svg" alt="Install" width="100%">
+
+## Quick Start — Pick Your Path
+
+```
+1. Install    curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
+2. Launch     ccc
+3. Build      Pick from the menu. Claude Code does the rest.
+```
+
+### Your First 60 Seconds
+
+```
+1. ccc → Main menu (14 options)
+2. Pick "Build something new" → Choose project type
+3. Answer 3 multiple-choice questions → CCC generates a plan
+4. CCC dispatches Claude with the right model, budget, and skills
+5. Session ends → CCC extracts lessons → gets smarter next time
+```
+
+No configuration. No YAML. No API keys. The Intelligence Layer handles everything.
+
+One question: **How are you using Claude?**
+
+### Path A: Claude Code CLI (Terminal)
+
+> You use `claude` in your terminal. This is the most common way.
+
+**Option 1 — One-liner install:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
+```
+
+**Option 2 — npm:**
+```bash
+npm install -g cc-commander
+```
+
+Then:
+```bash
 ccc
 ```
 
-CCC menu runs in tab 0. Each dispatched task opens a new tmux window where Claude works with full output visible. Switch tabs with `Ctrl+A` then `n`(next) / `p`(prev) / `0-9`(by number). Mouse click works too.
+Arrow keys to navigate. Enter to select. That's it.
+
+**Update anytime:**
+```bash
+ccc --update
+```
+
+**Where files live:**
+- Source: `~/.cc-commander/` (auto-created by installer)
+- Config: `~/.claude/` (skills, commands, hooks, CLAUDE.md)
+- Binary: `ccc` → symlinked to source
+
+> Don't delete `~/.cc-commander/` — the `ccc` command needs it.
+
+**What you get:** Full CLI with tmux split mode, daemon, theme switching, and the cockpit dashboard.
+
+---
+
+### Path B: Claude Code (Slash Commands Only)
+
+> You don't want the full CLI. Just want skills + commands inside Claude Code.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/KevinZai/cc-commander/main/install-remote.sh | bash
+```
+
+Then in any Claude Code session:
+
+```
+/ccc
+```
+
+Full interactive menu appears. Same features, no separate CLI needed.
+
+**What you get:** All 450+ skills and commands, no extra CLI binary required.
+
+---
+
+### Path C: Claude Desktop (Cowork Plugin)
+
+> You use Claude Desktop and want CC Commander as a Cowork plugin.
+
+```
+/plugin marketplace add KevinZai/cc-commander
+```
+
+CC Commander appears as a skill you can invoke. Say "start commander" or "what should I work on" to begin.
+
+**What you get:** 7 Cowork skills — project management, infrastructure, knowledge base, and night mode.
+
+---
+
+## CLI Reference
+
+| Command | What It Does |
+|---------|-------------|
+| `ccc` | Interactive mode (default — tmux tabbed) |
+| `ccc --stats` | Sessions, streaks, level, cost |
+| `ccc --test` | 22-point self-test (verify install) |
+| `ccc --update` | Pull latest + reinstall |
+| `ccc --repair` | Reset corrupt state |
+| `ccc --simple` | Menu-only, no tmux |
+| `ccc --dispatch "task"` | Headless dispatch (for AI agents) |
+| `ccc --skills` | Manage skill tiers (list, install, remove, tier) |
+
+### Split Mode
+
+**The default mode.** Tabbed tmux sessions. Each task gets its own window.
+
+CCC menu runs in tab 0. Each dispatched task opens a new tmux window where Claude works with full output visible.
 
 | Key | Action |
 |-----|--------|
@@ -369,6 +510,52 @@ CCC menu runs in tab 0. Each dispatched task opens a new tmux window where Claud
 | `Ctrl+A 0` | Back to CCC menu |
 | `Ctrl+A q` | Quit session |
 | Mouse click | Switch tabs |
+
+### Cancel Running Tasks
+
+- **During any build:** Press `Escape` or `q` to kill the Claude process and return to menu
+- **During YOLO loop:** `touch ~/.claude/commander/yolo-stop` to halt between cycles
+- **In split mode:** Switch to the Claude tab and `Ctrl+C`
+
+### Daemon Mode
+
+**KAIROS-inspired persistent background agent.** Monitors your project, processes queued tasks, and consolidates knowledge — all hands-free.
+
+```bash
+ccc --daemon                    # Start (runs in background)
+ccc --queue "fix login bug"     # Add task to queue
+ccc --queue-list                # Show pending tasks
+ccc --daemon-stop               # Stop daemon
+```
+
+| Feature | What It Does |
+|---------|-------------|
+| Tick loop (5 min) | Checks queue, git status, dispatches work |
+| Dream mode (1 hr) | Consolidates knowledge, detects error patterns |
+| Task queue | Priority-based, file-backed, auto-dispatch |
+| Budget cap | 15-second limit per tick action |
+
+Customize: `--interval 120` (2 min ticks) · `--tick-budget 30` · `--dream 30` (30 min dreams)
+
+---
+
+## Use Inside Claude Code
+
+No CLI needed. Type `/ccc` in any Claude Code session for the full interactive menu.
+
+```
+/ccc              → Main menu (15 options with sub-menus)
+/ccc xray         → Project health scan
+/ccc makeover     → Auto-apply top fixes
+/ccc refresh      → Update your CLAUDE.md from latest template
+/ccc domains      → Browse 11 CCC domains
+/ccc skills       → Browse 450+ skills
+/ccc grill        → 7-question Socratic planning probe
+/ccc infra        → Infrastructure sub-menu (Fleet, Synapse, Cost, AO, CloudCLI, Paperclip)
+/ccc detect       → Probe all services and CLIs
+```
+
+Same choices, same sub-menus, same actions as the full CLI. Cancel anytime with "back" or `Escape`. Also works in **Claude Desktop Cowork** and **VS Code / Cursor**.
 
 ---
 
@@ -396,73 +583,6 @@ ccc --list-skills --json | jq '.[] | select(.name | contains("auth"))'
 
 ---
 
-## 🧠 Intelligence Layer
-
-> Stock Claude Code is a blank terminal with amnesia. CC Commander remembers everything, learns from every session, and gets smarter the more you use it.
-
-**An AI project manager that thinks before it acts.** Before dispatching a single token, CCC scores your task, reads your stack, pulls relevant lessons from past sessions, and selects the right model and budget automatically. No configuration. No flags. It just works.
-
-### How It Works
-
-**Four modules. Always running.**
-
-#### 1. Weighted Complexity Scoring (`dispatcher.js`)
-
-Every task scored 0–100 using 47 keyword signals, word count, and fuzzy regex matching:
-
-```
-"fix typo"             → score  0  → 10 turns, $1 budget, Haiku
-"add dark mode"        → score 25  → 20 turns, $3 budget, Sonnet
-"refactor auth module" → score 60  → 35 turns, $6 budget, Sonnet
-"build SaaS platform"  → score 100 → 50 turns, $10 budget, Opus
-```
-
-File scope estimation adds 0–20 bonus points by scanning how many project files the task is likely to touch. Budget and turns auto-adjust — no manual flags needed.
-
-#### 2. Stack Detection (`project-importer.js`)
-
-CCC reads your project before every dispatch: `package.json`, `Dockerfile`, `go.mod`, `requirements.txt`. Detects nextjs, react, vue, docker, python, rust, go, github-actions, orm, billing, testing. Reads current git branch + last 5 commit themes. Adds monorepo detection (workspaces, lerna, turbo, nx).
-
-#### 3. Skill Recommendations (`skill-browser.js`)
-
-`recommendSkills(task, techStack)` combines three signals:
-
-| Signal | Weight | What It Does |
-|--------|--------|-------------|
-| Stack match | 10 pts | Next.js project → nextjs-app-router ranks first |
-| Keyword match | 2 pts/hit | "auth" task → auth, jwt, better-auth bubble up |
-| Usage history | boost | Skills that worked for you rank higher over time |
-
-Trending skills (7-day window) surface automatically. Skills that led to successful sessions compound their ranking advantage.
-
-#### 4. Knowledge Compounding (`knowledge.js`)
-
-Every completed session extracts a lesson (keywords, category, stack, error patterns, success patterns) stored in `~/.claude/commander/`. Searched before the next dispatch with time-decay relevance: < 7 days = 2x, < 30 days = 1.5x, older = 1x. Fuzzy keyword matching and cross-domain boosts (web↔react, api↔backend, testing↔bugfix) catch related concepts.
-
-**Smart retry** handles failures automatically: rate limit → wait 60s + retry; context overflow → reduce turns to 60% + retry; budget exceeded → clear error with next steps.
-
-### The Net Effect
-
-| Session | What Changed |
-|---------|-------------|
-| 1 | Dispatches based on complexity score alone |
-| 5 | Knows your stack, recommends proven skills |
-| 20 | Has learned your patterns — feels like a PM who knows your codebase |
-
----
-
-### 🔋 Token Optimization Stack — 5 Layers of Savings
-
-| Layer | Tool | Savings |
-|-------|------|---------|
-| Tool output sandboxing | context-mode | **98%** — SQLite + FTS5, BM25 snippets only |
-| CLI output filtering | RTK | 99.5% — strips verbose shell output |
-| Skill tiering | `_tiers.json` | ~10k tokens — 30 essential vs 458 full |
-| Rate limit rotation | ClaudeSwap | 2 MAX accounts, drain-first strategy |
-| Prompt caching | Extended TTL | 90% discount, 1hr cache window |
-
----
-
 ## Security
 
 - **No command injection** — all shell calls use `execFileSync` with array arguments
@@ -472,26 +592,6 @@ Every completed session extracts a lesson (keywords, category, stack, error patt
 - **PII scanning** — CI blocks commits containing personal data patterns
 - **Error containment** — every error returns to menu with error ID, never raw stack traces
 - **Pre-publish checks** — `npm run prepublishOnly` runs all tests + lint before publish
-
----
-
-## Use Inside Claude Code
-
-No CLI needed. Type `/ccc` in any Claude Code session for the full interactive menu.
-
-```
-/ccc              → Main menu (15 options with sub-menus)
-/ccc xray         → Project health scan
-/ccc makeover     → Auto-apply top fixes
-/ccc refresh      → Update your CLAUDE.md from latest template
-/ccc domains      → Browse 11 CCC domains
-/ccc skills       → Browse 450+ skills
-/ccc grill        → 7-question Socratic planning probe
-/ccc infra        → Infrastructure sub-menu (Fleet, Synapse, Cost, AO, CloudCLI, Paperclip)
-/ccc detect       → Probe all services and CLIs
-```
-
-Same choices, same sub-menus, same actions as the full CLI. Cancel anytime with "back" or `Escape`. Also works in **Claude Desktop Cowork** and **VS Code / Cursor**.
 
 ---
 
@@ -505,157 +605,6 @@ Same choices, same sub-menus, same actions as the full CLI. Cancel anytime with 
 ```
 
 Covers: CLI API, dispatch patterns, JSON schemas, skill catalog, level/model defaults, integration points.
-
----
-
-## Cancel Running Tasks
-
-- **During any build:** Press `Escape` or `q` to kill the Claude process and return to menu
-- **During YOLO loop:** `touch ~/.claude/commander/yolo-stop` to halt between cycles
-- **In split mode:** Switch to the Claude tab and `Ctrl+C`
-
----
-
-## Daemon Mode
-
-**KAIROS-inspired persistent background agent.** Monitors your project, processes queued tasks, and consolidates knowledge — all hands-free.
-
-```bash
-ccc --daemon                    # Start (runs in background)
-ccc --queue "fix login bug"     # Add task to queue
-ccc --queue-list                # Show pending tasks
-ccc --daemon-stop               # Stop daemon
-```
-
-| Feature | What It Does |
-|---------|-------------|
-| Tick loop (5 min) | Checks queue, git status, dispatches work |
-| Dream mode (1 hr) | Consolidates knowledge, detects error patterns |
-| Task queue | Priority-based, file-backed, auto-dispatch |
-| Budget cap | 15-second limit per tick action |
-
-Customize: `--interval 120` (2 min ticks) · `--tick-budget 30` · `--dream 30` (30 min dreams)
-
----
-
-<img src="docs/assets/section-domains.svg" alt="Domains" width="100%">
-
-Each domain is a router that dispatches to specialized sub-skills on demand.
-
-| Domain | Skills | What's Inside |
-|--------|--------|---------------|
-| **ccc-design** | 39 | landing pages, UI audit, animation, responsive layout, color systems, typography, canvas design, wireframes, component library, accessibility, dark mode, micro-interactions, illustration, icon sets, design tokens |
-| **ccc-marketing** | 45 | CRO, email campaigns, ad copy, social media, SEO content, blog posts, landing page copy, A/B testing, funnel optimization, lead magnets, newsletter, brand voice, press releases, case studies, video scripts |
-| **ccc-saas** | 20 | auth systems, billing/Stripe, API design, database schema, multi-tenancy, onboarding flows, admin dashboards, role-based access, webhooks, rate limiting, usage tracking, feature flags |
-| **ccc-devops** | 20 | GitHub Actions, Docker, AWS deploy, Terraform, monitoring, logging, CI/CD pipelines, Kubernetes, Nginx, SSL certs, environment management, health checks, rollback strategies |
-| **ccc-seo** | 19 | meta tags, JSON-LD schema, sitemap, robots.txt, Core Web Vitals, internal linking, keyword research, content optimization, image SEO, page speed, structured data, canonical URLs |
-| **ccc-testing** | 15 | Vitest, Playwright E2E, TDD workflow, snapshot testing, API testing, load testing, coverage reports, test fixtures, mock strategies, visual regression, accessibility testing |
-| **ccc-makeover** | 3 | /xray project audit (health score 0-100, maturity 1-5), /makeover agent swarm execution, before/after report card |
-| **ccc-data** | 8 | SQL optimization, data pipelines, analytics setup, data visualization, machine learning, reporting, data quality, vector search |
-| **ccc-security** | 8 | OWASP top 10, secrets scanning, dependency audit, container security, penetration testing, CSP headers, rate limiting, auth hardening |
-| **ccc-research** | 8 | competitive analysis, market research, user research, technology evaluation, trend analysis, SWOT, stakeholder interviews, data synthesis |
-| **ccc-mobile** | 8 | React Native, Expo, mobile UI, push notifications, deep linking, app store optimization, offline-first, gesture handling |
-
----
-
-<img src="docs/assets/section-vendors.svg" alt="Vendors" width="100%">
-
-CC Commander aggregates the best Claude Code tools as git submodules. Auto-updated weekly. 19 packages, 1,500+ vendor skills.
-
-| Package | Stars | What You Get |
-|---------|-------|-------------|
-| [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) | 120K+ | 156 skills, 72 commands, 38 agents, lifecycle hooks |
-| [gstack](https://github.com/garrytan/gstack) | 58K+ | CEO/eng plan review, office hours, QA — OpenClaw integration v2 |
-| [Superpowers](https://github.com/obra/superpowers) | 29K+ | Forces structured thinking — /plan, /tdd, /verify |
-| [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) | 26K+ | Reference architecture, Channels, Auto Mode |
-| [repomix](https://github.com/yamadashy/repomix) | 22.8K+ | Pack codebases for AI (tree-sitter compression = 60% smaller) |
-| [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | 17K+ | HUD with worktree support, quota tracking, hyperlinks |
-| [Claude HUD](https://github.com/jarrodwatts/claude-hud) | 15K+ | Real-time status display, offline cost tracking, git diffs |
-| [RTK](https://github.com/rtk-ai/rtk) | 14.6K+ | Token optimization (60-90% savings), 25 AWS subcommands |
-| [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) | 11.5K+ | Knowledge compounding, mandatory code review enforcement |
-| [claude-skills](https://github.com/alirezarezvani/claude-skills) | 8.6K+ | 223+ skills, 23 agents, prompt A/B testing |
-| [notebooklm-py](https://github.com/teng-lin/notebooklm-py) | 8.6K+ | Podcast generation, PPTX export, quiz/flashcards |
-| [claude-mem](https://github.com/thedotmack/claude-mem) | 46.7K+ | Knowledge Agents, persistent cross-session memory |
-| [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) | 2.7K+ | 219 templates, 271 quizzes, threat database |
-| [acpx](https://github.com/openclaw/acpx) | 1.8K+ | ACP protocol, Flows system, structured agent communication |
-| [claude-reflect](https://github.com/BayramAnnakov/claude-reflect) | 860+ | Self-improving skills with reflection loops |
-| [Caliber](https://github.com/caliber-ai-org/ai-setup) | 300+ | Config scoring, drift detection |
-| [graphify](https://github.com/safishamsi/graphify) | 17.5K+ | Any input → knowledge graph, clustered communities, HTML + JSON |
-| [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 62K+ | Design intelligence for professional UI/UX across platforms |
-| [claude-code-prompts](https://github.com/repowise-dev/claude-code-prompts) | 142+ | Defensive prompt patterns, verification specialist |
-
-The **smart orchestrator** scores each tool: capability match (50%) + popularity (15%) + recency (15%) + your preference (20%) — then picks the best one for each phase.
-
----
-
-<img src="docs/assets/section-orchestrator.svg" alt="Orchestrator" width="100%">
-
-```
-  PHASE          BEST TOOL              FALLBACK
-  ──────────────────────────────────────────────
-  ▸ Clarify      /office-hours          Spec flow
-  ▸ Decide       /plan-ceo-review       Plan mode
-  ▸ Plan         /ce:plan               Claude plan
-  ▸ Execute      /ce:work               Dispatch
-  ▸ Review       /ce:review (6+ agents) /simplify
-  ▸ Test         /qa (real browser)     /verify
-  ▸ Learn        Knowledge engine       Always on
-  ▸ Ship         /ship                  git commit
-```
-
-CCC learns from every session. Knowledge compounds over time.
-
----
-
-<img src="docs/assets/section-xray.svg" alt="XRay" width="100%">
-
-**Audit any project. Fix it automatically.**
-
-```bash
-/ccc:xray                    # Scan → health score 0-100
-/ccc:makeover                # Agent swarm applies top fixes
-```
-
-| Dimension | Weight | What It Checks |
-|-----------|--------|---------------|
-| Security | 25% | CVEs, secrets, .env tracking |
-| Testing | 20% | Config, coverage, frameworks |
-| Maintainability | 20% | Complexity, linting, duplication |
-| Dependencies | 15% | Outdated, vulnerable |
-| DevOps | 10% | CI presence, quality gates |
-| Documentation | 10% | README, CLAUDE.md, inline docs |
-
----
-
-<img src="docs/assets/section-yolo.svg" alt="YOLO" width="100%">
-
-**Start before bed. Wake up to shipped code.**
-
-<img src="docs/assets/ccc-yolo.svg" alt="YOLO Mode" width="100%">
-
-10 questions → Opus with max effort → $10 budget → 100 turns → self-testing loop.
-
----
-
-<img src="docs/assets/section-cockpit.svg" alt="Cockpit" width="100%">
-
-<img src="screenshots/png/cockpit-status.png" alt="Cockpit Status Panel" width="100%">
-
-ASCII meters for context usage + rate limits. Emoji status indicators. Active Linear ticket. Skill and vendor counts. All in your terminal.
-
-<img src="screenshots/png/cockpit-footer.png" alt="Cockpit Footer Bar" width="100%">
-
-Context/rate/budget meters color-code green → yellow → red as you approach limits.
-
----
-
-## Stats Dashboard & Before/After
-
-<img src="screenshots/png/dashboard.png" alt="Stats Dashboard" width="100%">
-
-Sessions, streaks, badges, cost tracking, activity heatmap, level progression.
-
-<img src="docs/assets/ccc-comparison.svg" alt="Comparison" width="100%">
 
 ---
 
@@ -685,17 +634,17 @@ For AI agents: **[BIBLE-AGENT.md](docs/BIBLE-AGENT.md)** — 268-line machine-re
 
 ---
 
+## Who Built This
+
+CC Commander is built by [Kevin Z](https://kevinz.ai) ([@kzic](https://x.com/kzic)) — a non-technical entrepreneur and CEO of [MyWiFi Networks](https://mywifinetworks.com) (20+ years in tech, never wrote production code). He wanted to leverage Claude Code to its max capabilities without chasing plugins, reading changelogs, or memorizing commands. So he scanned every Claude Code article, plugin, and skill on the internet — 200+ sources — and distilled it into one self-learning AI project manager. Every feature was built with Claude Code itself. If a non-coder can build a 450+ skill toolkit with AI, imagine what you can build.
+
+---
+
 ## Acknowledgments
 
 CC Commander aggregates 19 open-source packages. Full credits: **[ACKNOWLEDGMENTS.md](docs/ACKNOWLEDGMENTS.md)**
 
 45+ ecosystem repos tracked: **[ECOSYSTEM.md](docs/ECOSYSTEM.md)**
-
----
-
-## Who Built This
-
-CC Commander is built by [Kevin Z](https://kevinz.ai) ([@kzic](https://x.com/kzic)) — a non-technical entrepreneur and CEO of [MyWiFi Networks](https://mywifinetworks.com) (20+ years in tech, never wrote production code). He wanted to leverage Claude Code to its max capabilities without chasing plugins, reading changelogs, or memorizing commands. So he scanned every Claude Code article, plugin, and skill on the internet — 200+ sources — and distilled it into one self-learning AI project manager. Every feature was built with Claude Code itself. If a non-coder can build a 450+ skill toolkit with AI, imagine what you can build.
 
 ---
 
