@@ -108,14 +108,21 @@ if [ -z "$RATE_5H" ] || [ -z "$RATE_7D" ]; then
         "SWAP_7D_RESET=\(.seven_day_reset // "")"
       ' "$SWAP_STATE" 2>/dev/null)"
 
-      if [ -z "$RATE_5H" ]; then
+      # Staleness check: if reset timestamp is in the past, data is stale
+      NOW_EPOCH=$(date +%s)
+      IS_5H_STALE=0
+      IS_7D_STALE=0
+      [ -n "$SWAP_5H_RESET" ] && [ "$SWAP_5H_RESET" != "null" ] && [ "$SWAP_5H_RESET" -lt "$NOW_EPOCH" ] 2>/dev/null && IS_5H_STALE=1
+      [ -n "$SWAP_7D_RESET" ] && [ "$SWAP_7D_RESET" != "null" ] && [ "$SWAP_7D_RESET" -lt "$NOW_EPOCH" ] 2>/dev/null && IS_7D_STALE=1
+
+      if [ -z "$RATE_5H" ] && [ "$IS_5H_STALE" = "0" ]; then
         if [ "$ACCT_5H_STATUS" = "rejected" ]; then
           RATE_5H_REJECTED=1
         elif [ -n "$ACCT_5H_UTIL" ] && [ "$ACCT_5H_UTIL" != "null" ]; then
           RATE_5H=$(echo "$ACCT_5H_UTIL * 100" | bc 2>/dev/null)
         fi
       fi
-      if [ -z "$RATE_7D" ]; then
+      if [ -z "$RATE_7D" ] && [ "$IS_7D_STALE" = "0" ]; then
         if [ "$ACCT_7D_STATUS" = "rejected" ]; then
           RATE_7D_REJECTED=1
         elif [ -n "$ACCT_7D_UTIL" ] && [ "$ACCT_7D_UTIL" != "null" ]; then
